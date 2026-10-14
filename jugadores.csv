@@ -1,0 +1,43 @@
+# Jugadores conocidos: nombre;otras formas separadas por |;club actual
+# El club actual sirve para saber de dónde sale el jugador. REVÍSALO: puede estar desactualizado.
+# Al aprobar un rumor de un jugador nuevo, se añade aquí automáticamente (sin club).
+Kylian Mbappé;Mbappé|Mbappe;Real Madrid
+Vinícius Júnior;Vinícius|Vinicius|Vini Jr|Vini;Real Madrid
+Jude Bellingham;Bellingham;Real Madrid
+Rodrygo;;Real Madrid
+Federico Valverde;Fede Valverde;Real Madrid
+Trent Alexander-Arnold;Alexander-Arnold|Trent;Real Madrid
+Dean Huijsen;Huijsen;Real Madrid
+Lamine Yamal;Yamal;FC Barcelona
+Pedri;;FC Barcelona
+Gavi;;FC Barcelona
+Raphinha;;FC Barcelona
+Robert Lewandowski;Lewandowski;FC Barcelona
+Frenkie de Jong;;FC Barcelona
+Julián Álvarez;Julian Alvarez;Atlético de Madrid
+Antoine Griezmann;Griezmann;Atlético de Madrid
+Álex Baena;Baena;Atlético de Madrid
+Nico Williams;;Athletic Club
+Mikel Oyarzabal;Oyarzabal;Real Sociedad
+Erling Haaland;Haaland;Manchester City
+Rodri;;Manchester City
+Phil Foden;Foden;Manchester City
+Mohamed Salah;Salah;Liverpool
+Florian Wirtz;Wirtz;Liverpool
+Alexander Isak;Isak;Liverpool
+Bukayo Saka;Saka;Arsenal
+Martin Ødegaard;Odegaard|Ødegaard;Arsenal
+Declan Rice;;Arsenal
+Viktor Gyökeres;Gyökeres|Gyokeres;Arsenal
+Martín Zubimendi;Zubimendi;Arsenal
+Cole Palmer;Palmer;Chelsea
+Bruno Fernandes;;Manchester United
+Harry Kane;Kane;Bayern Múnich
+Jamal Musiala;Musiala;Bayern Múnich
+Michael Olise;Olise;Bayern Múnich
+Ousmane Dembélé;Dembélé|Dembele;PSG
+Khvicha Kvaratskhelia;Kvaratskhelia|Kvara;PSG
+Vitinha;;PSG
+Lautaro Martínez;Lautaro;Inter de Milán
+Rafael Leão;Rafa Leão|Leão|Leao;AC Milan
+Victor Osimhen;Osimhen;Galatasaray

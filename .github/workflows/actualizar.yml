@@ -1,0 +1,43 @@
+# Se ejecuta solo cada 2 horas en GitHub: descarga noticias, guarda el histórico
+# y publica la web en Cloudflare Pages. También se puede lanzar a mano desde la pestaña Actions.
+name: Actualizar web
+
+on:
+  schedule:
+    - cron: "23 */2 * * *"   # cada 2 horas (hora UTC). ~360 publicaciones al mes, límite gratis: 500
+  workflow_dispatch:          # botón "Run workflow" para lanzarlo a mano
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actualizar-web
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Descargar noticias y generar la web
+        run: python run.py
+
+      - name: Guardar el histórico en el repositorio
+        run: |
+          git config user.name "actualizador"
+          git config user.email "actualizador@users.noreply.github.com"
+          git add fichajes.db jugadores.csv ignorados.txt
+          git diff --cached --quiet || git commit -m "Actualización automática"
+          git push
+
+      - name: Publicar en Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy web --project-name=${{ secrets.CLOUDFLARE_PROJECT_NAME }} --branch=main

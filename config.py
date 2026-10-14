@@ -1,0 +1,158 @@
+"""Configuración del rastreador de rumores de fichajes."""
+
+# Cómo se extraen los rumores: "reglas" (gratis, sin IA) o "claude" (API de pago).
+EXTRACTOR = "reglas"
+
+# Abrir la página en el navegador al terminar "python run.py"
+OPEN_BROWSER = True
+
+# Fuentes RSS. "weight" = fiabilidad de 1 (baja) a 5 (alta). Ajústalo con el tiempo.
+# Si una fuente falla verás un [aviso] y el resto seguirá funcionando.
+FEEDS = [
+    {"source": "Marca", "url": "https://e00-marca.uecdn.es/rss/futbol.xml", "weight": 3},
+    {"source": "AS", "url": "https://feeds.as.com/mrss-s/pages/as/site/as.com/section/futbol/portada/", "weight": 3},
+    {"source": "Mundo Deportivo", "url": "https://www.mundodeportivo.com/feed/rss/futbol", "weight": 3},
+    {"source": "Mundo Deportivo", "url": "https://www.mundodeportivo.com/feed/rss/futbol/internacional", "weight": 3},
+    {"source": "BBC Sport", "url": "https://feeds.bbci.co.uk/sport/football/rss.xml", "weight": 4},
+    {"source": "Sky Sports", "url": "https://www.skysports.com/rss/12040", "weight": 4},
+]
+
+DB_PATH = "fichajes.db"
+PLAYERS_FILE = "jugadores.csv"
+IGNORED_FILE = "ignorados.txt"
+MODEL = "claude-haiku-5-5"   # solo si EXTRACTOR = "claude"
+BATCH_SIZE = 20
+SUMMARY_MAX_CHARS = 280      # solo guardamos una entradilla breve, nunca el artículo
+WINDOW_DAYS = 45             # rumores que cuentan para el termómetro
+NEWS_DAYS = 14               # días que aparecen en la columna de fechas de la portada
+RECENT_DAYS = 3              # días que se ven en la vista "Recientes"
+NEWS_MAX = 6000              # máximo de noticias en la portada
+
+# Titulares que contengan alguna de estas palabras no son de fútbol y no se muestran
+NOT_FOOTBALL = ["f1", "formula 1", "grand prix", "gran premio", "motogp", "pit wall", "mclaren",
+                "ferrari", "verstappen", "golf", "pga", "liv golf", "ryder cup", "rugby",
+                "red roses", "six nations", "starting xv", "nfl", "nba", "euroliga", "baloncesto",
+                "tennis", "tenis", "atp", "wta", "wimbledon", "roland garros", "cricket", "boxing",
+                "boxeo", "ufc", "mma", "snooker", "darts", "ciclismo", "cycling", "tour de francia",
+                "tour de france", "atletismo", "athletics", "balonmano", "handball", "team boss",
+                "sabalenka", "alcaraz", "sinner", "djokovic", "swiatek", "gauff", "wuhan",
+                "mekies", "fernando alonso", "carlos sainz", "marc marquez"]
+LIVE_WORDS = ["en directo", "en vivo", "live"]
+
+STATUS_BONUS = {"interes": 0, "negociacion": 10, "acuerdo": 25, "oficial": 100, "descartado": 0}
+
+# Nombre canónico de cada club y las formas en que aparece en los titulares.
+# Escribe las formas en minúsculas y sin tildes. Evita palabras comunes ("como", "real").
+CLUBS = {
+    "Real Madrid": ["real madrid", "madrid"],
+    "FC Barcelona": ["fc barcelona", "barcelona", "barca"],
+    "Atlético de Madrid": ["atletico de madrid", "atletico madrid", "atletico", "atleti"],
+    "Athletic Club": ["athletic club", "athletic bilbao", "athletic"],
+    "Real Sociedad": ["real sociedad"],
+    "Sevilla": ["sevilla"],
+    "Real Betis": ["real betis", "betis"],
+    "Valencia": ["valencia cf", "valencia"],
+    "Villarreal": ["villarreal"],
+    "Girona": ["girona"],
+    "Getafe": ["getafe"],
+    "Celta": ["celta de vigo", "celta"],
+    "Osasuna": ["osasuna"],
+    "Mallorca": ["rcd mallorca", "mallorca"],
+    "Rayo Vallecano": ["rayo vallecano", "rayo"],
+    "Espanyol": ["espanyol"],
+    "Alavés": ["deportivo alaves", "alaves"],
+    "Las Palmas": ["ud las palmas", "las palmas"],
+    "Levante": ["levante"],
+    "Elche": ["elche"],
+    "Real Oviedo": ["real oviedo", "oviedo"],
+    "Liverpool": ["liverpool"],
+    "Arsenal": ["arsenal"],
+    "Chelsea": ["chelsea"],
+    "Manchester City": ["manchester city", "man city"],
+    "Manchester United": ["manchester united", "man united", "man utd"],
+    "Tottenham": ["tottenham hotspur", "tottenham", "spurs"],
+    "Newcastle": ["newcastle united", "newcastle"],
+    "Aston Villa": ["aston villa"],
+    "West Ham": ["west ham united", "west ham"],
+    "Brighton": ["brighton"],
+    "Bayern Múnich": ["bayern de munich", "bayern munich", "bayern munchen", "bayern"],
+    "Borussia Dortmund": ["borussia dortmund", "dortmund", "bvb"],
+    "Bayer Leverkusen": ["bayer leverkusen", "leverkusen"],
+    "RB Leipzig": ["rb leipzig", "leipzig"],
+    "PSG": ["paris saint germain", "paris sg", "psg"],
+    "Olympique de Marsella": ["olympique de marsella", "marsella", "marseille"],
+    "Mónaco": ["as monaco", "monaco"],
+    "Juventus": ["juventus", "juve"],
+    "Inter de Milán": ["inter de milan", "inter milan", "internazionale", "inter"],
+    "AC Milan": ["ac milan", "milan"],
+    "Napoli": ["napoli", "napoles"],
+    "Roma": ["as roma", "roma"],
+    "Atalanta": ["atalanta"],
+    "Benfica": ["benfica"],
+    "Oporto": ["fc porto", "oporto", "porto"],
+    "Sporting de Portugal": ["sporting de portugal", "sporting cp", "sporting lisbon"],
+    "Ajax": ["ajax"],
+    "Galatasaray": ["galatasaray"],
+    "Al Hilal": ["al hilal"],
+    "Al Nassr": ["al nassr"],
+}
+
+# Liga de cada club (los que no estén aquí cuentan como "Otras ligas")
+LEAGUES = ["LaLiga", "Premier League", "Serie A", "Bundesliga", "Ligue 1",
+           "Champions League", "Europa League", "Selecciones", "Otras ligas"]
+CLUB_LEAGUE = {
+    **dict.fromkeys(["Real Madrid", "FC Barcelona", "Atlético de Madrid", "Athletic Club",
+                     "Real Sociedad", "Sevilla", "Real Betis", "Valencia", "Villarreal", "Girona",
+                     "Getafe", "Celta", "Osasuna", "Mallorca", "Rayo Vallecano", "Espanyol",
+                     "Alavés", "Las Palmas", "Levante", "Elche", "Real Oviedo"], "LaLiga"),
+    **dict.fromkeys(["Liverpool", "Arsenal", "Chelsea", "Manchester City", "Manchester United",
+                     "Tottenham", "Newcastle", "Aston Villa", "West Ham", "Brighton"], "Premier League"),
+    **dict.fromkeys(["Juventus", "Inter de Milán", "AC Milan", "Napoli", "Roma", "Atalanta"], "Serie A"),
+    **dict.fromkeys(["Bayern Múnich", "Borussia Dortmund", "Bayer Leverkusen", "RB Leipzig"], "Bundesliga"),
+    **dict.fromkeys(["PSG", "Olympique de Marsella", "Mónaco"], "Ligue 1"),
+}
+# Palabras del titular que indican la competición (minúsculas, sin tildes)
+COMPETITION_KEYWORDS = {
+    "Champions League": ["champions"],
+    "Europa League": ["europa league", "conference league"],
+    "Premier League": ["premier league", "premier"],
+    "LaLiga": ["laliga", "la liga", "liga ea sports", "primera division"],
+    "Serie A": ["serie a", "calcio"],
+    "Bundesliga": ["bundesliga"],
+    "Ligue 1": ["ligue 1"],
+    "Selecciones": ["seleccion", "la roja", "mundial", "world cup", "nations league",
+                    "eurocopa", "national team", "international break"],
+}
+
+# Palabras clave por estado (minúsculas, sin tildes). Gana el primer estado de esta lista
+# que aparezca en el titular, así que "rechaza la oferta" cuenta como descartado.
+STATUS_KEYWORDS = [
+    ("oficial", ["oficial", "official", "officially", "confirmed", "here we go", "firma por",
+                 "ficha por", "signs for", "nuevo jugador", "anuncia el fichaje", "joins", "completes"]),
+    ("descartado", ["descarta", "descartado", "descartada", "rechaza", "rechazada", "rules out",
+                    "rejected", "no saldra", "se queda", "cierra la puerta", "renueva", "renovacion",
+                    "new contract", "extends contract", "contract extension"]),
+    ("acuerdo", ["acuerdo", "agreement", "agreed", "agree", "deal done", "cierra el fichaje",
+                 "pacto", "ficha a", "reconocimiento medico", "medical"]),
+    ("negociacion", ["negocia", "negociacion", "negociaciones", "talks", "oferta", "offer", "bid",
+                     "puja", "conversaciones", "contactos", "propuesta", "approach", "ofrece",
+                     "ofrecen", "offers", "bids", "sondea", "tantea", "pregunta por",
+                     "llama a la puerta", "negociando"]),
+    ("interes", ["interes", "interesa", "objetivo", "target", "quiere", "pretende", "linked",
+                 "candidato", "suena para", "suenan para", "radar", "sigue a", "siguen a", "eyes", "eyeing",
+                 "monitoring", "keen", "pide", "piden", "orbita", "fichaje", "fichar", "traspaso",
+                 "transfer", "cesion", "cedido", "loan", "clausula", "release clause", "mercado",
+                 "salida", "move"]),
+]
+
+# Palabras demasiado genéricas: valen para jugadores de jugadores.csv, pero NO bastan
+# para dar por bueno un rumor de un nombre desconocido.
+WEAK_KEYWORDS = {"target", "objetivo", "quiere", "move", "mercado", "salida", "pide", "piden",
+                 "keen", "eyes", "eyeing", "monitoring", "radar", "orbita", "suena para", "suenan para", "linked",
+                 "candidato", "interes", "interesa", "pretende", "sigue a", "siguen a",
+                 "approach", "talks", "contactos", "propuesta", "conversaciones", "offer",
+                 "offers", "oferta", "official", "oficial", "confirmed", "completes", "joins",
+                 "medical", "agree", "agreed", "renueva", "renovacion", "se queda", "rechaza"}
+
+# Expresiones que indican el club de ORIGEN cuando aparecen justo antes del club
+FROM_MARKERS = ["from", "desde el", "deja el", "dejar el", "leaves", "salida del", "saldria del", "adios al"]

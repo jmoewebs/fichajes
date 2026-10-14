@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>Ejemplo</title>
+<item><title>El Barça negocia con el Bayern por Jamal Musiala</title><link>https://ejemplo.com/1</link>
+<description>&lt;p&gt;Primeros contactos entre ambos clubes.&lt;/p&gt;</description><pubDate>Tue, 13 Oct 2026 09:00:00 GMT</pubDate></item>
+<item><title>El Madrid gana 3-0 en Vigo</title><link>https://ejemplo.com/2</link>
+<description>Crónica del partido.</description><pubDate>Tue, 13 Oct 2026 22:00:00 GMT</pubDate></item>
+<item><title>Musiala, objetivo prioritario del Barcelona</title><link>https://ejemplo.com/3</link>
+<description>Interés firme.</description><pubDate>Wed, 14 Oct 2026 08:00:00 GMT</pubDate></item>
+<item><title>Oficial: Nico Williams firma por el Arsenal</title><link>https://ejemplo.com/4</link>
+<description></description><pubDate>Wed, 14 Oct 2026 10:00:00 GMT</pubDate></item>
+<item><title>Chelsea bid for Benfica defender António Silva</title><link>https://ejemplo.com/5</link>
+<description></description><pubDate>Wed, 14 Oct 2026 11:00:00 GMT</pubDate></item>
+<item><title>El Atlético ofrece 40 millones al Inter por Lautaro</title><link>https://ejemplo.com/6</link>
+<description></description><pubDate>Wed, 14 Oct 2026 12:00:00 GMT</pubDate></item>
+</channel></rss>

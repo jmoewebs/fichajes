@@ -1,0 +1,48 @@
+# Nombres que NO son jugadores: entrenadores, directivos, países, estadios, competiciones...
+# Uno por línea. Al descartar un rumor de un nombre desconocido se añade aquí solo.
+# Si por error añades un jugador real, borra su línea.
+Gasperini
+Luis Enrique
+Wilcox
+Ancelotti
+Xabi Alonso
+Flick
+Simeone
+Guardiola
+Arteta
+Mourinho
+Klopp
+Slot
+Amorim
+Tuchel
+Nagelsmann
+Conte
+Allegri
+Pochettino
+Maresca
+Kompany
+Florentino
+Laporta
+Tebas
+Infantino
+Ratcliffe
+Brasil
+Argentina
+España
+Francia
+Inglaterra
+Alemania
+Italia
+Portugal
+Países Bajos
+Bernabéu
+Metropolitano
+Camp Nou
+Anfield
+Mundial
+Champions
+Europa League
+Supercopa
+UEFA
+FIFA
+VAR
