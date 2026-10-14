@@ -31,7 +31,11 @@ def main(argv):
     db = pipeline.connect()
     page = None
     if cmd in ("all", "fetch"):
-        print(f"Titulares nuevos: {pipeline.fetch_all(db)}")
+        nuevos = pipeline.fetch_all(db)
+        print(f"Titulares nuevos: {nuevos}")
+        if os.environ.get("GITHUB_OUTPUT"):   # en GitHub: avisa si hay algo nuevo que publicar
+            with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                f.write(f"nuevos={nuevos}\n")
     if cmd == "rehacer":
         db.execute("DELETE FROM rumors")
         db.execute("UPDATE items SET processed = 0")
