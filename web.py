@@ -1,5 +1,6 @@
 """Genera la web estática: web/index.html (portada) y web/archivo/AAAA-MM.html (un archivo por mes).
 Las páginas se abren con doble clic, sin servidor."""
+import html as html_lib
 import json
 import os
 
@@ -15,6 +16,21 @@ TEMPLATE = r"""<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>__TITLE__</title>
+<meta name="description" content="__DESCRIPTION__">
+<link rel="canonical" href="__CANONICAL__">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="__SITE_NAME__">
+<meta property="og:title" content="__TITLE__">
+<meta property="og:description" content="__DESCRIPTION__">
+<meta property="og:url" content="__CANONICAL__">
+<meta property="og:locale" content="es_ES">
+<meta property="og:image" content="__SITE_URL__/compartir.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="__ROOT__favicon.svg" type="image/svg+xml">
+<link rel="icon" href="__ROOT__favicon.png" type="image/png" sizes="48x48">
+<link rel="apple-touch-icon" href="__ROOT__apple-touch-icon.png">
+__VERIFICATION__
+<script type="application/ld+json">__LDJSON__</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
@@ -205,7 +221,7 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
     <div class="fgroup"><h2 class="flabel">Medios</h2>
       <div class="flist" id="f-sources" role="group" aria-label="Elegir medios"></div></div>
   </aside>
-  <main id="list"></main>
+  <main id="list">__STATIC__</main>
   <aside class="dates" id="dates">
     <div class="fgroup"><h2 class="flabel" id="days-title">Últimos días</h2>
       <div class="flist" id="f-days" role="group" aria-label="Elegir día"></div></div>
@@ -474,8 +490,41 @@ def month_label(ym):
     return f"{MONTHS[int(m) - 1]} de {y}"
 
 
-def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive):
+def _static_list(news, rumors, limit=60):
+    """Titulares en HTML normal, para buscadores y para quien no ejecute JavaScript.
+    Al cargar la página, el código la sustituye por la versión interactiva."""
+    esc = html_lib.escape
+    parts = []
+    if rumors:
+        parts.append("<h2>Rumores de fichajes</h2><ul>")
+        for r in rumors[:20]:
+            route = f"{r['from_club'] or 'origen sin confirmar'} → {r['to_club'] or 'destino sin confirmar'}"
+            parts.append(f"<li>{esc(r['player'])}: {esc(route)} ({r['score']}°)</li>")
+        parts.append("</ul>")
+    parts.append("<h2>Últimas noticias de fútbol</h2><ul>")
+    for n in list(news)[:limit]:
+        parts.append(f'<li><a href="{esc(n["url"], quote=True)}">{esc(n["title"])}</a> ({esc(n["source"])})</li>')
+    parts.append("</ul>")
+    return "".join(parts)
+
+
+def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
+           description, canonical, root):
+    esc = html_lib.escape
+    verification = (f'<meta name="google-site-verification" content="{esc(config.GOOGLE_VERIFICATION, quote=True)}">'
+                    if config.GOOGLE_VERIFICATION else "")
+    ld = {"@context": "https://schema.org", "@type": "WebSite", "name": config.SITE_NAME,
+          "url": config.SITE_URL + "/", "inLanguage": "es", "description": config.SITE_DESCRIPTION}
     html = (TEMPLATE
+            .replace("__DESCRIPTION__", esc(description, quote=True))
+            .replace("__CANONICAL__", esc(canonical, quote=True))
+            .replace("__SITE_NAME__", esc(config.SITE_NAME, quote=True))
+            .replace("__SITE_URL__", config.SITE_URL)
+            .replace("__ROOT__", root)
+            .replace("__VERIFICATION__", verification)
+            .replace("__LDJSON__", _json(ld))
+            .replace("__STATIC__", _static_list(list(news), rumors)))
+    html = (html
             .replace("__TITLE__", title).replace("__HEADING__", heading).replace("__CRUMBS__", crumbs)
             .replace("__UPDATED__", _now_spain().strftime("%d/%m/%Y a las %H:%M"))
             .replace("__IS_ARCHIVE__", "true" if is_archive else "false")
@@ -491,9 +540,12 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive):
 def generate(data, news=(), months=(), out_dir="web"):
     """Portada. months = [(AAAA-MM, nº noticias, nº rumores)], del más reciente al más antiguo."""
     archive = _archive(months, prefix="archivo/")
-    return _write(os.path.join(out_dir, "index.html"), title="Fútbol: noticias y rumores",
+    write_static(months, out_dir)
+    return _write(os.path.join(out_dir, "index.html"),
+                  title=f"{config.SITE_NAME}: noticias de fútbol y rumores del mercado",
                   heading="Fútbol: noticias y rumores", crumbs="", rumors=_flatten(data),
-                  news=news, archive=archive, is_archive=False)
+                  news=news, archive=archive, is_archive=False,
+                  description=config.SITE_DESCRIPTION, canonical=config.SITE_URL + "/", root="")
 
 
 def _archive(months, prefix="", current=None):
@@ -509,6 +561,87 @@ def generate_month(ym, data, news, prev_ym=None, next_ym=None, out_dir="web", mo
         links.append(f'<a href="{next_ym}.html">{month_label(next_ym)} →</a>')
     crumbs = '<nav class="crumbs">' + "".join(links) + "</nav>"
     label = month_label(ym)
-    return _write(os.path.join(out_dir, "archivo", f"{ym}.html"), title=f"Archivo: {label}",
+    return _write(os.path.join(out_dir, "archivo", f"{ym}.html"),
+                  title=f"Noticias y rumores de fútbol de {label} | {config.SITE_NAME}",
                   heading=f"Archivo de {label}", crumbs=crumbs, rumors=_flatten(data),
-                  news=news, archive=_archive(months, current=ym), is_archive=True)
+                  news=news, archive=_archive(months, current=ym), is_archive=True,
+                  description=(f"Todas las noticias de fútbol y los rumores de fichajes de {label}, "
+                               "día a día, con enlace a cada medio."),
+                  canonical=f"{config.SITE_URL}/archivo/{ym}", root="../")
+
+
+FAVICON_SVG = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<rect width="64" height="64" rx="14" fill="#145a32"/>
+<circle cx="32" cy="32" r="21" fill="none" stroke="#fff" stroke-width="3" opacity=".35"/>
+<line x1="32" y1="6" x2="32" y2="58" stroke="#fff" stroke-width="3" opacity=".35"/>
+<rect x="26" y="12" width="12" height="30" rx="6" fill="#fff"/>
+<rect x="29.5" y="22" width="5" height="22" rx="2.5" fill="#d93a1b"/>
+<circle cx="32" cy="47" r="9" fill="#fff"/>
+<circle cx="32" cy="47" r="6" fill="#d93a1b"/>
+</svg>"""
+
+
+def _png_icon(size):
+    """Mismo icono que el SVG (termómetro sobre césped), dibujado como PNG."""
+    from PIL import Image, ImageDraw
+    s = size / 64
+    im = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.rounded_rectangle([0, 0, size - 1, size - 1], radius=int(14 * s), fill="#145a32")
+    soft = "#5b8f6f"   # blanco al 35 % sobre el verde, en color sólido
+    d.ellipse([11 * s, 11 * s, 53 * s, 53 * s], outline=soft, width=max(1, int(3 * s)))
+    d.line([32 * s, 6 * s, 32 * s, 58 * s], fill=soft, width=max(1, int(3 * s)))
+    d.rounded_rectangle([26 * s, 12 * s, 38 * s, 42 * s], radius=int(6 * s), fill="white")
+    d.rounded_rectangle([29.5 * s, 22 * s, 34.5 * s, 44 * s], radius=int(2.5 * s), fill="#d93a1b")
+    d.ellipse([23 * s, 38 * s, 41 * s, 56 * s], fill="white")
+    d.ellipse([26 * s, 41 * s, 38 * s, 53 * s], fill="#d93a1b")
+    return im
+
+
+def _share_image():
+    """Imagen para cuando se comparte el enlace (1200x630)."""
+    from PIL import Image, ImageDraw, ImageFont
+    im = Image.new("RGB", (1200, 630), "#145a32")
+    d = ImageDraw.Draw(im)
+    for x in range(0, 1200, 160):
+        d.rectangle([x + 80, 0, x + 159, 630], fill="#1b6b3d")
+    d.ellipse([820, -140, 1180, 220], outline=(255, 255, 255), width=5)
+    d.line([1000, 0, 1000, 630], fill=(255, 255, 255), width=5)
+    im.paste(_png_icon(180), (80, 90), _png_icon(180))
+    def font(size):
+        for name in ["DejaVuSans-Bold.ttf", "arialbd.ttf", "Arial Bold.ttf"]:
+            try:
+                return ImageFont.truetype(name, size)
+            except OSError:
+                pass
+        return ImageFont.load_default()
+    d.text((80, 320), config.SITE_NAME, font=font(84), fill="white")
+    d.text((80, 430), "Noticias de fútbol y rumores del mercado", font=font(40), fill=(230, 240, 234))
+    d.text((80, 490), config.SITE_URL.replace("https://", ""), font=font(32), fill=(190, 215, 200))
+    return im
+
+
+def write_static(months, out_dir="web"):
+    """favicon, imagen para compartir, robots.txt y sitemap.xml."""
+    os.makedirs(out_dir, exist_ok=True)
+    with open(os.path.join(out_dir, "favicon.svg"), "w", encoding="utf-8") as f:
+        f.write(FAVICON_SVG)
+    try:
+        _png_icon(48).save(os.path.join(out_dir, "favicon.png"))
+        _png_icon(180).save(os.path.join(out_dir, "apple-touch-icon.png"))
+        _share_image().save(os.path.join(out_dir, "compartir.png"))
+    except ImportError:
+        pass   # sin Pillow no hay PNG; el icono SVG sigue funcionando
+    with open(os.path.join(out_dir, "robots.txt"), "w", encoding="utf-8") as f:
+        f.write(f"User-agent: *\nAllow: /\n\nSitemap: {config.SITE_URL}/sitemap.xml\n")
+    today = _now_spain().strftime("%Y-%m-%d")
+    urls = [(config.SITE_URL + "/", today, "hourly", "1.0")]
+    current = _now_spain().strftime("%Y-%m")
+    for ym, _, _ in months:
+        urls.append((f"{config.SITE_URL}/archivo/{ym}", today if ym == current else f"{ym}-28",
+                     "daily" if ym == current else "monthly", "0.6"))
+    body = "".join(f"<url><loc>{u}</loc><lastmod>{m}</lastmod><changefreq>{c}</changefreq>"
+                   f"<priority>{p}</priority></url>" for u, m, c, p in urls)
+    with open(os.path.join(out_dir, "sitemap.xml"), "w", encoding="utf-8") as f:
+        f.write('<?xml version="1.0" encoding="UTF-8"?>\n'
+                f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{body}</urlset>\n')
