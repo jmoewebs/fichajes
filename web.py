@@ -103,6 +103,21 @@ a.chipbtn { text-decoration:none; }
 .chipbtn[aria-pressed="true"] .dot { background:var(--grass-2); }
 .chipbtn.src-off .nm { color:var(--muted); text-decoration:line-through; }
 .chipbtn.src-off .src { opacity:.4; }
+.foot { border-top:1px solid var(--line); margin-top:20px; padding:22px 0 40px; font-size:14px;
+  color:var(--muted); display:flex; flex-wrap:wrap; gap:8px 22px; }
+.foot a, .foot button { color:var(--muted); font:inherit; background:none; border:0; padding:0;
+  text-decoration:underline; cursor:pointer; }
+.cookies { position:fixed; left:16px; right:16px; bottom:16px; z-index:10; max-width:560px;
+  margin:0 auto; background:var(--card); color:var(--ink); border:1px solid var(--line);
+  border-radius:10px; padding:16px 18px; box-shadow:0 10px 30px rgba(0,0,0,.18); }
+.cookies p { margin:0 0 12px; font-size:15px; }
+.cookies .btns { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.cookies button { font:600 15px/1 var(--body); padding:10px 16px; border-radius:6px; cursor:pointer;
+  border:1px solid var(--grass); }
+.cookies .yes { background:var(--grass); color:#fff; }
+.cookies .no { background:transparent; color:var(--ink); border-color:var(--line); }
+.cookies a { font-size:14px; color:var(--muted); }
+
 @media (max-width:1100px) {
   .layout { grid-template-columns:210px minmax(0, 1fr); }
   .layout main { grid-column:2; grid-row:1 / span 2; }
@@ -229,6 +244,12 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
       <div class="flist" id="f-months"></div></div>
   </aside>
 </div>
+<footer class="wrap foot">
+  <span>Los titulares pertenecen a sus medios; cada uno enlaza a la noticia original.</span>
+  <a href="__ROOT__cookies.html">Política de cookies</a>
+  __COOKIE_BUTTON__
+</footer>
+__ANALYTICS__
 <script id="d-rumors" type="application/json">__RUMORS__</script>
 <script id="d-news" type="application/json">__NEWS__</script>
 <script id="d-archive" type="application/json">__ARCHIVE__</script>
@@ -490,6 +511,51 @@ def month_label(ym):
     return f"{MONTHS[int(m) - 1]} de {y}"
 
 
+ANALYTICS = r"""<div class="cookies" id="cookies" hidden role="dialog" aria-label="Aviso de cookies">
+  <p>Usamos cookies de Google Analytics para saber cuántas personas visitan la web y qué secciones se usan más. Solo se activan si las aceptas.</p>
+  <div class="btns">
+    <button class="yes" id="ck-yes">Aceptar</button>
+    <button class="no" id="ck-no">Rechazar</button>
+    <a href="__ROOT__cookies.html">Más información</a>
+  </div>
+</div>
+<script>
+(function () {
+  var ID = "__GA_ID__", KEY = "cookies-analitica", bar = document.getElementById("cookies");
+  function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  function load() {
+    if (window.gtag) return;
+    var s = document.createElement("script");
+    s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + ID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    gtag("js", new Date()); gtag("config", ID);
+  }
+  function wipe() {   // borra las cookies de Analytics si se retira el consentimiento
+    document.cookie.split(";").forEach(function (c) {
+      var name = c.split("=")[0].trim();
+      if (name.indexOf("_ga") === 0) {
+        document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+        document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=" + location.hostname;
+      }
+    });
+  }
+  function set(v) {
+    try { localStorage.setItem(KEY, v); } catch (e) {}
+    bar.hidden = true;
+    if (v === "si") load(); else { wipe(); if (window.gtag) location.reload(); }
+  }
+  document.getElementById("ck-yes").onclick = function () { set("si"); };
+  document.getElementById("ck-no").onclick = function () { set("no"); };
+  var cfg = document.getElementById("ck-config");
+  if (cfg) cfg.onclick = function () { bar.hidden = false; };
+  var v = get();
+  if (v === "si") load(); else if (!v) bar.hidden = false;
+})();
+</script>"""
+
+
 def _static_list(news, rumors, limit=60):
     """Titulares en HTML normal, para buscadores y para quien no ejecute JavaScript.
     Al cargar la página, el código la sustituye por la versión interactiva."""
@@ -523,7 +589,12 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__ROOT__", root)
             .replace("__VERIFICATION__", verification)
             .replace("__LDJSON__", _json(ld))
-            .replace("__STATIC__", _static_list(list(news), rumors)))
+            .replace("__STATIC__", _static_list(list(news), rumors))
+            .replace("__ANALYTICS__", ANALYTICS.replace("__GA_ID__", config.GA_MEASUREMENT_ID)
+                     if config.GA_MEASUREMENT_ID else "")
+            .replace("__COOKIE_BUTTON__", '<button id="ck-config">Configurar cookies</button>'
+                     if config.GA_MEASUREMENT_ID else "")
+            .replace("__ROOT__", root))
     html = (html
             .replace("__TITLE__", title).replace("__HEADING__", heading).replace("__CRUMBS__", crumbs)
             .replace("__UPDATED__", _now_spain().strftime("%d/%m/%Y a las %H:%M"))
@@ -632,6 +703,8 @@ def write_static(months, out_dir="web"):
         _share_image().save(os.path.join(out_dir, "compartir.png"))
     except ImportError:
         pass   # sin Pillow no hay PNG; el icono SVG sigue funcionando
+    with open(os.path.join(out_dir, "cookies.html"), "w", encoding="utf-8") as f:
+        f.write(COOKIES_PAGE.replace("__SITE_NAME__", html_lib.escape(config.SITE_NAME)))
     with open(os.path.join(out_dir, "robots.txt"), "w", encoding="utf-8") as f:
         f.write(f"User-agent: *\nAllow: /\n\nSitemap: {config.SITE_URL}/sitemap.xml\n")
     today = _now_spain().strftime("%Y-%m-%d")
@@ -645,3 +718,37 @@ def write_static(months, out_dir="web"):
     with open(os.path.join(out_dir, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n'
                 f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{body}</urlset>\n')
+
+
+COOKIES_PAGE = """<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Política de cookies | __SITE_NAME__</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+body { margin:0; font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; background:#f2f6f3; color:#10201a; }
+@media (prefers-color-scheme: dark) { body { background:#0c1611; color:#e4ece7; } table, th, td { border-color:#24352c !important; } }
+main { max-width:720px; margin:0 auto; padding:40px 20px 60px; }
+h1 { font-size:34px; line-height:1.1; margin:0 0 20px; } h2 { font-size:22px; margin:32px 0 8px; }
+table { border-collapse:collapse; width:100%; font-size:15px; } th, td { border:1px solid #dbe3de; padding:8px 10px; text-align:left; vertical-align:top; }
+a { color:inherit; }
+</style></head><body><main>
+<p><a href="./">Volver a __SITE_NAME__</a></p>
+<h1>Política de cookies</h1>
+<p>Esta web solo usa cookies de análisis, y únicamente si las aceptas en el aviso que aparece al entrar. Si las rechazas o no respondes, no se instala ninguna.</p>
+<h2>Qué cookies usamos</h2>
+<table>
+<tr><th>Cookie</th><th>Proveedor</th><th>Para qué sirve</th><th>Duración</th></tr>
+<tr><td>_ga</td><td>Google Analytics</td><td>Distinguir visitantes de forma anónima para contar cuántas personas visitan la web.</td><td>2 años</td></tr>
+<tr><td>_ga_*</td><td>Google Analytics</td><td>Mantener el estado de la visita (páginas vistas, duración).</td><td>2 años</td></tr>
+</table>
+<p>Además, la web guarda en tu navegador (no en una cookie) tu respuesta a este aviso y los filtros que elijas, como la liga o los medios ocultos, para recordarlos en tu próxima visita. Esa información no sale de tu dispositivo.</p>
+<h2>Google Analytics</h2>
+<p>Google Analytics es un servicio de Google que nos muestra estadísticas agregadas de uso. Google puede tratar estos datos según su propia <a href="https://policies.google.com/privacy?hl=es">política de privacidad</a>.</p>
+<h2>Cómo cambiar tu elección</h2>
+<p>Puedes aceptar o retirar tu consentimiento en cualquier momento con el enlace "Configurar cookies" del pie de cada página. También puedes borrar las cookies desde la configuración de tu navegador.</p>
+<h2>Contenido de terceros</h2>
+<p>Los titulares mostrados pertenecen a sus respectivos medios. Al pulsar uno, sales de esta web y pasas a la del medio, que tiene su propia política de cookies.</p>
+</main></body></html>
+"""
