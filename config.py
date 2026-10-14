@@ -7,7 +7,7 @@ SITE_DESCRIPTION = ("Noticias de fútbol y rumores de fichajes de LaLiga, Premie
                     "Bundesliga y Ligue 1, actualizados cada hora, con un termómetro que mide "
                     "lo caliente que está cada rumor.")
 # Código de verificación de Google Search Console (solo el valor de content="...")
-GOOGLE_VERIFICATION = ""
+GOOGLE_VERIFICATION = "UlSzLwyxSoXaFmkbcCi2i-11eWegnuhRbMtCd54l2CU"
 
 # Cómo se extraen los rumores: "reglas" (gratis, sin IA) o "claude" (API de pago).
 EXTRACTOR = "reglas"
