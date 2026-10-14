@@ -4,7 +4,7 @@ name: Actualizar web
 
 on:
   schedule:
-    - cron: "23 */2 * * *"   # cada 2 horas (hora UTC). ~360 publicaciones al mes, límite gratis: 500
+    - cron: "*/30 * * * *"   # cada 30 minutos. Solo publica si hay titulares nuevos
   workflow_dispatch:          # botón "Run workflow" para lanzarlo a mano
 
 permissions:
@@ -25,6 +25,7 @@ jobs:
           python-version: "3.12"
 
       - name: Descargar noticias y generar la web
+        id: run
         run: python run.py
 
       - name: Guardar el histórico en el repositorio
@@ -36,6 +37,7 @@ jobs:
           git push
 
       - name: Publicar en Cloudflare Pages
+        if: steps.run.outputs.nuevos != '0' || github.event_name == 'workflow_dispatch'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
