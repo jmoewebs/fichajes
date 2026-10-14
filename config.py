@@ -9,6 +9,9 @@ SITE_DESCRIPTION = ("Noticias de fútbol y rumores de fichajes de LaLiga, Premie
 # Código de verificación de Google Search Console (solo el valor de content="...")
 GOOGLE_VERIFICATION = "UlSzLwyxSoXaFmkbcCi2i-11eWegnuhRbMtCd54l2CU"
 
+# ID de medición de Google Analytics (empieza por G-). Vacío = sin Analytics ni aviso de cookies
+GA_MEASUREMENT_ID = "G-LJ44H4TZ4Y"
+
 # Cómo se extraen los rumores: "reglas" (gratis, sin IA) o "claude" (API de pago).
 EXTRACTOR = "reglas"
 
