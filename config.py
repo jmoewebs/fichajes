@@ -1,5 +1,14 @@
 """Configuración del rastreador de rumores de fichajes."""
 
+# Datos de la web para Google y redes sociales
+SITE_URL = "https://rumoresyfichajes.pages.dev"   # sin barra al final; cámbialo si usas otro dominio
+SITE_NAME = "Rumores y Fichajes"
+SITE_DESCRIPTION = ("Noticias de fútbol y rumores de fichajes de LaLiga, Premier League, Serie A, "
+                    "Bundesliga y Ligue 1, actualizados cada hora, con un termómetro que mide "
+                    "lo caliente que está cada rumor.")
+# Código de verificación de Google Search Console (solo el valor de content="...")
+GOOGLE_VERIFICATION = ""
+
 # Cómo se extraen los rumores: "reglas" (gratis, sin IA) o "claude" (API de pago).
 EXTRACTOR = "reglas"
 
