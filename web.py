@@ -449,6 +449,15 @@ render();
 """
 
 
+def _now_spain():
+    """Hora de España también cuando se ejecuta en GitHub (cuyos ordenadores usan hora UTC)."""
+    try:
+        from zoneinfo import ZoneInfo
+        return datetime.now(ZoneInfo("Europe/Madrid"))
+    except Exception:          # en Windows sin datos de zonas horarias: hora local del PC
+        return datetime.now()
+
+
 def _flatten(data):
     rumors = [e for p in data["players"].values() for e in p["rumors"]]
     rumors.sort(key=lambda e: e["last_update"], reverse=True)   # a igual termómetro, lo más reciente
@@ -468,7 +477,7 @@ def month_label(ym):
 def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive):
     html = (TEMPLATE
             .replace("__TITLE__", title).replace("__HEADING__", heading).replace("__CRUMBS__", crumbs)
-            .replace("__UPDATED__", datetime.now().strftime("%d/%m/%Y a las %H:%M"))
+            .replace("__UPDATED__", _now_spain().strftime("%d/%m/%Y a las %H:%M"))
             .replace("__IS_ARCHIVE__", "true" if is_archive else "false")
             .replace("__RUMORS__", _json(rumors)).replace("__NEWS__", _json(list(news)))
             .replace("__ARCHIVE__", _json(archive)).replace("__LEAGUES__", _json(config.LEAGUES))
