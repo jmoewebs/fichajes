@@ -24,6 +24,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Instalar Pillow (para los iconos)
+        run: pip install pillow
+
       - name: Descargar noticias y generar la web
         id: run
         run: python run.py
