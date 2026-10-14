@@ -4,7 +4,7 @@ name: Actualizar web
 
 on:
   schedule:
-    - cron: "*/30 * * * *"   # cada 30 minutos. Solo publica si hay titulares nuevos
+    - cron: "7 * * * *"      # cada hora (a los 7 minutos). Solo publica si hay titulares nuevos
   workflow_dispatch:          # botón "Run workflow" para lanzarlo a mano
 
 permissions:
