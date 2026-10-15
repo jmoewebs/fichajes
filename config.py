@@ -12,6 +12,13 @@ GOOGLE_VERIFICATION = "UlSzLwyxSoXaFmkbcCi2i-11eWegnuhRbMtCd54l2CU"
 # ID de medición de Google Analytics (empieza por G-). Vacío = sin Analytics ni aviso de cookies
 GA_MEASUREMENT_ID = "G-LJ44H4TZ4Y"
 
+# Clasificaciones (football-data.org, gratis con clave). Código de cada liga en la API.
+STANDINGS_COMPETITIONS = {"LaLiga": "PD", "Premier League": "PL", "Serie A": "SA",
+                          "Bundesliga": "BL1", "Ligue 1": "FL1"}
+STANDINGS_EVERY_HOURS = 3        # cada cuántas horas se descargan (ahorra minutos de GitHub)
+STANDINGS_SCORERS_LIMIT = 100    # goleadores que se piden; de ellos salen los asistentes
+STANDINGS_FILE = "clasificaciones.json"
+
 # Cómo se extraen los rumores: "reglas" (gratis, sin IA) o "claude" (API de pago).
 EXTRACTOR = "reglas"
 
@@ -25,6 +32,7 @@ FEEDS = [
     {"source": "AS", "url": "https://feeds.as.com/mrss-s/pages/as/site/as.com/section/futbol/portada/", "weight": 3},
     {"source": "Mundo Deportivo", "url": "https://www.mundodeportivo.com/feed/rss/futbol", "weight": 3},
     {"source": "Mundo Deportivo", "url": "https://www.mundodeportivo.com/feed/rss/futbol/internacional", "weight": 3},
+    {"source": "Sport", "url": "https://www.sport.es/es/rss/last-news/news.xml", "weight": 2},
     {"source": "BBC Sport", "url": "https://feeds.bbci.co.uk/sport/football/rss.xml", "weight": 4},
     {"source": "Sky Sports", "url": "https://www.skysports.com/rss/12040", "weight": 4},
 ]
@@ -50,6 +58,10 @@ NOT_FOOTBALL = ["f1", "formula 1", "grand prix", "gran premio", "motogp", "pit w
                 "sabalenka", "alcaraz", "sinner", "djokovic", "swiatek", "gauff", "wuhan",
                 "mekies", "fernando alonso", "carlos sainz", "marc marquez"]
 LIVE_WORDS = ["en directo", "en vivo", "live"]
+
+# Un rumor dudoso (jugador desconocido, "oficial", varios jugadores...) se publica solo
+# cuando lo dicen al menos estos medios distintos. Si lo dice uno solo, espera a revisión.
+AUTO_PUBLISH_MIN_SOURCES = 2
 
 STATUS_BONUS = {"interes": 0, "negociacion": 10, "acuerdo": 25, "oficial": 100, "descartado": 0}
 
