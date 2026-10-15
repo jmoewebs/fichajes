@@ -315,9 +315,11 @@ __ANALYTICS__
 <script id="d-leagues" type="application/json">__LEAGUES__</script>
 <script id="d-players" type="application/json">__PLAYERS__</script>
 <script id="d-standings" type="application/json">__STANDINGS__</script>
+<script id="d-domains" type="application/json">__DOMAINS__</script>
 <script>const RECENT_DAYS = __RECENT_DAYS__;</script>
 <script>
 const rumors = JSON.parse(document.getElementById("d-rumors").textContent);
+const DOMAINS = JSON.parse(document.getElementById("d-domains").textContent);
 const news = JSON.parse(document.getElementById("d-news").textContent);
 const archive = JSON.parse(document.getElementById("d-archive").textContent);
 const IS_ARCHIVE = __IS_ARCHIVE__;
@@ -362,7 +364,7 @@ function outlet(url, name, small) {
   try {
     const img = new Image();
     img.alt = name; img.loading = "lazy";
-    img.src = "https://www.google.com/s2/favicons?sz=64&domain=" + new URL(url).hostname;
+    img.src = "https://www.google.com/s2/favicons?sz=64&domain=" + (DOMAINS[name] || new URL(url).hostname);
     img.onerror = () => { box.replaceChildren(initials); };
     box.append(img);
   } catch (e) { box.textContent = initials; }
@@ -895,6 +897,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__RUMORS__", _json(rumors)).replace("__NEWS__", _json(list(news)))
             .replace("__ARCHIVE__", _json(archive)).replace("__LEAGUES__", _json(config.LEAGUES))
             .replace("__PLAYERS__", _json(_players()))
+            .replace("__DOMAINS__", _json({f["source"]: f["domain"] for f in config.FEEDS if f.get("domain")}))
             .replace("__STANDINGS__", _json({} if is_archive else _standings()))
             .replace("__RECENT_DAYS__", str(config.RECENT_DAYS)).replace("__NEWS_DAYS__", str(config.NEWS_DAYS)))
     os.makedirs(os.path.dirname(path), exist_ok=True)
