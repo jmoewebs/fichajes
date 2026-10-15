@@ -219,6 +219,23 @@ table.tb { border-collapse:collapse; width:100%; font-size:15px; font-variant-nu
 /* Noticias */
 .news { list-style:none; margin:0; padding:0; background:var(--card); border:1px solid var(--line);
   border-radius:8px; }
+/* Lo más leído */
+.top-read { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:14px 16px 6px; margin:20px 0 4px; }
+.top-read .hd { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:6px; }
+.top-read h2 { font:700 22px/1 var(--cond); margin:0; }
+.seg { display:inline-flex; background:var(--soft); border-radius:20px; padding:3px; margin-left:auto; }
+.seg button { font:500 13px/1 var(--body); border:0; background:transparent; color:var(--muted); padding:6px 11px;
+  border-radius:16px; cursor:pointer; }
+.seg button[aria-pressed="true"] { background:var(--card); color:var(--ink); box-shadow:0 1px 3px rgba(0,0,0,.12); }
+.top-read ol { list-style:none; margin:0; padding:0; counter-reset:r; }
+.top-read li { display:grid; grid-template-columns:34px 1fr; gap:8px; padding:9px 0; border-top:1px solid var(--line); }
+.top-read li:first-child { border-top:0; }
+.top-read li::before { counter-increment:r; content:counter(r); font:700 28px/1 var(--cond); color:var(--hot); text-align:center; }
+.top-read li:nth-child(n+4)::before { color:var(--muted); }
+.top-read a { font-weight:500; text-decoration:none; }
+.top-read a:hover { text-decoration:underline; }
+.top-read .none { color:var(--muted); font-size:14px; padding:6px 0 10px; }
+
 details.slot { margin:8px 0; border-top:0; padding-top:0; }
 .slot > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:12px; padding:11px 16px;
   background:var(--card); border:1px solid var(--line); border-radius:8px; user-select:none; }
@@ -516,6 +533,73 @@ function dayLabel(iso) {
 function plural(n, one, many) { return n + " " + (n === 1 ? one : many); }
 function match(text, ...fields) { return !text || fields.join(" ").toLowerCase().includes(text); }
 
+
+// ---------- Lo más leído: se cuenta un clic por noticia, visitante y día ----------
+const CAN_COUNT = location.protocol !== "file:";
+const byUrl = new Map();
+for (const n of news) byUrl.set(n.url, n);
+for (const r of rumors) for (const m of r.mentions) if (!byUrl.has(m.url)) byUrl.set(m.url, {title:m.title, url:m.url, source:m.source, date:m.date});
+document.addEventListener("click", trackClick, true);
+document.addEventListener("auxclick", trackClick, true);   // clic con la rueda (abrir en pestaña nueva)
+function trackClick(e) {
+  const a = e.target.closest && e.target.closest("a[href]");
+  if (!a || !CAN_COUNT || !byUrl.has(a.href)) return;
+  const key = "clics-" + new Date().toISOString().slice(0, 10);
+  let done = [];
+  try {
+    done = JSON.parse(localStorage.getItem(key) || "[]");
+    for (let i = localStorage.length - 1; i >= 0; i--) {     // limpia los días anteriores
+      const k = localStorage.key(i);
+      if (k && k.startsWith("clics-") && k !== key) localStorage.removeItem(k);
+    }
+  } catch (err) {}
+  if (done.includes(a.href)) return;
+  const body = JSON.stringify({url: a.href});
+  const sent = navigator.sendBeacon && navigator.sendBeacon("/api/clics", new Blob([body], {type: "text/plain"}));
+  if (!sent) fetch("/api/clics", {method: "POST", body, keepalive: true}).catch(() => {});
+  done.push(a.href);
+  try { localStorage.setItem(key, JSON.stringify(done.slice(-300))); } catch (err) {}
+}
+
+let readRange = load("leido-rango", 24);
+const readCache = {};
+function loadTopRead(h) {
+  if (!CAN_COUNT || readCache[h] !== undefined) return;
+  readCache[h] = null;                                        // pidiendo...
+  fetch("/api/clics?horas=" + h).then(r => r.ok ? r.json() : {top: []})
+    .then(d => { readCache[h] = (d.top || []).map(t => byUrl.get(t.url)).filter(Boolean).slice(0, 5); })
+    .catch(() => { readCache[h] = []; })
+    .then(() => { if (tab === "news") render(); });
+}
+function topReadBox() {
+  loadTopRead(readRange);
+  const items = readCache[readRange];
+  if (!CAN_COUNT || (items && !items.length && readRange === 24 && readCache[168] && !readCache[168].length)) return null;
+  const box = el("section", "top-read"), hd = el("div", "hd");
+  hd.append(el("h2", null, "Lo más leído"));
+  const seg = el("div", "seg");
+  for (const [h, label] of [[24, "24 horas"], [168, "7 días"]]) {
+    const b = el("button", null, label);
+    b.setAttribute("aria-pressed", String(h === readRange));
+    b.addEventListener("click", () => { readRange = h; save("leido-rango", h); render(); });
+    seg.append(b);
+  }
+  hd.append(seg); box.append(hd);
+  if (!items) { box.append(el("p", "none", "Cargando…")); return box; }
+  if (!items.length) { box.append(el("p", "none", readRange === 24 ? "Todavía no hay lecturas en las últimas 24 horas." : "Todavía no hay lecturas esta semana.")); return box; }
+  const ol = el("ol");
+  for (const n of items) {
+    const li = el("li"), body = el("div"), a = el("a", null, n.title);
+    a.href = n.url; a.target = "_blank"; a.rel = "noopener";
+    const meta = el("div", "meta");
+    meta.append(outlet(n.url, n.source, true), el("span", null, n.source), el("span", "time", dayLabel(n.date) + ", " + hhmm(n.date)));
+    body.append(a, meta); li.append(body); ol.append(li);
+  }
+  box.append(ol);
+  return box;
+}
+if (CAN_COUNT) { loadTopRead(24); loadTopRead(168); }
+
 const SLOTS = [[0, 7, "Madrugada"], [7, 10, "Mañana"], [10, 13, "Mañana"], [13, 16, "Mediodía"],
                [16, 19, "Tarde"], [19, 22, "Noche"], [22, 24, "Noche"]];
 function slotOf(iso) { const h = new Date(iso).getHours(); return SLOTS.findIndex(s => h >= s[0] && h < s[1]); }
@@ -549,6 +633,7 @@ function renderNews(text, club) {
   }
   // Con un filtro activo hay pocas noticias: se abre todo. Si no, solo la franja más reciente.
   const filtered = !!(text || club || league || hidden.size);
+  if (!filtered && !day && !IS_ARCHIVE) { const tr = topReadBox(); if (tr) list.append(tr); }
   let first = true;
   for (const d of days) {
     list.append(el("h2", "day", d.label));
