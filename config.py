@@ -184,5 +184,18 @@ WEAK_KEYWORDS = {"target", "objetivo", "quiere", "move", "mercado", "salida", "p
                  "offers", "oferta", "official", "oficial", "confirmed", "completes", "joins",
                  "medical", "agree", "agreed", "renueva", "renovacion", "se queda", "rechaza"}
 
+# Titulares que hablan del PASADO (entrevistas, historias): nunca son rumores actuales
+PAST_WORDS = ["leyenda", "exjugador", "ex jugador", "historico", "recuerda", "recuerdo", "recuerdos",
+              "hace anos", "en su dia", "en su momento", "estuvo decidido", "estuvo a punto",
+              "pudo fichar", "pudo jugar", "estuvo cerca", "cuando dejo", "cuando era", "cuando jugaba",
+              "por que rechazo", "legend", "former", "when he left", "when he was", "years ago",
+              "nearly signed", "almost signed", "could have signed", "looking back", "remembers", "recalls"]
+
+# Si el nombre desconocido viene acompañado de estas palabras, no es un jugador
+STAFF_WORDS = ["director", "director deportivo", "presidente", "president", "ceo", "consejero",
+               "ejecutivo", "executive", "directivo", "secretario tecnico", "entrenador", "tecnico",
+               "manager", "head coach", "coach", "segundo entrenador", "preparador", "ojeador",
+               "scout", "fisio", "medico", "portavoz", "superliga", "a22", "chairman", "owner", "dueno"]
+
 # Expresiones que indican el club de ORIGEN cuando aparecen justo antes del club
 FROM_MARKERS = ["from", "desde el", "deja el", "dejar el", "leaves", "salida del", "saldria del", "adios al"]
