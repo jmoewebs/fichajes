@@ -24,21 +24,34 @@ def thermometer(sources, statuses):
     return min(95, base + config.STATUS_BONUS[best])
 
 
-def build(db, start=None, end=None):
-    """Rumores publicados entre start y end (ISO). Por defecto, los de los últimos WINDOW_DAYS."""
+def published_groups(db, start=None, end=None):
+    """Rumores que se publican, agrupados por (jugador, destino).
+    Un grupo sale si tiene alguna mención aprobada, o si lo cuentan al menos
+    AUTO_PUBLISH_MIN_SOURCES medios distintos (así no hace falta revisarlo a mano)."""
     start = start or (datetime.now(timezone.utc) - timedelta(days=config.WINDOW_DAYS)).isoformat()
     end = end or "9999"
     rows = db.execute(
         """SELECT r.*, i.source, i.url, i.title, i.published FROM rumors r
            JOIN items i ON i.id = r.item_id
-           WHERE r.needs_review = 0 AND i.published >= ? AND i.published < ?
+           WHERE i.published >= ? AND i.published < ?
            ORDER BY i.published DESC""",
         (start, end),
     ).fetchall()
-
-    groups = defaultdict(list)          # (jugador, destino) -> menciones
+    groups = defaultdict(list)
     for r in rows:
         groups[(r["player_slug"], r["to_club"] or "?")].append(r)
+    out = {}
+    for key, mentions in groups.items():
+        approved = any(m["needs_review"] == 0 for m in mentions)
+        corroborated = len({m["source"] for m in mentions}) >= config.AUTO_PUBLISH_MIN_SOURCES
+        if approved or corroborated:
+            out[key] = mentions
+    return out
+
+
+def build(db, start=None, end=None):
+    """Rumores publicados entre start y end (ISO). Por defecto, los de los últimos WINDOW_DAYS."""
+    groups = published_groups(db, start, end)
 
     players = defaultdict(lambda: {"name": None, "rumors": []})
     clubs = defaultdict(lambda: {"in": [], "out": []})
@@ -96,7 +109,7 @@ def build_news(db, start=None, end=None, limit=None):
         start = (datetime.now(timezone.utc) - timedelta(days=config.NEWS_DAYS)).isoformat()
         limit = limit or config.NEWS_MAX
     end = end or "9999"
-    rumor_items = {r[0] for r in db.execute("SELECT item_id FROM rumors WHERE needs_review = 0")}
+    rumor_items = {m["item_id"] for ms in published_groups(db, start, end).values() for m in ms}
     news = []
     for r in db.execute("""SELECT id, source, title, url, published FROM items
                            WHERE published >= ? AND published < ? ORDER BY published DESC""",
