@@ -6,7 +6,7 @@ import sqlite3
 import unicodedata
 import urllib.request
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 
 import config
@@ -154,6 +154,8 @@ def fetch_all(db, feeds=None):
             for it in items:   # "Titular - SPORT" -> "Titular"
                 it["title"] = re.sub(r"\s+[-–]\s+[^-–]{1,40}$", "", it["title"]).strip()
                 it["summary"] = ""   # la entradilla de Google Noticias solo repite el titular
+        too_old = (datetime.now(timezone.utc) - timedelta(days=config.MAX_AGE_DAYS)).isoformat()
+        items = [it for it in items if it["published"] >= too_old]   # noticias viejas en el feed
         added = 0
         for it in items:
             cur = db.execute(
@@ -163,5 +165,9 @@ def fetch_all(db, feeds=None):
             new += cur.rowcount
             added += cur.rowcount
         print(f"  {feed['source']}: {len(items)} titulares en el feed, {added} nuevos")
+    # Lo anterior al inicio del historial no se guarda (y se borra si ya estaba)
+    old_ids = "SELECT id FROM items WHERE published < ?"
+    db.execute(f"DELETE FROM rumors WHERE item_id IN ({old_ids})", (config.HISTORY_START,))
+    db.execute("DELETE FROM items WHERE published < ?", (config.HISTORY_START,))
     db.commit()
     return new
