@@ -28,6 +28,12 @@ with tempfile.TemporaryDirectory() as tmp:
     print("Musiala -> Barça, termómetro:", m[0]["score"], "| noticias:", len(m[0]["mentions"]))
     print("Lautaro -> Atlético:", data["players"]["lautaro-martinez"]["rumors"][0]["mentions"][0]["title"])
     print("Pendientes de revisión:", pending)
+    # Un rumor dudoso confirmado por 2 medios distintos se publica sin revisión manual
+    db.execute("INSERT INTO items (source, url, title, published, processed) VALUES "
+               "('AS', 'https://ejemplo.com/7', 'Chelsea bid for Benfica defender António Silva', ?, 0)",
+               (db.execute("SELECT published FROM items WHERE id=5").fetchone()[0],))
+    rules.extract_pending(db)
+    assert "antonio-silva" in score.build(db)["players"], "2 medios distintos deben bastar"
     # Los falsos positivos que salieron con noticias reales ya no se detectan
     P, I = rules.load_players(), rules.load_ignored()
     for bad in ["Gasperini activa su 'arma secreta' antes del Madrid",
