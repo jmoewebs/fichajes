@@ -111,8 +111,10 @@ a.chipbtn { text-decoration:none; }
 .layout.solo main { grid-column:1 !important; grid-row:auto !important; }
 .fx-intro { color:var(--muted); max-width:62ch; margin:22px 0 14px; }
 .fx-add { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:8px; }
-.fx-add input { flex:1; min-width:220px; font:inherit; padding:10px 12px; border-radius:6px;
+.fx-add textarea { flex:1 1 320px; min-width:0; font:inherit; padding:10px 12px; border-radius:6px; resize:vertical;
   border:1px solid var(--line); background:var(--card); color:var(--ink); }
+.fx-btns { display:flex; flex-direction:column; gap:8px; }
+.fx-add .fx-clear { background:transparent; color:var(--ink); border-color:var(--line); font-weight:500; }
 .fx-add button, .fx-clear { font:600 15px/1 var(--body); padding:10px 16px; border-radius:6px; cursor:pointer;
   border:1px solid var(--grass); background:var(--grass); color:#fff; }
 .fx-clear { background:transparent; color:var(--muted); border-color:var(--line); font-weight:500; }
@@ -574,20 +576,36 @@ function fxStatus(name) {
 function saveTeam() { save(FX_KEY, team); }
 
 function renderFantasy() {
-  list.append(el("p", "fx-intro", "Añade a tus titulares y te digo si hay noticias de lesión, sanción o duda en los titulares de los últimos " + __NEWS_DAYS__ + " días. Tu equipo se guarda solo en este dispositivo."));
+  list.append(el("p", "fx-intro", "Escribe tu once separado por comas y te digo si hay noticias de lesión, sanción o duda en los titulares de los últimos " + __NEWS_DAYS__ + " días. Tu equipo se guarda solo en este dispositivo."));
   const form = el("form", "fx-add");
-  const input = el("input"); input.placeholder = "Nombre del jugador, por ejemplo Lamine Yamal";
-  input.setAttribute("list", "fx-names"); input.setAttribute("aria-label", "Jugador");
-  const dl = el("datalist"); dl.id = "fx-names";
-  for (const name of Object.keys(PLAYERS).sort()) dl.append(new Option(name));
-  const add = el("button", null, "Añadir"); add.type = "submit";
-  form.append(input, add, dl);
+  const input = el("textarea"); input.rows = 2;
+  input.placeholder = "Por ejemplo: Courtois, Carvajal, Cubarsí, Koundé, Lamine Yamal, Pedri, Mbappé…";
+  input.setAttribute("aria-label", "Jugadores separados por comas");
+  const add = el("button", null, team.length ? "Añadir" : "Añadir jugadores"); add.type = "submit";
+  const replaceBtn = el("button", "fx-clear", "Sustituir mi equipo"); replaceBtn.type = "button";
+  const btns = el("div", "fx-btns"); btns.append(add);
+  if (team.length) btns.append(replaceBtn);
+  form.append(input, btns);
+  function names() {   // comas, punto y coma o saltos de línea; sin repetidos
+    const seen = new Set(), out = [];
+    for (const raw of input.value.split(/[,;\n]+/)) {
+      const v = raw.trim().replace(/\s+/g, " ");
+      if (v && !seen.has(nrm(v))) { seen.add(nrm(v)); out.push(v); }
+    }
+    return out;
+  }
   form.addEventListener("submit", e => {
     e.preventDefault();
-    const v = input.value.trim();
-    if (v && !team.some(p => nrm(p) === nrm(v))) { team.push(v); saveTeam(); }
-    render();
-    setTimeout(() => document.querySelector(".fx-add input")?.focus(), 0);
+    for (const v of names()) if (!team.some(p => nrm(p) === nrm(v))) team.push(v);
+    saveTeam(); render();
+  });
+  replaceBtn.addEventListener("click", () => {
+    const list_ = names();
+    if (!list_.length) { input.focus(); return; }
+    team = list_; saveTeam(); render();
+  });
+  input.addEventListener("keydown", e => {   // Enter añade; Mayús+Enter hace salto de línea
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); }
   });
   list.append(form);
   if (!team.length) { list.append(el("p", "empty", "Todavía no has añadido jugadores.")); return; }
