@@ -36,6 +36,8 @@ OPEN_BROWSER = True
 # Si una fuente falla verás un [aviso] y el resto seguirá funcionando.
 # "fallbacks" (opcional): otras direcciones del mismo medio que se prueban si la primera falla.
 # "domain" (opcional): web del medio, para mostrar su icono cuando el enlace pasa por otro sitio.
+# OJO: si añades un medio nuevo, añade también su dominio a ALLOWED en functions/api/clics.js
+# para que sus noticias cuenten en "Lo más leído".
 # "google_news" (opcional): el feed es de Google Noticias; se quita " - Medio" del final del titular.
 FEEDS = [
     {"source": "Marca", "url": "https://e00-marca.uecdn.es/rss/futbol.xml", "weight": 3},
