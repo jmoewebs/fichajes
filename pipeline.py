@@ -150,6 +150,10 @@ def fetch_all(db, feeds=None):
         if not items:
             print(f"[aviso] {feed['source']}: " + " | ".join(errors))
             continue
+        if feed.get("google_news"):
+            for it in items:   # "Titular - SPORT" -> "Titular"
+                it["title"] = re.sub(r"\s+[-–]\s+[^-–]{1,40}$", "", it["title"]).strip()
+                it["summary"] = ""   # la entradilla de Google Noticias solo repite el titular
         added = 0
         for it in items:
             cur = db.execute(
