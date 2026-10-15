@@ -7,6 +7,8 @@ import config
 config.FEEDS = [{"source": "Marca", "url": (ROOT / "tests" / "sample_feed.xml").as_uri(), "weight": 3}]
 config.PLAYERS_FILE = str(ROOT / "jugadores.csv")
 config.IGNORED_FILE = str(ROOT / "ignorados.txt")
+config.MAX_AGE_DAYS = 100000          # el feed de ejemplo tiene fechas fijas
+config.HISTORY_START = "2000-01-01"
 import pipeline, rules, score
 score.WEIGHTS = {"Marca": 3}
 
