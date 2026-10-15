@@ -164,7 +164,18 @@ table.tb { border-collapse:collapse; width:100%; font-size:15px; font-variant-nu
   .tb .hide-sm { display:none; }
 }
 
-.foot { border-top:1px solid var(--line); margin-top:20px; padding:22px 0 40px; font-size:14px;
+/* Ko-fi y contador */
+.pitch .wrap { padding-right:20px; }
+.kofi-top { position:absolute; top:22px; right:20px; z-index:2; }
+.kofi { display:inline-flex; align-items:center; gap:8px; font:600 15px/1 var(--body); text-decoration:none;
+  padding:9px 14px; border-radius:20px; background:#fff; color:#145a32; box-shadow:0 2px 8px rgba(0,0,0,.15); }
+.kofi:hover { background:#fff7e6; }
+.foot .kofi { box-shadow:none; border:1px solid var(--line); background:var(--card); color:var(--ink); text-decoration:none; }
+.visits { font-variant-numeric:tabular-nums; }
+.visits b { color:var(--ink); }
+@media (max-width:560px) { .kofi-top { top:14px; right:12px; } .kofi-top .kofi { padding:7px 11px; font-size:13px; } .kofi-top .kofi .long { display:none; } }
+
+.foot { border-top:1px solid var(--line); margin-top:20px; padding:22px 20px 40px; align-items:center; font-size:14px;
   color:var(--muted); display:flex; flex-wrap:wrap; gap:8px 22px; }
 .foot a, .foot button { color:var(--muted); font:inherit; background:none; border:0; padding:0;
   text-decoration:underline; cursor:pointer; }
@@ -280,6 +291,7 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
 <body>
 <header class="pitch">
   <div class="wrap">
+    __KOFI_TOP__
     <h1>__HEADING__</h1>
     <p class="updated">__TAGLINE__Actualizado el __UPDATED__. Cada titular enlaza a la noticia original.</p>
     __CRUMBS__
@@ -307,10 +319,33 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
 </div>
 <footer class="wrap foot">
   <span>Los titulares pertenecen a sus medios; cada uno enlaza a la noticia original.</span>
+  <span class="visits" id="visits" hidden></span>
+  __KOFI_FOOT__
   <a href="__ROOT__cookies.html">Política de cookies</a>
   __COOKIE_BUTTON__
 </footer>
 __ANALYTICS__
+<script>
+// Contador de visitas: suma una vez por visitante y día (refrescar o cambiar de pestaña no cuenta)
+(function () {
+  if (!__VISITS__ || location.protocol === "file:") return;
+  var KEY = "visita-contada", today = new Date().toISOString().slice(0, 10), last = null;
+  try { last = localStorage.getItem(KEY); } catch (e) {}
+  var count = last !== today;
+  fetch("/api/visitas", { method: count ? "POST" : "GET" })
+    .then(function (r) { if (!r.ok) throw r; return r.json(); })
+    .then(function (d) {
+      if (count) { try { localStorage.setItem(KEY, today); } catch (e) {} }
+      var box = document.getElementById("visits");
+      if (!box || typeof d.total !== "number") return;
+      box.textContent = "";
+      var b = document.createElement("b"); b.textContent = d.total.toLocaleString("es-ES");
+      box.append(b, d.total === 1 ? " visita" : " visitas");
+      box.hidden = false;
+    })
+    .catch(function () {});   // si el contador no responde, simplemente no se muestra
+})();
+</script>
 <script id="d-rumors" type="application/json">__RUMORS__</script>
 <script id="d-news" type="application/json">__NEWS__</script>
 <script id="d-archive" type="application/json">__ARCHIVE__</script>
@@ -893,6 +928,12 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
                      if config.GA_MEASUREMENT_ID else "")
             .replace("__COOKIE_BUTTON__", '<button id="ck-config">Configurar cookies</button>'
                      if config.GA_MEASUREMENT_ID else "")
+            .replace("__KOFI_TOP__", (f'<div class="kofi-top"><a class="kofi" href="{esc(config.KOFI_URL, quote=True)}" '
+                                      f'target="_blank" rel="noopener"><span>☕</span><span><span class="long">Invítame a un </span>café</span></a></div>')
+                     if config.KOFI_URL else "")
+            .replace("__KOFI_FOOT__", (f'<a class="kofi" href="{esc(config.KOFI_URL, quote=True)}" target="_blank" '
+                                       f'rel="noopener"><span>☕</span><span>¿Te es útil? Invítame a un café en Ko-fi</span></a>') if config.KOFI_URL else "")
+            .replace("__VISITS__", "true" if config.VISIT_COUNTER else "false")
             .replace("__ROOT__", root))
     html = (html
             .replace("__TITLE__", title).replace("__HEADING__", heading).replace("__CRUMBS__", crumbs)
@@ -1045,7 +1086,9 @@ a { color:inherit; }
 <tr><td>_ga</td><td>Google Analytics</td><td>Distinguir visitantes de forma anónima para contar cuántas personas visitan la web.</td><td>2 años</td></tr>
 <tr><td>_ga_*</td><td>Google Analytics</td><td>Mantener el estado de la visita (páginas vistas, duración).</td><td>2 años</td></tr>
 </table>
-<p>Además, la web guarda en tu navegador (no en una cookie) tu respuesta a este aviso y los filtros que elijas, como la liga o los medios ocultos, para recordarlos en tu próxima visita. Esa información no sale de tu dispositivo.</p>
+<p>Además, la web guarda en tu navegador (no en una cookie) tu respuesta a este aviso, los filtros que elijas (como la liga o los medios ocultos) y tu equipo de Fantasy, para recordarlos en tu próxima visita. Esa información no sale de tu dispositivo.</p>
+<h2>Contador de visitas</h2>
+<p>El contador del pie de página solo suma un número total. Para no contarte dos veces el mismo día, la web guarda en tu navegador la fecha de tu última visita contada. No se guarda ni se envía ningún dato que te identifique.</p>
 <h2>Google Analytics</h2>
 <p>Google Analytics es un servicio de Google que nos muestra estadísticas agregadas de uso. Google puede tratar estos datos según su propia <a href="https://policies.google.com/privacy?hl=es">política de privacidad</a>.</p>
 <h2>Cómo cambiar tu elección</h2>
