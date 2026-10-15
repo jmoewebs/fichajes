@@ -103,6 +103,32 @@ a.chipbtn { text-decoration:none; }
 .chipbtn[aria-pressed="true"] .dot { background:var(--grass-2); }
 .chipbtn.src-off .nm { color:var(--muted); text-decoration:line-through; }
 .chipbtn.src-off .src { opacity:.4; }
+/* Fantasy */
+.layout.solo { grid-template-columns:minmax(0, 860px); }
+.layout.solo .filters, .layout.solo .dates { display:none; }
+.layout.solo main { grid-column:1 !important; grid-row:auto !important; }
+.fx-intro { color:var(--muted); max-width:62ch; margin:22px 0 14px; }
+.fx-add { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:8px; }
+.fx-add input { flex:1; min-width:220px; font:inherit; padding:10px 12px; border-radius:6px;
+  border:1px solid var(--line); background:var(--card); color:var(--ink); }
+.fx-add button, .fx-clear { font:600 15px/1 var(--body); padding:10px 16px; border-radius:6px; cursor:pointer;
+  border:1px solid var(--grass); background:var(--grass); color:#fff; }
+.fx-clear { background:transparent; color:var(--muted); border-color:var(--line); font-weight:500; }
+.fx-sum { display:flex; gap:8px; flex-wrap:wrap; margin:18px 0 10px; }
+.fx-list { display:grid; gap:10px; }
+.fx { display:grid; grid-template-columns:1fr auto; gap:6px 14px; align-items:start; background:var(--card);
+  border:1px solid var(--line); border-left:5px solid var(--off); border-radius:8px; padding:14px 16px; }
+.fx.out { border-left-color:var(--hot); } .fx.doubt { border-left-color:var(--warm); }
+.fx.back { border-left-color:var(--ok); } .fx.none { border-left-color:var(--line); }
+.fx h3 { font:700 22px/1.1 var(--cond); margin:0; }
+.fx .why { grid-column:1 / -1; font-size:14px; }
+.fx .why a { font-weight:500; }
+.fx .rm { background:none; border:0; color:var(--muted); cursor:pointer; font:inherit; font-size:14px; text-decoration:underline; }
+.st-out { background:var(--hot); } .st-doubt { background:var(--warm); color:#2a1d00; }
+.st-back { background:var(--ok); }
+.status.st-none { background:var(--soft); color:var(--ink); font-weight:500; }
+.fx-note { font-size:14px; color:var(--muted); margin-top:16px; max-width:62ch; }
+
 .foot { border-top:1px solid var(--line); margin-top:20px; padding:22px 0 40px; font-size:14px;
   color:var(--muted); display:flex; flex-wrap:wrap; gap:8px 22px; }
 .foot a, .foot button { color:var(--muted); font:inherit; background:none; border:0; padding:0;
@@ -254,6 +280,7 @@ __ANALYTICS__
 <script id="d-news" type="application/json">__NEWS__</script>
 <script id="d-archive" type="application/json">__ARCHIVE__</script>
 <script id="d-leagues" type="application/json">__LEAGUES__</script>
+<script id="d-players" type="application/json">__PLAYERS__</script>
 <script>const RECENT_DAYS = __RECENT_DAYS__;</script>
 <script>
 const rumors = JSON.parse(document.getElementById("d-rumors").textContent);
@@ -271,8 +298,9 @@ let league = load("liga", "");
 const hidden = new Set(load("medios-ocultos", []));
 
 const tabs = [["news", "Noticias", news.length], ["rumors", "Rumores", rumors.length]];
+if (!IS_ARCHIVE) tabs.push(["fantasy", "Fantasy", null]);
 let tab = (location.hash || "").slice(1);
-if (!["news", "rumors"].includes(tab)) tab = rumors.length && !IS_ARCHIVE ? "rumors" : "news";
+if (!["news", "rumors", "fantasy"].includes(tab) || (tab === "fantasy" && IS_ARCHIVE)) tab = rumors.length && !IS_ARCHIVE ? "rumors" : "news";
 let day = "";   // "" = recientes (portada) o todo el mes (archivo); si no, AAAA-MM-DD
 const nav = document.getElementById("tabs");
 for (const [id, label, n] of tabs) {
@@ -470,11 +498,115 @@ function renderRumors(text, club) {
   list.append(grid);
 }
 
+
+// ---------- Fantasy: parte médico de tus titulares a partir de los titulares ----------
+const PLAYERS = JSON.parse(document.getElementById("d-players").textContent);
+const FX_KEY = "fantasy-equipo";
+let team = load(FX_KEY, []);
+const W_BACK = ["recibe el alta", "alta medica", "recuperado", "se recupera", "vuelve a entrenar",
+  "vuelve a la convocatoria", "entra en la convocatoria", "ya entrena", "back in training", "returns from injury",
+  "fit again", "available again", "disponible", "back in contention"];
+const W_SUSP = ["sancion", "sancionado", "sancionada", "suspendido", "expulsion", "expulsado", "tarjeta roja",
+  "ciclo de amarillas", "suspended", "suspension", "ban", "banned", "red card"];
+const W_OUT = ["lesion", "lesionado", "lesionada", "se pierde", "se perdera", "se perderan", "baja", "bajas",
+  "rotura", "rotura fibrilar", "esguince", "operado", "quirofano", "fuera de la convocatoria", "no convocado",
+  "injury", "injured", "ruled out", "to miss", "will miss", "misses", "sidelined", "out for", "surgery",
+  ...W_SUSP];
+const W_DOUBT = ["duda", "en duda", "molestias", "tocado", "entre algodones", "se retira", "retirado",
+  "doubt", "doubtful", "fitness test", "late fitness test", "knock", "fitness concern", "race against time"];
+
+function nrm(s) { return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim(); }
+function hasWord(t, words) { const p = " " + t + " "; return words.find(w => p.includes(" " + w + " ")); }
+function keysFor(name) {
+  const k = nrm(name), keys = new Set([k]);
+  const parts = k.split(" ");
+  if (parts.length > 1 && parts[parts.length - 1].length >= 4) keys.add(parts[parts.length - 1]);
+  for (const [full, aliases] of Object.entries(PLAYERS))
+    if (nrm(full) === k || aliases.includes(k)) { keys.add(nrm(full)); aliases.forEach(a => keys.add(a)); }
+  return [...keys].filter(x => x.length >= 3);
+}
+function fxStatus(name) {
+  const keys = keysFor(name);
+  const hits = news.filter(n => { const t = " " + nrm(n.title) + " "; return keys.some(k => t.includes(" " + k + " ")); })
+                   .sort((a, b) => b.date.localeCompare(a.date));
+  for (const h of hits) {   // manda la noticia más reciente que diga algo del estado físico
+    const t = nrm(h.title);
+    if (hasWord(t, W_BACK)) return {st:"back", label:"Recuperado", item:h};
+    if (hasWord(t, W_OUT)) return {st:"out", label: hasWord(t, W_SUSP) ? "Baja por sanción" : "Baja", item:h};
+    if (hasWord(t, W_DOUBT)) return {st:"doubt", label:"Duda", item:h};
+  }
+  return {st:"none", label:"Sin noticias de baja", item:null, count:hits.length};
+}
+function saveTeam() { save(FX_KEY, team); }
+
+function renderFantasy() {
+  list.append(el("p", "fx-intro", "Añade a tus titulares y te digo si hay noticias de lesión, sanción o duda en los titulares de los últimos " + __NEWS_DAYS__ + " días. Tu equipo se guarda solo en este dispositivo."));
+  const form = el("form", "fx-add");
+  const input = el("input"); input.placeholder = "Nombre del jugador, por ejemplo Lamine Yamal";
+  input.setAttribute("list", "fx-names"); input.setAttribute("aria-label", "Jugador");
+  const dl = el("datalist"); dl.id = "fx-names";
+  for (const name of Object.keys(PLAYERS).sort()) dl.append(new Option(name));
+  const add = el("button", null, "Añadir"); add.type = "submit";
+  form.append(input, add, dl);
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const v = input.value.trim();
+    if (v && !team.some(p => nrm(p) === nrm(v))) { team.push(v); saveTeam(); }
+    render();
+    setTimeout(() => document.querySelector(".fx-add input")?.focus(), 0);
+  });
+  list.append(form);
+  if (!team.length) { list.append(el("p", "empty", "Todavía no has añadido jugadores.")); return; }
+
+  const results = team.map(p => [p, fxStatus(p)]);
+  const order = {out:0, doubt:1, back:2, none:3};
+  results.sort((a, b) => order[a[1].st] - order[b[1].st]);
+  const sum = el("div", "fx-sum"), count = s => results.filter(r => r[1].st === s).length;
+  if (count("out")) sum.append(el("span", "status st-out", count("out") + (count("out") === 1 ? " baja" : " bajas")));
+  if (count("doubt")) sum.append(el("span", "status st-doubt", count("doubt") + (count("doubt") === 1 ? " duda" : " dudas")));
+  sum.append(el("span", "status st-none", (count("back") + count("none")) + " sin problemas conocidos"));
+  list.append(sum);
+
+  const box = el("div", "fx-list");
+  for (const [name, r] of results) {
+    const card = el("article", "fx " + r.st);
+    card.append(el("h3", null, name));
+    const right = el("div");
+    right.append(el("span", "status st-" + r.st, r.label));
+    card.append(right);
+    const why = el("div", "why");
+    if (r.item) {
+      const a = el("a", null, r.item.title); a.href = r.item.url; a.target = "_blank"; a.rel = "noopener";
+      const meta = el("div", "meta");
+      meta.append(outlet(r.item.url, r.item.source, true), el("span", null, r.item.source),
+                  el("span", "time", dayLabel(r.item.date) + ", " + hhmm(r.item.date)));
+      why.append(a, meta);
+    } else {
+      why.append(el("span", "meta", r.count ? "Aparece en " + r.count + " titular(es), ninguno habla de lesión ni sanción."
+                                           : "No aparece en los titulares recientes."));
+    }
+    const rm = el("button", "rm", "Quitar");
+    rm.addEventListener("click", () => { team = team.filter(p => p !== name); saveTeam(); render(); });
+    why.append(rm);
+    card.append(why);
+    box.append(card);
+  }
+  list.append(box);
+  const clear = el("button", "fx-clear", "Vaciar equipo");
+  clear.style.marginTop = "14px";
+  clear.addEventListener("click", () => { if (confirm("¿Quitar a todos los jugadores?")) { team = []; saveTeam(); render(); } });
+  list.append(clear);
+  list.append(el("p", "fx-note", "Se basa en los titulares de prensa, así que \"Sin noticias de baja\" no garantiza que vaya a jugar: confirma siempre la convocatoria oficial antes de cerrar tu alineación."));
+}
+
 function render() {
   const text = q.value.trim().toLowerCase(), club = sel.value;
   for (const b of nav.children) b.classList.toggle("on", b.dataset.tab === tab);
   syncFilters(); syncDays();
   list.replaceChildren();
+  document.querySelector(".layout").classList.toggle("solo", tab === "fantasy");
+  q.disabled = sel.disabled = tab === "fantasy";
+  if (tab === "fantasy") { renderFantasy(); return; }
   if (tab === "news") renderNews(text, club);
   else renderRumors(text, club);
 }
@@ -574,6 +706,18 @@ def _static_list(news, rumors, limit=60):
     return "".join(parts)
 
 
+def _players():
+    """Jugadores conocidos y sus otros nombres, para sugerirlos y reconocerlos en Fantasy."""
+    try:
+        import rules
+        out = {}
+        for alias, (name, _club) in rules.load_players():
+            out.setdefault(name, []).append(alias)
+        return out
+    except Exception:
+        return {}
+
+
 def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
            description, canonical, root):
     esc = html_lib.escape
@@ -601,6 +745,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__IS_ARCHIVE__", "true" if is_archive else "false")
             .replace("__RUMORS__", _json(rumors)).replace("__NEWS__", _json(list(news)))
             .replace("__ARCHIVE__", _json(archive)).replace("__LEAGUES__", _json(config.LEAGUES))
+            .replace("__PLAYERS__", _json(_players()))
             .replace("__RECENT_DAYS__", str(config.RECENT_DAYS)).replace("__NEWS_DAYS__", str(config.NEWS_DAYS)))
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
