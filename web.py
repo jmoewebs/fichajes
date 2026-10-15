@@ -166,14 +166,18 @@ table.tb { border-collapse:collapse; width:100%; font-size:15px; font-variant-nu
 
 /* Ko-fi y contador */
 .pitch .wrap { padding-right:20px; }
-.kofi-top { position:absolute; top:22px; right:20px; z-index:2; }
+.kofi-top { position:absolute; top:22px; right:20px; z-index:2; display:flex; flex-direction:column;
+  align-items:flex-end; gap:8px; }
+.kofi-top .visits { font-size:13px; color:#fff; background:rgba(255,255,255,.16); padding:4px 10px;
+  border-radius:20px; }
+.kofi-top .visits b { color:#fff; }
 .kofi { display:inline-flex; align-items:center; gap:8px; font:600 15px/1 var(--body); text-decoration:none;
   padding:9px 14px; border-radius:20px; background:#fff; color:#145a32; box-shadow:0 2px 8px rgba(0,0,0,.15); }
 .kofi:hover { background:#fff7e6; }
 .foot .kofi { box-shadow:none; border:1px solid var(--line); background:var(--card); color:var(--ink); text-decoration:none; }
 .visits { font-variant-numeric:tabular-nums; }
 .visits b { color:var(--ink); }
-@media (max-width:560px) { .kofi-top { top:14px; right:12px; } .kofi-top .kofi { padding:7px 11px; font-size:13px; } .kofi-top .kofi .long { display:none; } }
+@media (max-width:560px) { .kofi-top { top:14px; right:12px; gap:6px; } .kofi-top .visits { font-size:12px; padding:3px 8px; } .kofi-top .kofi { padding:7px 11px; font-size:13px; } .kofi-top .kofi .long { display:none; } }
 
 .foot { border-top:1px solid var(--line); margin-top:20px; padding:22px 20px 40px; align-items:center; font-size:14px;
   color:var(--muted); display:flex; flex-wrap:wrap; gap:8px 22px; }
@@ -215,6 +219,21 @@ table.tb { border-collapse:collapse; width:100%; font-size:15px; font-variant-nu
 /* Noticias */
 .news { list-style:none; margin:0; padding:0; background:var(--card); border:1px solid var(--line);
   border-radius:8px; }
+details.slot { margin:8px 0; border-top:0; padding-top:0; }
+.slot > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:12px; padding:11px 16px;
+  background:var(--card); border:1px solid var(--line); border-radius:8px; user-select:none; }
+.slot > summary::-webkit-details-marker { display:none; }
+.slot > summary:hover { border-color:var(--grass-2); }
+.slot .hrs { font:600 19px/1 var(--cond); font-variant-numeric:tabular-nums; color:var(--ink); }
+.slot .lbl { font-size:13px; color:var(--muted); }
+.slot .cnt { margin-left:auto; font-size:14px; color:var(--muted); font-variant-numeric:tabular-nums; }
+.slot .hrs, .slot .cnt { white-space:nowrap; }
+@media (max-width:560px) { .slot .lbl { display:none; } .slot > summary { padding:10px 12px; gap:8px; } .slot .hrs { font-size:18px; } }
+.slot .chev { width:9px; height:9px; border-right:2px solid var(--muted); border-bottom:2px solid var(--muted);
+  transform:rotate(45deg); margin:-4px 4px 0 2px; transition:transform .15s; }
+.slot[open] .chev { transform:rotate(-135deg); margin-top:4px; }
+.slot[open] > summary { border-radius:8px 8px 0 0; border-bottom-color:transparent; }
+.slot > .news { border-radius:0 0 8px 8px; border-top:0; }
 .news li { display:grid; grid-template-columns:28px 1fr; gap:12px; padding:12px 16px;
   border-top:1px solid var(--line); }
 .news li:first-child { border-top:0; }
@@ -319,7 +338,6 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
 </div>
 <footer class="wrap foot">
   <span>Los titulares pertenecen a sus medios; cada uno enlaza a la noticia original.</span>
-  <span class="visits" id="visits" hidden></span>
   __KOFI_FOOT__
   <a href="__ROOT__cookies.html">Política de cookies</a>
   __COOKIE_BUTTON__
@@ -498,22 +516,55 @@ function dayLabel(iso) {
 function plural(n, one, many) { return n + " " + (n === 1 ? one : many); }
 function match(text, ...fields) { return !text || fields.join(" ").toLowerCase().includes(text); }
 
+const SLOTS = [[0, 7, "Madrugada"], [7, 10, "Mañana"], [10, 13, "Mañana"], [13, 16, "Mediodía"],
+               [16, 19, "Tarde"], [19, 22, "Noche"], [22, 24, "Noche"]];
+function slotOf(iso) { const h = new Date(iso).getHours(); return SLOTS.findIndex(s => h >= s[0] && h < s[1]); }
+function two(n) { return String(n).padStart(2, "0") + ":00"; }
+
+function newsItem(n) {
+  const li = el("li"), body = el("div"), a = el("a", "t", n.title);
+  a.href = n.url; a.target = "_blank"; a.rel = "noopener";
+  const meta = el("div", "meta");
+  meta.append(el("span", "time", hhmm(n.date)), el("span", null, n.source));
+  if (n.live) meta.append(el("span", "tag live", "En directo"));
+  if (n.rumor) meta.append(el("span", "tag rum", "Rumor"));
+  for (const c of n.clubs) meta.append(el("span", "club", c));
+  body.append(a, meta); li.append(outlet(n.url, n.source), body);
+  return li;
+}
+
 function renderNews(text, club) {
   const shown = news.filter(n => dayOk(n.date) && (!club || n.clubs.includes(club)) && (!league || n.leagues.includes(league)) &&
                                  !hidden.has(n.source) && match(text, n.title, n.source, ...n.clubs));
   if (!shown.length) { list.append(el("p", "empty", "No hay noticias con ese filtro. Prueba con otro club o borra la búsqueda.")); return; }
-  let current = null, ul = null;
+  // Día -> franja -> noticias (ya vienen de la más reciente a la más antigua)
+  const days = [];
   for (const n of shown) {
-    const label = dayLabel(n.date);
-    if (label !== current) { current = label; list.append(el("h2", "day", label)); ul = el("ul", "news"); list.append(ul); }
-    const li = el("li"), body = el("div"), a = el("a", "t", n.title);
-    a.href = n.url; a.target = "_blank"; a.rel = "noopener";
-    const meta = el("div", "meta");
-    meta.append(el("span", "time", hhmm(n.date)), el("span", null, n.source));
-    if (n.live) meta.append(el("span", "tag live", "En directo"));
-    if (n.rumor) meta.append(el("span", "tag rum", "Rumor"));
-    for (const c of n.clubs) meta.append(el("span", "club", c));
-    body.append(a, meta); li.append(outlet(n.url, n.source), body); ul.append(li);
+    const label = dayLabel(n.date), s = slotOf(n.date);
+    let d = days[days.length - 1];
+    if (!d || d.label !== label) { d = {label, slots: []}; days.push(d); }
+    let sl = d.slots[d.slots.length - 1];
+    if (!sl || sl.idx !== s) { sl = {idx: s, items: []}; d.slots.push(sl); }
+    sl.items.push(n);
+  }
+  // Con un filtro activo hay pocas noticias: se abre todo. Si no, solo la franja más reciente.
+  const filtered = !!(text || club || league || hidden.size);
+  let first = true;
+  for (const d of days) {
+    list.append(el("h2", "day", d.label));
+    for (const sl of d.slots) {
+      const [from, to, name] = SLOTS[sl.idx];
+      const det = el("details", "slot");
+      det.open = filtered || first; first = false;
+      const sum = el("summary");
+      sum.append(el("span", "hrs", two(from) + " – " + two(to)), el("span", "lbl", name),
+                 el("span", "cnt", sl.items.length + (sl.items.length === 1 ? " noticia" : " noticias")),
+                 el("span", "chev"));
+      const ul = el("ul", "news");
+      for (const n of sl.items) ul.append(newsItem(n));
+      det.append(sum, ul);
+      list.append(det);
+    }
   }
 }
 
@@ -928,9 +979,10 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
                      if config.GA_MEASUREMENT_ID else "")
             .replace("__COOKIE_BUTTON__", '<button id="ck-config">Configurar cookies</button>'
                      if config.GA_MEASUREMENT_ID else "")
-            .replace("__KOFI_TOP__", (f'<div class="kofi-top"><a class="kofi" href="{esc(config.KOFI_URL, quote=True)}" '
-                                      f'target="_blank" rel="noopener"><span>☕</span><span><span class="long">Invítame a un </span>café</span></a></div>')
-                     if config.KOFI_URL else "")
+            .replace("__KOFI_TOP__", '<div class="kofi-top">' + (
+                         f'<a class="kofi" href="{esc(config.KOFI_URL, quote=True)}" target="_blank" rel="noopener">'
+                         f'<span>☕</span><span><span class="long">Invítame a un </span>café</span></a>'
+                         if config.KOFI_URL else "") + '<span class="visits" id="visits" hidden></span></div>')
             .replace("__KOFI_FOOT__", (f'<a class="kofi" href="{esc(config.KOFI_URL, quote=True)}" target="_blank" '
                                        f'rel="noopener"><span>☕</span><span>¿Te es útil? Invítame a un café en Ko-fi</span></a>') if config.KOFI_URL else "")
             .replace("__VISITS__", "true" if config.VISIT_COUNTER else "false")
