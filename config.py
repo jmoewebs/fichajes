@@ -3,9 +3,11 @@
 # Datos de la web para Google y redes sociales
 SITE_URL = "https://rumoresyfichajes.pages.dev"   # sin barra al final; cámbialo si usas otro dominio
 SITE_NAME = "Rumores y Fichajes"
-SITE_DESCRIPTION = ("Noticias de fútbol y rumores de fichajes de LaLiga, Premier League, Serie A, "
-                    "Bundesliga y Ligue 1, actualizados cada hora, con un termómetro que mide "
-                    "lo caliente que está cada rumor.")
+# Lo que Google muestra: título (máx. ~60 caracteres) y descripción (máx. ~155)
+SITE_TITLE = "Rumores y Fichajes | Fichajes y rumores de fútbol de hoy"
+SITE_DESCRIPTION = ("Rumores de fichajes de LaLiga, Premier y Serie A con termómetro de probabilidad, "
+                    "clasificaciones y noticias de Marca, AS y Sport actualizadas cada hora.")
+SITE_TAGLINE = "Fichajes, rumores y noticias de fútbol, actualizados cada hora."
 # Código de verificación de Google Search Console (solo el valor de content="...")
 GOOGLE_VERIFICATION = "UlSzLwyxSoXaFmkbcCi2i-11eWegnuhRbMtCd54l2CU"
 
@@ -49,6 +51,8 @@ IGNORED_FILE = "ignorados.txt"
 MODEL = "claude-haiku-5-5"   # solo si EXTRACTOR = "claude"
 BATCH_SIZE = 20
 SUMMARY_MAX_CHARS = 280      # solo guardamos una entradilla breve, nunca el artículo
+MAX_AGE_DAYS = 30            # se ignoran las noticias más antiguas que esto al descargarlas
+HISTORY_START = "2026-09-15"  # se borra lo anterior a esta fecha (noticias viejas colada en los feeds)
 WINDOW_DAYS = 45             # rumores que cuentan para el termómetro
 NEWS_DAYS = 14               # días que aparecen en la columna de fechas de la portada
 RECENT_DAYS = 3              # días que se ven en la vista "Recientes"
