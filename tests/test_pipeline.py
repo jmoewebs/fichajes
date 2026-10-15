@@ -42,8 +42,13 @@ with tempfile.TemporaryDirectory() as tmp:
                 "The star is Luis Enrique - inside the plans to keep PSG at the top",
                 "Huijsen vuelve a Roma tras su negro derbi",
                 "El jugador del Bayern que comparan con Rodri y sueña con el Balón de Oro",
-                "Bretos, muy tranquilo con Kubo, Gorrotxa, Oyarzabal y la renovación de Remiro"]:
+                "Bretos, muy tranquilo con Kubo, Gorrotxa, Oyarzabal y la renovación de Remiro",
+                "Why Souness rejected Barcelona when he left Liverpool",
+                "Francesco Totti, leyenda de la Roma: 'Mi fichaje por el Real Madrid estuvo decidido al 80%'",
+                "El Real Madrid ficha al director ejecutivo Bernd Reichart"]:
         assert rules.extract_one(bad, "oferta de fichaje", P, I) == [], bad
+    # Y los rumores reales de nombres desconocidos se siguen detectando
+    assert rules.extract_one("El Getafe ya negocia el fichaje de Jadon Sancho", "", P, I), "Sancho sí es un rumor"
     db.close()
     os.chdir(ROOT)
 print("OK: todas las pruebas pasan")
