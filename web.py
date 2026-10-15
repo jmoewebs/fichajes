@@ -20,6 +20,8 @@ TEMPLATE = r"""<!DOCTYPE html>
 <link rel="canonical" href="__CANONICAL__">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="__SITE_NAME__">
+<meta name="application-name" content="__SITE_NAME__">
+<meta name="apple-mobile-web-app-title" content="__SITE_NAME__">
 <meta property="og:title" content="__TITLE__">
 <meta property="og:description" content="__DESCRIPTION__">
 <meta property="og:url" content="__CANONICAL__">
@@ -279,7 +281,7 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
 <header class="pitch">
   <div class="wrap">
     <h1>__HEADING__</h1>
-    <p class="updated">Actualizado el __UPDATED__. Cada titular enlaza a la noticia original.</p>
+    <p class="updated">__TAGLINE__Actualizado el __UPDATED__. Cada titular enlaza a la noticia original.</p>
     __CRUMBS__
     <div class="tools">
       <input id="q" type="search" placeholder="Buscar jugador, club o medio" aria-label="Buscar">
@@ -870,16 +872,18 @@ def _players():
 
 
 def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
-           description, canonical, root):
+           description, canonical, root, tagline=""):
     esc = html_lib.escape
     verification = (f'<meta name="google-site-verification" content="{esc(config.GOOGLE_VERIFICATION, quote=True)}">'
                     if config.GOOGLE_VERIFICATION else "")
     ld = {"@context": "https://schema.org", "@type": "WebSite", "name": config.SITE_NAME,
-          "url": config.SITE_URL + "/", "inLanguage": "es", "description": config.SITE_DESCRIPTION}
+          "alternateName": ["RumoresyFichajes", "Rumores y Fichajes de fútbol"],
+          "url": config.SITE_URL + "/", "inLanguage": "es-ES", "description": config.SITE_DESCRIPTION}
     html = (TEMPLATE
             .replace("__DESCRIPTION__", esc(description, quote=True))
             .replace("__CANONICAL__", esc(canonical, quote=True))
             .replace("__SITE_NAME__", esc(config.SITE_NAME, quote=True))
+            .replace("__TAGLINE__", esc(tagline) + " " if tagline else "")
             .replace("__SITE_URL__", config.SITE_URL)
             .replace("__ROOT__", root)
             .replace("__VERIFICATION__", verification)
@@ -911,8 +915,8 @@ def generate(data, news=(), months=(), out_dir="web"):
     archive = _archive(months, prefix="archivo/")
     write_static(months, out_dir)
     return _write(os.path.join(out_dir, "index.html"),
-                  title=f"{config.SITE_NAME}: noticias de fútbol y rumores del mercado",
-                  heading="Fútbol: noticias y rumores", crumbs="", rumors=_flatten(data),
+                  title=config.SITE_TITLE, tagline=config.SITE_TAGLINE,
+                  heading=config.SITE_NAME, crumbs="", rumors=_flatten(data),
                   news=news, archive=archive, is_archive=False,
                   description=config.SITE_DESCRIPTION, canonical=config.SITE_URL + "/", root="")
 
