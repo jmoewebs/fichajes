@@ -4,6 +4,7 @@
     python run.py review          # ver rumores pendientes de revisión
     python run.py approve 12 15   # aprobar rumores por número
     python run.py reject 13 14    # descartar rumores por número
+    python run.py clasificacion   # descargar ya clasificaciones y goleadores (necesita la clave)
     python run.py rehacer         # volver a analizar todos los titulares con las reglas actuales
     python run.py fetch | extract | export   # pasos sueltos
 """
@@ -43,6 +44,9 @@ def main(argv):
         print(f"Rumores detectados de nuevo: {extract(db)}")
         n, pending, page = score.export(db, all_months=True)
         print(f"Jugadores en la página: {n} · pendientes de revisión: {pending}")
+    if cmd in ("all", "clasificacion"):
+        import standings
+        print("Clasificaciones:", standings.update_if_due(force=(cmd == "clasificacion")))
     if cmd in ("all", "extract"):
         print(f"Rumores detectados: {extract(db)}")
     if cmd in ("all", "export"):
