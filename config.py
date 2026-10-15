@@ -11,6 +11,11 @@ SITE_TAGLINE = "Fichajes, rumores y noticias de fútbol, actualizados cada hora.
 # Código de verificación de Google Search Console (solo el valor de content="...")
 GOOGLE_VERIFICATION = "UlSzLwyxSoXaFmkbcCi2i-11eWegnuhRbMtCd54l2CU"
 
+# Ko-fi para donaciones (vacío = sin botón)
+KOFI_URL = "https://ko-fi.com/generadorplus"
+# Contador de visitas (necesita el KV "VISITAS" vinculado al proyecto en Cloudflare)
+VISIT_COUNTER = True
+
 # ID de medición de Google Analytics (empieza por G-). Vacío = sin Analytics ni aviso de cookies
 GA_MEASUREMENT_ID = "G-LJ44H4TZ4Y"
 
