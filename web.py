@@ -76,6 +76,8 @@ h1 { font:700 clamp(34px,6vw,52px)/.95 var(--cond); margin:0; letter-spacing:-.0
 .tab:hover { opacity:1; }
 .tab.on { background:var(--chalk); color:var(--ink); opacity:1; }
 .tab .n { font-weight:500; opacity:.6; margin-left:4px; }
+.sm-only { display:none; }
+@media (max-width:560px) { .sm-only { display:inline; } .lg-only { display:none; } }
 
 main { padding:6px 0 60px; max-width:860px; }
 .layout { display:grid; grid-template-columns:210px minmax(0, 1fr) 200px; gap:36px; align-items:start; }
@@ -128,6 +130,35 @@ a.chipbtn { text-decoration:none; }
 .st-back { background:var(--ok); }
 .status.st-none { background:var(--soft); color:var(--ink); font-weight:500; }
 .fx-note { font-size:14px; color:var(--muted); margin-top:16px; max-width:62ch; }
+
+/* Clasificación */
+.lg-pick { display:flex; flex-wrap:wrap; gap:6px; margin:22px 0 6px; }
+.lg-pick button { font:500 15px/1 var(--body); padding:8px 14px; border-radius:20px; cursor:pointer;
+  border:1px solid var(--line); background:var(--card); color:var(--ink); }
+.lg-pick button[aria-pressed="true"] { background:var(--grass); border-color:var(--grass); color:#fff; }
+.tb-h { font:700 26px/1.1 var(--cond); margin:26px 0 10px; display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+.tb-h small { font:500 15px/1 var(--body); color:var(--muted); }
+.tb-wrap { overflow-x:auto; background:var(--card); border:1px solid var(--line); border-radius:8px; }
+table.tb { border-collapse:collapse; width:100%; font-size:15px; font-variant-numeric:tabular-nums; }
+.tb th { font:600 13px/1 var(--body); color:var(--muted); text-align:right; padding:10px 8px; border-bottom:1px solid var(--line); white-space:nowrap; }
+.tb td { padding:9px 8px; text-align:right; border-top:1px solid var(--line); white-space:nowrap; }
+.tb tr:first-child td { border-top:0; }
+.tb th.l, .tb td.l { text-align:left; }
+.tb td.pos { color:var(--muted); width:28px; }
+.tb td.team { font-weight:600; }
+.tb td.pts { font-weight:700; font-size:16px; }
+.tb td.big { font:700 18px/1 var(--cond); }
+.tb .sub { color:var(--muted); font-size:13px; }
+.form { display:inline-flex; gap:3px; }
+.form i { width:18px; height:18px; border-radius:4px; display:inline-grid; place-items:center; font:700 11px/1 var(--body);
+  font-style:normal; color:#fff; background:var(--off); }
+.form i.W { background:var(--ok); } .form i.L { background:var(--hot); }
+.tb-two { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.tb-note { font-size:13px; color:var(--muted); margin:8px 0 0; }
+@media (max-width:720px) {
+  .tb-two { grid-template-columns:1fr; }
+  .tb .hide-sm { display:none; }
+}
 
 .foot { border-top:1px solid var(--line); margin-top:20px; padding:22px 0 40px; font-size:14px;
   color:var(--muted); display:flex; flex-wrap:wrap; gap:8px 22px; }
@@ -281,6 +312,7 @@ __ANALYTICS__
 <script id="d-archive" type="application/json">__ARCHIVE__</script>
 <script id="d-leagues" type="application/json">__LEAGUES__</script>
 <script id="d-players" type="application/json">__PLAYERS__</script>
+<script id="d-standings" type="application/json">__STANDINGS__</script>
 <script>const RECENT_DAYS = __RECENT_DAYS__;</script>
 <script>
 const rumors = JSON.parse(document.getElementById("d-rumors").textContent);
@@ -298,13 +330,15 @@ let league = load("liga", "");
 const hidden = new Set(load("medios-ocultos", []));
 
 const tabs = [["news", "Noticias", news.length], ["rumors", "Rumores", rumors.length]];
-if (!IS_ARCHIVE) tabs.push(["fantasy", "Fantasy", null]);
+if (!IS_ARCHIVE) tabs.push(["table", "Clasificación", null], ["fantasy", "Fantasy", null]);
 let tab = (location.hash || "").slice(1);
-if (!["news", "rumors", "fantasy"].includes(tab) || (tab === "fantasy" && IS_ARCHIVE)) tab = rumors.length && !IS_ARCHIVE ? "rumors" : "news";
+if (!["news", "rumors", "table", "fantasy"].includes(tab) || (["table", "fantasy"].includes(tab) && IS_ARCHIVE)) tab = rumors.length && !IS_ARCHIVE ? "rumors" : "news";
 let day = "";   // "" = recientes (portada) o todo el mes (archivo); si no, AAAA-MM-DD
 const nav = document.getElementById("tabs");
 for (const [id, label, n] of tabs) {
-  const b = el("button", "tab", label); b.dataset.tab = id;
+  const b = el("button", "tab"); b.dataset.tab = id;
+  if (id === "table") b.append(el("span", "lg-only", label), el("span", "sm-only", "Tabla"));
+  else b.append(label);
   if (n !== null) b.append(el("span", "n", String(n)));
   b.addEventListener("click", () => { tab = id; history.replaceState(null, "", "#" + id); render(); });
   nav.append(b);
@@ -599,14 +633,102 @@ function renderFantasy() {
   list.append(el("p", "fx-note", "Se basa en los titulares de prensa, así que \"Sin noticias de baja\" no garantiza que vaya a jugar: confirma siempre la convocatoria oficial antes de cerrar tu alineación."));
 }
 
+// ---------- Clasificación, goleadores y asistentes ----------
+const STANDINGS = JSON.parse(document.getElementById("d-standings").textContent);
+let tableLeague = load("liga-tabla", "LaLiga");
+const FORM = {W:"G", D:"E", L:"P"};
+
+function cell(tag, text, cls) { const c = el(tag, cls, text === null || text === undefined ? "" : String(text)); return c; }
+function makeTable(headers, rows) {
+  const wrap = el("div", "tb-wrap"), t = el("table", "tb"), thead = el("thead"), tr = el("tr");
+  for (const [label, cls, title] of headers) { const th = cell("th", label, cls); if (title) th.title = title; tr.append(th); }
+  thead.append(tr); t.append(thead);
+  const tbody = el("tbody");
+  for (const r of rows) tbody.append(r);
+  t.append(tbody); wrap.append(t);
+  return wrap;
+}
+
+function renderTable() {
+  const leagues = Object.keys(STANDINGS);
+  if (!leagues.length) {
+    list.append(el("p", "empty", "La clasificación todavía no está disponible. Aparecerá en la próxima actualización."));
+    return;
+  }
+  if (!leagues.includes(tableLeague)) tableLeague = leagues[0];
+  const pick = el("div", "lg-pick");
+  for (const lg of leagues) {
+    const b = el("button", null, lg);
+    b.setAttribute("aria-pressed", String(lg === tableLeague));
+    b.addEventListener("click", () => { tableLeague = lg; save("liga-tabla", lg); render(); });
+    pick.append(b);
+  }
+  list.append(pick);
+  const d = STANDINGS[tableLeague];
+
+  // Clasificación
+  const h = el("h2", "tb-h", "Clasificación de " + tableLeague);
+  if (d.matchday) h.append(el("small", null, "Jornada " + d.matchday));
+  list.append(h);
+  const rows = d.table.map(t => {
+    const tr = el("tr");
+    tr.append(cell("td", t.pos, "pos"), cell("td", t.team, "l team"), cell("td", t.played),
+              cell("td", t.won, "hide-sm"), cell("td", t.draw, "hide-sm"), cell("td", t.lost, "hide-sm"),
+              cell("td", t.gf, "hide-sm"), cell("td", t.ga, "hide-sm"),
+              cell("td", (t.gd > 0 ? "+" : "") + t.gd), cell("td", t.points, "pts"));
+    const f = el("td", "hide-sm"), box = el("span", "form");
+    for (const r of (t.form || "").split(",").filter(Boolean).slice(-5)) {
+      const i = el("i", r, FORM[r] || r); i.title = {W:"Ganado", D:"Empatado", L:"Perdido"}[r] || r; box.append(i);
+    }
+    f.append(box); tr.append(f);
+    return tr;
+  });
+  list.append(makeTable([["#", "l"], ["Equipo", "l"], ["PJ", "", "Partidos jugados"], ["G", "hide-sm", "Ganados"],
+    ["E", "hide-sm", "Empatados"], ["P", "hide-sm", "Perdidos"], ["GF", "hide-sm", "Goles a favor"],
+    ["GC", "hide-sm", "Goles en contra"], ["DG", "", "Diferencia de goles"], ["Pts", ""], ["Últimos 5", "hide-sm"]], rows));
+
+  // Goleadores y asistentes
+  const two = el("div", "tb-two");
+  const goals = [...d.scorers].sort((a, b) => b.goals - a.goals || a.played - b.played).slice(0, 20);
+  const gBox = el("div");
+  gBox.append(el("h2", "tb-h", "Goleadores"));
+  gBox.append(makeTable([["#", "l"], ["Jugador", "l"], ["Goles", ""]], goals.map((s, i) => {
+    const tr = el("tr"), who = el("td", "l");
+    who.append(el("div", null, s.player), el("div", "sub", s.team));
+    const g = cell("td", s.goals, "big");
+    if (s.penalties) g.title = s.penalties + " de penalti";
+    tr.append(cell("td", i + 1, "pos"), who, g);
+    return tr;
+  })));
+  const assists = d.scorers.filter(s => s.assists > 0).sort((a, b) => b.assists - a.assists || b.goals - a.goals).slice(0, 20);
+  const aBox = el("div");
+  aBox.append(el("h2", "tb-h", "Asistentes"));
+  if (assists.length) {
+    aBox.append(makeTable([["#", "l"], ["Jugador", "l"], ["Asist.", ""]], assists.map((s, i) => {
+      const tr = el("tr"), who = el("td", "l");
+      who.append(el("div", null, s.player), el("div", "sub", s.team));
+      tr.append(cell("td", i + 1, "pos"), who, cell("td", s.assists, "big"));
+      return tr;
+    })));
+    aBox.append(el("p", "tb-note", "Calculado entre los máximos goleadores de la liga: no incluye a quien da asistencias sin haber marcado."));
+  } else aBox.append(el("p", "empty", "Sin datos de asistencias todavía."));
+  two.append(gBox, aBox);
+  list.append(two);
+  const upd = d.updated ? new Date(d.updated).toLocaleString("es-ES", {day:"numeric", month:"long", hour:"2-digit", minute:"2-digit"}) : "";
+  const src = el("p", "tb-note", "Datos de football-data.org" + (upd ? ", actualizados el " + upd + "." : "."));
+  list.append(src);
+}
+
 function render() {
   const text = q.value.trim().toLowerCase(), club = sel.value;
   for (const b of nav.children) b.classList.toggle("on", b.dataset.tab === tab);
   syncFilters(); syncDays();
   list.replaceChildren();
-  document.querySelector(".layout").classList.toggle("solo", tab === "fantasy");
-  q.disabled = sel.disabled = tab === "fantasy";
+  const solo = tab === "fantasy" || tab === "table";
+  document.querySelector(".layout").classList.toggle("solo", solo);
+  q.disabled = sel.disabled = solo;
   if (tab === "fantasy") { renderFantasy(); return; }
+  if (tab === "table") { renderTable(); return; }
   if (tab === "news") renderNews(text, club);
   else renderRumors(text, club);
 }
@@ -706,6 +828,15 @@ def _static_list(news, rumors, limit=60):
     return "".join(parts)
 
 
+def _standings():
+    try:
+        import standings
+        data = standings.load()
+        return {k: v for k, v in data.items() if not k.startswith("_")}
+    except Exception:
+        return {}
+
+
 def _players():
     """Jugadores conocidos y sus otros nombres, para sugerirlos y reconocerlos en Fantasy."""
     try:
@@ -746,6 +877,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__RUMORS__", _json(rumors)).replace("__NEWS__", _json(list(news)))
             .replace("__ARCHIVE__", _json(archive)).replace("__LEAGUES__", _json(config.LEAGUES))
             .replace("__PLAYERS__", _json(_players()))
+            .replace("__STANDINGS__", _json({} if is_archive else _standings()))
             .replace("__RECENT_DAYS__", str(config.RECENT_DAYS)).replace("__NEWS_DAYS__", str(config.NEWS_DAYS)))
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
