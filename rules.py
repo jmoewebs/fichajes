@@ -153,6 +153,9 @@ def extract_one(title, summary, players, ignored=frozenset()):
     status, strong = detect_status(title_n)
     if not status:          # la palabra clave tiene que estar en el titular
         return []
+    padded = f" {' '.join(title_n.split())} "
+    if any(f" {w} " in padded for w in config.PAST_WORDS):
+        return []           # historia o entrevista sobre el pasado, no un rumor de ahora
     clubs = _find_all(title_n, CLUB_INDEX)
     found_players = {}
     for s, e, (name, club) in _find_all(title_n, players):
@@ -171,7 +174,8 @@ def extract_one(title, summary, players, ignored=frozenset()):
             rumors.append({"player": name, "from_club": from_club, "to_club": to_club,
                            "status": status, "fee_eur_m": fee,
                            "uncertain": several})
-    elif clubs and strong:   # nombre desconocido: exigimos más pruebas
+    elif clubs and strong and not any(f" {w} " in padded for w in config.STAFF_WORDS):
+        # nombre desconocido: exigimos más pruebas, y que no sea un directivo o técnico
         name = guess_name(title, title_n, clubs)
         name_n = f" {' '.join(norm(name).split())} " if name else ""
         if name and not any(f" {i} " in name_n for i in ignored):
