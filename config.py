@@ -27,12 +27,15 @@ OPEN_BROWSER = True
 
 # Fuentes RSS. "weight" = fiabilidad de 1 (baja) a 5 (alta). Ajústalo con el tiempo.
 # Si una fuente falla verás un [aviso] y el resto seguirá funcionando.
+# "fallbacks" (opcional): otras direcciones del mismo medio que se prueban si la primera falla.
 FEEDS = [
     {"source": "Marca", "url": "https://e00-marca.uecdn.es/rss/futbol.xml", "weight": 3},
     {"source": "AS", "url": "https://feeds.as.com/mrss-s/pages/as/site/as.com/section/futbol/portada/", "weight": 3},
     {"source": "Mundo Deportivo", "url": "https://www.mundodeportivo.com/feed/rss/futbol", "weight": 3},
     {"source": "Mundo Deportivo", "url": "https://www.mundodeportivo.com/feed/rss/futbol/internacional", "weight": 3},
-    {"source": "Sport", "url": "https://www.sport.es/es/rss/last-news/news.xml", "weight": 2},
+    {"source": "Sport", "url": "https://www.sport.es/es/rss/last-news/news.xml", "weight": 2,
+     "fallbacks": ["https://www.sport.es/es/rss/last_news/rss.xml",
+                   "https://www.sport.es/es/rss/futbol/rss.xml"]},
     {"source": "BBC Sport", "url": "https://feeds.bbci.co.uk/sport/football/rss.xml", "weight": 4},
     {"source": "Sky Sports", "url": "https://www.skysports.com/rss/12040", "weight": 4},
 ]
