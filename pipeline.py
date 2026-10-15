@@ -37,6 +37,13 @@ CREATE INDEX IF NOT EXISTS idx_rumors_player ON rumors(player_slug);
 
 ATOM = "{http://www.w3.org/2005/Atom}"
 
+# Nos identificamos como lector de noticias; algunos medios rechazan peticiones sin este formato
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (compatible; RumoresYFichajes/1.0; +https://rumoresyfichajes.pages.dev)",
+    "Accept": "application/rss+xml, application/xml;q=0.9, text/xml;q=0.8, */*;q=0.5",
+    "Accept-Language": "es-ES,es;q=0.9,en;q=0.6",
+}
+
 
 def connect(path=None):
     db = sqlite3.connect(path or config.DB_PATH)
@@ -129,18 +136,28 @@ def fetch_all(db, feeds=None):
     """Descarga todos los feeds y guarda los titulares nuevos. Devuelve cuántos son nuevos."""
     new = 0
     for feed in feeds or config.FEEDS:
-        try:
-            req = urllib.request.Request(feed["url"], headers={"User-Agent": "RumorTracker/0.1"})
-            with urllib.request.urlopen(req, timeout=20) as r:
-                items = parse_feed(r.read())
-        except Exception as exc:  # un feed caído no debe parar el resto
-            print(f"[aviso] {feed['source']}: {exc}")
+        items, errors = None, []
+        for url in [feed["url"]] + feed.get("fallbacks", []):
+            try:
+                req = urllib.request.Request(url, headers=HEADERS)
+                with urllib.request.urlopen(req, timeout=20) as r:
+                    items = parse_feed(r.read())
+                if items:
+                    break
+                errors.append(f"{url}: sin titulares")
+            except Exception as exc:  # un feed caído no debe parar el resto
+                errors.append(f"{url}: {exc}")
+        if not items:
+            print(f"[aviso] {feed['source']}: " + " | ".join(errors))
             continue
+        added = 0
         for it in items:
             cur = db.execute(
                 "INSERT OR IGNORE INTO items (source, url, title, summary, published) VALUES (?,?,?,?,?)",
                 (feed["source"], it["url"], it["title"], it["summary"], it["published"]),
             )
             new += cur.rowcount
+            added += cur.rowcount
+        print(f"  {feed['source']}: {len(items)} titulares en el feed, {added} nuevos")
     db.commit()
     return new
