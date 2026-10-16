@@ -967,9 +967,13 @@ function renderTable() {
     f.append(box); tr.append(f);
     return tr;
   });
-  list.append(makeTable([["#", "l"], ["Equipo", "l"], ["PJ", "", "Partidos jugados"], ["G", "hide-sm", "Ganados"],
+  const hasForm = d.table.some(t => t.form);
+  if (!hasForm) for (const r of rows) r.lastChild.remove();   // sin datos de racha: fuera la columna
+  const headers = [["#", "l"], ["Equipo", "l"], ["PJ", "", "Partidos jugados"], ["G", "hide-sm", "Ganados"],
     ["E", "hide-sm", "Empatados"], ["P", "hide-sm", "Perdidos"], ["GF", "hide-sm", "Goles a favor"],
-    ["GC", "hide-sm", "Goles en contra"], ["DG", "", "Diferencia de goles"], ["Pts", ""], ["Últimos 5", "hide-sm"]], rows));
+    ["GC", "hide-sm", "Goles en contra"], ["DG", "", "Diferencia de goles"], ["Pts", ""]];
+  if (hasForm) headers.push(["Últimos 5", "hide-sm", "Del más antiguo (izquierda) al más reciente (derecha)"]);
+  list.append(makeTable(headers, rows));
 
   // Goleadores y asistentes
   const two = el("div", "tb-two");
