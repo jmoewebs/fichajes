@@ -59,10 +59,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 /* Cabecera: césped con las líneas de cal del centro del campo */
 .pitch { position:relative; overflow:hidden; color:#fff;
   background:repeating-linear-gradient(90deg, var(--grass) 0 80px, var(--grass-2) 80px 160px); }
-.pitch::before { content:""; position:absolute; top:-90px; right:8%; width:240px; height:240px;
-  border:3px solid rgba(255,255,255,.28); border-radius:50%; }
-.pitch::after { content:""; position:absolute; top:0; bottom:0; right:calc(8% + 120px);
-  border-left:3px solid rgba(255,255,255,.28); }
+/* Línea de medio campo justo en el borde derecho del contenido: la columna derecha termina en ella */
+.halfway { position:absolute; top:0; bottom:0; right:18.5px; width:3px; background:rgba(255,255,255,.28);
+  z-index:-1; pointer-events:none; }
+.halfway::before { content:""; position:absolute; top:-90px; left:-120px; width:240px; height:240px;
+  box-sizing:border-box; border:3px solid rgba(255,255,255,.28); border-radius:50%; }
 .pitch .wrap { position:relative; z-index:1; padding-top:30px; }
 h1 { font:700 clamp(34px,6vw,52px)/.95 var(--cond); margin:0; letter-spacing:-.005em; }
 .updated { margin:8px 0 0; font-size:14px; opacity:.85; }
@@ -356,6 +357,7 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
 <body>
 <header class="pitch">
   <div class="wrap">
+    <div class="halfway" aria-hidden="true"></div>
     __KOFI_TOP__
     <h1>__HEADING__</h1>
     <p class="updated">__TAGLINE__Actualizado el __UPDATED__. Cada titular enlaza a la noticia original.</p>
