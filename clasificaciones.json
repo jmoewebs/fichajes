@@ -3,6 +3,7 @@
   "matchday": 9,
   "table": [
    {
+    "id": 81,
     "pos": 1,
     "team": "Barça",
     "played": 8,
@@ -13,9 +14,10 @@
     "ga": 7,
     "gd": 27,
     "points": 24,
-    "form": ""
+    "form": "W,W,W,W,W"
    },
    {
+    "id": 78,
     "pos": 2,
     "team": "Atleti",
     "played": 8,
@@ -26,9 +28,10 @@
     "ga": 8,
     "gd": 10,
     "points": 19,
-    "form": ""
+    "form": "L,W,W,W,W"
    },
    {
+    "id": 90,
     "pos": 3,
     "team": "Real Betis",
     "played": 8,
@@ -39,9 +42,10 @@
     "ga": 9,
     "gd": 5,
     "points": 19,
-    "form": ""
+    "form": "W,W,W,D,W"
    },
    {
+    "id": 86,
     "pos": 4,
     "team": "Real Madrid",
     "played": 8,
@@ -52,9 +56,10 @@
     "ga": 8,
     "gd": 11,
     "points": 18,
-    "form": ""
+    "form": "L,W,W,L,W"
    },
    {
+    "id": 559,
     "pos": 5,
     "team": "Sevilla FC",
     "played": 8,
@@ -65,9 +70,10 @@
     "ga": 12,
     "gd": 1,
     "points": 14,
-    "form": ""
+    "form": "D,W,W,L,D"
    },
    {
+    "id": 92,
     "pos": 6,
     "team": "Real Sociedad",
     "played": 8,
@@ -78,9 +84,10 @@
     "ga": 15,
     "gd": -3,
     "points": 13,
-    "form": ""
+    "form": "D,W,L,W,W"
    },
    {
+    "id": 263,
     "pos": 7,
     "team": "Alavés",
     "played": 8,
@@ -91,9 +98,10 @@
     "ga": 8,
     "gd": 4,
     "points": 11,
-    "form": ""
+    "form": "W,L,L,D,L"
    },
    {
+    "id": 560,
     "pos": 8,
     "team": "Deportivo",
     "played": 8,
@@ -104,9 +112,10 @@
     "ga": 11,
     "gd": 1,
     "points": 10,
-    "form": ""
+    "form": "W,D,L,D,L"
    },
    {
+    "id": 558,
     "pos": 9,
     "team": "Celta",
     "played": 8,
@@ -117,9 +126,10 @@
     "ga": 6,
     "gd": 2,
     "points": 8,
-    "form": ""
+    "form": "D,D,D,W,D"
    },
    {
+    "id": 77,
     "pos": 10,
     "team": "Athletic",
     "played": 6,
@@ -130,9 +140,10 @@
     "ga": 6,
     "gd": 1,
     "points": 8,
-    "form": ""
+    "form": "L,W,W,D,D"
    },
    {
+    "id": 94,
     "pos": 11,
     "team": "Villarreal",
     "played": 8,
@@ -143,9 +154,10 @@
     "ga": 13,
     "gd": 0,
     "points": 8,
-    "form": ""
+    "form": "L,L,W,W,L"
    },
    {
+    "id": 80,
     "pos": 12,
     "team": "Espanyol",
     "played": 8,
@@ -156,9 +168,10 @@
     "ga": 11,
     "gd": 0,
     "points": 8,
-    "form": ""
+    "form": "D,W,L,L,D"
    },
    {
+    "id": 87,
     "pos": 13,
     "team": "Rayo Vallecano",
     "played": 7,
@@ -169,9 +182,10 @@
     "ga": 16,
     "gd": -5,
     "points": 8,
-    "form": ""
+    "form": "L,W,L,W,D"
    },
    {
+    "id": 82,
     "pos": 14,
     "team": "Getafe",
     "played": 8,
@@ -182,9 +196,10 @@
     "ga": 10,
     "gd": -6,
     "points": 8,
-    "form": ""
+    "form": "D,D,L,W,L"
    },
    {
+    "id": 5335,
     "pos": 15,
     "team": "Santander",
     "played": 8,
@@ -195,9 +210,10 @@
     "ga": 23,
     "gd": -10,
     "points": 8,
-    "form": ""
+    "form": "L,W,L,L,D"
    },
    {
+    "id": 79,
     "pos": 16,
     "team": "Osasuna",
     "played": 8,
@@ -208,9 +224,10 @@
     "ga": 18,
     "gd": -10,
     "points": 8,
-    "form": ""
+    "form": "L,L,L,D,L"
    },
    {
+    "id": 88,
     "pos": 17,
     "team": "Levante",
     "played": 7,
@@ -221,9 +238,10 @@
     "ga": 15,
     "gd": -4,
     "points": 6,
-    "form": ""
+    "form": "W,D,L,L,D"
    },
    {
+    "id": 285,
     "pos": 18,
     "team": "Elche",
     "played": 8,
@@ -234,9 +252,10 @@
     "ga": 17,
     "gd": -6,
     "points": 6,
-    "form": ""
+    "form": "L,D,L,W,D"
    },
    {
+    "id": 95,
     "pos": 19,
     "team": "Valencia",
     "played": 8,
@@ -247,9 +266,10 @@
     "ga": 15,
     "gd": -9,
     "points": 5,
-    "form": ""
+    "form": "L,L,W,L,D"
    },
    {
+    "id": 84,
     "pos": 20,
     "team": "Málaga",
     "played": 8,
@@ -260,7 +280,7 @@
     "ga": 13,
     "gd": -9,
     "points": 4,
-    "form": ""
+    "form": "D,D,L,L,D"
    }
   ],
   "scorers": [
@@ -1065,12 +1085,13 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-16T14:38:22.971024+00:00"
+  "updated": "2026-10-16T16:12:19.893065+00:00"
  },
  "Premier League": {
   "matchday": 7,
   "table": [
    {
+    "id": 65,
     "pos": 1,
     "team": "Man City",
     "played": 6,
@@ -1081,9 +1102,10 @@
     "ga": 5,
     "gd": 11,
     "points": 18,
-    "form": ""
+    "form": "W,W,W,W,W"
    },
    {
+    "id": 57,
     "pos": 2,
     "team": "Arsenal",
     "played": 6,
@@ -1094,9 +1116,10 @@
     "ga": 5,
     "gd": 5,
     "points": 15,
-    "form": ""
+    "form": "W,W,W,L,W"
    },
    {
+    "id": 397,
     "pos": 3,
     "team": "Brighton Hove",
     "played": 6,
@@ -1107,9 +1130,10 @@
     "ga": 5,
     "gd": 13,
     "points": 13,
-    "form": ""
+    "form": "L,D,W,W,W"
    },
    {
+    "id": 402,
     "pos": 4,
     "team": "Brentford",
     "played": 6,
@@ -1120,9 +1144,10 @@
     "ga": 6,
     "gd": 6,
     "points": 10,
-    "form": ""
+    "form": "D,D,D,W,D"
    },
    {
+    "id": 62,
     "pos": 5,
     "team": "Everton",
     "played": 6,
@@ -1133,9 +1158,10 @@
     "ga": 5,
     "gd": 3,
     "points": 10,
-    "form": ""
+    "form": "W,D,D,D,W"
    },
    {
+    "id": 61,
     "pos": 6,
     "team": "Chelsea",
     "played": 6,
@@ -1146,9 +1172,10 @@
     "ga": 13,
     "gd": 2,
     "points": 10,
-    "form": ""
+    "form": "W,L,D,L,W"
    },
    {
+    "id": 341,
     "pos": 7,
     "team": "Leeds United",
     "played": 6,
@@ -1159,9 +1186,10 @@
     "ga": 5,
     "gd": 3,
     "points": 9,
-    "form": ""
+    "form": "D,D,W,D,L"
    },
    {
+    "id": 322,
     "pos": 8,
     "team": "Hull City",
     "played": 6,
@@ -1172,9 +1200,10 @@
     "ga": 6,
     "gd": 2,
     "points": 9,
-    "form": ""
+    "form": "W,W,D,D,L"
    },
    {
+    "id": 64,
     "pos": 9,
     "team": "Liverpool",
     "played": 6,
@@ -1185,9 +1214,10 @@
     "ga": 7,
     "gd": 0,
     "points": 9,
-    "form": ""
+    "form": "D,D,W,D,W"
    },
    {
+    "id": 349,
     "pos": 10,
     "team": "Ipswich Town",
     "played": 6,
@@ -1198,9 +1228,10 @@
     "ga": 12,
     "gd": -3,
     "points": 9,
-    "form": ""
+    "form": "L,L,W,L,W"
    },
    {
+    "id": 67,
     "pos": 11,
     "team": "Newcastle",
     "played": 6,
@@ -1211,9 +1242,10 @@
     "ga": 13,
     "gd": -3,
     "points": 8,
-    "form": ""
+    "form": "D,W,D,L,W"
    },
    {
+    "id": 354,
     "pos": 12,
     "team": "Crystal Palace",
     "played": 6,
@@ -1224,9 +1256,10 @@
     "ga": 12,
     "gd": -3,
     "points": 7,
-    "form": ""
+    "form": "L,L,W,L,D"
    },
    {
+    "id": 66,
     "pos": 13,
     "team": "Man United",
     "played": 6,
@@ -1237,9 +1270,10 @@
     "ga": 9,
     "gd": 0,
     "points": 6,
-    "form": ""
+    "form": "W,D,L,D,D"
    },
    {
+    "id": 1076,
     "pos": 14,
     "team": "Coventry City",
     "played": 6,
@@ -1250,9 +1284,10 @@
     "ga": 11,
     "gd": -6,
     "points": 6,
-    "form": ""
+    "form": "L,L,L,L,W"
    },
    {
+    "id": 351,
     "pos": 15,
     "team": "Nottingham",
     "played": 6,
@@ -1263,9 +1298,10 @@
     "ga": 8,
     "gd": -3,
     "points": 5,
-    "form": ""
+    "form": "L,D,D,W,L"
    },
    {
+    "id": 58,
     "pos": 16,
     "team": "Aston Villa",
     "played": 6,
@@ -1276,9 +1312,10 @@
     "ga": 11,
     "gd": -5,
     "points": 5,
-    "form": ""
+    "form": "L,D,L,W,D"
    },
    {
+    "id": 71,
     "pos": 17,
     "team": "Sunderland",
     "played": 6,
@@ -1289,9 +1326,10 @@
     "ga": 12,
     "gd": -6,
     "points": 4,
-    "form": ""
+    "form": "W,D,L,L,L"
    },
    {
+    "id": 1044,
     "pos": 18,
     "team": "Bournemouth",
     "played": 6,
@@ -1302,9 +1340,10 @@
     "ga": 13,
     "gd": -6,
     "points": 3,
-    "form": ""
+    "form": "D,D,D,L,L"
    },
    {
+    "id": 73,
     "pos": 19,
     "team": "Tottenham",
     "played": 6,
@@ -1315,9 +1354,10 @@
     "ga": 9,
     "gd": -6,
     "points": 3,
-    "form": ""
+    "form": "L,D,D,L,D"
    },
    {
+    "id": 63,
     "pos": 20,
     "team": "Fulham",
     "played": 6,
@@ -1328,7 +1368,7 @@
     "ga": 10,
     "gd": -4,
     "points": 2,
-    "form": ""
+    "form": "L,L,D,D,L"
    }
   ],
   "scorers": [
@@ -2133,12 +2173,13 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-16T14:38:42.212699+00:00"
+  "updated": "2026-10-16T16:12:41.978338+00:00"
  },
  "Serie A": {
   "matchday": 7,
   "table": [
    {
+    "id": 108,
     "pos": 1,
     "team": "Inter",
     "played": 6,
@@ -2149,9 +2190,10 @@
     "ga": 8,
     "gd": 10,
     "points": 16,
-    "form": ""
+    "form": "W,W,W,D,W"
    },
    {
+    "id": 110,
     "pos": 2,
     "team": "Lazio",
     "played": 6,
@@ -2162,9 +2204,10 @@
     "ga": 4,
     "gd": 7,
     "points": 16,
-    "form": ""
+    "form": "W,W,D,W,W"
    },
    {
+    "id": 100,
     "pos": 3,
     "team": "Roma",
     "played": 6,
@@ -2175,9 +2218,10 @@
     "ga": 3,
     "gd": 11,
     "points": 14,
-    "form": ""
+    "form": "W,W,W,D,D"
    },
    {
+    "id": 104,
     "pos": 4,
     "team": "Cagliari",
     "played": 6,
@@ -2188,9 +2232,10 @@
     "ga": 3,
     "gd": 3,
     "points": 13,
-    "form": ""
+    "form": "L,W,W,W,D"
    },
    {
+    "id": 98,
     "pos": 5,
     "team": "Milan",
     "played": 6,
@@ -2201,9 +2246,10 @@
     "ga": 5,
     "gd": 6,
     "points": 12,
-    "form": ""
+    "form": "W,D,D,W,D"
    },
    {
+    "id": 109,
     "pos": 6,
     "team": "Juventus",
     "played": 6,
@@ -2214,9 +2260,10 @@
     "ga": 5,
     "gd": 4,
     "points": 11,
-    "form": ""
+    "form": "W,D,L,W,D"
    },
    {
+    "id": 7397,
     "pos": 7,
     "team": "Como 1907",
     "played": 6,
@@ -2227,9 +2274,10 @@
     "ga": 6,
     "gd": 3,
     "points": 11,
-    "form": ""
+    "form": "W,W,W,L,D"
    },
    {
+    "id": 113,
     "pos": 8,
     "team": "Napoli",
     "played": 6,
@@ -2240,9 +2288,10 @@
     "ga": 6,
     "gd": 4,
     "points": 10,
-    "form": ""
+    "form": "L,L,W,D,W"
    },
    {
+    "id": 470,
     "pos": 9,
     "team": "Frosinone",
     "played": 6,
@@ -2253,9 +2302,10 @@
     "ga": 7,
     "gd": 2,
     "points": 10,
-    "form": ""
+    "form": "W,W,D,W,L"
    },
    {
+    "id": 102,
     "pos": 10,
     "team": "Atalanta",
     "played": 6,
@@ -2266,9 +2316,10 @@
     "ga": 8,
     "gd": 0,
     "points": 9,
-    "form": ""
+    "form": "W,L,L,L,W"
    },
    {
+    "id": 471,
     "pos": 11,
     "team": "Sassuolo",
     "played": 6,
@@ -2279,9 +2330,10 @@
     "ga": 10,
     "gd": 0,
     "points": 8,
-    "form": ""
+    "form": "W,D,W,L,D"
    },
    {
+    "id": 586,
     "pos": 12,
     "team": "Torino",
     "played": 6,
@@ -2292,9 +2344,10 @@
     "ga": 9,
     "gd": -2,
     "points": 7,
-    "form": ""
+    "form": "L,W,L,D,W"
    },
    {
+    "id": 5890,
     "pos": 13,
     "team": "Lecce",
     "played": 6,
@@ -2305,9 +2358,10 @@
     "ga": 12,
     "gd": -6,
     "points": 6,
-    "form": ""
+    "form": "L,L,W,L,L"
    },
    {
+    "id": 103,
     "pos": 14,
     "team": "Bologna",
     "played": 6,
@@ -2318,9 +2372,10 @@
     "ga": 7,
     "gd": -2,
     "points": 5,
-    "form": ""
+    "form": "L,D,L,D,W"
    },
    {
+    "id": 115,
     "pos": 15,
     "team": "Udinese",
     "played": 6,
@@ -2331,9 +2386,10 @@
     "ga": 13,
     "gd": -4,
     "points": 4,
-    "form": ""
+    "form": "W,L,L,L,L"
    },
    {
+    "id": 5911,
     "pos": 16,
     "team": "Monza",
     "played": 6,
@@ -2344,9 +2400,10 @@
     "ga": 15,
     "gd": -6,
     "points": 4,
-    "form": ""
+    "form": "L,D,L,W,L"
    },
    {
+    "id": 107,
     "pos": 17,
     "team": "Genoa",
     "played": 6,
@@ -2357,9 +2414,10 @@
     "ga": 11,
     "gd": -6,
     "points": 4,
-    "form": ""
+    "form": "L,L,D,L,W"
    },
    {
+    "id": 112,
     "pos": 18,
     "team": "Parma",
     "played": 6,
@@ -2370,9 +2428,10 @@
     "ga": 10,
     "gd": -6,
     "points": 4,
-    "form": ""
+    "form": "L,D,L,W,L"
    },
    {
+    "id": 99,
     "pos": 19,
     "team": "Fiorentina",
     "played": 6,
@@ -2383,9 +2442,10 @@
     "ga": 14,
     "gd": -7,
     "points": 4,
-    "form": ""
+    "form": "L,L,W,D,L"
    },
    {
+    "id": 454,
     "pos": 20,
     "team": "Venezia FC",
     "played": 6,
@@ -2396,7 +2456,7 @@
     "ga": 16,
     "gd": -11,
     "points": 0,
-    "form": ""
+    "form": "L,L,L,L,L"
    }
   ],
   "scorers": [
@@ -3201,12 +3261,13 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-16T14:39:01.913296+00:00"
+  "updated": "2026-10-16T16:13:03.946648+00:00"
  },
  "Bundesliga": {
   "matchday": 6,
   "table": [
    {
+    "id": 17,
     "pos": 1,
     "team": "Freiburg",
     "played": 5,
@@ -3217,9 +3278,10 @@
     "ga": 4,
     "gd": 10,
     "points": 13,
-    "form": ""
+    "form": "W,W,W,D,W"
    },
    {
+    "id": 4,
     "pos": 2,
     "team": "Dortmund",
     "played": 5,
@@ -3230,9 +3292,10 @@
     "ga": 4,
     "gd": 7,
     "points": 13,
-    "form": ""
+    "form": "W,W,W,W,D"
    },
    {
+    "id": 5,
     "pos": 3,
     "team": "Bayern",
     "played": 5,
@@ -3243,9 +3306,10 @@
     "ga": 4,
     "gd": 12,
     "points": 11,
-    "form": ""
+    "form": "W,D,W,W,D"
    },
    {
+    "id": 3,
     "pos": 4,
     "team": "Leverkusen",
     "played": 5,
@@ -3256,9 +3320,10 @@
     "ga": 8,
     "gd": 6,
     "points": 10,
-    "form": ""
+    "form": "L,W,D,W,W"
    },
    {
+    "id": 721,
     "pos": 5,
     "team": "RB Leipzig",
     "played": 5,
@@ -3269,9 +3334,10 @@
     "ga": 5,
     "gd": 10,
     "points": 9,
-    "form": ""
+    "form": "W,L,W,L,W"
    },
    {
+    "id": 16,
     "pos": 6,
     "team": "Augsburg",
     "played": 5,
@@ -3282,9 +3348,10 @@
     "ga": 8,
     "gd": 5,
     "points": 8,
-    "form": ""
+    "form": "W,W,D,L,D"
    },
    {
+    "id": 12,
     "pos": 7,
     "team": "Bremen",
     "played": 5,
@@ -3295,9 +3362,10 @@
     "ga": 10,
     "gd": 0,
     "points": 8,
-    "form": ""
+    "form": "L,W,D,W,D"
    },
    {
+    "id": 15,
     "pos": 8,
     "team": "Mainz",
     "played": 5,
@@ -3308,9 +3376,10 @@
     "ga": 10,
     "gd": 3,
     "points": 7,
-    "form": ""
+    "form": "D,W,L,W,L"
    },
    {
+    "id": 719,
     "pos": 9,
     "team": "Elversberg",
     "played": 5,
@@ -3321,9 +3390,10 @@
     "ga": 8,
     "gd": 0,
     "points": 7,
-    "form": ""
+    "form": "W,W,L,D,L"
    },
    {
+    "id": 1,
     "pos": 10,
     "team": "1. FC Köln",
     "played": 5,
@@ -3334,9 +3404,10 @@
     "ga": 10,
     "gd": -2,
     "points": 7,
-    "form": ""
+    "form": "W,L,D,L,W"
    },
    {
+    "id": 10,
     "pos": 11,
     "team": "Stuttgart",
     "played": 5,
@@ -3347,9 +3418,10 @@
     "ga": 9,
     "gd": -1,
     "points": 6,
-    "form": ""
+    "form": "L,W,L,L,W"
    },
    {
+    "id": 7,
     "pos": 12,
     "team": "HSV",
     "played": 5,
@@ -3360,9 +3432,10 @@
     "ga": 15,
     "gd": -10,
     "points": 6,
-    "form": ""
+    "form": "L,L,L,W,W"
    },
    {
+    "id": 6,
     "pos": 13,
     "team": "Schalke",
     "played": 5,
@@ -3373,9 +3446,10 @@
     "ga": 6,
     "gd": -2,
     "points": 5,
-    "form": ""
+    "form": "L,D,W,D,L"
    },
    {
+    "id": 19,
     "pos": 14,
     "team": "Frankfurt",
     "played": 5,
@@ -3386,9 +3460,10 @@
     "ga": 16,
     "gd": -7,
     "points": 5,
-    "form": ""
+    "form": "D,L,W,D,L"
    },
    {
+    "id": 29,
     "pos": 15,
     "team": "SC Paderborn",
     "played": 5,
@@ -3399,9 +3474,10 @@
     "ga": 7,
     "gd": -4,
     "points": 4,
-    "form": ""
+    "form": "D,L,L,W,L"
    },
    {
+    "id": 28,
     "pos": 16,
     "team": "Union Berlin",
     "played": 5,
@@ -3412,9 +3488,10 @@
     "ga": 17,
     "gd": -12,
     "points": 4,
-    "form": ""
+    "form": "D,L,L,L,W"
    },
    {
+    "id": 2,
     "pos": 17,
     "team": "Hoffenheim",
     "played": 5,
@@ -3425,9 +3502,10 @@
     "ga": 13,
     "gd": -4,
     "points": 3,
-    "form": ""
+    "form": "L,L,W,L,L"
    },
    {
+    "id": 18,
     "pos": 18,
     "team": "M'gladbach",
     "played": 5,
@@ -3438,7 +3516,7 @@
     "ga": 18,
     "gd": -11,
     "points": 0,
-    "form": ""
+    "form": "L,L,L,L,L"
    }
   ],
   "scorers": [
@@ -4243,12 +4321,13 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-16T14:39:24.817325+00:00"
+  "updated": "2026-10-16T16:13:25.614557+00:00"
  },
  "Ligue 1": {
   "matchday": 7,
   "table": [
    {
+    "id": 548,
     "pos": 1,
     "team": "Monaco",
     "played": 6,
@@ -4259,9 +4338,10 @@
     "ga": 5,
     "gd": 5,
     "points": 14,
-    "form": ""
+    "form": "W,W,D,W,D"
    },
    {
+    "id": 521,
     "pos": 2,
     "team": "Lille",
     "played": 6,
@@ -4272,9 +4352,10 @@
     "ga": 4,
     "gd": 5,
     "points": 13,
-    "form": ""
+    "form": "D,W,W,L,W"
    },
    {
+    "id": 529,
     "pos": 3,
     "team": "Stade Rennais",
     "played": 6,
@@ -4285,9 +4366,10 @@
     "ga": 10,
     "gd": 2,
     "points": 13,
-    "form": ""
+    "form": "W,W,W,L,W"
    },
    {
+    "id": 523,
     "pos": 4,
     "team": "Olympique Lyon",
     "played": 6,
@@ -4298,9 +4380,10 @@
     "ga": 4,
     "gd": 7,
     "points": 11,
-    "form": ""
+    "form": "D,W,D,W,L"
    },
    {
+    "id": 1045,
     "pos": 5,
     "team": "Paris FC",
     "played": 6,
@@ -4311,9 +4394,10 @@
     "ga": 4,
     "gd": 4,
     "points": 11,
-    "form": ""
+    "form": "W,W,D,W,L"
    },
    {
+    "id": 524,
     "pos": 6,
     "team": "PSG",
     "played": 6,
@@ -4324,9 +4408,10 @@
     "ga": 8,
     "gd": 3,
     "points": 11,
-    "form": ""
+    "form": "D,L,W,W,W"
    },
    {
+    "id": 512,
     "pos": 7,
     "team": "Brest",
     "played": 6,
@@ -4337,9 +4422,10 @@
     "ga": 9,
     "gd": 3,
     "points": 8,
-    "form": ""
+    "form": "D,W,L,L,W"
    },
    {
+    "id": 525,
     "pos": 8,
     "team": "Lorient",
     "played": 6,
@@ -4350,9 +4436,10 @@
     "ga": 6,
     "gd": 0,
     "points": 8,
-    "form": ""
+    "form": "L,W,D,L,W"
    },
    {
+    "id": 522,
     "pos": 9,
     "team": "Nice",
     "played": 6,
@@ -4363,9 +4450,10 @@
     "ga": 7,
     "gd": -2,
     "points": 8,
-    "form": ""
+    "form": "L,D,L,W,W"
    },
    {
+    "id": 546,
     "pos": 10,
     "team": "RC Lens",
     "played": 6,
@@ -4376,9 +4464,10 @@
     "ga": 10,
     "gd": 1,
     "points": 7,
-    "form": ""
+    "form": "L,L,D,L,W"
    },
    {
+    "id": 576,
     "pos": 11,
     "team": "Strasbourg",
     "played": 6,
@@ -4389,9 +4478,10 @@
     "ga": 12,
     "gd": -1,
     "points": 7,
-    "form": ""
+    "form": "W,W,D,L,L"
    },
    {
+    "id": 532,
     "pos": 12,
     "team": "Angers SCO",
     "played": 6,
@@ -4402,9 +4492,10 @@
     "ga": 10,
     "gd": -3,
     "points": 7,
-    "form": ""
+    "form": "W,L,D,W,L"
    },
    {
+    "id": 516,
     "pos": 13,
     "team": "Marseille",
     "played": 6,
@@ -4415,9 +4506,10 @@
     "ga": 8,
     "gd": 1,
     "points": 6,
-    "form": ""
+    "form": "L,L,L,L,W"
    },
    {
+    "id": 535,
     "pos": 14,
     "team": "Le Mans",
     "played": 6,
@@ -4428,9 +4520,10 @@
     "ga": 12,
     "gd": -2,
     "points": 6,
-    "form": ""
+    "form": "L,D,D,W,L"
    },
    {
+    "id": 511,
     "pos": 15,
     "team": "Toulouse",
     "played": 6,
@@ -4441,9 +4534,10 @@
     "ga": 11,
     "gd": -2,
     "points": 6,
-    "form": ""
+    "form": "D,L,D,W,D"
    },
    {
+    "id": 519,
     "pos": 16,
     "team": "Auxerre",
     "played": 6,
@@ -4454,9 +4548,10 @@
     "ga": 16,
     "gd": -8,
     "points": 6,
-    "form": ""
+    "form": "L,L,W,W,L"
    },
    {
+    "id": 531,
     "pos": 17,
     "team": "Troyes",
     "played": 6,
@@ -4467,9 +4562,10 @@
     "ga": 13,
     "gd": -9,
     "points": 4,
-    "form": ""
+    "form": "W,L,L,L,L"
    },
    {
+    "id": 533,
     "pos": 18,
     "team": "Le Havre",
     "played": 6,
@@ -4480,7 +4576,7 @@
     "ga": 8,
     "gd": -4,
     "points": 2,
-    "form": ""
+    "form": "D,L,D,L,L"
    }
   ],
   "scorers": [
@@ -5285,7 +5381,8 @@
     "penalties": 1
    }
   ],
-  "updated": "2026-10-16T14:39:40.393303+00:00"
+  "updated": "2026-10-16T16:13:47.607583+00:00"
  },
- "_updated": "2026-10-16T14:39:40.393346+00:00"
+ "_updated": "2026-10-16T16:13:47.607624+00:00",
+ "_version": 2
 }
