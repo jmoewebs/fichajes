@@ -220,6 +220,24 @@ table.tb { border-collapse:collapse; width:100%; font-size:15px; font-variant-nu
 .news { list-style:none; margin:0; padding:0; background:var(--card); border:1px solid var(--line);
   border-radius:8px; }
 /* Lo más leído */
+.side-read:empty { display:none; }
+.top-read { display:none !important; }
+@media (max-width:820px) { .top-read { display:block !important; } .side-read { display:none; } }
+.side-read .hd { display:flex; flex-direction:column; align-items:flex-start; gap:8px; margin-bottom:8px; }
+.side-read .seg { margin-left:0; } .side-read .seg button { white-space:nowrap; }
+.side-read .flabel { margin:0; }
+.side-read .seg button { padding:4px 8px; font-size:12px; }
+.side-read ol { list-style:none; margin:0; padding:0; counter-reset:r; }
+.side-read li { display:grid; grid-template-columns:20px 1fr; gap:6px; padding:8px 0; border-top:1px solid var(--line); }
+.side-read li:first-child { border-top:0; padding-top:2px; }
+.side-read li::before { counter-increment:r; content:counter(r); font:700 20px/1.1 var(--cond); color:var(--hot); }
+.side-read li:nth-child(n+4)::before { color:var(--muted); }
+.side-read a { font-size:14px; line-height:1.3; font-weight:500; text-decoration:none; display:-webkit-box;
+  -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+.side-read a:hover { text-decoration:underline; }
+.side-read .src-n { font-size:12px; color:var(--muted); margin-top:3px; display:flex; align-items:center; gap:5px; }
+.side-read .src-n .src { width:16px; height:16px; border-radius:3px; font-size:8px; }
+.side-read .src-n .src img { width:12px; height:12px; }
 .top-read { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:14px 16px 6px; margin:20px 0 4px; }
 .top-read .hd { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:6px; }
 .top-read h2 { font:700 22px/1 var(--cond); margin:0; }
@@ -347,6 +365,7 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
   </aside>
   <main id="list">__STATIC__</main>
   <aside class="dates" id="dates">
+    <div class="fgroup side-read" id="side-read"></div>
     <div class="fgroup"><h2 class="flabel" id="days-title">Últimos días</h2>
       <div class="flist" id="f-days" role="group" aria-label="Elegir día"></div></div>
     <div class="fgroup" id="history-box"><h2 class="flabel">Historial</h2>
@@ -567,9 +586,30 @@ function loadTopRead(h) {
   if (!CAN_COUNT || readCache[h] !== undefined) return;
   readCache[h] = null;                                        // pidiendo...
   fetch("/api/clics?horas=" + h).then(r => r.ok ? r.json() : {top: []})
-    .then(d => { readCache[h] = (d.top || []).map(t => byUrl.get(t.url)).filter(Boolean).slice(0, 5); })
+    .then(d => { readCache[h] = (d.top || []).map(t => byUrl.get(t.url)).filter(Boolean).slice(0, 3); })
     .catch(() => { readCache[h] = []; })
     .then(() => { if (tab === "news") render(); });
+}
+function sideRead() {
+  const box = document.getElementById("side-read"); box.replaceChildren();
+  loadTopRead(readRange);
+  const items = readCache[readRange];
+  if (!CAN_COUNT || !items || !items.length) return;
+  const hd = el("div", "hd"); hd.append(el("h2", "flabel", "Lo más leído"));
+  const seg = el("div", "seg");
+  for (const [h, label] of [[24, "24 h"], [168, "7 días"]]) {
+    const b = el("button", null, label); b.setAttribute("aria-pressed", String(h === readRange));
+    b.addEventListener("click", () => { readRange = h; save("leido-rango", h); render(); }); seg.append(b);
+  }
+  hd.append(seg); box.append(hd);
+  const ol = el("ol");
+  for (const n of items) {
+    const li = el("li"), body = el("div"), a = el("a", null, n.title);
+    a.href = n.url; a.target = "_blank"; a.rel = "noopener"; a.title = n.title;
+    const s = el("div", "src-n"); s.append(outlet(n.url, n.source, true), el("span", null, n.source));
+    body.append(a, s); li.append(body); ol.append(li);
+  }
+  box.append(ol);
 }
 function topReadBox() {
   loadTopRead(readRange);
@@ -633,6 +673,7 @@ function renderNews(text, club) {
   }
   // Con un filtro activo hay pocas noticias: se abre todo. Si no, solo la franja más reciente.
   const filtered = !!(text || club || league || hidden.size);
+  sideRead();
   if (!filtered && !day && !IS_ARCHIVE) { const tr = topReadBox(); if (tr) list.append(tr); }
   let first = true;
   for (const d of days) {
