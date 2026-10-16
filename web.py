@@ -59,11 +59,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 /* Cabecera: césped con las líneas de cal del centro del campo */
 .pitch { position:relative; overflow:hidden; color:#fff;
   background:repeating-linear-gradient(90deg, var(--grass) 0 80px, var(--grass-2) 80px 160px); }
-/* Línea de medio campo justo en el borde derecho del contenido: la columna derecha termina en ella */
-.halfway { position:absolute; top:0; bottom:0; right:18.5px; width:3px; background:rgba(255,255,255,.28);
-  z-index:-1; pointer-events:none; }
-.halfway::before { content:""; position:absolute; top:-90px; left:-120px; width:240px; height:240px;
-  box-sizing:border-box; border:3px solid rgba(255,255,255,.28); border-radius:50%; }
+.pitch::before { content:""; position:absolute; top:-90px; right:calc(var(--line-right, calc(8% + 120px)) - 120px);
+  width:240px; height:240px; border:3px solid rgba(255,255,255,.28); border-radius:50%; }
+.pitch::after { content:""; position:absolute; top:0; bottom:0; right:var(--line-right, calc(8% + 120px));
+  border-left:3px solid rgba(255,255,255,.28); }
+/* La columna derecha y el selector de clubes se estiran hasta la línea de medio campo (ver alignToHalfway) */
+@media (min-width:1101px) {
+  .layout .dates, .tools select { margin-right:calc(-1 * var(--to-halfway, 0px)); }
+}
 .pitch .wrap { position:relative; z-index:1; padding-top:30px; }
 h1 { font:700 clamp(34px,6vw,52px)/.95 var(--cond); margin:0; letter-spacing:-.005em; }
 .updated { margin:8px 0 0; font-size:14px; opacity:.85; }
@@ -357,7 +360,6 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
 <body>
 <header class="pitch">
   <div class="wrap">
-    <div class="halfway" aria-hidden="true"></div>
     __KOFI_TOP__
     <h1>__HEADING__</h1>
     <p class="updated">__TAGLINE__Actualizado el __UPDATED__. Cada titular enlaza a la noticia original.</p>
@@ -1023,6 +1025,25 @@ function render() {
   else renderRumors(text, club);
 }
 q.addEventListener("input", render); sel.addEventListener("change", render);
+
+// La línea de medio campo va a "8% + 120px" del borde derecho de la cabecera (como en el diseño original).
+// Si así queda a la derecha del contenido, la columna derecha y el selector se estiran hasta ella;
+// si caería encima de la columna, la línea se coloca justo en el borde del contenido.
+function alignToHalfway() {
+  const pitch = document.querySelector(".pitch"), layout = document.querySelector(".layout");
+  const root = document.documentElement.style;
+  if (!pitch || !layout || window.innerWidth <= 1100) {
+    root.removeProperty("--to-halfway"); root.removeProperty("--line-right"); return;
+  }
+  const r = pitch.getBoundingClientRect(), lr = layout.getBoundingClientRect();
+  const contentRight = lr.right - parseFloat(getComputedStyle(layout).paddingRight);
+  const original = r.right - (r.width * 0.08 + 120) - 1.5;      // centro de la línea en el diseño original
+  const target = Math.max(original, contentRight);
+  root.setProperty("--to-halfway", Math.round(target - contentRight) + "px");
+  root.setProperty("--line-right", (r.right - Math.round(target) - 1.5) + "px");
+}
+alignToHalfway();
+window.addEventListener("resize", alignToHalfway);
 render();
 </script>
 </body>
