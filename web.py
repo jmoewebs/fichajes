@@ -72,6 +72,7 @@ h1 { font:700 clamp(34px,6vw,52px)/.95 var(--cond); margin:0; letter-spacing:-.0
 .tools input, .tools select { font:inherit; font-size:15px; padding:10px 12px; border-radius:6px;
   border:0; background:rgba(255,255,255,.95); color:#10201a; }
 .tools input { flex:1; min-width:200px; }
+.tools[hidden] { display:none !important; }
 /* En pantalla ancha, el buscador acaba donde acaba la columna de noticias
    y el selector de clubes ocupa el ancho de la columna derecha */
 @media (min-width:1101px) {
@@ -84,6 +85,7 @@ h1 { font:700 clamp(34px,6vw,52px)/.95 var(--cond); margin:0; letter-spacing:-.0
 .tab:hover { opacity:1; }
 .tab.on { background:var(--chalk); color:var(--ink); opacity:1; }
 .tab .n { font-weight:500; opacity:.6; margin-left:4px; }
+a.tab { text-decoration:none; display:inline-block; }
 .sm-only { display:none; }
 @media (max-width:560px) { .sm-only { display:inline; } .lg-only { display:none; } }
 
@@ -139,13 +141,15 @@ a.chipbtn { text-decoration:none; }
 .st-out { background:var(--hot); } .st-doubt { background:var(--warm); color:#2a1d00; }
 .st-back { background:var(--ok); }
 .status.st-none { background:var(--soft); color:var(--ink); font-weight:500; }
+.fx-group { font:600 20px/1.1 var(--cond); margin:22px 0 10px; }
+.fx-team { font:500 14px/1 var(--body); color:var(--muted); margin-left:6px; }
 .fx-note { font-size:14px; color:var(--muted); margin-top:16px; max-width:62ch; }
 
 /* Clasificación */
 .lg-pick { display:flex; flex-wrap:wrap; gap:6px; margin:22px 0 6px; }
-.lg-pick button { font:500 15px/1 var(--body); padding:8px 14px; border-radius:20px; cursor:pointer;
+.lg-pick a { font:500 15px/1 var(--body); padding:8px 14px; border-radius:20px; cursor:pointer; text-decoration:none;
   border:1px solid var(--line); background:var(--card); color:var(--ink); }
-.lg-pick button[aria-pressed="true"] { background:var(--grass); border-color:var(--grass); color:#fff; }
+.lg-pick a[aria-pressed="true"] { background:var(--grass); border-color:var(--grass); color:#fff; }
 .tb-h { font:700 26px/1.1 var(--cond); margin:26px 0 10px; display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
 .tb-h small { font:500 15px/1 var(--body); color:var(--muted); }
 .tb-wrap { overflow-x:auto; background:var(--card); border:1px solid var(--line); border-radius:8px; }
@@ -356,7 +360,7 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
     <h1>__HEADING__</h1>
     <p class="updated">__TAGLINE__Actualizado el __UPDATED__. Cada titular enlaza a la noticia original.</p>
     __CRUMBS__
-    <div class="tools">
+    <div class="tools"__TOOLS_HIDDEN__>
       <input id="q" type="search" placeholder="Buscar jugador, club o medio" aria-label="Buscar">
       <select id="club" aria-label="Filtrar por club"><option value="">Todos los clubes</option></select>
     </div>
@@ -421,6 +425,12 @@ const DOMAINS = JSON.parse(document.getElementById("d-domains").textContent);
 const news = JSON.parse(document.getElementById("d-news").textContent);
 const archive = JSON.parse(document.getElementById("d-archive").textContent);
 const IS_ARCHIVE = __IS_ARCHIVE__;
+const PAGE = "__PAGE__";                 // news | rumors | table | fantasy
+const ROOT = "__ROOT__";                 // camino hasta la portada ("", "../", "../../")
+const COUNTS = __COUNTS__;
+const TABLE_LEAGUE = __TABLE_LEAGUE__;
+const LEAGUE_SLUGS = __LEAGUE_SLUGS__;
+const FX_REPORT = __FX_REPORT__;
 const STATUS = {interes:"Interés", negociacion:"Negociación", acuerdo:"Acuerdo", oficial:"Oficial", descartado:"Descartado"};
 const ORDER = ["interes", "negociacion", "acuerdo", "oficial"];
 const list = document.getElementById("list"), q = document.getElementById("q"), sel = document.getElementById("club");
@@ -431,18 +441,30 @@ function save(key, value) { try { localStorage.setItem(key, JSON.stringify(value
 let league = load("liga", "");
 const hidden = new Set(load("medios-ocultos", []));
 
-const tabs = [["news", "Noticias", news.length], ["rumors", "Rumores", rumors.length]];
+function dirUrl(path) {   // carpeta -> su index.html cuando se abre el archivo sin servidor
+  return location.protocol === "file:" ? path + "index.html" : (path || "./");
+}
+function pageUrl(id) {
+  if (id === "rumors") return dirUrl(ROOT + "rumores/");
+  if (id === "fantasy") return dirUrl(ROOT + "fantasy/");
+  if (id === "table") return dirUrl(ROOT + "clasificacion/" + (LEAGUE_SLUGS[load("liga-tabla", "LaLiga")] || "laliga") + "/");
+  return dirUrl(ROOT);
+}
+const tabs = [["news", "Noticias", COUNTS.news], ["rumors", "Rumores", COUNTS.rumors]];
 if (!IS_ARCHIVE) tabs.push(["table", "Clasificación", null], ["fantasy", "Fantasy", null]);
-let tab = (location.hash || "").slice(1);
-if (!["news", "rumors", "table", "fantasy"].includes(tab) || (["table", "fantasy"].includes(tab) && IS_ARCHIVE)) tab = rumors.length && !IS_ARCHIVE ? "rumors" : "news";
+let tab = PAGE;
+const hashTab = (location.hash || "").slice(1);
+if (IS_ARCHIVE) { if (["news", "rumors"].includes(hashTab)) tab = hashTab; }
+else if (["news", "rumors", "table", "fantasy"].includes(hashTab) && hashTab !== PAGE) location.replace(pageUrl(hashTab));  // enlaces antiguos con #
 let day = "";   // "" = recientes (portada) o todo el mes (archivo); si no, AAAA-MM-DD
 const nav = document.getElementById("tabs");
 for (const [id, label, n] of tabs) {
-  const b = el("button", "tab"); b.dataset.tab = id;
+  const b = el(IS_ARCHIVE ? "button" : "a", "tab"); b.dataset.tab = id;
   if (id === "table") b.append(el("span", "lg-only", label), el("span", "sm-only", "Tabla"));
   else b.append(label);
   if (n !== null) b.append(el("span", "n", String(n)));
-  b.addEventListener("click", () => { tab = id; history.replaceState(null, "", "#" + id); render(); });
+  if (IS_ARCHIVE) b.addEventListener("click", () => { tab = id; history.replaceState(null, "", "#" + id); render(); });
+  else { b.href = pageUrl(id); if (id === PAGE) b.setAttribute("aria-current", "page"); }
   nav.append(b);
 }
 const clubs = [...new Set(rumors.flatMap(r => [r.from_club, r.to_club]).concat(news.flatMap(n => n.clubs)).filter(Boolean))].sort();
@@ -762,17 +784,8 @@ function renderRumors(text, club) {
 const PLAYERS = JSON.parse(document.getElementById("d-players").textContent);
 const FX_KEY = "fantasy-equipo";
 let team = load(FX_KEY, []);
-const W_BACK = ["recibe el alta", "alta medica", "recuperado", "se recupera", "vuelve a entrenar",
-  "vuelve a la convocatoria", "entra en la convocatoria", "ya entrena", "back in training", "returns from injury",
-  "fit again", "available again", "disponible", "back in contention"];
-const W_SUSP = ["sancion", "sancionado", "sancionada", "suspendido", "expulsion", "expulsado", "tarjeta roja",
-  "ciclo de amarillas", "suspended", "suspension", "ban", "banned", "red card"];
-const W_OUT = ["lesion", "lesionado", "lesionada", "se pierde", "se perdera", "se perderan", "baja", "bajas",
-  "rotura", "rotura fibrilar", "esguince", "operado", "quirofano", "fuera de la convocatoria", "no convocado",
-  "injury", "injured", "ruled out", "to miss", "will miss", "misses", "sidelined", "out for", "surgery",
-  ...W_SUSP];
-const W_DOUBT = ["duda", "en duda", "molestias", "tocado", "entre algodones", "se retira", "retirado",
-  "doubt", "doubtful", "fitness test", "late fitness test", "knock", "fitness concern", "race against time"];
+const FXW = __FX_WORDS__;
+const W_BACK = FXW.back, W_SUSP = FXW.susp, W_OUT = [...FXW.out, ...FXW.susp], W_DOUBT = FXW.doubt;
 
 function nrm(s) { return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim(); }
 function hasWord(t, words) { const p = " " + t + " "; return words.find(w => p.includes(" " + w + " ")); }
@@ -797,6 +810,29 @@ function fxStatus(name) {
   return {st:"none", label:"Sin noticias de baja", item:null, count:hits.length};
 }
 function saveTeam() { save(FX_KEY, team); }
+
+function renderFxReport() {
+  if (!FX_REPORT.length) return;
+  list.append(el("h2", "tb-h", "Parte médico de los últimos días"));
+  list.append(el("p", "fx-intro", "Jugadores de la lista de la web y máximos goleadores de cada liga con noticias recientes de lesión, sanción, duda o recuperación."));
+  for (const [st, title] of [["out", "Bajas"], ["doubt", "Dudas"], ["back", "Recuperados"]]) {
+    const rows = FX_REPORT.filter(r => r.st === st);
+    if (!rows.length) continue;
+    list.append(el("h3", "fx-group", title + " (" + rows.length + ")"));
+    const box = el("div", "fx-list");
+    for (const r of rows) {
+      const card = el("article", "fx " + r.st), h = el("h3", null, r.player);
+      if (r.team) h.append(el("small", "fx-team", " " + r.team));
+      const right = el("div"); right.append(el("span", "status st-" + r.st, r.label));
+      const why = el("div", "why"), a = el("a", null, r.title);
+      a.href = r.url; a.target = "_blank"; a.rel = "noopener";
+      const meta = el("div", "meta");
+      meta.append(outlet(r.url, r.source, true), el("span", null, r.source), el("span", "time", dayLabel(r.date) + ", " + hhmm(r.date)));
+      why.append(a, meta); card.append(h, right, why); box.append(card);
+    }
+    list.append(box);
+  }
+}
 
 function renderFantasy() {
   list.append(el("p", "fx-intro", "Escribe tu once separado por comas y te digo si hay noticias de lesión, sanción o duda en los titulares de los últimos " + __NEWS_DAYS__ + " días. Tu equipo se guarda solo en este dispositivo."));
@@ -831,7 +867,11 @@ function renderFantasy() {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); }
   });
   list.append(form);
-  if (!team.length) { list.append(el("p", "empty", "Todavía no has añadido jugadores.")); return; }
+  if (!team.length) {
+    list.append(el("p", "empty", "Todavía no has añadido jugadores."));
+    renderFxReport();      // el parte médico general se ve aunque no tengas equipo
+    return;
+  }
 
   const results = team.map(p => [p, fxStatus(p)]);
   const order = {out:0, doubt:1, back:2, none:3};
@@ -871,12 +911,14 @@ function renderFantasy() {
   clear.style.marginTop = "14px";
   clear.addEventListener("click", () => { if (confirm("¿Quitar a todos los jugadores?")) { team = []; saveTeam(); render(); } });
   list.append(clear);
+  renderFxReport();
   list.append(el("p", "fx-note", "Se basa en los titulares de prensa, así que \"Sin noticias de baja\" no garantiza que vaya a jugar: confirma siempre la convocatoria oficial antes de cerrar tu alineación."));
 }
 
 // ---------- Clasificación, goleadores y asistentes ----------
 const STANDINGS = JSON.parse(document.getElementById("d-standings").textContent);
-let tableLeague = load("liga-tabla", "LaLiga");
+let tableLeague = TABLE_LEAGUE || load("liga-tabla", "LaLiga");
+if (PAGE === "table" && TABLE_LEAGUE) save("liga-tabla", TABLE_LEAGUE);   // la pestaña recuerda la última liga vista
 const FORM = {W:"G", D:"E", L:"P"};
 
 function cell(tag, text, cls) { const c = el(tag, cls, text === null || text === undefined ? "" : String(text)); return c; }
@@ -899,9 +941,10 @@ function renderTable() {
   if (!leagues.includes(tableLeague)) tableLeague = leagues[0];
   const pick = el("div", "lg-pick");
   for (const lg of leagues) {
-    const b = el("button", null, lg);
+    const b = el("a", null, lg);
+    b.href = dirUrl(ROOT + "clasificacion/" + LEAGUE_SLUGS[lg] + "/");
     b.setAttribute("aria-pressed", String(lg === tableLeague));
-    b.addEventListener("click", () => { tableLeague = lg; save("liga-tabla", lg); render(); });
+    if (lg === tableLeague) b.setAttribute("aria-current", "page");
     pick.append(b);
   }
   list.append(pick);
@@ -1062,10 +1105,12 @@ def _static_list(news, rumors, limit=60):
             route = f"{r['from_club'] or 'origen sin confirmar'} → {r['to_club'] or 'destino sin confirmar'}"
             parts.append(f"<li>{esc(r['player'])}: {esc(route)} ({r['score']}°)</li>")
         parts.append("</ul>")
-    parts.append("<h2>Últimas noticias de fútbol</h2><ul>")
-    for n in list(news)[:limit]:
-        parts.append(f'<li><a href="{esc(n["url"], quote=True)}">{esc(n["title"])}</a> ({esc(n["source"])})</li>')
-    parts.append("</ul>")
+    shown = list(news)[:limit]
+    if shown:
+        parts.append("<h2>Últimas noticias de fútbol</h2><ul>")
+        for n in shown:
+            parts.append(f'<li><a href="{esc(n["url"], quote=True)}">{esc(n["title"])}</a> ({esc(n["source"])})</li>')
+        parts.append("</ul>")
     return "".join(parts)
 
 
@@ -1091,7 +1136,8 @@ def _players():
 
 
 def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
-           description, canonical, root, tagline=""):
+           description, canonical, root, tagline="", page="news", table_league=None,
+           static_html=None, counts=None, fx_report=(), standings=None):
     esc = html_lib.escape
     verification = (f'<meta name="google-site-verification" content="{esc(config.GOOGLE_VERIFICATION, quote=True)}">'
                     if config.GOOGLE_VERIFICATION else "")
@@ -1108,7 +1154,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__ROOT__", root)
             .replace("__VERIFICATION__", verification)
             .replace("__LDJSON__", _json(ld))
-            .replace("__STATIC__", _static_list(list(news), rumors))
+            .replace("__STATIC__", static_html if static_html is not None else _static_list(list(news), rumors))
             .replace("__ANALYTICS__", ANALYTICS.replace("__GA_ID__", config.GA_MEASUREMENT_ID)
                      if config.GA_MEASUREMENT_ID else "")
             .replace("__COOKIE_BUTTON__", '<button id="ck-config">Configurar cookies</button>'
@@ -1129,7 +1175,14 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__ARCHIVE__", _json(archive)).replace("__LEAGUES__", _json(config.LEAGUES))
             .replace("__PLAYERS__", _json(_players()))
             .replace("__DOMAINS__", _json({f["source"]: f["domain"] for f in config.FEEDS if f.get("domain")}))
-            .replace("__STANDINGS__", _json({} if is_archive else _standings()))
+            .replace("__STANDINGS__", _json(standings if standings is not None else ({} if is_archive else _standings())))
+            .replace("__PAGE__", page)
+            .replace("__TOOLS_HIDDEN__", " hidden" if page in ("table", "fantasy") else "")
+            .replace("__COUNTS__", _json(counts or {"news": len(list(news)), "rumors": len(rumors)}))
+            .replace("__TABLE_LEAGUE__", _json(table_league))
+            .replace("__LEAGUE_SLUGS__", _json({lg: league_slug(lg) for lg in config.STANDINGS_COMPETITIONS}))
+            .replace("__FX_REPORT__", _json(list(fx_report)))
+            .replace("__FX_WORDS__", _json(config.FANTASY_WORDS))
             .replace("__RECENT_DAYS__", str(config.RECENT_DAYS)).replace("__NEWS_DAYS__", str(config.NEWS_DAYS)))
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
@@ -1137,15 +1190,106 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
     return os.path.abspath(path)
 
 
+def _fit_title(text, limit=62):
+    """Añade " | nombre de la web" solo si cabe sin que Google corte el título."""
+    full = f"{text} | {config.SITE_NAME}"
+    return full if len(full) <= limit else text
+
+
+def league_slug(league):
+    from pipeline import slugify
+    return slugify(league)
+
+
+def _static_table(league, d):
+    """Clasificación, goleadores y asistentes en HTML normal (para buscadores)."""
+    esc = html_lib.escape
+    md = f" (jornada {d['matchday']})" if d.get("matchday") else ""
+    p = [f"<h2>Clasificación de {esc(league)}{md}</h2><table><tr><th>#</th><th>Equipo</th><th>PJ</th>"
+         "<th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>Pts</th></tr>"]
+    for t in d.get("table", []):
+        p.append(f"<tr><td>{t['pos']}</td><td>{esc(str(t['team']))}</td><td>{t['played']}</td><td>{t['won']}</td>"
+                 f"<td>{t['draw']}</td><td>{t['lost']}</td><td>{t['gf']}</td><td>{t['ga']}</td><td>{t['points']}</td></tr>")
+    p.append("</table>")
+    goals = sorted(d.get("scorers", []), key=lambda s: -s["goals"])[:20]
+    p.append(f"<h2>Máximos goleadores de {esc(league)}</h2><ol>")
+    p += [f"<li>{esc(str(s['player']))} ({esc(str(s['team']))}): {s['goals']} goles</li>" for s in goals]
+    p.append("</ol>")
+    assists = sorted((s for s in d.get("scorers", []) if s["assists"]), key=lambda s: -s["assists"])[:20]
+    if assists:
+        p.append(f"<h2>Máximos asistentes de {esc(league)}</h2><ol>")
+        p += [f"<li>{esc(str(s['player']))} ({esc(str(s['team']))}): {s['assists']} asistencias</li>" for s in assists]
+        p.append("</ol>")
+    return "".join(p)
+
+
+def _static_fantasy(rep_):
+    esc = html_lib.escape
+    p = ["<h2>Parte médico para tu Fantasy</h2>"]
+    for st, title in [("out", "Bajas"), ("doubt", "Dudas"), ("back", "Recuperados")]:
+        rows = [r for r in rep_ if r["st"] == st]
+        if rows:
+            p.append(f"<h3>{title}</h3><ul>")
+            p += [f'<li>{esc(r["player"])}{" (" + esc(str(r["team"])) + ")" if r["team"] else ""}: {esc(r["label"])}. '
+                  f'<a href="{esc(r["url"], quote=True)}">{esc(r["title"])}</a> ({esc(r["source"])})</li>' for r in rows]
+            p.append("</ul>")
+    if len(p) == 1:
+        p.append("<p>No hay noticias recientes de lesiones ni sanciones.</p>")
+    return "".join(p)
+
+
 def generate(data, news=(), months=(), out_dir="web"):
-    """Portada. months = [(AAAA-MM, nº noticias, nº rumores)], del más reciente al más antiguo."""
-    archive = _archive(months, prefix="archivo/")
-    write_static(months, out_dir)
-    return _write(os.path.join(out_dir, "index.html"),
-                  title=config.SITE_TITLE, tagline=config.SITE_TAGLINE,
-                  heading=config.SITE_NAME, crumbs="", rumors=_flatten(data),
-                  news=news, archive=archive, is_archive=False,
-                  description=config.SITE_DESCRIPTION, canonical=config.SITE_URL + "/", root="")
+    """Todas las páginas de la web. months = [(AAAA-MM, nº noticias, nº rumores)], de más reciente a más antiguo.
+    Portada (noticias), /rumores/, /clasificacion/<liga>/ y /fantasy/: cada una con su título y descripción."""
+    news = list(news)
+    rumors = _flatten(data)
+    standings = _standings()
+    counts = {"news": len(news), "rumors": len(rumors)}
+    write_static(months, out_dir, list(standings))
+    common = dict(heading=config.SITE_NAME, crumbs="", is_archive=False,
+                  tagline=config.SITE_TAGLINE, counts=counts, standings=standings)
+
+    # Portada: noticias
+    index = _write(os.path.join(out_dir, "index.html"), page="news", root="",
+                   title=config.SITE_TITLE, description=config.SITE_DESCRIPTION,
+                   canonical=config.SITE_URL + "/", rumors=rumors, news=news,
+                   archive=_archive(months, prefix="archivo/"), **common)
+
+    # Rumores
+    _write(os.path.join(out_dir, "rumores", "index.html"), page="rumors", root="../",
+           title=f"Rumores de fichajes de hoy, con termómetro | {config.SITE_NAME}",
+           description=("Los rumores de fichajes más calientes de LaLiga, Premier y Serie A, con un termómetro "
+                        "que mide su probabilidad según los medios que los publican. Cada hora."),
+           canonical=config.SITE_URL + "/rumores/", rumors=rumors, news=news,
+           archive=_archive(months, prefix="../archivo/"),
+           static_html=_static_list([], rumors, limit=0) + _static_list(news, [], limit=30), **common)
+
+    # Clasificación: una página por liga (no llevan noticias: así pesan poco)
+    for lg, d in standings.items():
+        art = "la " if lg in ("Premier League", "Serie A", "Bundesliga", "Ligue 1") else ""
+        top = "pichichi" if lg == "LaLiga" else "goleadores"
+        _write(os.path.join(out_dir, "clasificacion", league_slug(lg), "index.html"), page="table",
+               root="../../", table_league=lg,
+               title=_fit_title(f"Clasificación de {art}{lg}: {top} y asistencias"),
+               description=(f"Clasificación de {art}{lg} actualizada tras cada jornada: puntos, goles y racha de cada "
+                            f"equipo, y las tablas de máximos goleadores y asistentes."),
+               canonical=f"{config.SITE_URL}/clasificacion/{league_slug(lg)}/", rumors=[], news=[],
+               archive=[], static_html=_static_table(lg, d), **common)
+
+    # Fantasy: parte médico general + herramienta para tu once
+    try:
+        import fantasy, rules
+        fx = fantasy.report(news, fantasy.candidates(rules.load_players(), standings))
+    except Exception as exc:
+        print("[aviso] parte médico:", exc)
+        fx = []
+    _write(os.path.join(out_dir, "fantasy", "index.html"), page="fantasy", root="../",
+           title=f"Lesionados y sancionados para tu Fantasy | {config.SITE_NAME}",
+           description=("Bajas por lesión o sanción y jugadores en duda según la prensa de los últimos días. "
+                        "Comprueba tu once de LaLiga Fantasy antes de cada jornada."),
+           canonical=config.SITE_URL + "/fantasy/", rumors=[], news=news, archive=[],
+           static_html=_static_fantasy(fx), fx_report=fx, **common)
+    return index
 
 
 def _archive(months, prefix="", current=None):
@@ -1221,7 +1365,7 @@ def _share_image():
     return im
 
 
-def write_static(months, out_dir="web"):
+def write_static(months, out_dir="web", leagues=()):
     """favicon, imagen para compartir, robots.txt y sitemap.xml."""
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, "favicon.svg"), "w", encoding="utf-8") as f:
@@ -1237,7 +1381,10 @@ def write_static(months, out_dir="web"):
     with open(os.path.join(out_dir, "robots.txt"), "w", encoding="utf-8") as f:
         f.write(f"User-agent: *\nAllow: /\n\nSitemap: {config.SITE_URL}/sitemap.xml\n")
     today = _now_spain().strftime("%Y-%m-%d")
-    urls = [(config.SITE_URL + "/", today, "hourly", "1.0")]
+    urls = [(config.SITE_URL + "/", today, "hourly", "1.0"),
+            (config.SITE_URL + "/rumores/", today, "hourly", "0.9"),
+            (config.SITE_URL + "/fantasy/", today, "hourly", "0.9")]
+    urls += [(f"{config.SITE_URL}/clasificacion/{league_slug(lg)}/", today, "daily", "0.8") for lg in leagues]
     current = _now_spain().strftime("%Y-%m")
     for ym, _, _ in months:
         urls.append((f"{config.SITE_URL}/archivo/{ym}", today if ym == current else f"{ym}-28",
