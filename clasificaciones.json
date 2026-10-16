@@ -42,7 +42,7 @@
     "ga": 9,
     "gd": 5,
     "points": 19,
-    "form": "L,W,W,W,D"
+    "form": "W,W,W,D,W"
    },
    {
     "id": 86,
@@ -70,7 +70,7 @@
     "ga": 12,
     "gd": 1,
     "points": 14,
-    "form": "L,D,W,W,L"
+    "form": "D,W,W,L,D"
    },
    {
     "id": 92,
@@ -84,7 +84,7 @@
     "ga": 15,
     "gd": -3,
     "points": 13,
-    "form": "W,D,W,L,W"
+    "form": "D,W,L,W,W"
    },
    {
     "id": 263,
@@ -108,11 +108,11 @@
     "won": 2,
     "draw": 5,
     "lost": 2,
-    "gf": 12,
-    "ga": 11,
+    "gf": 13,
+    "ga": 12,
     "gd": 1,
     "points": 11,
-    "form": "W,W,D,L,D"
+    "form": "D,L,D,L,D"
    },
    {
     "id": 558,
@@ -126,7 +126,7 @@
     "ga": 6,
     "gd": 2,
     "points": 8,
-    "form": "L,D,D,D,W"
+    "form": "D,D,D,W,D"
    },
    {
     "id": 77,
@@ -210,7 +210,7 @@
     "ga": 23,
     "gd": -10,
     "points": 8,
-    "form": "W,L,W,L,L"
+    "form": "L,W,L,L,D"
    },
    {
     "id": 79,
@@ -224,7 +224,7 @@
     "ga": 18,
     "gd": -10,
     "points": 8,
-    "form": "W,L,L,L,D"
+    "form": "L,L,L,D,L"
    },
    {
     "id": 88,
@@ -234,11 +234,11 @@
     "won": 1,
     "draw": 4,
     "lost": 3,
-    "gf": 11,
-    "ga": 15,
+    "gf": 12,
+    "ga": 16,
     "gd": -4,
     "points": 7,
-    "form": "D,W,D,L,L"
+    "form": "D,L,L,D,D"
    },
    {
     "id": 285,
@@ -252,7 +252,7 @@
     "ga": 17,
     "gd": -6,
     "points": 6,
-    "form": "L,L,D,L,W"
+    "form": "L,D,L,W,D"
    },
    {
     "id": 95,
@@ -266,7 +266,7 @@
     "ga": 15,
     "gd": -9,
     "points": 5,
-    "form": "L,L,L,W,L"
+    "form": "L,L,W,L,D"
    },
    {
     "id": 84,
@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-16T19:33:16.248942+00:00"
+  "updated": "2026-10-16T23:29:04.892650+00:00"
  },
  "Premier League": {
   "matchday": 7,
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-16T19:33:41.898253+00:00"
+  "updated": "2026-10-16T23:29:26.267008+00:00"
  },
  "Serie A": {
   "matchday": 7,
@@ -2228,11 +2228,11 @@
     "won": 4,
     "draw": 1,
     "lost": 2,
-    "gf": 12,
+    "gf": 13,
     "ga": 9,
-    "gd": 3,
+    "gd": 4,
     "points": 13,
-    "form": "W,W,D,W,L"
+    "form": "W,D,W,L,W"
    },
    {
     "id": 104,
@@ -2327,10 +2327,10 @@
     "draw": 2,
     "lost": 3,
     "gf": 12,
-    "ga": 13,
-    "gd": -1,
+    "ga": 14,
+    "gd": -2,
     "points": 8,
-    "form": "W,D,W,L,D"
+    "form": "D,W,L,D,L"
    },
    {
     "id": 586,
@@ -2461,17 +2461,17 @@
   ],
   "scorers": [
    {
-    "player": "Donyell Malen",
-    "team": "Roma",
-    "played": 6,
-    "goals": 6,
+    "player": "Antonio Raimondo",
+    "team": "Frosinone",
+    "played": 7,
+    "goals": 7,
     "assists": 0,
     "penalties": 0
    },
    {
-    "player": "Antonio Raimondo",
-    "team": "Frosinone",
-    "played": 7,
+    "player": "Donyell Malen",
+    "team": "Roma",
+    "played": 6,
     "goals": 6,
     "assists": 0,
     "penalties": 0
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-16T19:34:03.924413+00:00"
+  "updated": "2026-10-16T23:29:47.946398+00:00"
  },
  "Bundesliga": {
   "matchday": 6,
@@ -3365,18 +3365,18 @@
     "form": "L,W,D,W,D"
    },
    {
-    "id": 1,
+    "id": 19,
     "pos": 8,
-    "team": "1. FC Köln",
+    "team": "Frankfurt",
     "played": 6,
     "won": 2,
     "draw": 2,
     "lost": 2,
-    "gf": 8,
-    "ga": 10,
-    "gd": -2,
+    "gf": 10,
+    "ga": 16,
+    "gd": -6,
     "points": 8,
-    "form": "W,L,D,L,W"
+    "form": "L,W,D,L,W"
    },
    {
     "id": 15,
@@ -3407,8 +3407,22 @@
     "form": "W,W,L,D,L"
    },
    {
-    "id": 10,
+    "id": 1,
     "pos": 11,
+    "team": "1. FC Köln",
+    "played": 6,
+    "won": 2,
+    "draw": 1,
+    "lost": 3,
+    "gf": 8,
+    "ga": 11,
+    "gd": -3,
+    "points": 7,
+    "form": "L,D,L,W,L"
+   },
+   {
+    "id": 10,
+    "pos": 12,
     "team": "Stuttgart",
     "played": 5,
     "won": 2,
@@ -3419,20 +3433,6 @@
     "gd": -1,
     "points": 6,
     "form": "L,W,L,L,W"
-   },
-   {
-    "id": 19,
-    "pos": 12,
-    "team": "Frankfurt",
-    "played": 6,
-    "won": 1,
-    "draw": 3,
-    "lost": 2,
-    "gf": 9,
-    "ga": 16,
-    "gd": -7,
-    "points": 6,
-    "form": "D,L,W,D,L"
    },
    {
     "id": 7,
@@ -3521,6 +3521,14 @@
   ],
   "scorers": [
    {
+    "player": "Younes Ebnoutalib",
+    "team": "Frankfurt",
+    "played": 6,
+    "goals": 5,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
     "player": "Patrik Schick",
     "team": "Leverkusen",
     "played": 5,
@@ -3532,14 +3540,6 @@
     "player": "Michael Olise",
     "team": "Bayern",
     "played": 5,
-    "goals": 4,
-    "assists": 1,
-    "penalties": 0
-   },
-   {
-    "player": "Younes Ebnoutalib",
-    "team": "Frankfurt",
-    "played": 6,
     "goals": 4,
     "assists": 1,
     "penalties": 0
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-16T19:34:25.486051+00:00"
+  "updated": "2026-10-16T23:30:13.594449+00:00"
  },
  "Ligue 1": {
   "matchday": 7,
@@ -4366,7 +4366,7 @@
     "ga": 10,
     "gd": 2,
     "points": 13,
-    "form": "W,W,W,L,W"
+    "form": "D,W,W,W,L"
    },
    {
     "id": 523,
@@ -4411,8 +4411,22 @@
     "form": "D,L,W,W,W"
    },
    {
-    "id": 512,
+    "id": 511,
     "pos": 7,
+    "team": "Toulouse",
+    "played": 7,
+    "won": 2,
+    "draw": 3,
+    "lost": 2,
+    "gf": 12,
+    "ga": 11,
+    "gd": 1,
+    "points": 9,
+    "form": "L,D,W,D,W"
+   },
+   {
+    "id": 512,
+    "pos": 8,
     "team": "Brest",
     "played": 6,
     "won": 2,
@@ -4426,7 +4440,7 @@
    },
    {
     "id": 525,
-    "pos": 8,
+    "pos": 9,
     "team": "Lorient",
     "played": 6,
     "won": 2,
@@ -4440,7 +4454,7 @@
    },
    {
     "id": 522,
-    "pos": 9,
+    "pos": 10,
     "team": "Nice",
     "played": 6,
     "won": 2,
@@ -4450,11 +4464,11 @@
     "ga": 7,
     "gd": -2,
     "points": 8,
-    "form": "L,D,L,W,W"
+    "form": "D,L,D,L,W"
    },
    {
     "id": 546,
-    "pos": 10,
+    "pos": 11,
     "team": "RC Lens",
     "played": 6,
     "won": 2,
@@ -4468,7 +4482,7 @@
    },
    {
     "id": 576,
-    "pos": 11,
+    "pos": 12,
     "team": "Strasbourg",
     "played": 6,
     "won": 2,
@@ -4478,39 +4492,11 @@
     "ga": 12,
     "gd": -1,
     "points": 7,
-    "form": "W,W,D,L,L"
-   },
-   {
-    "id": 535,
-    "pos": 12,
-    "team": "Le Mans",
-    "played": 7,
-    "won": 1,
-    "draw": 4,
-    "lost": 2,
-    "gf": 10,
-    "ga": 12,
-    "gd": -2,
-    "points": 7,
-    "form": "L,D,D,W,L"
-   },
-   {
-    "id": 511,
-    "pos": 13,
-    "team": "Toulouse",
-    "played": 7,
-    "won": 1,
-    "draw": 4,
-    "lost": 2,
-    "gf": 9,
-    "ga": 11,
-    "gd": -2,
-    "points": 7,
-    "form": "D,L,D,W,D"
+    "form": "L,W,W,D,L"
    },
    {
     "id": 532,
-    "pos": 14,
+    "pos": 13,
     "team": "Angers SCO",
     "played": 6,
     "won": 2,
@@ -4524,7 +4510,7 @@
    },
    {
     "id": 516,
-    "pos": 15,
+    "pos": 14,
     "team": "Marseille",
     "played": 6,
     "won": 2,
@@ -4534,7 +4520,21 @@
     "ga": 8,
     "gd": 1,
     "points": 6,
-    "form": "L,L,L,L,W"
+    "form": "W,L,L,L,L"
+   },
+   {
+    "id": 535,
+    "pos": 15,
+    "team": "Le Mans",
+    "played": 7,
+    "won": 1,
+    "draw": 3,
+    "lost": 3,
+    "gf": 10,
+    "ga": 15,
+    "gd": -5,
+    "points": 6,
+    "form": "D,D,W,L,L"
    },
    {
     "id": 519,
@@ -4548,7 +4548,7 @@
     "ga": 16,
     "gd": -8,
     "points": 6,
-    "form": "L,L,W,W,L"
+    "form": "L,L,L,W,W"
    },
    {
     "id": 531,
@@ -4562,7 +4562,7 @@
     "ga": 13,
     "gd": -9,
     "points": 4,
-    "form": "W,L,L,L,L"
+    "form": "D,W,L,L,L"
    },
    {
     "id": 533,
@@ -4580,6 +4580,14 @@
    }
   ],
   "scorers": [
+   {
+    "player": "Casper Tengstedt",
+    "team": "Toulouse",
+    "played": 5,
+    "goals": 5,
+    "assists": 1,
+    "penalties": 2
+   },
    {
     "player": "Amine Gouiri",
     "team": "Marseille",
@@ -4643,14 +4651,6 @@
     "goals": 4,
     "assists": 0,
     "penalties": 0
-   },
-   {
-    "player": "Casper Tengstedt",
-    "team": "Toulouse",
-    "played": 5,
-    "goals": 4,
-    "assists": 1,
-    "penalties": 2
    },
    {
     "player": "Florian Thauvin",
@@ -4720,6 +4720,14 @@
     "player": "Mbwana Samatta",
     "team": "Le Havre",
     "played": 6,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Jacen Russell-Rowe",
+    "team": "Toulouse",
+    "played": 7,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -4986,14 +4994,6 @@
     "played": 6,
     "goals": 1,
     "assists": 1,
-    "penalties": 0
-   },
-   {
-    "player": "Jacen Russell-Rowe",
-    "team": "Toulouse",
-    "played": 7,
-    "goals": 1,
-    "assists": 0,
     "penalties": 0
    },
    {
@@ -5381,8 +5381,8 @@
     "penalties": 1
    }
   ],
-  "updated": "2026-10-16T19:34:47.144638+00:00"
+  "updated": "2026-10-16T23:30:35.204064+00:00"
  },
- "_updated": "2026-10-16T19:34:47.144684+00:00",
+ "_updated": "2026-10-16T23:30:35.204105+00:00",
  "_version": 2
 }
