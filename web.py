@@ -1096,7 +1096,8 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
     verification = (f'<meta name="google-site-verification" content="{esc(config.GOOGLE_VERIFICATION, quote=True)}">'
                     if config.GOOGLE_VERIFICATION else "")
     ld = {"@context": "https://schema.org", "@type": "WebSite", "name": config.SITE_NAME,
-          "alternateName": ["RumoresyFichajes", "Rumores y Fichajes de fútbol"],
+          # Plan B de Google para subdominios: el subdominio en minúsculas como nombre alternativo
+          "alternateName": ["RumoresyFichajes", config.SITE_URL.split("//", 1)[1].rstrip("/").lower()],
           "url": config.SITE_URL + "/", "inLanguage": "es-ES", "description": config.SITE_DESCRIPTION}
     html = (TEMPLATE
             .replace("__DESCRIPTION__", esc(description, quote=True))
