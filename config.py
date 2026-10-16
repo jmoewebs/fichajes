@@ -5,8 +5,8 @@ SITE_URL = "https://rumoresyfichajes.pages.dev"   # sin barra al final; cámbial
 SITE_NAME = "Rumores y Fichajes"
 # Lo que Google muestra: título (máx. ~60 caracteres) y descripción (máx. ~155)
 SITE_TITLE = "Rumores y Fichajes | Fichajes y rumores de fútbol de hoy"
-SITE_DESCRIPTION = ("Rumores de fichajes de LaLiga, Premier y Serie A con termómetro de probabilidad, "
-                    "clasificaciones y noticias de Marca, AS y Sport actualizadas cada hora.")
+SITE_DESCRIPTION = ("Rumores de fichajes con termómetro, clasificación y pichichi de LaLiga, Premier y "
+                    "Serie A, y bajas y lesionados para tu Fantasy. Actualizado cada hora.")
 SITE_TAGLINE = "Fichajes, rumores y noticias de fútbol, actualizados cada hora."
 # Código de verificación de Google Search Console (solo el valor de content="...")
 GOOGLE_VERIFICATION = "UlSzLwyxSoXaFmkbcCi2i-11eWegnuhRbMtCd54l2CU"
@@ -25,6 +25,29 @@ STANDINGS_COMPETITIONS = {"LaLiga": "PD", "Premier League": "PL", "Serie A": "SA
 STANDINGS_EVERY_HOURS = 3        # cada cuántas horas se descargan (ahorra minutos de GitHub)
 STANDINGS_SCORERS_LIMIT = 100    # goleadores que se piden; de ellos salen los asistentes
 STANDINGS_FILE = "clasificaciones.json"
+
+# Parte médico de Fantasy: palabras del titular que indican cada estado (minúsculas, sin tildes)
+FANTASY_DAYS = 10            # días de titulares que se miran para el parte médico general
+FANTASY_WORDS = {
+    "back": ["recibe el alta", "alta medica", "recuperado", "se recupera", "vuelve a entrenar",
+             "vuelve a la convocatoria", "entra en la convocatoria", "ya entrena", "back in training",
+             "returns from injury", "fit again", "available again", "disponible", "back in contention"],
+    "susp": ["sancion", "sancionado", "sancionada", "suspendido", "expulsion", "expulsado", "tarjeta roja",
+             "ciclo de amarillas", "suspended", "suspension", "ban", "banned", "red card"],
+    "out": ["lesion", "lesionado", "lesionada", "se pierde", "se perdera", "se perderan", "baja", "bajas",
+            "rotura", "rotura fibrilar", "esguince", "operado", "quirofano", "fuera de la convocatoria",
+            "no convocado", "injury", "injured", "ruled out", "to miss", "will miss", "misses", "sidelined",
+            "out for", "surgery"],
+    "doubt": ["duda", "en duda", "molestias", "tocado", "entre algodones", "se retira", "retirado",
+              "doubt", "doubtful", "fitness test", "late fitness test", "knock", "fitness concern",
+              "race against time"],
+}
+# Apellidos tan comunes que, solos, no sirven para reconocer a un jugador
+COMMON_SURNAMES = {"junior", "jr", "silva", "santos", "fernandes", "fernandez", "rodriguez", "garcia",
+                   "martinez", "lopez", "gonzalez", "perez", "sanchez", "gomez", "diaz", "alvarez",
+                   "hernandez", "moreno", "munoz", "romero", "navarro", "torres", "ramos", "ruiz",
+                   "jimenez", "mendes", "costa", "souza", "pereira", "oliveira", "williams", "johnson",
+                   "smith", "jones", "brown", "davies", "wilson", "taylor", "neto", "rodrigo", "pedro"}
 
 # Cómo se extraen los rumores: "reglas" (gratis, sin IA) o "claude" (API de pago).
 EXTRACTOR = "reglas"
