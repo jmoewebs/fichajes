@@ -42,7 +42,7 @@
     "ga": 14,
     "gd": 2,
     "points": 19,
-    "form": "W,W,W,D,W"
+    "form": "W,W,D,W,L"
    },
    {
     "id": 86,
@@ -115,8 +115,22 @@
     "form": "D,L,D,L,D"
    },
    {
-    "id": 94,
+    "id": 77,
     "pos": 9,
+    "team": "Athletic",
+    "played": 7,
+    "won": 2,
+    "draw": 3,
+    "lost": 2,
+    "gf": 7,
+    "ga": 6,
+    "gd": 1,
+    "points": 9,
+    "form": "W,W,D,D,D"
+   },
+   {
+    "id": 94,
+    "pos": 10,
     "team": "Villarreal",
     "played": 9,
     "won": 2,
@@ -130,7 +144,7 @@
    },
    {
     "id": 558,
-    "pos": 10,
+    "pos": 11,
     "team": "Celta",
     "played": 8,
     "won": 1,
@@ -141,20 +155,6 @@
     "gd": 2,
     "points": 8,
     "form": "D,D,D,W,D"
-   },
-   {
-    "id": 77,
-    "pos": 11,
-    "team": "Athletic",
-    "played": 6,
-    "won": 2,
-    "draw": 2,
-    "lost": 2,
-    "gf": 7,
-    "ga": 6,
-    "gd": 1,
-    "points": 8,
-    "form": "L,W,W,D,D"
    },
    {
     "id": 80,
@@ -258,15 +258,15 @@
     "id": 95,
     "pos": 19,
     "team": "Valencia",
-    "played": 8,
+    "played": 9,
     "won": 1,
-    "draw": 2,
+    "draw": 3,
     "lost": 5,
     "gf": 6,
     "ga": 15,
     "gd": -9,
-    "points": 5,
-    "form": "L,L,W,L,D"
+    "points": 6,
+    "form": "L,W,L,D,D"
    },
    {
     "id": 84,
@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-17T18:33:29.598424+00:00"
+  "updated": "2026-10-17T22:29:11.587036+00:00"
  },
  "Premier League": {
   "matchday": 7,
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-17T18:33:51.541610+00:00"
+  "updated": "2026-10-17T22:29:32.914975+00:00"
  },
  "Serie A": {
   "matchday": 7,
@@ -2193,8 +2193,22 @@
     "form": "W,W,D,W,W"
    },
    {
-    "id": 110,
+    "id": 100,
     "pos": 2,
+    "team": "Roma",
+    "played": 7,
+    "won": 5,
+    "draw": 2,
+    "lost": 0,
+    "gf": 16,
+    "ga": 3,
+    "gd": 13,
+    "points": 17,
+    "form": "W,W,D,D,W"
+   },
+   {
+    "id": 110,
+    "pos": 3,
     "team": "Lazio",
     "played": 6,
     "won": 5,
@@ -2204,21 +2218,7 @@
     "ga": 4,
     "gd": 7,
     "points": 16,
-    "form": "W,W,W,D,W"
-   },
-   {
-    "id": 100,
-    "pos": 3,
-    "team": "Roma",
-    "played": 6,
-    "won": 4,
-    "draw": 2,
-    "lost": 0,
-    "gf": 14,
-    "ga": 3,
-    "gd": 11,
-    "points": 14,
-    "form": "W,W,W,W,D"
+    "form": "W,W,D,W,W"
    },
    {
     "id": 470,
@@ -2232,7 +2232,7 @@
     "ga": 9,
     "gd": 4,
     "points": 13,
-    "form": "W,W,D,W,L"
+    "form": "W,D,W,L,W"
    },
    {
     "id": 104,
@@ -2246,7 +2246,7 @@
     "ga": 3,
     "gd": 3,
     "points": 13,
-    "form": "W,L,W,W,W"
+    "form": "L,W,W,W,D"
    },
    {
     "id": 98,
@@ -2260,7 +2260,7 @@
     "ga": 5,
     "gd": 6,
     "points": 12,
-    "form": "W,W,D,D,W"
+    "form": "W,D,D,W,D"
    },
    {
     "id": 109,
@@ -2274,7 +2274,7 @@
     "ga": 5,
     "gd": 4,
     "points": 11,
-    "form": "W,W,D,L,W"
+    "form": "W,D,L,W,D"
    },
    {
     "id": 7397,
@@ -2288,7 +2288,7 @@
     "ga": 6,
     "gd": 3,
     "points": 11,
-    "form": "D,W,W,W,L"
+    "form": "W,W,W,L,D"
    },
    {
     "id": 113,
@@ -2316,7 +2316,7 @@
     "ga": 8,
     "gd": 0,
     "points": 9,
-    "form": "W,W,L,L,L"
+    "form": "W,L,L,L,W"
    },
    {
     "id": 471,
@@ -2330,7 +2330,7 @@
     "ga": 14,
     "gd": -2,
     "points": 8,
-    "form": "L,W,D,W,L"
+    "form": "D,W,L,D,L"
    },
    {
     "id": 586,
@@ -2344,7 +2344,7 @@
     "ga": 9,
     "gd": -2,
     "points": 7,
-    "form": "L,L,W,L,D"
+    "form": "L,W,L,D,W"
    },
    {
     "id": 5890,
@@ -2358,7 +2358,7 @@
     "ga": 12,
     "gd": -6,
     "points": 6,
-    "form": "W,L,L,W,L"
+    "form": "L,L,W,L,L"
    },
    {
     "id": 103,
@@ -2372,7 +2372,7 @@
     "ga": 10,
     "gd": -4,
     "points": 5,
-    "form": "L,D,L,D,L"
+    "form": "D,L,D,W,L"
    },
    {
     "id": 115,
@@ -2386,7 +2386,7 @@
     "ga": 13,
     "gd": -4,
     "points": 4,
-    "form": "D,W,L,L,L"
+    "form": "W,L,L,L,L"
    },
    {
     "id": 5911,
@@ -2400,25 +2400,11 @@
     "ga": 15,
     "gd": -6,
     "points": 4,
-    "form": "L,L,D,L,W"
-   },
-   {
-    "id": 107,
-    "pos": 17,
-    "team": "Genoa",
-    "played": 6,
-    "won": 1,
-    "draw": 1,
-    "lost": 4,
-    "gf": 5,
-    "ga": 11,
-    "gd": -6,
-    "points": 4,
-    "form": "L,L,D,L,W"
+    "form": "L,D,L,W,L"
    },
    {
     "id": 112,
-    "pos": 18,
+    "pos": 17,
     "team": "Parma",
     "played": 6,
     "won": 1,
@@ -2432,7 +2418,7 @@
    },
    {
     "id": 99,
-    "pos": 19,
+    "pos": 18,
     "team": "Fiorentina",
     "played": 6,
     "won": 1,
@@ -2443,6 +2429,20 @@
     "gd": -7,
     "points": 4,
     "form": "L,L,W,D,L"
+   },
+   {
+    "id": 107,
+    "pos": 19,
+    "team": "Genoa",
+    "played": 7,
+    "won": 1,
+    "draw": 1,
+    "lost": 5,
+    "gf": 5,
+    "ga": 13,
+    "gd": -8,
+    "points": 4,
+    "form": "L,D,L,W,L"
    },
    {
     "id": 454,
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-17T18:34:13.992617+00:00"
+  "updated": "2026-10-17T22:29:54.530686+00:00"
  },
  "Bundesliga": {
   "matchday": 6,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-17T18:34:35.818714+00:00"
+  "updated": "2026-10-17T22:30:18.408672+00:00"
  },
  "Ligue 1": {
   "matchday": 7,
@@ -4356,17 +4356,17 @@
    },
    {
     "id": 521,
-    "pos": 3,
+    "pos": 2,
     "team": "Lille",
-    "played": 6,
+    "played": 7,
     "won": 4,
-    "draw": 1,
+    "draw": 2,
     "lost": 1,
-    "gf": 9,
-    "ga": 4,
+    "gf": 10,
+    "ga": 5,
     "gd": 5,
-    "points": 13,
-    "form": "D,W,W,L,W"
+    "points": 14,
+    "form": "W,W,L,W,D"
    },
    {
     "id": 529,
@@ -4411,8 +4411,36 @@
     "form": "W,W,D,W,L"
    },
    {
-    "id": 511,
+    "id": 546,
     "pos": 7,
+    "team": "RC Lens",
+    "played": 7,
+    "won": 3,
+    "draw": 1,
+    "lost": 3,
+    "gf": 14,
+    "ga": 11,
+    "gd": 3,
+    "points": 10,
+    "form": "L,D,L,W,W"
+   },
+   {
+    "id": 512,
+    "pos": 8,
+    "team": "Brest",
+    "played": 7,
+    "won": 2,
+    "draw": 3,
+    "lost": 2,
+    "gf": 13,
+    "ga": 10,
+    "gd": 3,
+    "points": 9,
+    "form": "W,L,L,W,D"
+   },
+   {
+    "id": 511,
+    "pos": 9,
     "team": "Toulouse",
     "played": 7,
     "won": 2,
@@ -4425,22 +4453,8 @@
     "form": "L,D,W,D,W"
    },
    {
-    "id": 512,
-    "pos": 8,
-    "team": "Brest",
-    "played": 6,
-    "won": 2,
-    "draw": 2,
-    "lost": 2,
-    "gf": 12,
-    "ga": 9,
-    "gd": 3,
-    "points": 8,
-    "form": "D,W,L,L,W"
-   },
-   {
     "id": 525,
-    "pos": 9,
+    "pos": 10,
     "team": "Lorient",
     "played": 6,
     "won": 2,
@@ -4454,7 +4468,7 @@
    },
    {
     "id": 522,
-    "pos": 10,
+    "pos": 11,
     "team": "Nice",
     "played": 6,
     "won": 2,
@@ -4465,20 +4479,6 @@
     "gd": -2,
     "points": 8,
     "form": "L,D,L,W,W"
-   },
-   {
-    "id": 546,
-    "pos": 11,
-    "team": "RC Lens",
-    "played": 6,
-    "won": 2,
-    "draw": 1,
-    "lost": 3,
-    "gf": 11,
-    "ga": 10,
-    "gd": 1,
-    "points": 7,
-    "form": "L,L,D,L,W"
    },
    {
     "id": 576,
@@ -4554,15 +4554,15 @@
     "id": 531,
     "pos": 17,
     "team": "Troyes",
-    "played": 6,
+    "played": 7,
     "won": 1,
     "draw": 1,
-    "lost": 4,
-    "gf": 4,
-    "ga": 13,
-    "gd": -9,
+    "lost": 5,
+    "gf": 5,
+    "ga": 16,
+    "gd": -11,
     "points": 4,
-    "form": "W,L,L,L,L"
+    "form": "L,L,L,L,L"
    },
    {
     "id": 533,
@@ -4657,7 +4657,7 @@
     "team": "RC Lens",
     "played": 7,
     "goals": 3,
-    "assists": 5,
+    "assists": 7,
     "penalties": 3
    },
    {
@@ -4691,6 +4691,14 @@
     "goals": 2,
     "assists": 0,
     "penalties": 0
+   },
+   {
+    "player": "Olivier Giroud",
+    "team": "Lille",
+    "played": 7,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 1
    },
    {
     "player": "Tiago Santos",
@@ -4813,6 +4821,14 @@
     "penalties": 0
    },
    {
+    "player": "Mama Baldé",
+    "team": "Brest",
+    "played": 6,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
     "player": "Boulaye Dia",
     "team": "Stade Rennais",
     "played": 4,
@@ -4898,14 +4914,6 @@
     "played": 2,
     "goals": 1,
     "assists": 0,
-    "penalties": 0
-   },
-   {
-    "player": "Olivier Giroud",
-    "team": "Lille",
-    "played": 7,
-    "goals": 1,
-    "assists": 2,
     "penalties": 0
    },
    {
@@ -5285,14 +5293,6 @@
     "penalties": 1
    },
    {
-    "player": "Mama Baldé",
-    "team": "Brest",
-    "played": 6,
-    "goals": 1,
-    "assists": 1,
-    "penalties": 0
-   },
-   {
     "player": "Gabin Bernardeau",
     "team": "Lorient",
     "played": 6,
@@ -5381,8 +5381,8 @@
     "penalties": 1
    }
   ],
-  "updated": "2026-10-17T18:34:57.469150+00:00"
+  "updated": "2026-10-17T22:30:40.225194+00:00"
  },
- "_updated": "2026-10-17T18:34:57.469189+00:00",
+ "_updated": "2026-10-17T22:30:40.225239+00:00",
  "_version": 2
 }
