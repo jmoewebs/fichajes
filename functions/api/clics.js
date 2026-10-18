@@ -7,7 +7,7 @@
 const HEADERS = { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" };
 // Solo se cuentan enlaces a los medios que sigue la web (nadie puede colar otras webs)
 const ALLOWED = ["marca.com", "as.com", "mundodeportivo.com", "sport.es", "news.google.com",
-                 "bbc.co.uk", "bbc.com", "skysports.com"];
+                 "bbc.co.uk", "bbc.com", "skysports.com", "besoccer.com", "fichajes.net", "fichajes.com"];
 
 function json(body, status = 200) { return new Response(JSON.stringify(body), { status, headers: HEADERS }); }
 
