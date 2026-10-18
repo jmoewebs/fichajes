@@ -426,8 +426,8 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
   <span>Los titulares pertenecen a sus medios; cada uno enlaza a la noticia original.</span>
   __KOFI_FOOT__
   __TG_FOOT__
-  <a href="__ROOT__sobre.html">Sobre esta web</a>
-  <a href="__ROOT__privacidad.html">Privacidad</a>
+  <a href="__ROOT__sobre">Sobre esta web</a>
+  <a href="__ROOT__privacidad">Privacidad</a>
   <a href="__ROOT__cookies.html">Política de cookies</a>
   __COOKIE_BUTTON__
 </footer>
@@ -1755,7 +1755,8 @@ def write_static(months, out_dir="web", leagues=(), clubs=()):
     with open(os.path.join(out_dir, "cookies.html"), "w", encoding="utf-8") as f:
         f.write(COOKIES_PAGE.replace("__SITE_NAME__", html_lib.escape(config.SITE_NAME)))
     with open(os.path.join(out_dir, "_headers"), "w", encoding="utf-8") as f:
-        f.write("/datos/*\n  Cache-Control: public, max-age=31536000, immutable\n")
+        f.write("/*\n  X-Frame-Options: SAMEORIGIN\n  Permissions-Policy: camera=(), microphone=(), geolocation=()\n\n"
+                "/datos/*\n  Cache-Control: public, max-age=31536000, immutable\n")
     tg = telegram_url()
     contact = (f'<a href="{html_lib.escape(tg, quote=True)}" rel="noopener">nuestro canal de Telegram</a>'
                if tg else "el canal de contacto indicado en la web")
@@ -1772,8 +1773,8 @@ def write_static(months, out_dir="web", leagues=(), clubs=()):
     urls = [(config.SITE_URL + "/", today, "hourly", "1.0"),
             (config.SITE_URL + "/rumores/", today, "hourly", "0.9"),
             (config.SITE_URL + "/fantasy/", today, "hourly", "0.9")]
-    urls += [(f"{config.SITE_URL}/sobre.html", today, "monthly", "0.3"),
-             (f"{config.SITE_URL}/privacidad.html", today, "monthly", "0.3")]
+    urls += [(f"{config.SITE_URL}/sobre", today, "monthly", "0.3"),
+             (f"{config.SITE_URL}/privacidad", today, "monthly", "0.3")]
     urls += [(f"{config.SITE_URL}/clasificacion/{league_slug(lg)}/", today, "daily", "0.8") for lg in leagues]
     urls += [(f"{config.SITE_URL}/club/{slug}/", today, "hourly", "0.8") for slug in clubs]
     current = _now_spain().strftime("%Y-%m")
@@ -1792,7 +1793,7 @@ SOBRE_PAGE = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sobre esta web | __SITE_NAME__</title>
 <meta name="description" content="Qué es Rumores y Fichajes, de dónde salen los titulares y cómo funciona el termómetro de rumores.">
-<link rel="canonical" href="__SITE_URL__/sobre.html">
+<link rel="canonical" href="__SITE_URL__/sobre">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <style>
 body { margin:0; font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; background:#f2f6f3; color:#10201a; }
@@ -1812,7 +1813,7 @@ a { color:inherit; }
 <p>Los datos se actualizan cada hora. La fecha y hora de la última actualización aparece en la cabecera de cada página.</p>
 <h2>Contacto</h2>
 <p>Si eres un medio y quieres que retiremos un enlace, o si has detectado un error, escríbenos por __CONTACT__.</p>
-<p><a href="privacidad.html">Política de privacidad</a> · <a href="cookies.html">Política de cookies</a></p>
+<p><a href="privacidad">Política de privacidad</a> · <a href="cookies.html">Política de cookies</a></p>
 </main></body></html>
 """
 
@@ -1821,7 +1822,7 @@ PRIVACIDAD_PAGE = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Política de privacidad | __SITE_NAME__</title>
 <meta name="description" content="Qué datos trata Rumores y Fichajes, para qué y qué derechos tienes.">
-<link rel="canonical" href="__SITE_URL__/privacidad.html">
+<link rel="canonical" href="__SITE_URL__/privacidad">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <style>
 body { margin:0; font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; background:#f2f6f3; color:#10201a; }
