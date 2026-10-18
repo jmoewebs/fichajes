@@ -314,7 +314,10 @@ a.club:hover { text-decoration:underline; }
 .club-box h2 { font:700 26px/1.1 var(--cond); margin:0 0 6px; }
 .club-box p { margin:0; color:var(--muted); }
 .club-box a { color:var(--ink); font-weight:600; }
-.foot-clubs { width:100%; font-size:13px; line-height:1.9; }
+details.foot-clubs { width:100%; font-size:13px; line-height:1.9; border-top:0; padding-top:0; margin-top:0; }
+.foot-clubs > summary { cursor:pointer; font-size:14px; color:var(--muted); width:max-content; }
+.foot-clubs > summary:hover { color:var(--ink); }
+.foot-clubs nav { margin-top:8px; }
 .foot-clubs a { margin-right:12px; white-space:nowrap; }
 .tag { font-size:12px; font-weight:600; padding:1px 8px; border-radius:20px; }
 .tag.live { background:color-mix(in srgb, var(--hot) 14%, transparent); color:var(--hot); }
@@ -756,13 +759,21 @@ function renderNews(text, club) {
   for (const n of shown) {
     const label = dayLabel(n.date), s = slotOf(n.date);
     let d = days[days.length - 1];
-    if (!d || d.label !== label) { d = {label, slots: []}; days.push(d); }
+    if (!d || d.label !== label) { d = {label, key: dkey(n.date), slots: []}; days.push(d); }
     let sl = d.slots[d.slots.length - 1];
     if (!sl || sl.idx !== s) { sl = {idx: s, items: []}; d.slots.push(sl); }
     sl.items.push(n);
   }
   // Con un filtro activo hay pocas noticias: se abre todo. Si no, solo la franja más reciente.
-  const filtered = !!(text || club || league || hidden.size);
+  // Con búsqueda, club o liga hay pocas noticias: se abre todo (ocultar medios no cuenta como filtro)
+  const filtered = !!(text || club || league);
+  // Si no, solo la franja horaria actual y la anterior (si la actual es la madrugada, la anterior es ayer 22-24)
+  const now = new Date(), todayKey = dkey(now.toISOString()), cur = slotOf(now.toISOString());
+  const y = new Date(now); y.setDate(now.getDate() - 1);
+  const yesterdayKey = dkey(y.toISOString());
+  const isRecentSlot = (dayKey, idx) => (dayKey === todayKey && (idx === cur || idx === cur - 1)) ||
+                                        (cur === 0 && dayKey === yesterdayKey && idx === SLOTS.length - 1);
+  const anyRecent = !day && days.some(d => d.slots.some(sl => isRecentSlot(d.key, sl.idx)));
   sideRead();
   if (!filtered && !day && !IS_ARCHIVE) { const tr = topReadBox(); if (tr) list.append(tr); }
   let first = true;
@@ -771,7 +782,8 @@ function renderNews(text, club) {
     for (const sl of d.slots) {
       const [from, to, name] = SLOTS[sl.idx];
       const det = el("details", "slot");
-      det.open = filtered || first; first = false;
+      // Abiertas: franja actual y anterior; si no hay noticias en ellas (o eliges un día), la más reciente
+      det.open = filtered || (anyRecent ? isRecentSlot(d.key, sl.idx) : first); first = false;
       const sum = el("summary");
       sum.append(el("span", "hrs", two(from) + " – " + two(to)), el("span", "lbl", name),
                  el("span", "cnt", sl.items.length + (sl.items.length === 1 ? " noticia" : " noticias")),
@@ -1364,7 +1376,8 @@ def _club_footer(root):
         return ""
     links = " ".join(f'<a href="{root}club/{slug}/">{html_lib.escape(club)}</a>'
                     for club, slug in sorted(_CLUB_PAGES.items(), key=lambda x: x[0]))
-    return f'<nav class="foot-clubs" aria-label="Clubes">{links}</nav>'
+    return (f'<details class="foot-clubs"><summary>Equipos ({len(_CLUB_PAGES)})</summary>'
+            f'<nav aria-label="Páginas de cada equipo">{links}</nav></details>')
 
 
 def _club_of_team(team):
