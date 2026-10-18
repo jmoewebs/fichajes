@@ -27,14 +27,15 @@ STANDINGS_SCORERS_LIMIT = 100    # goleadores que se piden; de ellos salen los a
 STANDINGS_FILE = "clasificaciones.json"
 
 # Parte médico de Fantasy: palabras del titular que indican cada estado (minúsculas, sin tildes)
+FANTASY_IGNORE_FILE = "fantasy_ignorar.txt"
 FANTASY_DAYS = 10            # días de titulares que se miran para el parte médico general
 FANTASY_WORDS = {
-    "back": ["recibe el alta", "alta medica", "recuperado", "se recupera", "vuelve a entrenar",
+    "back": ["recibe el alta", "alta medica", "recuperado", "recuperados", "se recupera", "vuelve a entrenar",
              "vuelve a la convocatoria", "entra en la convocatoria", "ya entrena", "back in training",
              "returns from injury", "fit again", "available again", "disponible", "back in contention"],
-    "susp": ["sancion", "sancionado", "sancionada", "suspendido", "expulsion", "expulsado", "tarjeta roja",
+    "susp": ["sancion", "sancionado", "sancionada", "sancionados", "sancionadas", "suspendido", "suspendidos", "expulsion", "expulsado", "tarjeta roja",
              "ciclo de amarillas", "suspended", "suspension", "ban", "banned", "red card"],
-    "out": ["lesion", "lesionado", "lesionada", "se pierde", "se perdera", "se perderan", "baja", "bajas",
+    "out": ["lesion", "lesionado", "lesionada", "lesionados", "lesionadas", "se pierde", "se perdera", "se perderan", "baja", "bajas",
             "rotura", "rotura fibrilar", "esguince", "operado", "quirofano", "fuera de la convocatoria",
             "no convocado", "injury", "injured", "ruled out", "to miss", "will miss", "misses", "sidelined",
             "out for", "surgery"],
@@ -42,6 +43,29 @@ FANTASY_WORDS = {
               "doubt", "doubtful", "fitness test", "late fitness test", "knock", "fitness concern",
               "race against time"],
 }
+# Reglas para no atribuir mal un estado (siempre en minúsculas y sin tildes)
+FANTASY_RULES = {
+    # El estado solo cuenta si su palabra está a esta distancia (en palabras) del nombre del jugador
+    # y no hay otro jugador más cerca de ella. Así "Sanción a Vinicius; Lamine Yamal titular" no es de Lamine.
+    "window": 4,
+    # Expresiones que contienen palabras de estado pero no hablan de lesiones ni sanciones
+    "idioms": ["sin duda", "sin ninguna duda", "no cabe duda", "no hay duda", "fuera de duda", "sin lugar a dudas",
+               "no queda duda", "altas y bajas", "altas bajas", "baja forma", "a la baja", "dar de baja",
+               "de baja forma", "baja el precio", "baja su precio", "baja la clausula", "bajas de la",
+               "mercado de altas", "sancion economica", "sancion al club", "sancion a la federacion"],
+    # Palabras que niegan lo que viene justo después: "sin lesión", "no es baja"
+    "neg_adjacent": ["sin", "ni", "nunca", "no"],
+    "neg_fillers": ["es", "esta", "sera", "hay", "tiene", "tendra", "sufre", "ninguna", "ningun", "la", "el", "una", "un",
+                    "de", "mas", "otra", "otro"],
+    # Verbos que anulan lo que sigue en las 3 palabras siguientes: "se libra de la sanción", "descartada la lesión"
+    "avoid": ["libra", "librarse", "libran", "evita", "evitar", "evitan", "salva", "esquiva", "elude", "escapa",
+              "descartada", "descartado", "descarta", "descartan", "desmiente", "desmienten"],
+    # Palabras que anulan lo que tienen justo delante: "lesión descartada"
+    "neg_after": ["descartada", "descartado", "descartadas", "desmentida", "desmentido", "superada", "superado"],
+    # Días que sigue valiendo un aviso (pasado ese tiempo se ignora, salvo las sanciones, que se avisan como antiguas)
+    "stale": {"susp": 5, "doubt": 3, "out": 21, "back": 10, "ok": 7},
+}
+
 # Apellidos tan comunes que, solos, no sirven para reconocer a un jugador
 COMMON_SURNAMES = {"junior", "jr", "silva", "santos", "fernandes", "fernandez", "rodriguez", "garcia",
                    "martinez", "lopez", "gonzalez", "perez", "sanchez", "gomez", "diaz", "alvarez",
