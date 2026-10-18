@@ -6,6 +6,11 @@ on:
   schedule:
     - cron: "7 * * * *"      # cada hora (a los 7 minutos). Solo publica si hay titulares nuevos
   workflow_dispatch:          # botón "Run workflow" para lanzarlo a mano
+    inputs:
+      bienvenida_telegram:
+        description: "Enviar el mensaje de bienvenida al canal de Telegram"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -32,6 +37,13 @@ jobs:
         run: python run.py
         env:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+      - name: Mensaje de bienvenida en Telegram (solo si lo marcas al lanzarlo a mano)
+        if: github.event_name == 'workflow_dispatch' && inputs.bienvenida_telegram
+        run: python run.py telegram-bienvenida
+        env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
