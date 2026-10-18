@@ -188,10 +188,13 @@ table.tb { border-collapse:collapse; width:100%; font-size:15px; font-variant-nu
 .kofi { display:inline-flex; align-items:center; gap:8px; font:600 15px/1 var(--body); text-decoration:none;
   padding:9px 14px; border-radius:20px; background:#fff; color:#145a32; box-shadow:0 2px 8px rgba(0,0,0,.15); }
 .kofi:hover { background:#fff7e6; }
+.top-btns { display:flex; gap:8px; }
+.kofi.tg { color:#1b6fa8; } .kofi.tg:hover { background:#eaf5fd; }
+.kofi svg { display:block; }
 .foot .kofi { box-shadow:none; border:1px solid var(--line); background:var(--card); color:var(--ink); text-decoration:none; }
 .visits { font-variant-numeric:tabular-nums; }
 .visits b { color:var(--ink); }
-@media (max-width:560px) { .kofi-top { top:14px; right:12px; gap:6px; } .kofi-top .visits { font-size:12px; padding:3px 8px; } .kofi-top .kofi { padding:7px 11px; font-size:13px; } .kofi-top .kofi .long { display:none; } }
+@media (max-width:560px) { .top-btns { gap:6px; } .kofi.tg .tg-txt { display:none; } .kofi-top { top:14px; right:12px; gap:6px; } .kofi-top .visits { font-size:12px; padding:3px 8px; } .kofi-top .kofi { padding:7px 11px; font-size:13px; } .kofi-top .kofi .long { display:none; } }
 
 .foot { border-top:1px solid var(--line); margin-top:20px; padding:22px 20px 40px; align-items:center; font-size:14px;
   color:var(--muted); display:flex; flex-wrap:wrap; gap:8px 22px; }
@@ -298,6 +301,13 @@ a.club:hover { text-decoration:underline; }
 .share { display:inline-flex; align-items:center; gap:5px; font:500 13px/1 var(--body); color:var(--muted);
   background:transparent; border:1px solid var(--line); border-radius:20px; padding:5px 10px; cursor:pointer; }
 .share:hover { color:var(--ink); border-color:var(--grass-2); }
+.share.ico { padding:4px 7px; border-color:transparent; margin-left:auto; }
+.share.ico:hover { border-color:var(--line); }
+.promo { display:flex; gap:14px; align-items:center; flex-wrap:wrap; background:var(--card); border:1px solid var(--line);
+  border-left:5px solid #2a9fd8; border-radius:8px; padding:14px 16px; margin:20px 0 4px; font-size:15px; }
+.promo p { margin:0; flex:1 1 320px; }
+.promo a.join { display:inline-flex; align-items:center; gap:7px; font:600 15px/1 var(--body); text-decoration:none;
+  color:#fff; background:#1b6fa8; padding:10px 14px; border-radius:20px; white-space:nowrap; }
 .sec-h { font:700 24px/1.1 var(--cond); margin:26px 0 4px; }
 .sec-h small { font:500 14px/1 var(--body); color:var(--muted); margin-left:8px; }
 .club-box { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:16px 18px; margin:20px 0 6px; }
@@ -403,6 +413,7 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
 <footer class="wrap foot">
   <span>Los titulares pertenecen a sus medios; cada uno enlaza a la noticia original.</span>
   __KOFI_FOOT__
+  __TG_FOOT__
   <a href="__ROOT__cookies.html">Política de cookies</a>
   __COOKIE_BUTTON__
   __CLUB_FOOTER__
@@ -436,7 +447,7 @@ __ANALYTICS__
 <script id="d-players" type="application/json">__PLAYERS__</script>
 <script id="d-standings" type="application/json">__STANDINGS__</script>
 <script id="d-domains" type="application/json">__DOMAINS__</script>
-<script>const RECENT_DAYS = __RECENT_DAYS__;</script>
+<script>const RECENT_DAYS = __RECENT_DAYS__; const TG_URL = "__TG_URL__";</script>
 <script>
 const rumors = JSON.parse(document.getElementById("d-rumors").textContent);
 const DOMAINS = JSON.parse(document.getElementById("d-domains").textContent);
@@ -453,6 +464,7 @@ const CLUB_SLUGS = __CLUB_SLUGS__;       // clubes con página propia
 const CLUB = __CLUB__;                   // en una página de club: su nombre
 const CLUB_INFO = __CLUB_INFO__;         // posición en la tabla del club de esta página
 const SITE_URL = "__SITE_URL__";
+const PLANE_SVG = '__PLANE__';
 const STATUS = {interes:"Interés", negociacion:"Negociación", acuerdo:"Acuerdo", oficial:"Oficial", descartado:"Descartado"};
 const ORDER = ["interes", "negociacion", "acuerdo", "oficial"];
 const list = document.getElementById("list"), q = document.getElementById("q"), sel = document.getElementById("club");
@@ -604,10 +616,11 @@ function clubLink(name, cls) {
   const a = el("a", cls, name); a.href = dirUrl(ROOT + "club/" + slug + "/");
   return a;
 }
-function shareBtn(text, url) {
-  const b = el("button", "share"); b.type = "button"; b.title = "Compartir por WhatsApp u otra aplicación";
+function shareBtn(text, url, iconOnly) {
+  const b = el("button", "share" + (iconOnly ? " ico" : "")); b.type = "button"; b.title = "Compartir por WhatsApp u otra aplicación";
+  if (iconOnly) b.setAttribute("aria-label", "Compartir");
   b.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M18 16a3 3 0 0 0-2.4 1.2l-6.7-3.4a3 3 0 0 0 0-1.6l6.7-3.4A3 3 0 1 0 15 7l-6.7 3.4a3 3 0 1 0 0 3.2L15 17a3 3 0 1 0 3-1z"/></svg>';
-  b.append(" Compartir");
+  if (!iconOnly) b.append(" Compartir");
   b.addEventListener("click", async () => {
     if (navigator.share) {
       try { await navigator.share({text, url}); return; } catch (e) { if (e.name === "AbortError") return; }
@@ -729,6 +742,7 @@ function newsItem(n) {
   if (n.live) meta.append(el("span", "tag live", "En directo"));
   if (n.rumor) meta.append(el("span", "tag rum", "Rumor"));
   for (const c of n.clubs) meta.append(clubLink(c, "club"));
+  meta.append(shareBtn("📰 " + n.title + " (" + n.source + ")\n" + n.url + "\n\nMás noticias y rumores en", SITE_URL + "/", true));
   body.append(a, meta); li.append(outlet(n.url, n.source), body);
   return li;
 }
@@ -828,6 +842,19 @@ function renderRumors(text, club) {
     list.append(el("p", "empty", rumors.length ? "Ningún rumor coincide con ese filtro."
       : "Ahora mismo no hay rumores de fichajes. Con el mercado cerrado es normal; en enero y en verano aparecerán aquí."));
     return;
+  }
+  if (PAGE === "rumors" && !text && !club && !league && !day) {
+    const promo = el("aside", "promo"), p = el("p");
+    if (TG_URL) {
+      p.append(el("b", null, "Recibe los rumores calientes al momento"), " en nuestro canal de Telegram. ");
+    }
+    p.append("¿Uno te interesa? Compártelo por WhatsApp con el botón ", el("b", null, "Compartir"), " de cada rumor.");
+    promo.append(p);
+    if (TG_URL) {
+      const a = el("a", "join"); a.href = TG_URL; a.target = "_blank"; a.rel = "noopener";
+      a.innerHTML = PLANE_SVG; a.append(" Unirme al canal"); promo.append(a);
+    }
+    list.append(promo);
   }
   // Primero los fichajes ya cerrados, luego los rumores por termómetro
   const closed = shown.filter(r => bestStatus(r) === "oficial"), open = shown.filter(r => bestStatus(r) !== "oficial");
@@ -1264,13 +1291,20 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
                      if config.GA_MEASUREMENT_ID else "")
             .replace("__COOKIE_BUTTON__", '<button id="ck-config">Configurar cookies</button>'
                      if config.GA_MEASUREMENT_ID else "")
-            .replace("__KOFI_TOP__", '<div class="kofi-top">' + (
+            .replace("__KOFI_TOP__", '<div class="kofi-top"><div class="top-btns">' + (
+                         f'<a class="kofi tg" href="{esc(telegram_url(), quote=True)}" target="_blank" rel="noopener" '
+                         f'aria-label="Síguenos en Telegram"><span>__PLANE__</span><span class="tg-txt">Síguenos en Telegram</span></a>'
+                         if telegram_url() else "") + (
                          f'<a class="kofi" href="{esc(config.KOFI_URL, quote=True)}" target="_blank" rel="noopener">'
                          f'<span>☕</span><span><span class="long">Invítame a un </span>café</span></a>'
-                         if config.KOFI_URL else "") + '<span class="visits" id="visits" hidden></span></div>')
+                         if config.KOFI_URL else "") + '</div><span class="visits" id="visits" hidden></span></div>')
+            .replace("__TG_URL__", telegram_url())
+            .replace("__TG_FOOT__", f'<a href="{esc(telegram_url(), quote=True)}" target="_blank" rel="noopener">'
+                                    f'Canal de Telegram</a>' if telegram_url() else "")
             .replace("__KOFI_FOOT__", (f'<a class="kofi" href="{esc(config.KOFI_URL, quote=True)}" target="_blank" '
                                        f'rel="noopener"><span>☕</span><span>¿Te es útil? Invítame a un café en Ko-fi</span></a>') if config.KOFI_URL else "")
             .replace("__VISITS__", "true" if config.VISIT_COUNTER else "false")
+            .replace("__PLANE__", PLANE_ICON)
             .replace("__ROOT__", root))
     html = (html
             .replace("__TITLE__", title).replace("__HEADING__", heading).replace("__CRUMBS__", crumbs)
@@ -1299,7 +1333,17 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
     return os.path.abspath(path)
 
 
+PLANE_ICON = '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M2.5 11.2 20.6 4.3c.8-.3 1.5.2 1.3 1.3l-3.1 14.5c-.2 1-.8 1.2-1.6.8l-4.6-3.4-2.2 2.1c-.3.3-.5.4-.9.4l.3-4.7 8.5-7.7c.4-.3-.1-.5-.6-.2L7.2 14.1l-4.5-1.4c-1-.3-1-1 .2-1.5z"/></svg>'
+
 _CLUB_PAGES = {}     # {club: slug} de los clubes con página; se rellena en generate()
+
+
+def telegram_url():
+    """Enlace público al canal: config.TELEGRAM_URL, o el secreto TELEGRAM_CHAT_ID si es un @canal."""
+    if getattr(config, "TELEGRAM_URL", ""):
+        return config.TELEGRAM_URL
+    chat = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
+    return f"https://t.me/{chat[1:]}" if chat.startswith("@") and len(chat) > 1 else ""
 
 
 def _winter_year():
