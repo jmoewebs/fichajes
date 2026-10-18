@@ -51,6 +51,20 @@ with tempfile.TemporaryDirectory() as tmp:
         assert rules.extract_one(bad, "oferta de fichaje", P, I) == [], bad
     # Y los rumores reales de nombres desconocidos se siguen detectando
     assert rules.extract_one("El Getafe ya negocia el fichaje de Jadon Sancho", "", P, I), "Sancho sí es un rumor"
+    # Parte médico de Fantasy: no atribuir mal los estados
+    import fantasy
+    FP = {"Lamine Yamal": {"keys": {"lamine yamal", "yamal"}}, "Vinícius Júnior": {"keys": {"vinicius"}}, "Pedri": {"keys": {"pedri"}}}
+    cases = [("Cuatro partidos de sanción a Vinicius y Lamine Yamal sorprende", {"Vinícius Júnior": "susp"}),
+             ("Vinicius sancionado cuatro partidos; Lamine Yamal ya entrena", {"Vinícius Júnior": "susp", "Lamine Yamal": "back"}),
+             ("Lamine Yamal y Pedri, sancionados por la UEFA", {"Lamine Yamal": "susp", "Pedri": "susp"}),
+             ("Lamine Yamal se libra de la sanción", {"Lamine Yamal": "ok"}),
+             ("Descartada la lesión de Lamine Yamal", {"Lamine Yamal": "ok"}),
+             ("Lamine Yamal no entrena por lesión", {"Lamine Yamal": "out"}),
+             ("Sin duda, Lamine Yamal es el mejor del mundo", {}),
+             ("Altas y bajas del Barça: Lamine Yamal renueva", {}),
+             ("Sanción de la UEFA al Barcelona; esta noche juega Lamine Yamal", {})]
+    for title, expected in cases:
+        assert fantasy.analyze(title, FP) == expected, (title, fantasy.analyze(title, FP))
     db.close()
     os.chdir(ROOT)
 print("OK: todas las pruebas pasan")
