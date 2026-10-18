@@ -54,6 +54,36 @@ def published_groups(db, start=None, end=None):
     return out
 
 
+def best_status(statuses):
+    """Estado más avanzado: oficial > acuerdo > negociación > interés; si solo hay descartados, descartado."""
+    if "oficial" in statuses:
+        return "oficial"
+    known = [s for s in statuses if s in ORDER]
+    return max(known, key=ORDER.index) if known else (next(iter(statuses), None) or "interes")
+
+
+def merge_by_player(entries):
+    """Una sola tarjeta por jugador. Entre sus destinos gana el que tiene destino, no está descartado y
+    está más caliente. Un titular sin destino se descarta si hay otro con destino. Los demás destinos
+    pasan a "others" (se muestran dentro de la tarjeta)."""
+    with_dest = [e for e in entries if e["to_club"]]
+    pool = with_dest or entries
+
+    def rank(e):
+        discarded = best_status({m["status"] for m in e["mentions"]}) == "descartado"
+        return (not discarded, e["score"], e["last_update"])
+    pool = sorted(pool, key=rank, reverse=True)
+    main, rest = pool[0], pool[1:]
+    main["others"] = [{"to_club": e["to_club"], "score": e["score"],
+                       "status": best_status({m["status"] for m in e["mentions"]})} for e in rest]
+    involved = [main["from_club"], main["to_club"]] + [o["to_club"] for o in main["others"]]
+    for e in entries:                      # el origen también cuenta aunque venga de un titular sin destino
+        involved.append(e["from_club"])
+    main["clubs"] = list(dict.fromkeys(c for c in involved if c))
+    main["leagues"] = sorted({config.CLUB_LEAGUE.get(c, "Otras ligas") for c in main["clubs"]})
+    return main
+
+
 def build(db, start=None, end=None):
     """Rumores publicados entre start y end (ISO). Por defecto, los de los últimos WINDOW_DAYS."""
     groups = published_groups(db, start, end)
@@ -80,13 +110,14 @@ def build(db, start=None, end=None):
                                    for c in (entry["from_club"], entry["to_club"]) if c})
         players[slug]["name"] = entry["player"]
         players[slug]["rumors"].append(entry)
-        if entry["to_club"]:
-            clubs[entry["to_club"]]["in"].append(entry)
-        if entry["from_club"]:
-            clubs[entry["from_club"]]["out"].append(entry)
 
-    for p in players.values():
-        p["rumors"].sort(key=lambda e: -e["score"])
+    for slug, p in players.items():      # una tarjeta por jugador
+        main = merge_by_player(p["rumors"])
+        p["rumors"] = [main]
+        if main["to_club"]:
+            clubs[main["to_club"]]["in"].append(main)
+        if main["from_club"]:
+            clubs[main["from_club"]]["out"].append(main)
     hot = sorted((e for p in players.values() for e in p["rumors"]), key=lambda e: -e["score"])
     return {"players": dict(players), "clubs": dict(clubs), "hot": hot[:50]}
 
