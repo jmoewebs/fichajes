@@ -9,7 +9,9 @@ import web
 from pipeline import norm
 
 ORDER = ["interes", "negociacion", "acuerdo", "oficial"]
-WEIGHTS = {f["source"]: f["weight"] for f in config.FEEDS}
+WEIGHTS = {}
+for _f in config.FEEDS:
+    WEIGHTS.setdefault(_f["source"], _f["weight"])
 
 
 def thermometer(sources, statuses):
@@ -43,7 +45,10 @@ def published_groups(db, start=None, end=None):
     out = {}
     for key, mentions in groups.items():
         approved = any(m["needs_review"] == 0 for m in mentions)
-        corroborated = len({m["source"] for m in mentions}) >= config.AUTO_PUBLISH_MIN_SOURCES
+        sources = {m["source"] for m in mentions}
+        low = {f["source"] for f in config.FEEDS if f.get("low_trust")}
+        # Hacen falta varios medios, y al menos uno fiable (dos webs poco fiables no se confirman entre sí)
+        corroborated = len(sources) >= config.AUTO_PUBLISH_MIN_SOURCES and bool(sources - low)
         if approved or corroborated:
             out[key] = mentions
     return out
@@ -112,7 +117,8 @@ def build_news(db, start=None, end=None, limit=None):
     rumor_items = {m["item_id"] for ms in published_groups(db, start, end).values() for m in ms}
     news = []
     for r in db.execute("""SELECT id, source, title, url, published FROM items
-                           WHERE published >= ? AND published < ? ORDER BY published DESC""",
+                           WHERE published >= ? AND published < ? AND rumor_only = 0
+                           ORDER BY published DESC""",
                         (start, end)):
         title_n = norm(r["title"])
         if _has_any(title_n, config.NOT_FOOTBALL):
