@@ -268,7 +268,23 @@ PAST_WORDS = ["leyenda", "exjugador", "ex jugador", "historico", "recuerda", "re
               "hace anos", "en su dia", "en su momento", "estuvo decidido", "estuvo a punto",
               "pudo fichar", "pudo jugar", "estuvo cerca", "cuando dejo", "cuando era", "cuando jugaba",
               "por que rechazo", "legend", "former", "when he left", "when he was", "years ago",
-              "nearly signed", "almost signed", "could have signed", "looking back", "remembers", "recalls"]
+              "nearly signed", "almost signed", "could have signed", "looking back", "remembers", "recalls",
+              "fallido", "frustrado"]
+
+# Titulares de PARTIDO, lesión o sanción ("descartado ante el Barça", "deberá frenar a...").
+# Si aparecen y no hay ninguna palabra clara de fichaje (TRANSFER_WORDS), no es un rumor.
+MATCH_WORDS = ["ante el", "ante la", "ante los", "ante las", "frente al", "frente a", "contra el",
+               "contra la", "partido", "partidos", "duelo", "once inicial", "alineacion", "convocatoria",
+               "convocado", "convocados", "lesion", "lesionado", "lesionada", "baja", "bajas", "frenar",
+               "jornada", "derbi", "clasico", "expulsion", "expulsado", "multa", "multar", "sancion",
+               "sancionado", "sin sitio", "se queda sin", "se queda fuera", "titular", "titularidad",
+               "suplente", "banquillo", "minutos", "rival", "previa", "arbitro", "vs", "injury", "injured",
+               "ruled out of", "match", "clash", "against", "lineup", "line up", "suspended", "suspension",
+               "red card", "fined", "fixture"]
+TRANSFER_WORDS = ["fichaje", "fichajes", "fichar", "ficha por", "ficha a", "firma por", "traspaso", "transfer",
+                  "oferta", "offer", "bid", "bids", "puja", "clausula", "release clause", "cesion", "cedido",
+                  "loan", "contrato", "contract", "renovacion", "renueva", "renovar", "mercado", "signs for",
+                  "here we go", "negocia", "negociacion", "deal", "move", "enero", "verano", "january", "summer"]
 
 # Si el nombre desconocido viene acompañado de estas palabras, no es un jugador
 STAFF_WORDS = ["director", "director deportivo", "presidente", "president", "ceo", "consejero",
