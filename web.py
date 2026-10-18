@@ -28,6 +28,11 @@ TEMPLATE = r"""<!DOCTYPE html>
 <meta property="og:locale" content="es_ES">
 <meta property="og:image" content="__SITE_URL__/compartir.png">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="__TITLE__">
+<meta name="twitter:description" content="__DESCRIPTION__">
+<meta name="twitter:image" content="__SITE_URL__/compartir.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <link rel="icon" href="__ROOT__favicon.svg" type="image/svg+xml">
 <link rel="icon" href="__ROOT__favicon.png" type="image/png" sizes="48x48">
 <link rel="apple-touch-icon" href="__ROOT__apple-touch-icon.png">
@@ -421,6 +426,8 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
   <span>Los titulares pertenecen a sus medios; cada uno enlaza a la noticia original.</span>
   __KOFI_FOOT__
   __TG_FOOT__
+  <a href="__ROOT__sobre.html">Sobre esta web</a>
+  <a href="__ROOT__privacidad.html">Privacidad</a>
   <a href="__ROOT__cookies.html">Política de cookies</a>
   __COOKIE_BUTTON__
 </footer>
@@ -1715,6 +1722,13 @@ def write_static(months, out_dir="web", leagues=(), clubs=()):
         pass   # sin Pillow no hay PNG; el icono SVG sigue funcionando
     with open(os.path.join(out_dir, "cookies.html"), "w", encoding="utf-8") as f:
         f.write(COOKIES_PAGE.replace("__SITE_NAME__", html_lib.escape(config.SITE_NAME)))
+    tg = telegram_url()
+    contact = (f'<a href="{html_lib.escape(tg, quote=True)}" rel="noopener">nuestro canal de Telegram</a>'
+               if tg else "el canal de contacto indicado en la web")
+    for fname, tpl in (("sobre.html", SOBRE_PAGE), ("privacidad.html", PRIVACIDAD_PAGE), ("404.html", NOTFOUND_PAGE)):
+        with open(os.path.join(out_dir, fname), "w", encoding="utf-8") as f:
+            f.write(tpl.replace("__SITE_NAME__", html_lib.escape(config.SITE_NAME))
+                       .replace("__SITE_URL__", config.SITE_URL).replace("__CONTACT__", contact))
     if getattr(config, "INDEXNOW_KEY", ""):
         with open(os.path.join(out_dir, f"{config.INDEXNOW_KEY}.txt"), "w", encoding="utf-8") as f:
             f.write(config.INDEXNOW_KEY)
@@ -1724,6 +1738,8 @@ def write_static(months, out_dir="web", leagues=(), clubs=()):
     urls = [(config.SITE_URL + "/", today, "hourly", "1.0"),
             (config.SITE_URL + "/rumores/", today, "hourly", "0.9"),
             (config.SITE_URL + "/fantasy/", today, "hourly", "0.9")]
+    urls += [(f"{config.SITE_URL}/sobre.html", today, "monthly", "0.3"),
+             (f"{config.SITE_URL}/privacidad.html", today, "monthly", "0.3")]
     urls += [(f"{config.SITE_URL}/clasificacion/{league_slug(lg)}/", today, "daily", "0.8") for lg in leagues]
     urls += [(f"{config.SITE_URL}/club/{slug}/", today, "hourly", "0.8") for slug in clubs]
     current = _now_spain().strftime("%Y-%m")
@@ -1736,6 +1752,82 @@ def write_static(months, out_dir="web", leagues=(), clubs=()):
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n'
                 f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{body}</urlset>\n')
 
+
+SOBRE_PAGE = """<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sobre esta web | __SITE_NAME__</title>
+<meta name="description" content="Qué es Rumores y Fichajes, de dónde salen los titulares y cómo funciona el termómetro de rumores.">
+<link rel="canonical" href="__SITE_URL__/sobre.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+body { margin:0; font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; background:#f2f6f3; color:#10201a; }
+@media (prefers-color-scheme: dark) { body { background:#0c1611; color:#e4ece7; } }
+main { max-width:720px; margin:0 auto; padding:40px 20px 60px; }
+h1 { font-size:34px; line-height:1.1; margin:0 0 20px; } h2 { font-size:22px; margin:32px 0 8px; }
+a { color:inherit; }
+</style></head><body><main>
+<p><a href="/">Volver a __SITE_NAME__</a></p>
+<h1>Sobre esta web</h1>
+<p>__SITE_NAME__ es un rastreador de rumores y noticias de fútbol. Recoge cada hora los titulares de medios deportivos de España y del extranjero y los ordena en un solo sitio: rumores de fichajes con termómetro, clasificaciones, goleadores, asistentes y bajas para LaLiga Fantasy.</p>
+<h2>Cómo funciona</h2>
+<p>La web es un índice, no una redacción: no reescribe las noticias. Cada titular enlaza a la noticia original del medio que la publicó, que conserva toda la autoría y los derechos. Un programa detecta de forma automática el jugador, el club y el tipo de movimiento (rumor, acuerdo u oficial) a partir del titular.</p>
+<h2>El termómetro de rumores</h2>
+<p>El termómetro (de 0° a 100°) es una estimación automática de cuánto se repite y se confirma un rumor en distintos medios. Es orientativo: no es información oficial ni una predicción. Para confirmar un fichaje, consulta siempre la comunicación oficial de los clubes.</p>
+<h2>Actualización</h2>
+<p>Los datos se actualizan cada hora. La fecha y hora de la última actualización aparece en la cabecera de cada página.</p>
+<h2>Contacto</h2>
+<p>Si eres un medio y quieres que retiremos un enlace, o si has detectado un error, escríbenos por __CONTACT__.</p>
+<p><a href="privacidad.html">Política de privacidad</a> · <a href="cookies.html">Política de cookies</a></p>
+</main></body></html>
+"""
+
+PRIVACIDAD_PAGE = """<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Política de privacidad | __SITE_NAME__</title>
+<meta name="description" content="Qué datos trata Rumores y Fichajes, para qué y qué derechos tienes.">
+<link rel="canonical" href="__SITE_URL__/privacidad.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+body { margin:0; font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; background:#f2f6f3; color:#10201a; }
+@media (prefers-color-scheme: dark) { body { background:#0c1611; color:#e4ece7; } }
+main { max-width:720px; margin:0 auto; padding:40px 20px 60px; }
+h1 { font-size:34px; line-height:1.1; margin:0 0 20px; } h2 { font-size:22px; margin:32px 0 8px; }
+a { color:inherit; }
+</style></head><body><main>
+<p><a href="/">Volver a __SITE_NAME__</a></p>
+<h1>Política de privacidad</h1>
+<p>En __SITE_NAME__ no hay registro de usuarios, formularios ni comentarios, y no pedimos datos personales.</p>
+<h2>Qué datos se tratan</h2>
+<p>Solo si aceptas las cookies de análisis, Google Analytics mide de forma agregada las visitas (páginas vistas, país, dispositivo). Si las rechazas, no se instala ninguna cookie de análisis. Más detalle en la <a href="cookies.html">política de cookies</a>.</p>
+<p>La web guarda en tu navegador, sin enviarlo a ningún servidor, tus preferencias (filtros, equipo de Fantasy y tu respuesta al aviso de cookies).</p>
+<h2>Servicios de terceros</h2>
+<p>Para mostrar el icono de cada medio, tu navegador solicita una imagen a Google, que puede registrar tu dirección IP según su <a href="https://policies.google.com/privacy?hl=es">política de privacidad</a>. La web se aloja en Cloudflare, que puede tratar datos técnicos de la conexión (IP, navegador) para entregar y proteger el sitio. Los enlaces a medios, Telegram o Ko-fi te llevan a sitios externos con su propia política.</p>
+<h2>Tus derechos</h2>
+<p>Puedes retirar tu consentimiento de cookies cuando quieras desde "Configurar cookies" en el pie de página, y ejercer tus derechos de acceso, rectificación o supresión escribiéndonos por __CONTACT__.</p>
+</main></body></html>
+"""
+
+NOTFOUND_PAGE = """<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Página no encontrada | __SITE_NAME__</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+body { margin:0; font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; background:#f2f6f3; color:#10201a; }
+@media (prefers-color-scheme: dark) { body { background:#0c1611; color:#e4ece7; } }
+main { max-width:720px; margin:0 auto; padding:40px 20px 60px; }
+h1 { font-size:34px; line-height:1.1; margin:0 0 20px; } h2 { font-size:22px; margin:32px 0 8px; }
+a { color:inherit; }
+</style></head><body><main>
+<p><a href="/">Volver a __SITE_NAME__</a></p>
+<h1>Página no encontrada</h1>
+<p>La página que buscas no existe o se ha movido.</p>
+<p><a href="/">Ir a la portada</a> · <a href="/rumores/">Rumores de fichajes</a> · <a href="/fantasy/">Bajas para Fantasy</a></p>
+</main></body></html>
+"""
 
 COOKIES_PAGE = """<!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8">
