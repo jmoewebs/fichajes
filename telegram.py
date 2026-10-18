@@ -1,0 +1,132 @@
+"""Publica en un canal de Telegram los rumores calientes y un resumen diario de "Lo más leído".
+
+Necesita dos secretos en GitHub: TELEGRAM_BOT_TOKEN (el token del bot) y TELEGRAM_CHAT_ID
+(el canal, por ejemplo @rumoresyfichajes). Sin ellos no hace nada.
+Recuerda lo publicado en la tabla "publicados" de fichajes.db para no repetir nunca."""
+import html
+import json
+import os
+import urllib.parse
+import urllib.request
+from datetime import datetime, timezone
+
+import config
+
+STATUS = {"interes": "Interés", "negociacion": "Negociación", "acuerdo": "Acuerdo", "oficial": "Oficial"}
+ORDER = ["interes", "negociacion", "acuerdo", "oficial"]
+
+
+def _ensure(db):
+    db.execute("CREATE TABLE IF NOT EXISTS publicados (clave TEXT PRIMARY KEY, fecha TEXT NOT NULL)")
+
+
+def _done(db, key):
+    return db.execute("SELECT 1 FROM publicados WHERE clave = ?", (key,)).fetchone() is not None
+
+
+def _mark(db, key):
+    db.execute("INSERT OR IGNORE INTO publicados (clave, fecha) VALUES (?, ?)",
+               (key, datetime.now(timezone.utc).isoformat()))
+
+
+def _send(token, chat, text):
+    body = urllib.parse.urlencode({"chat_id": chat, "text": text, "parse_mode": "HTML",
+                                   "disable_web_page_preview": "false"}).encode()
+    req = urllib.request.Request(f"https://api.telegram.org/bot{token}/sendMessage", data=body)
+    with urllib.request.urlopen(req, timeout=20) as r:
+        res = json.loads(r.read())
+    if not res.get("ok"):
+        raise RuntimeError(res.get("description", "error de Telegram"))
+
+
+def best_status(r):
+    st = [m["status"] for m in r["mentions"]]
+    if "oficial" in st:
+        return "oficial"
+    known = [s for s in st if s in ORDER]
+    return max(known, key=ORDER.index) if known else st[0]
+
+
+def rumor_key(r):
+    # Incluye el estado: si un rumor pasa de "interés" a "acuerdo", se vuelve a publicar
+    return f"rumor|{r['player_slug']}|{r['to_club'] or '?'}|{best_status(r)}"
+
+
+def rumor_text(r):
+    e = html.escape
+    st = best_status(r)
+    head = "✅ <b>FICHAJE CERRADO</b>" if st == "oficial" else f"🔥 <b>RUMOR</b> · {STATUS.get(st, st)}"
+    route = f"{e(r['from_club'] or '?')} → {e(r['to_club'] or '?')}"
+    lines = [head, f"<b>{e(r['player'])}</b>: {route}"]
+    if st != "oficial":
+        lines.append(f"🌡️ {r['score']}° en el termómetro · {r['sources']} medio(s)")
+    lines.append(f"📰 {e(r['mentions'][0]['source'])}: <a href=\"{e(r['mentions'][0]['url'], quote=True)}\">"
+                 f"{e(r['mentions'][0]['title'])}</a>")
+    lines.append(f"\n👉 <a href=\"{config.SITE_URL}/rumores/\">Todos los rumores en {e(config.SITE_NAME)}</a>")
+    return "\n".join(lines)
+
+
+def _top_read(news):
+    """Lo más leído de las últimas 24 h, pidiéndoselo a la propia web."""
+    try:
+        with urllib.request.urlopen(f"{config.SITE_URL}/api/clics?horas=24", timeout=20) as r:
+            top = json.loads(r.read()).get("top", [])
+    except Exception:
+        return []
+    by_url = {n["url"]: n for n in news}
+    return [by_url[t["url"]] for t in top if t["url"] in by_url][:3]
+
+
+def digest_text(items):
+    e = html.escape
+    lines = ["📊 <b>Lo más leído hoy</b>"]
+    for i, n in enumerate(items, 1):
+        lines.append(f"{i}. <a href=\"{e(n['url'], quote=True)}\">{e(n['title'])}</a> ({e(n['source'])})")
+    lines.append(f"\n👉 <a href=\"{config.SITE_URL}/\">Más en {e(config.SITE_NAME)}</a>")
+    return "\n".join(lines)
+
+
+def run(db, rumors, news, now_spain=None, sender=None):
+    """rumors = lista de rumores publicados (como en la web); news = noticias recientes."""
+    token, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
+    if not (token and chat) and sender is None:
+        return "sin configurar"
+    send = sender or (lambda text: _send(token, chat, text))
+    _ensure(db)
+    first_time = db.execute("SELECT COUNT(*) FROM publicados").fetchone()[0] == 0
+    candidates = [r for r in rumors
+                  if r["score"] >= config.TELEGRAM_MIN_SCORE or best_status(r) in ("acuerdo", "oficial")]
+    if first_time:
+        # La primera vez no se publica el atasco de rumores antiguos: solo se apuntan
+        for r in candidates:
+            _mark(db, rumor_key(r))
+        db.commit()
+        return f"primera ejecución: {len(candidates)} rumores apuntados sin publicar"
+    sent, errors = 0, []
+    for r in sorted(candidates, key=lambda r: r["last_update"]):
+        if sent >= config.TELEGRAM_MAX_PER_RUN:
+            break
+        key = rumor_key(r)
+        if _done(db, key):
+            continue
+        try:
+            send(rumor_text(r))
+            _mark(db, key)
+            sent += 1
+        except Exception as exc:
+            errors.append(str(exc))
+            break
+    # Resumen diario a la hora indicada (hora de España)
+    now_spain = now_spain or datetime.now()
+    day_key = f"resumen|{now_spain.strftime('%Y-%m-%d')}"
+    if now_spain.hour >= config.TELEGRAM_DIGEST_HOUR and not _done(db, day_key):
+        items = _top_read(news)
+        if items:
+            try:
+                send(digest_text(items))
+                _mark(db, day_key)
+                sent += 1
+            except Exception as exc:
+                errors.append(str(exc))
+    db.commit()
+    return f"{sent} mensaje(s) publicados" + (" · errores: " + "; ".join(errors) if errors else "")
