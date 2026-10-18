@@ -541,7 +541,7 @@ for (const name of Object.keys(sourceUrl).sort()) {
   b.dataset.source = name; fSources.append(b);
 }
 function syncFilters() {
-  const pool = tab === "rumors" ? rumors.filter(r => r.mentions.some(m => !hidden.has(m.source) && dayOk(m.date)))
+  const pool = tab === "rumors" ? rumors.filter(r => rumorDayOk(r) && r.mentions.some(m => !hidden.has(m.source)))
                                 : news.filter(n => !hidden.has(n.source) && dayOk(n.date));
   for (const b of fLeagues.querySelectorAll("button")) {
     b.setAttribute("aria-pressed", String(b.dataset.league === league));
@@ -559,6 +559,7 @@ function syncFilters() {
 // Columna de fechas: días con noticias + historial de meses
 function dkey(iso) { const d = new Date(iso); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
 const recentFrom = Date.now() - RECENT_DAYS * 86400000;
+function rumorDayOk(r) { return !day || r.mentions.some(m => dkey(m.date) === day); }
 function dayOk(iso) { return day ? dkey(iso) === day : (IS_ARCHIVE || new Date(iso).getTime() >= recentFrom); }
 const fDays = document.getElementById("f-days");
 function shortDay(k) {
@@ -820,7 +821,7 @@ function rumorCard(r) {
 
 function renderRumors(text, club) {
   const shown = rumors.filter(r => (!club || r.from_club === club || r.to_club === club) &&
-                                   (!league || r.leagues.includes(league)) && r.mentions.some(m => dayOk(m.date)) &&
+                                   (!league || r.leagues.includes(league)) && rumorDayOk(r) &&
                                    r.mentions.some(m => !hidden.has(m.source)) &&
                                    match(text, r.player, r.from_club, r.to_club, ...r.mentions.map(m => m.source)));
   if (!shown.length) {
