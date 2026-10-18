@@ -32,6 +32,8 @@ jobs:
         run: python run.py
         env:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
       - name: Rumores pendientes de revisión (solo informativo)
         run: python run.py review
@@ -51,3 +53,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy web --project-name=${{ secrets.CLOUDFLARE_PROJECT_NAME }} --branch=main
+
+      - name: Avisar a Bing de las páginas (IndexNow, una vez al día)
+        if: steps.run.outputs.nuevos != '0' || github.event_name == 'workflow_dispatch'
+        run: python run.py indexnow
