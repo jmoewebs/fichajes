@@ -12,7 +12,14 @@ NAME_STOPWORDS = {
     "how", "what", "who", "premier", "league", "liga", "laliga", "champions", "mercado",
     "fichajes", "fichaje", "bombazo", "ultima", "hora", "exclusiva", "en", "de", "del", "con",
     "transfer", "news", "live", "real", "football", "futbol", "gossip", "sport",
+    # verbos o palabras sueltas que abren titulares y no son nombres
+    "confirmado", "confirmada", "colocan", "situan", "apuntan", "desvelan", "revelan", "ojo",
+    "atencion", "sorpresa", "giro", "escandalo", "papers", "primera", "plan", "dan", "deja",
+    "alerta", "polemica", "locura", "golpe", "adios", "vuelve", "llega", "nuevo", "nueva",
 }
+
+# Citas largas entre comillas dobles: suelen ser declaraciones, no el rumor en sí
+QUOTE_RE = re.compile(r'["“«][^"”»]{15,}["”»]')
 
 NAME_RE = re.compile(
     r"[A-ZÁÉÍÓÚÑÜÖØ][\wáéíóúñüöøçãõ'\-]+"
@@ -149,6 +156,7 @@ def assign_clubs(title_n, clubs, player_club):
 
 def extract_one(title, summary, players, ignored=frozenset()):
     """Devuelve una lista de rumores (dicts) detectados en un titular."""
+    title = QUOTE_RE.sub(" ", title)
     title_n = norm(title)
     status, strong = detect_status(title_n)
     if not status:          # la palabra clave tiene que estar en el titular
@@ -156,6 +164,9 @@ def extract_one(title, summary, players, ignored=frozenset()):
     padded = f" {' '.join(title_n.split())} "
     if any(f" {w} " in padded for w in config.PAST_WORDS):
         return []           # historia o entrevista sobre el pasado, no un rumor de ahora
+    if (any(f" {w} " in padded for w in config.MATCH_WORDS)
+            and not any(f" {w} " in padded for w in config.TRANSFER_WORDS)):
+        return []           # previa de partido, lesión o sanción ("descartado ante el Barça")
     clubs = _find_all(title_n, CLUB_INDEX)
     found_players = {}
     for s, e, (name, club) in _find_all(title_n, players):
@@ -185,9 +196,28 @@ def extract_one(title, summary, players, ignored=frozenset()):
     return rumors
 
 
+def revalidate(db, players, ignored):
+    """Vuelve a pasar las reglas actuales por los rumores ya guardados y borra los que
+    ya no se detectarían (así los falsos positivos antiguos desaparecen solos)."""
+    rows = db.execute("""SELECT r.id, r.player, i.title, i.summary FROM rumors r
+                         JOIN items i ON i.id = r.item_id""").fetchall()
+    cache, bad = {}, []
+    for r in rows:
+        key = (r["title"], r["summary"])
+        if key not in cache:
+            cache[key] = {ru["player"] for ru in extract_one(r["title"], r["summary"], players, ignored)}
+        if r["player"] not in cache[key]:
+            bad.append((r["id"],))
+    db.executemany("DELETE FROM rumors WHERE id = ?", bad)
+    return len(bad)
+
+
 def extract_pending(db):
     players = load_players()
     ignored = load_ignored()
+    removed = revalidate(db, players, ignored)
+    if removed:
+        print(f"  Rumores antiguos que ya no pasan las reglas (borrados): {removed}")
     saved = 0
     rows = db.execute("SELECT id, title, summary FROM items WHERE processed = 0").fetchall()
     for r in rows:
