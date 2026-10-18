@@ -337,6 +337,9 @@ details.foot-clubs { width:100%; font-size:13px; line-height:1.9; border-top:0; 
 .player { font:700 28px/1 var(--cond); margin:0; }
 .route { margin:6px 0 0; font-size:16px; }
 .route .arrow { color:var(--muted); margin:0 6px; }
+.also { margin:4px 0 0; font-size:14px; color:var(--muted); }
+.also a { color:var(--ink); text-decoration:none; } .also a:hover { text-decoration:underline; }
+.status-mini { font-size:12px; font-weight:600; padding:1px 7px; border-radius:20px; color:#fff; }
 .route .unk { color:var(--muted); }
 .row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:12px; }
 .status { font-size:13px; font-weight:600; padding:2px 10px; border-radius:20px; color:#fff; }
@@ -504,7 +507,7 @@ for (const [id, label, n] of tabs) {
   else { b.href = pageUrl(id); if (id === PAGE) b.setAttribute("aria-current", "page"); }
   nav.append(b);
 }
-const clubs = [...new Set(rumors.flatMap(r => [r.from_club, r.to_club]).concat(news.flatMap(n => n.clubs)).filter(Boolean))].sort();
+const clubs = [...new Set(rumors.flatMap(r => r.clubs || [r.from_club, r.to_club]).concat(news.flatMap(n => n.clubs)).filter(Boolean))].sort();
 for (const c of clubs) sel.add(new Option(c, c));
 if (PAGE === "club") {   // en una página de club: todos los clubes con página, y el actual seleccionado
   sel.replaceChildren(new Option("Todos los clubes", ""));
@@ -810,6 +813,15 @@ function rumorCard(r) {
                el("span", "arrow", "→"),
                r.to_club ? clubLink(r.to_club) : el("span", "unk", "Destino sin confirmar"));
   left.append(route);
+  if (r.others && r.others.length) {
+    const also = el("p", "also");
+    also.append("También: ");
+    r.others.forEach((o, i) => {
+      if (i) also.append(" · ");
+      also.append(clubLink(o.to_club), " ", el("span", "status-mini st-" + o.status, STATUS[o.status] || o.status));
+    });
+    left.append(also);
+  }
   const row = el("div", "row"), best = bestStatus(r);
   row.append(el("span", "status st-" + best, STATUS[best] || best));
   const outlets = el("span", "outlets"), seen = new Set();
@@ -846,10 +858,10 @@ function rumorCard(r) {
 }
 
 function renderRumors(text, club) {
-  const shown = rumors.filter(r => (!club || r.from_club === club || r.to_club === club) &&
+  const shown = rumors.filter(r => (!club || (r.clubs || [r.from_club, r.to_club]).includes(club)) &&
                                    (!league || r.leagues.includes(league)) && rumorDayOk(r) &&
                                    r.mentions.some(m => !hidden.has(m.source)) &&
-                                   match(text, r.player, r.from_club, r.to_club, ...r.mentions.map(m => m.source)));
+                                   match(text, r.player, ...(r.clubs || [r.from_club, r.to_club]), ...r.mentions.map(m => m.source)));
   if (!shown.length) {
     list.append(el("p", "empty", rumors.length ? "Ningún rumor coincide con ese filtro."
       : "Ahora mismo no hay rumores de fichajes. Con el mercado cerrado es normal; en enero y en verano aparecerán aquí."));
@@ -1472,7 +1484,7 @@ def generate(data, news=(), months=(), out_dir="web"):
     _CLUB_PAGES.clear()
     for club in config.CLUBS:
         if club in info or any(club in n["clubs"] for n in news) or \
-           any(club in (r["from_club"], r["to_club"]) for r in rumors):
+           any(club in (r.get("clubs") or [r["from_club"], r["to_club"]]) for r in rumors):
             _CLUB_PAGES[club] = slugify(club)
     counts = {"news": len(news), "rumors": len(rumors)}
     write_static(months, out_dir, list(standings), list(_CLUB_PAGES.values()))
@@ -1509,7 +1521,7 @@ def generate(data, news=(), months=(), out_dir="web"):
     # Clubes: rumores, noticias y posición en la tabla de cada uno (solo sus datos: pesan poco)
     for club, slug in _CLUB_PAGES.items():
         c_news = [n for n in news if club in n["clubs"]]
-        c_rumors = [r for r in rumors if club in (r["from_club"], r["to_club"])]
+        c_rumors = [r for r in rumors if club in (r.get("clubs") or [r["from_club"], r["to_club"]])]
         ci = info.get(club)
         where = f" y su posición en {ci['league']}" if ci else ""
         _write(os.path.join(out_dir, "club", slug, "index.html"), page="club", root="../../",
