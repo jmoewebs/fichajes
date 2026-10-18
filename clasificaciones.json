@@ -31,8 +31,22 @@
     "form": "W,W,W,W,W"
    },
    {
-    "id": 90,
+    "id": 86,
     "pos": 3,
+    "team": "Real Madrid",
+    "played": 9,
+    "won": 7,
+    "draw": 0,
+    "lost": 2,
+    "gf": 23,
+    "ga": 9,
+    "gd": 14,
+    "points": 21,
+    "form": "W,W,L,W,W"
+   },
+   {
+    "id": 90,
+    "pos": 4,
     "team": "Real Betis",
     "played": 9,
     "won": 6,
@@ -43,20 +57,6 @@
     "gd": 2,
     "points": 19,
     "form": "W,W,D,W,L"
-   },
-   {
-    "id": 86,
-    "pos": 4,
-    "team": "Real Madrid",
-    "played": 8,
-    "won": 6,
-    "draw": 0,
-    "lost": 2,
-    "gf": 19,
-    "ga": 8,
-    "gd": 11,
-    "points": 18,
-    "form": "L,W,W,L,W"
    },
    {
     "id": 92,
@@ -70,21 +70,21 @@
     "ga": 17,
     "gd": 0,
     "points": 16,
-    "form": "D,W,L,W,W"
+    "form": "W,L,W,W,W"
    },
    {
     "id": 559,
     "pos": 6,
     "team": "Sevilla FC",
-    "played": 8,
+    "played": 9,
     "won": 4,
     "draw": 2,
-    "lost": 2,
-    "gf": 13,
-    "ga": 12,
-    "gd": 1,
+    "lost": 3,
+    "gf": 14,
+    "ga": 16,
+    "gd": -2,
     "points": 14,
-    "form": "D,W,W,L,D"
+    "form": "W,W,L,D,L"
    },
    {
     "id": 263,
@@ -98,7 +98,7 @@
     "ga": 10,
     "gd": 3,
     "points": 11,
-    "form": "W,L,L,D,L"
+    "form": "L,L,D,L,L"
    },
    {
     "id": 558,
@@ -112,7 +112,7 @@
     "ga": 7,
     "gd": 3,
     "points": 11,
-    "form": "D,D,D,W,D"
+    "form": "D,D,W,D,W"
    },
    {
     "id": 560,
@@ -280,7 +280,7 @@
     "ga": 18,
     "gd": -12,
     "points": 4,
-    "form": "D,D,L,L,D"
+    "form": "D,L,L,D,L"
    }
   ],
   "scorers": [
@@ -291,6 +291,14 @@
     "goals": 12,
     "assists": 2,
     "penalties": 3
+   },
+   {
+    "player": "Kylian Mbappé",
+    "team": "Real Madrid",
+    "played": 9,
+    "goals": 9,
+    "assists": 2,
+    "penalties": 2
    },
    {
     "player": "Lamine Yamal",
@@ -307,14 +315,6 @@
     "goals": 7,
     "assists": 1,
     "penalties": 0
-   },
-   {
-    "player": "Kylian Mbappé",
-    "team": "Real Madrid",
-    "played": 9,
-    "goals": 7,
-    "assists": 2,
-    "penalties": 1
    },
    {
     "player": "Ante Budimir",
@@ -401,7 +401,7 @@
     "team": "Real Madrid",
     "played": 9,
     "goals": 3,
-    "assists": 2,
+    "assists": 3,
     "penalties": 0
    },
    {
@@ -589,6 +589,14 @@
     "penalties": 0
    },
    {
+    "player": "Arda Guler",
+    "team": "Real Madrid",
+    "played": 9,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
     "player": "Roberto Navarro",
     "team": "Athletic",
     "played": 9,
@@ -626,6 +634,14 @@
     "played": 8,
     "goals": 2,
     "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Yan Diomandé",
+    "team": "Real Madrid",
+    "played": 9,
+    "goals": 2,
+    "assists": 2,
     "penalties": 0
    },
    {
@@ -837,14 +853,6 @@
     "penalties": 0
    },
    {
-    "player": "Arda Guler",
-    "team": "Real Madrid",
-    "played": 9,
-    "goals": 1,
-    "assists": 2,
-    "penalties": 0
-   },
-   {
     "player": "Umar Sadiq",
     "team": "Valencia",
     "played": 3,
@@ -937,7 +945,7 @@
     "team": "Sevilla FC",
     "played": 4,
     "goals": 1,
-    "assists": 0,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -1075,17 +1083,9 @@
     "goals": 1,
     "assists": 0,
     "penalties": 0
-   },
-   {
-    "player": "Robin Le Normand",
-    "team": "Atleti",
-    "played": 8,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
    }
   ],
-  "updated": "2026-10-18T18:33:54.760134+00:00"
+  "updated": "2026-10-18T22:30:13.970199+00:00"
  },
  "Premier League": {
   "matchday": 7,
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-18T18:34:16.424323+00:00"
+  "updated": "2026-10-18T22:30:36.464170+00:00"
  },
  "Serie A": {
   "matchday": 7,
@@ -2193,8 +2193,22 @@
     "form": "W,W,D,W,W"
    },
    {
-    "id": 100,
+    "id": 110,
     "pos": 2,
+    "team": "Lazio",
+    "played": 7,
+    "won": 6,
+    "draw": 1,
+    "lost": 0,
+    "gf": 14,
+    "ga": 4,
+    "gd": 10,
+    "points": 19,
+    "form": "W,D,W,W,W"
+   },
+   {
+    "id": 100,
+    "pos": 3,
     "team": "Roma",
     "played": 7,
     "won": 5,
@@ -2205,20 +2219,6 @@
     "gd": 13,
     "points": 17,
     "form": "W,W,D,D,W"
-   },
-   {
-    "id": 110,
-    "pos": 3,
-    "team": "Lazio",
-    "played": 6,
-    "won": 5,
-    "draw": 1,
-    "lost": 0,
-    "gf": 11,
-    "ga": 4,
-    "gd": 7,
-    "points": 16,
-    "form": "W,W,D,W,W"
    },
    {
     "id": 98,
@@ -2280,15 +2280,15 @@
     "id": 109,
     "pos": 8,
     "team": "Juventus",
-    "played": 6,
+    "played": 7,
     "won": 3,
     "draw": 2,
-    "lost": 1,
+    "lost": 2,
     "gf": 9,
-    "ga": 5,
-    "gd": 4,
+    "ga": 8,
+    "gd": 1,
     "points": 11,
-    "form": "W,D,L,W,D"
+    "form": "D,L,W,D,L"
    },
    {
     "id": 113,
@@ -2821,6 +2821,14 @@
     "penalties": 0
    },
    {
+    "player": "Gustav Isaksen",
+    "team": "Lazio",
+    "played": 7,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
     "player": "Piotr Zieliński",
     "team": "Inter",
     "played": 7,
@@ -3177,7 +3185,7 @@
     "team": "Lazio",
     "played": 7,
     "goals": 1,
-    "assists": 2,
+    "assists": 3,
     "penalties": 1
    },
    {
@@ -3251,17 +3259,9 @@
     "goals": 1,
     "assists": 0,
     "penalties": 0
-   },
-   {
-    "player": "Amar Ahmed Fatah",
-    "team": "Lecce",
-    "played": 6,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
    }
   ],
-  "updated": "2026-10-18T18:34:38.576905+00:00"
+  "updated": "2026-10-18T22:30:58.803904+00:00"
  },
  "Bundesliga": {
   "matchday": 6,
@@ -4321,14 +4321,28 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-18T18:35:00.213769+00:00"
+  "updated": "2026-10-18T22:31:20.540768+00:00"
  },
  "Ligue 1": {
   "matchday": 7,
   "table": [
    {
-    "id": 524,
+    "id": 523,
     "pos": 1,
+    "team": "Olympique Lyon",
+    "played": 7,
+    "won": 4,
+    "draw": 2,
+    "lost": 1,
+    "gf": 13,
+    "ga": 5,
+    "gd": 8,
+    "points": 14,
+    "form": "W,D,W,L,W"
+   },
+   {
+    "id": 524,
+    "pos": 2,
     "team": "PSG",
     "played": 7,
     "won": 4,
@@ -4342,7 +4356,7 @@
    },
    {
     "id": 1045,
-    "pos": 2,
+    "pos": 3,
     "team": "Paris FC",
     "played": 7,
     "won": 4,
@@ -4356,7 +4370,7 @@
    },
    {
     "id": 521,
-    "pos": 3,
+    "pos": 4,
     "team": "Lille",
     "played": 7,
     "won": 4,
@@ -4370,7 +4384,7 @@
    },
    {
     "id": 548,
-    "pos": 4,
+    "pos": 5,
     "team": "Monaco",
     "played": 7,
     "won": 4,
@@ -4384,7 +4398,7 @@
    },
    {
     "id": 529,
-    "pos": 5,
+    "pos": 6,
     "team": "Stade Rennais",
     "played": 7,
     "won": 4,
@@ -4395,20 +4409,6 @@
     "gd": 1,
     "points": 13,
     "form": "W,W,L,W,L"
-   },
-   {
-    "id": 523,
-    "pos": 6,
-    "team": "Olympique Lyon",
-    "played": 6,
-    "won": 3,
-    "draw": 2,
-    "lost": 1,
-    "gf": 11,
-    "ga": 4,
-    "gd": 7,
-    "points": 11,
-    "form": "D,W,D,W,L"
    },
    {
     "id": 525,
@@ -4498,15 +4498,15 @@
     "id": 522,
     "pos": 13,
     "team": "Nice",
-    "played": 6,
+    "played": 7,
     "won": 2,
     "draw": 2,
-    "lost": 2,
-    "gf": 5,
-    "ga": 7,
-    "gd": -2,
+    "lost": 3,
+    "gf": 6,
+    "ga": 9,
+    "gd": -3,
     "points": 8,
-    "form": "L,D,L,W,W"
+    "form": "D,L,W,W,L"
    },
    {
     "id": 576,
@@ -4777,7 +4777,7 @@
     "team": "Olympique Lyon",
     "played": 7,
     "goals": 2,
-    "assists": 2,
+    "assists": 3,
     "penalties": 0
    },
    {
@@ -4787,6 +4787,14 @@
     "goals": 2,
     "assists": 0,
     "penalties": 1
+   },
+   {
+    "player": "Sepe Elye Wahi",
+    "team": "Nice",
+    "played": 6,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
    },
    {
     "player": "Gio Reyna",
@@ -5109,14 +5117,6 @@
     "penalties": 0
    },
    {
-    "player": "Sepe Elye Wahi",
-    "team": "Nice",
-    "played": 6,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
     "player": "Antoine Mille",
     "team": "Troyes",
     "played": 7,
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-18T18:35:21.798299+00:00"
+  "updated": "2026-10-18T22:31:42.359942+00:00"
  },
- "_updated": "2026-10-18T18:35:21.798343+00:00",
+ "_updated": "2026-10-18T22:31:42.359983+00:00",
  "_version": 2
 }
