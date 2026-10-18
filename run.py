@@ -59,6 +59,9 @@ def main(argv):
     if cmd in ("all", "telegram"):
         import telegram, web
         print("Telegram:", telegram.run(db, web._flatten(score.build(db)), score.build_news(db), web._now_spain()))
+    if cmd == "telegram-bienvenida":
+        import telegram
+        print("Telegram:", telegram.welcome())
     if cmd == "indexnow":
         import indexnow
         print("IndexNow:", indexnow.ping(force=os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch"))
