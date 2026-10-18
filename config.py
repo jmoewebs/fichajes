@@ -80,6 +80,18 @@ FEEDS = [
     # llegan a través del RSS público de Google Noticias. Cada titular enlaza a Sport.
     {"source": "Sport", "weight": 2, "domain": "sport.es", "google_news": True,
      "url": "https://news.google.com/rss/search?q=site:sport.es+when:2d&hl=es&gl=ES&ceid=ES:es"},
+    # ---- Solo para la página de Rumores (no salen en Noticias): "only_rumors": True ----
+    # "low_trust": True = fiabilidad baja: no basta para confirmar un rumor dudoso sin un medio fiable
+    {"source": "AS", "weight": 3, "domain": "as.com", "google_news": True, "only_rumors": True,
+     "url": "https://news.google.com/rss/search?q=site:as.com+fichajes+when:2d&hl=es&gl=ES&ceid=ES:es"},
+    {"source": "Mundo Deportivo", "weight": 3, "domain": "mundodeportivo.com", "google_news": True, "only_rumors": True,
+     "url": "https://news.google.com/rss/search?q=site:mundodeportivo.com+fichajes+when:2d&hl=es&gl=ES&ceid=ES:es"},
+    {"source": "BeSoccer", "weight": 2, "domain": "besoccer.com", "google_news": True, "only_rumors": True,
+     "url": "https://news.google.com/rss/search?q=site:besoccer.com+fichajes+when:2d&hl=es&gl=ES&ceid=ES:es"},
+    {"source": "Fichajes.net", "weight": 1, "domain": "fichajes.net", "google_news": True, "only_rumors": True,
+     "low_trust": True, "url": "https://news.google.com/rss/search?q=site:fichajes.net+when:2d&hl=es&gl=ES&ceid=ES:es"},
+    {"source": "Fichajes.com", "weight": 1, "domain": "fichajes.com", "google_news": True, "only_rumors": True,
+     "low_trust": True, "url": "https://news.google.com/rss/search?q=site:fichajes.com+when:2d&hl=es&gl=ES&ceid=ES:es"},
     {"source": "BBC Sport", "url": "https://feeds.bbci.co.uk/sport/football/rss.xml", "weight": 4},
     {"source": "Sky Sports", "url": "https://www.skysports.com/rss/12040", "weight": 4},
 ]
