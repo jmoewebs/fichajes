@@ -5,6 +5,8 @@
     python run.py approve 12 15   # aprobar rumores por número
     python run.py reject 13 14    # descartar rumores por número
     python run.py clasificacion   # descargar ya clasificaciones y goleadores (necesita la clave)
+    python run.py telegram        # publicar en Telegram (necesita los secretos)
+    python run.py indexnow        # avisar a Bing de las páginas
     python run.py rehacer         # volver a analizar todos los titulares con las reglas actuales
     python run.py fetch | extract | export   # pasos sueltos
 """
@@ -54,6 +56,12 @@ def main(argv):
         print(f"Jugadores en la página: {n} · pendientes de revisión: {pending}")
         if pending:
             print("  (escribe 'python run.py review' para revisarlos)")
+    if cmd in ("all", "telegram"):
+        import telegram, web
+        print("Telegram:", telegram.run(db, web._flatten(score.build(db)), score.build_news(db), web._now_spain()))
+    if cmd == "indexnow":
+        import indexnow
+        print("IndexNow:", indexnow.ping(force=os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch"))
     if open_after and config.OPEN_BROWSER and not os.environ.get("CI"):  # en GitHub no hay navegador
         webbrowser.open(pathlib.Path(page).as_uri())
     if cmd == "ver":
