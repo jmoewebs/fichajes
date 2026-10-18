@@ -414,12 +414,12 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
   </aside>
 </div>
 <footer class="wrap foot">
+  __CLUB_FOOTER__
   <span>Los titulares pertenecen a sus medios; cada uno enlaza a la noticia original.</span>
   __KOFI_FOOT__
   __TG_FOOT__
   <a href="__ROOT__cookies.html">Política de cookies</a>
   __COOKIE_BUTTON__
-  __CLUB_FOOTER__
 </footer>
 __ANALYTICS__
 <script>
@@ -1258,6 +1258,14 @@ def _static_list(news, rumors, limit=60):
     return "".join(parts)
 
 
+def _domains():
+    out = {}
+    for f in config.FEEDS:
+        if f.get("domain"):
+            out.setdefault(f["source"], f["domain"])
+    return out
+
+
 def _standings():
     try:
         import standings
@@ -1325,7 +1333,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__RUMORS__", _json(rumors)).replace("__NEWS__", _json(list(news)))
             .replace("__ARCHIVE__", _json(archive)).replace("__LEAGUES__", _json(config.LEAGUES))
             .replace("__PLAYERS__", _json(_players()))
-            .replace("__DOMAINS__", _json({f["source"]: f["domain"] for f in config.FEEDS if f.get("domain")}))
+            .replace("__DOMAINS__", _json(_domains()))
             .replace("__STANDINGS__", _json(standings if standings is not None else ({} if is_archive else _standings())))
             .replace("__PAGE__", page)
             .replace("__TOOLS_HIDDEN__", " hidden" if page in ("table", "fantasy") else "")
