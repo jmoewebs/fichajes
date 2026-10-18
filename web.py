@@ -454,7 +454,7 @@ __ANALYTICS__
 })();
 </script>
 <script id="d-rumors" type="application/json">__RUMORS__</script>
-<script id="d-news" type="application/json">__NEWS__</script>
+__NEWSTAG__
 <script id="d-archive" type="application/json">__ARCHIVE__</script>
 <script id="d-leagues" type="application/json">__LEAGUES__</script>
 <script id="d-players" type="application/json">__PLAYERS__</script>
@@ -464,7 +464,7 @@ __ANALYTICS__
 <script>
 const rumors = JSON.parse(document.getElementById("d-rumors").textContent);
 const DOMAINS = JSON.parse(document.getElementById("d-domains").textContent);
-const news = JSON.parse(document.getElementById("d-news").textContent);
+const news = window.__NEWS || JSON.parse(document.getElementById("d-news").textContent);
 const archive = JSON.parse(document.getElementById("d-archive").textContent);
 const IS_ARCHIVE = __IS_ARCHIVE__;
 const PAGE = "__PAGE__";                 // news | rumors | table | fantasy
@@ -1379,6 +1379,25 @@ def _players():
         return {}
 
 
+_NEWS_FILES = set()    # archivos de noticias escritos en esta ejecución
+
+
+def _news_tag(path, root, news, inline=False):
+    """Las noticias (cientos de KB) van a un archivo externo con nombre por contenido: las páginas con la
+    misma lista lo comparten y el navegador lo cachea. Las listas pequeñas (clubes) siguen en línea."""
+    data = _json(news)
+    if inline or len(data) < 30000:   # el archivo mensual no se regenera cada hora: va en línea
+        return f'<script id="d-news" type="application/json">{data}</script>'
+    import hashlib
+    name = "n-" + hashlib.sha1(data.encode("utf-8")).hexdigest()[:10] + ".js"
+    base = os.path.normpath(os.path.join(os.path.dirname(path), root))
+    os.makedirs(os.path.join(base, "datos"), exist_ok=True)
+    with open(os.path.join(base, "datos", name), "w", encoding="utf-8") as f:
+        f.write("window.__NEWS=" + data + ";")
+    _NEWS_FILES.add(name)
+    return f'<script src="{root}datos/{name}"></script>'
+
+
 def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
            description, canonical, root, tagline="", page="news", table_league=None,
            static_html=None, counts=None, fx_report=(), standings=None, club=None, club_info=None,
@@ -1423,7 +1442,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__TITLE__", title).replace("__HEADING__", heading).replace("__CRUMBS__", crumbs)
             .replace("__UPDATED__", _now_spain().strftime("%d/%m/%Y a las %H:%M"))
             .replace("__IS_ARCHIVE__", "true" if is_archive else "false")
-            .replace("__RUMORS__", _json(rumors)).replace("__NEWS__", _json(list(news)))
+            .replace("__RUMORS__", _json(rumors)).replace("__NEWSTAG__", _news_tag(path, root, list(news), inline=is_archive))
             .replace("__ARCHIVE__", _json(archive)).replace("__LEAGUES__", _json(config.LEAGUES))
             .replace("__PLAYERS__", _json(_players()))
             .replace("__DOMAINS__", _json(_domains()))
@@ -1633,12 +1652,25 @@ def generate(data, news=(), months=(), out_dir="web"):
                         "Comprueba tu once de LaLiga Fantasy antes de cada jornada."),
            canonical=config.SITE_URL + "/fantasy/", rumors=[], news=news, archive=[],
            static_html=_static_fantasy(fx), fx_report=fx, fx_players=fx_players, fx_ignore=ignore, **common)
+    _clean_news_files(out_dir)
     return index
 
 
 def _archive(months, prefix="", current=None):
     return [{"year": int(ym[:4]), "label": MONTHS[int(ym[5:]) - 1], "href": f"{prefix}{ym}.html",
              "news": n, "rumors": r, "current": ym == current} for ym, n, r in months]
+
+
+def _clean_news_files(out_dir):
+    """Borra los archivos de noticias de ejecuciones anteriores (el nombre cambia con el contenido)."""
+    datos = os.path.join(out_dir, "datos")
+    if os.path.isdir(datos):
+        for old in os.listdir(datos):
+            if old.startswith("n-") and old.endswith(".js") and old not in _NEWS_FILES:
+                try:
+                    os.remove(os.path.join(datos, old))
+                except OSError:
+                    pass
 
 
 def generate_month(ym, data, news, prev_ym=None, next_ym=None, out_dir="web", months=()):
@@ -1722,6 +1754,8 @@ def write_static(months, out_dir="web", leagues=(), clubs=()):
         pass   # sin Pillow no hay PNG; el icono SVG sigue funcionando
     with open(os.path.join(out_dir, "cookies.html"), "w", encoding="utf-8") as f:
         f.write(COOKIES_PAGE.replace("__SITE_NAME__", html_lib.escape(config.SITE_NAME)))
+    with open(os.path.join(out_dir, "_headers"), "w", encoding="utf-8") as f:
+        f.write("/datos/*\n  Cache-Control: public, max-age=31536000, immutable\n")
     tg = telegram_url()
     contact = (f'<a href="{html_lib.escape(tg, quote=True)}" rel="noopener">nuestro canal de Telegram</a>'
                if tg else "el canal de contacto indicado en la web")
