@@ -49,6 +49,10 @@ def connect(path=None):
     db = sqlite3.connect(path or config.DB_PATH)
     db.row_factory = sqlite3.Row
     db.executescript(SCHEMA)
+    cols = {r[1] for r in db.execute("PRAGMA table_info(items)")}
+    if "rumor_only" not in cols:   # columna nueva: titulares que solo sirven para detectar rumores
+        db.execute("ALTER TABLE items ADD COLUMN rumor_only INTEGER NOT NULL DEFAULT 0")
+        db.commit()
     return db
 
 
@@ -159,8 +163,8 @@ def fetch_all(db, feeds=None):
         added = 0
         for it in items:
             cur = db.execute(
-                "INSERT OR IGNORE INTO items (source, url, title, summary, published) VALUES (?,?,?,?,?)",
-                (feed["source"], it["url"], it["title"], it["summary"], it["published"]),
+                "INSERT OR IGNORE INTO items (source, url, title, summary, published, rumor_only) VALUES (?,?,?,?,?,?)",
+                (feed["source"], it["url"], it["title"], it["summary"], it["published"], int(bool(feed.get("only_rumors")))),
             )
             new += cur.rowcount
             added += cur.rowcount
