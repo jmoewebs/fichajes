@@ -466,6 +466,8 @@ const COUNTS = __COUNTS__;
 const TABLE_LEAGUE = __TABLE_LEAGUE__;
 const LEAGUE_SLUGS = __LEAGUE_SLUGS__;
 const FX_REPORT = __FX_REPORT__;
+const FX_PLAYERS = __FX_PLAYERS__;       // jugadores conocidos y sus formas de nombrarlos (solo en Fantasy)
+const FX_IGNORE = __FX_IGNORE__;         // fragmentos de titulares que se ignoran (fantasy_ignorar.txt)
 const CLUB_SLUGS = __CLUB_SLUGS__;       // clubes con página propia
 const CLUB = __CLUB__;                   // en una página de club: su nombre
 const CLUB_INFO = __CLUB_INFO__;         // posición en la tabla del club de esta página
@@ -911,30 +913,101 @@ function renderClub(text) {
 const PLAYERS = JSON.parse(document.getElementById("d-players").textContent);
 const FX_KEY = "fantasy-equipo";
 let team = load(FX_KEY, []);
-const FXW = __FX_WORDS__;
-const W_BACK = FXW.back, W_SUSP = FXW.susp, W_OUT = [...FXW.out, ...FXW.susp], W_DOUBT = FXW.doubt;
+const FXW = __FX_WORDS__, FXR = FXW.rules;
+const FX_LABELS = {back:"Recuperado", susp:"Baja por sanción", out:"Baja", doubt:"Duda", ok:"Disponible"};
+const FX_PRIORITY = ["back", "susp", "out", "doubt", "ok"];
+const FX_PHRASES = [];
+for (const cat of ["back", "susp", "out", "doubt"]) for (const w of FXW[cat]) FX_PHRASES.push([w.split(" "), cat]);
+FX_PHRASES.sort((a, b) => b[0].length - a[0].length);
 
 function nrm(s) { return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim(); }
-function hasWord(t, words) { const p = " " + t + " "; return words.find(w => p.includes(" " + w + " ")); }
-function keysFor(name) {
-  const k = nrm(name), keys = new Set([k]);
-  const parts = k.split(" ");
+function fxSpans(toks, phrases) {          // todas las apariciones [inicio, fin, dato] de cada frase
+  const out = [];
+  for (const [p, data] of phrases) {
+    const n = p.length;
+    for (let i = 0; i + n <= toks.length; i++) {
+      let ok = true;
+      for (let j = 0; j < n; j++) if (toks[i + j] !== p[j]) { ok = false; break; }
+      if (ok) out.push([i, i + n, data]);
+    }
+  }
+  return out;
+}
+function fxNegated(toks, s, e) {
+  if (s >= 1 && FXR.neg_adjacent.includes(toks[s - 1])) return true;
+  if (s >= 2 && FXR.neg_adjacent.includes(toks[s - 2]) && FXR.neg_fillers.includes(toks[s - 1])) return true;
+  if (toks.slice(Math.max(0, s - 3), s).some(t => FXR.avoid.includes(t))) return true;
+  return FXR.neg_after.includes(toks[e]);
+}
+// Estado de cada jugador de `players` ({nombre: [formas]}) en un titular
+function fxAnalyze(title, players) {
+  const toks = nrm(title).split(" ").filter(Boolean);
+  for (const idiom of FXR.idioms)
+    for (const [s, e] of fxSpans(toks, [[idiom.split(" "), null]])) for (let i = s; i < e; i++) toks[i] = "_";
+  const spans = [];
+  for (const [name, keys] of Object.entries(players))
+    for (const k of keys) for (const [s, e] of fxSpans(toks, [[k.split(" "), name]])) spans.push([s, e, name]);
+  if (!spans.length) return {};
+  spans.sort((a, b) => a[0] - b[0] || a[1] - b[1] || (a[2] < b[2] ? -1 : a[2] > b[2] ? 1 : 0));
+  const group = []; let gid = 0;           // jugadores enumerados ("A, B y C") forman un grupo
+  spans.forEach((sp, i) => {
+    if (i && sp[0] - spans[i - 1][1] > 0) {
+      const between = toks.slice(spans[i - 1][1], sp[0]);
+      if (!(between.length === 1 && ["y", "e", "and"].includes(between[0]))) gid++;
+    }
+    group.push(gid);
+  });
+  const found = {};
+  for (const [s, e, cat] of fxSpans(toks, FX_PHRASES)) {
+    const gaps = spans.map((sp, i) => [Math.max(sp[0] - e, s - sp[1], 0), group[i], sp[2], sp[1]]);
+    const best = Math.min(...gaps.map(g => g[0]));
+    if (best > FXR.window) continue;
+    const neg = fxNegated(toks, s, e);
+    const eff = !neg ? cat : (cat === "back" ? "doubt" : "ok");
+    const winners = new Set(gaps.filter(g => g[0] === best).map(g => g[1]));
+    const groupEnd = {};
+    for (const g of gaps) if (winners.has(g[1])) groupEnd[g[1]] = Math.max(groupEnd[g[1]] || 0, g[3]);
+    for (const g of gaps)
+      if ((winners.has(g[1]) && s >= groupEnd[g[1]]) || g[0] === best) (found[g[2]] = found[g[2]] || new Set()).add(eff);
+  }
+  const out = {};
+  for (const [name, cats] of Object.entries(found)) out[name] = FX_PRIORITY.find(c => cats.has(c));
+  return out;
+}
+// Lo que el usuario escribe ("Lamine") se asocia al jugador conocido si es una coincidencia clara
+function fxResolve(name) {
+  const k = nrm(name);
+  let hit = Object.keys(FX_PLAYERS).find(full => nrm(full) === k || FX_PLAYERS[full].includes(k));
+  if (!hit) {
+    const t = k.split(" "), m = Object.keys(FX_PLAYERS).filter(full => { const ft = nrm(full).split(" "); return t.every(x => ft.includes(x)); });
+    if (m.length === 1) hit = m[0];
+  }
+  if (hit) return {name: hit, keys: FX_PLAYERS[hit]};
+  const keys = new Set([k]), parts = k.split(" ");
   if (parts.length > 1 && parts[parts.length - 1].length >= 4) keys.add(parts[parts.length - 1]);
-  for (const [full, aliases] of Object.entries(PLAYERS))
-    if (nrm(full) === k || aliases.includes(k)) { keys.add(nrm(full)); aliases.forEach(a => keys.add(a)); }
-  return [...keys].filter(x => x.length >= 3);
+  return {name, keys: [...keys].filter(x => x.length >= 3)};
 }
 function fxStatus(name) {
-  const keys = keysFor(name);
-  const hits = news.filter(n => { const t = " " + nrm(n.title) + " "; return keys.some(k => t.includes(" " + k + " ")); })
+  const me = fxResolve(name), players = {...FX_PLAYERS, [me.name]: me.keys};
+  const ign = FX_IGNORE.map(nrm).filter(Boolean);
+  const hits = news.filter(n => { const t = nrm(n.title); return !ign.some(i => t.includes(i)); })
                    .sort((a, b) => b.date.localeCompare(a.date));
-  for (const h of hits) {   // manda la noticia más reciente que diga algo del estado físico
-    const t = nrm(h.title);
-    if (hasWord(t, W_BACK)) return {st:"back", label:"Recuperado", item:h};
-    if (hasWord(t, W_OUT)) return {st:"out", label: hasWord(t, W_SUSP) ? "Baja por sanción" : "Baja", item:h};
-    if (hasWord(t, W_DOUBT)) return {st:"doubt", label:"Duda", item:h};
+  const now = Date.now();
+  let appears = 0;
+  for (const h of hits) {   // manda el titular más reciente que hable de su estado y siga vigente
+    const toks = nrm(h.title).split(" ");
+    if (fxSpans(toks, me.keys.map(k => [k.split(" "), 1])).length) appears++;
+    const st = fxAnalyze(h.title, players)[me.name];
+    if (!st) continue;
+    const age = (now - new Date(h.date).getTime()) / 86400000;
+    if (age > FXR.stale[st]) {
+      if (st !== "susp") continue;     // aviso caducado: se mira el siguiente más antiguo
+      return {st: "doubt", label: "Sanción de hace " + Math.floor(age) + " días: comprueba si sigue", item: h};
+    }
+    if (st === "ok") return {st: "back", label: "Disponible", item: h};
+    return {st: st === "susp" ? "out" : st, label: FX_LABELS[st], item: h};
   }
-  return {st:"none", label:"Sin noticias de baja", item:null, count:hits.length};
+  return {st: "none", label: "Sin noticias de baja", item: null, count: appears};
 }
 function saveTeam() { save(FX_KEY, team); }
 
@@ -1025,7 +1098,7 @@ function renderFantasy() {
                   el("span", "time", dayLabel(r.item.date) + ", " + hhmm(r.item.date)));
       why.append(a, meta);
     } else {
-      why.append(el("span", "meta", r.count ? "Aparece en " + r.count + " titular(es), ninguno habla de lesión ni sanción."
+      why.append(el("span", "meta", r.count ? "Aparece en " + r.count + " titular(es), ninguno con una baja vigente."
                                            : "No aparece en los titulares recientes."));
     }
     const rm = el("button", "rm", "Quitar");
@@ -1301,7 +1374,8 @@ def _players():
 
 def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
            description, canonical, root, tagline="", page="news", table_league=None,
-           static_html=None, counts=None, fx_report=(), standings=None, club=None, club_info=None):
+           static_html=None, counts=None, fx_report=(), standings=None, club=None, club_info=None,
+           fx_players=None, fx_ignore=()):
     esc = html_lib.escape
     verification = (f'<meta name="google-site-verification" content="{esc(config.GOOGLE_VERIFICATION, quote=True)}">'
                     if config.GOOGLE_VERIFICATION else "")
@@ -1353,7 +1427,9 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__TABLE_LEAGUE__", _json(table_league))
             .replace("__LEAGUE_SLUGS__", _json({lg: league_slug(lg) for lg in config.STANDINGS_COMPETITIONS}))
             .replace("__FX_REPORT__", _json(list(fx_report)))
-            .replace("__FX_WORDS__", _json(config.FANTASY_WORDS))
+            .replace("__FX_WORDS__", _json({**config.FANTASY_WORDS, "rules": config.FANTASY_RULES}))
+            .replace("__FX_PLAYERS__", _json(fx_players or {}))
+            .replace("__FX_IGNORE__", _json(list(fx_ignore)))
             .replace("__CLUB_SLUGS__", _json(_CLUB_PAGES))
             .replace("__CLUB__", _json(club))
             .replace("__CLUB_INFO__", _json(club_info))
@@ -1537,16 +1613,19 @@ def generate(data, news=(), months=(), out_dir="web"):
     # Fantasy: parte médico general + herramienta para tu once
     try:
         import fantasy, rules
-        fx = fantasy.report(news, fantasy.candidates(rules.load_players(), standings))
+        cands = fantasy.candidates(rules.load_players(), standings)
+        ignore = fantasy.load_ignore()
+        fx = fantasy.report(news, cands, ignore=ignore)
+        fx_players = {name: sorted(c["keys"]) for name, c in cands.items()}
     except Exception as exc:
         print("[aviso] parte médico:", exc)
-        fx = []
+        fx, fx_players, ignore = [], {}, []
     _write(os.path.join(out_dir, "fantasy", "index.html"), page="fantasy", root="../",
            title=_fit_title(_fantasy_title(standings)),
            description=("Bajas por lesión o sanción y jugadores en duda según la prensa de los últimos días. "
                         "Comprueba tu once de LaLiga Fantasy antes de cada jornada."),
            canonical=config.SITE_URL + "/fantasy/", rumors=[], news=news, archive=[],
-           static_html=_static_fantasy(fx), fx_report=fx, **common)
+           static_html=_static_fantasy(fx), fx_report=fx, fx_players=fx_players, fx_ignore=ignore, **common)
     return index
 
 
