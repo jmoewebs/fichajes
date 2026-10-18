@@ -49,6 +49,15 @@ COMMON_SURNAMES = {"junior", "jr", "silva", "santos", "fernandes", "fernandez", 
                    "jimenez", "mendes", "costa", "souza", "pereira", "oliveira", "williams", "johnson",
                    "smith", "jones", "brown", "davies", "wilson", "taylor", "neto", "rodrigo", "pedro"}
 
+# Canal de Telegram (necesita los secretos TELEGRAM_BOT_TOKEN y TELEGRAM_CHAT_ID en GitHub)
+TELEGRAM_MIN_SCORE = 30      # rumores a partir de este termómetro (los acuerdos y oficiales, siempre)
+TELEGRAM_MAX_PER_RUN = 2     # como mucho, mensajes por ejecución (cada hora), para no saturar
+TELEGRAM_DIGEST_HOUR = 21    # hora (España) del resumen diario de "Lo más leído"
+
+# IndexNow: aviso diario a Bing y otros buscadores de todas las páginas
+INDEXNOW_KEY = "14ca996f61e8e8c39c670c73dc9243e6"
+INDEXNOW_HOUR = 8            # hora (España) del aviso diario
+
 # Cómo se extraen los rumores: "reglas" (gratis, sin IA) o "claude" (API de pago).
 EXTRACTOR = "reglas"
 
