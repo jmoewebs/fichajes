@@ -47,7 +47,13 @@ with tempfile.TemporaryDirectory() as tmp:
                 "Bretos, muy tranquilo con Kubo, Gorrotxa, Oyarzabal y la renovación de Remiro",
                 "Why Souness rejected Barcelona when he left Liverpool",
                 "Francesco Totti, leyenda de la Roma: 'Mi fichaje por el Real Madrid estuvo decidido al 80%'",
-                "El Real Madrid ficha al director ejecutivo Bernd Reichart"]:
+                "El Real Madrid ficha al director ejecutivo Bernd Reichart",
+                "Dan por descartado a Nuno Mendes ante el Barça y Digne deberá frenar a Lamine Yamal",
+                "Julián Álvarez se queda sin sitio en el Barça",
+                "El Bayern descarta multar a Olise por su expulsión en la Champions",
+                "Colocan al Real Madrid en una puja de 44 M€",
+                "Confirmado el mejor fichaje del Betis",
+                'Escándalo en el Barça: "El único jugador del Madrid que lleva más goles que él es Mbappé, un buen fichaje"']:
         assert rules.extract_one(bad, "oferta de fichaje", P, I) == [], bad
     # Y los rumores reales de nombres desconocidos se siguen detectando
     assert rules.extract_one("El Getafe ya negocia el fichaje de Jadon Sancho", "", P, I), "Sancho sí es un rumor"
