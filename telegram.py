@@ -130,3 +130,24 @@ def run(db, rumors, news, now_spain=None, sender=None):
                 errors.append(str(exc))
     db.commit()
     return f"{sent} mensaje(s) publicados" + (" · errores: " + "; ".join(errors) if errors else "")
+
+
+def welcome_text():
+    e = html.escape
+    return (f"👋 <b>Bienvenido al canal de {e(config.SITE_NAME)}</b>\n\n"
+            "Aquí publicamos automáticamente:\n"
+            "🔥 Los rumores de fichajes más calientes, con su termómetro\n"
+            "✅ Los fichajes que se cierran\n"
+            "📊 Cada noche, las noticias más leídas del día\n\n"
+            f"👉 Todo en <a href=\"{config.SITE_URL}/\">{e(config.SITE_URL.split('//', 1)[1])}</a>")
+
+
+def welcome():
+    token, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
+    if not (token and chat):
+        return "sin configurar: faltan los secretos TELEGRAM_BOT_TOKEN o TELEGRAM_CHAT_ID"
+    try:
+        _send(token, chat, welcome_text())
+        return "mensaje de bienvenida enviado"
+    except Exception as exc:
+        return f"error: {exc}"
