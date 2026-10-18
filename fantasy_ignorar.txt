@@ -1,0 +1,4 @@
+# Titulares que Fantasy debe ignorar al decidir si un jugador está de baja, en duda o recuperado.
+# Escribe un trozo del titular (da igual mayúsculas y tildes), uno por línea. Ejemplo:
+#   Lamine Yamal se libra de la sanción
+# Cualquier titular que contenga ese trozo se ignora en el parte médico y en tu once.
