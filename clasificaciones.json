@@ -171,8 +171,36 @@
     "form": "L,W,W,L,D"
    },
    {
-    "id": 80,
+    "id": 87,
     "pos": 13,
+    "team": "Rayo Vallecano",
+    "played": 8,
+    "won": 2,
+    "draw": 3,
+    "lost": 3,
+    "gf": 12,
+    "ga": 17,
+    "gd": -5,
+    "points": 9,
+    "form": "L,W,L,W,D"
+   },
+   {
+    "id": 82,
+    "pos": 14,
+    "team": "Getafe",
+    "played": 9,
+    "won": 2,
+    "draw": 3,
+    "lost": 4,
+    "gf": 5,
+    "ga": 11,
+    "gd": -6,
+    "points": 9,
+    "form": "D,D,L,W,L"
+   },
+   {
+    "id": 80,
+    "pos": 15,
     "team": "Espanyol",
     "played": 9,
     "won": 2,
@@ -183,34 +211,6 @@
     "gd": -1,
     "points": 8,
     "form": "W,L,L,D,L"
-   },
-   {
-    "id": 87,
-    "pos": 14,
-    "team": "Rayo Vallecano",
-    "played": 7,
-    "won": 2,
-    "draw": 2,
-    "lost": 3,
-    "gf": 11,
-    "ga": 16,
-    "gd": -5,
-    "points": 8,
-    "form": "L,W,L,W,D"
-   },
-   {
-    "id": 82,
-    "pos": 15,
-    "team": "Getafe",
-    "played": 8,
-    "won": 2,
-    "draw": 2,
-    "lost": 4,
-    "gf": 4,
-    "ga": 10,
-    "gd": -6,
-    "points": 8,
-    "form": "D,D,L,W,L"
    },
    {
     "id": 5335,
@@ -311,7 +311,7 @@
    {
     "player": "Sergio Camello",
     "team": "Rayo Vallecano",
-    "played": 8,
+    "played": 9,
     "goals": 7,
     "assists": 1,
     "penalties": 0
@@ -386,6 +386,14 @@
     "played": 9,
     "goals": 3,
     "assists": 4,
+    "penalties": 0
+   },
+   {
+    "player": "Álvaro García",
+    "team": "Rayo Vallecano",
+    "played": 9,
+    "goals": 3,
+    "assists": 2,
     "penalties": 0
    },
    {
@@ -466,14 +474,6 @@
     "played": 6,
     "goals": 3,
     "assists": 0,
-    "penalties": 0
-   },
-   {
-    "player": "Álvaro García",
-    "team": "Rayo Vallecano",
-    "played": 8,
-    "goals": 2,
-    "assists": 2,
     "penalties": 0
    },
    {
@@ -602,6 +602,14 @@
     "played": 9,
     "goals": 2,
     "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Martin Satriano",
+    "team": "Getafe",
+    "played": 9,
+    "goals": 2,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -775,7 +783,7 @@
    {
     "player": "Enes Ünal",
     "team": "Getafe",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -957,14 +965,6 @@
     "penalties": 0
    },
    {
-    "player": "Martin Satriano",
-    "team": "Getafe",
-    "played": 8,
-    "goals": 1,
-    "assists": 1,
-    "penalties": 0
-   },
-   {
     "player": "Carl Starfelt",
     "team": "Celta",
     "played": 7,
@@ -1047,7 +1047,7 @@
    {
     "player": "RamónTerrats Espacio",
     "team": "Getafe",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -1063,7 +1063,7 @@
    {
     "player": "Adrià Pedrosa",
     "team": "Rayo Vallecano",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-19T16:38:43.474302+00:00"
+  "updated": "2026-10-19T20:36:06.369373+00:00"
  },
  "Premier League": {
   "matchday": 7,
@@ -1301,22 +1301,36 @@
     "form": "D,D,L,L,W"
    },
    {
-    "id": 1076,
+    "id": 73,
     "pos": 16,
+    "team": "Tottenham",
+    "played": 7,
+    "won": 1,
+    "draw": 3,
+    "lost": 3,
+    "gf": 5,
+    "ga": 10,
+    "gd": -5,
+    "points": 6,
+    "form": "L,D,D,L,D"
+   },
+   {
+    "id": 1076,
+    "pos": 17,
     "team": "Coventry City",
-    "played": 6,
+    "played": 7,
     "won": 2,
     "draw": 0,
-    "lost": 4,
-    "gf": 5,
-    "ga": 11,
-    "gd": -6,
+    "lost": 5,
+    "gf": 6,
+    "ga": 13,
+    "gd": -7,
     "points": 6,
     "form": "L,L,L,W,W"
    },
    {
     "id": 63,
-    "pos": 17,
+    "pos": 18,
     "team": "Fulham",
     "played": 7,
     "won": 1,
@@ -1330,7 +1344,7 @@
    },
    {
     "id": 351,
-    "pos": 18,
+    "pos": 19,
     "team": "Nottingham",
     "played": 7,
     "won": 1,
@@ -1344,7 +1358,7 @@
    },
    {
     "id": 71,
-    "pos": 19,
+    "pos": 20,
     "team": "Sunderland",
     "played": 7,
     "won": 1,
@@ -1355,20 +1369,6 @@
     "gd": -8,
     "points": 4,
     "form": "D,L,L,L,L"
-   },
-   {
-    "id": 73,
-    "pos": 20,
-    "team": "Tottenham",
-    "played": 6,
-    "won": 0,
-    "draw": 3,
-    "lost": 3,
-    "gf": 3,
-    "ga": 9,
-    "gd": -6,
-    "points": 3,
-    "form": "L,D,D,L,D"
    }
   ],
   "scorers": [
@@ -1717,6 +1717,14 @@
     "penalties": 0
    },
    {
+    "player": "Jack Rudoni",
+    "team": "Coventry City",
+    "played": 7,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
     "player": "Semi Ajayi",
     "team": "Hull City",
     "played": 7,
@@ -2047,7 +2055,7 @@
    {
     "player": "Conor Gallagher",
     "team": "Tottenham",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2055,7 +2063,7 @@
    {
     "player": "Jan Paul van Hecke",
     "team": "Tottenham",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2087,7 +2095,7 @@
    {
     "player": "Jay Dasilva",
     "team": "Coventry City",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -2163,17 +2171,9 @@
     "goals": 1,
     "assists": 1,
     "penalties": 0
-   },
-   {
-    "player": "John McGinn",
-    "team": "Aston Villa",
-    "played": 7,
-    "goals": 1,
-    "assists": 2,
-    "penalties": 0
    }
   ],
-  "updated": "2026-10-19T16:39:05.255731+00:00"
+  "updated": "2026-10-19T20:36:28.290688+00:00"
  },
  "Serie A": {
   "matchday": 7,
@@ -2249,22 +2249,8 @@
     "form": "W,W,L,D,W"
    },
    {
-    "id": 104,
-    "pos": 6,
-    "team": "Cagliari",
-    "played": 7,
-    "won": 4,
-    "draw": 2,
-    "lost": 1,
-    "gf": 6,
-    "ga": 3,
-    "gd": 3,
-    "points": 14,
-    "form": "L,W,W,W,D"
-   },
-   {
     "id": 470,
-    "pos": 7,
+    "pos": 6,
     "team": "Frosinone",
     "played": 7,
     "won": 4,
@@ -2275,6 +2261,20 @@
     "gd": 4,
     "points": 13,
     "form": "W,D,W,L,W"
+   },
+   {
+    "id": 104,
+    "pos": 7,
+    "team": "Cagliari",
+    "played": 7,
+    "won": 4,
+    "draw": 1,
+    "lost": 2,
+    "gf": 6,
+    "ga": 7,
+    "gd": -1,
+    "points": 13,
+    "form": "W,W,W,D,L"
    },
    {
     "id": 109,
@@ -2305,8 +2305,22 @@
     "form": "L,W,D,W,L"
    },
    {
-    "id": 102,
+    "id": 586,
     "pos": 10,
+    "team": "Torino",
+    "played": 7,
+    "won": 3,
+    "draw": 1,
+    "lost": 3,
+    "gf": 10,
+    "ga": 9,
+    "gd": 1,
+    "points": 10,
+    "form": "L,W,L,D,W"
+   },
+   {
+    "id": 102,
+    "pos": 11,
     "team": "Atalanta",
     "played": 7,
     "won": 3,
@@ -2320,7 +2334,7 @@
    },
    {
     "id": 5890,
-    "pos": 11,
+    "pos": 12,
     "team": "Lecce",
     "played": 7,
     "won": 3,
@@ -2334,7 +2348,7 @@
    },
    {
     "id": 471,
-    "pos": 12,
+    "pos": 13,
     "team": "Sassuolo",
     "played": 7,
     "won": 2,
@@ -2347,22 +2361,22 @@
     "form": "D,W,L,D,L"
    },
    {
-    "id": 586,
-    "pos": 13,
-    "team": "Torino",
-    "played": 6,
+    "id": 5911,
+    "pos": 14,
+    "team": "Monza",
+    "played": 7,
     "won": 2,
     "draw": 1,
-    "lost": 3,
-    "gf": 7,
-    "ga": 9,
+    "lost": 4,
+    "gf": 13,
+    "ga": 15,
     "gd": -2,
     "points": 7,
-    "form": "L,W,L,D,W"
+    "form": "D,L,W,L,W"
    },
    {
     "id": 103,
-    "pos": 14,
+    "pos": 15,
     "team": "Bologna",
     "played": 7,
     "won": 1,
@@ -2375,36 +2389,8 @@
     "form": "D,L,D,W,L"
    },
    {
-    "id": 5911,
-    "pos": 15,
-    "team": "Monza",
-    "played": 7,
-    "won": 1,
-    "draw": 2,
-    "lost": 4,
-    "gf": 9,
-    "ga": 15,
-    "gd": -6,
-    "points": 5,
-    "form": "L,D,L,W,L"
-   },
-   {
-    "id": 112,
-    "pos": 16,
-    "team": "Parma",
-    "played": 6,
-    "won": 1,
-    "draw": 1,
-    "lost": 4,
-    "gf": 4,
-    "ga": 10,
-    "gd": -6,
-    "points": 4,
-    "form": "L,D,L,W,L"
-   },
-   {
     "id": 115,
-    "pos": 17,
+    "pos": 16,
     "team": "Udinese",
     "played": 7,
     "won": 1,
@@ -2418,7 +2404,7 @@
    },
    {
     "id": 107,
-    "pos": 18,
+    "pos": 17,
     "team": "Genoa",
     "played": 7,
     "won": 1,
@@ -2432,7 +2418,7 @@
    },
    {
     "id": 99,
-    "pos": 19,
+    "pos": 18,
     "team": "Fiorentina",
     "played": 7,
     "won": 1,
@@ -2443,6 +2429,20 @@
     "gd": -9,
     "points": 4,
     "form": "L,W,D,L,L"
+   },
+   {
+    "id": 112,
+    "pos": 19,
+    "team": "Parma",
+    "played": 7,
+    "won": 1,
+    "draw": 1,
+    "lost": 5,
+    "gf": 4,
+    "ga": 13,
+    "gd": -9,
+    "points": 4,
+    "form": "L,D,L,W,L"
    },
    {
     "id": 454,
@@ -2469,20 +2469,20 @@
     "penalties": 0
    },
    {
+    "player": "Gustavo Varela",
+    "team": "Monza",
+    "played": 6,
+    "goals": 6,
+    "assists": 1,
+    "penalties": 1
+   },
+   {
     "player": "Donyell Malen",
     "team": "Roma",
     "played": 6,
     "goals": 6,
     "assists": 0,
     "penalties": 0
-   },
-   {
-    "player": "Gustavo Varela",
-    "team": "Monza",
-    "played": 6,
-    "goals": 4,
-    "assists": 0,
-    "penalties": 1
    },
    {
     "player": "Nikola Krstović",
@@ -2547,6 +2547,14 @@
     "goals": 3,
     "assists": 1,
     "penalties": 1
+   },
+   {
+    "player": "Che Adams",
+    "team": "Torino",
+    "played": 5,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
    },
    {
     "player": "Davide Frattesi",
@@ -2653,14 +2661,6 @@
     "penalties": 0
    },
    {
-    "player": "Che Adams",
-    "team": "Torino",
-    "played": 4,
-    "goals": 2,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
     "player": "Niccolo Pisilli",
     "team": "Roma",
     "played": 7,
@@ -2733,6 +2733,14 @@
     "penalties": 0
    },
    {
+    "player": "Jay Robinson",
+    "team": "Monza",
+    "played": 7,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
     "player": "Akor Adams",
     "team": "Venezia FC",
     "played": 7,
@@ -2775,7 +2783,7 @@
    {
     "player": "José Romero",
     "team": "Parma",
-    "played": 6,
+    "played": 7,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2799,7 +2807,7 @@
    {
     "player": "Sandro Kulenović",
     "team": "Torino",
-    "played": 6,
+    "played": 7,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2823,6 +2831,14 @@
    {
     "player": "Gustav Isaksen",
     "team": "Lazio",
+    "played": 7,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Giovanni Simeone",
+    "team": "Torino",
     "played": 7,
     "goals": 2,
     "assists": 0,
@@ -2887,7 +2903,7 @@
    {
     "player": "Pietro Comuzzo",
     "team": "Torino",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2951,7 +2967,7 @@
    {
     "player": "Rolando Mandragora",
     "team": "Torino",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -2981,17 +2997,9 @@
     "penalties": 0
    },
    {
-    "player": "Jay Robinson",
-    "team": "Monza",
-    "played": 7,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
     "player": "Simone Lontani",
     "team": "Parma",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3251,17 +3259,9 @@
     "goals": 1,
     "assists": 0,
     "penalties": 0
-   },
-   {
-    "player": "Riccardo Orsolini",
-    "team": "Bologna",
-    "played": 4,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
    }
   ],
-  "updated": "2026-10-19T16:39:27.269165+00:00"
+  "updated": "2026-10-19T20:36:50.505686+00:00"
  },
  "Bundesliga": {
   "matchday": 6,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-19T16:39:49.422155+00:00"
+  "updated": "2026-10-19T20:37:12.537395+00:00"
  },
  "Ligue 1": {
   "matchday": 7,
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-19T16:40:12.387401+00:00"
+  "updated": "2026-10-19T20:37:34.243360+00:00"
  },
- "_updated": "2026-10-19T16:40:12.387440+00:00",
+ "_updated": "2026-10-19T20:37:34.243397+00:00",
  "_version": 2
 }
