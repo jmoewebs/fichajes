@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-19T12:44:46.710914+00:00"
+  "updated": "2026-10-19T16:38:43.474302+00:00"
  },
  "Premier League": {
   "matchday": 7,
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-19T12:45:08.871272+00:00"
+  "updated": "2026-10-19T16:39:05.255731+00:00"
  },
  "Serie A": {
   "matchday": 7,
@@ -2249,8 +2249,22 @@
     "form": "W,W,L,D,W"
    },
    {
-    "id": 470,
+    "id": 104,
     "pos": 6,
+    "team": "Cagliari",
+    "played": 7,
+    "won": 4,
+    "draw": 2,
+    "lost": 1,
+    "gf": 6,
+    "ga": 3,
+    "gd": 3,
+    "points": 14,
+    "form": "L,W,W,W,D"
+   },
+   {
+    "id": 470,
+    "pos": 7,
     "team": "Frosinone",
     "played": 7,
     "won": 4,
@@ -2261,20 +2275,6 @@
     "gd": 4,
     "points": 13,
     "form": "W,D,W,L,W"
-   },
-   {
-    "id": 104,
-    "pos": 7,
-    "team": "Cagliari",
-    "played": 6,
-    "won": 4,
-    "draw": 1,
-    "lost": 1,
-    "gf": 6,
-    "ga": 3,
-    "gd": 3,
-    "points": 13,
-    "form": "L,W,W,W,D"
    },
    {
     "id": 109,
@@ -2378,14 +2378,14 @@
     "id": 5911,
     "pos": 15,
     "team": "Monza",
-    "played": 6,
+    "played": 7,
     "won": 1,
-    "draw": 1,
+    "draw": 2,
     "lost": 4,
     "gf": 9,
     "ga": 15,
     "gd": -6,
-    "points": 4,
+    "points": 5,
     "form": "L,D,L,W,L"
    },
    {
@@ -2479,7 +2479,7 @@
    {
     "player": "Gustavo Varela",
     "team": "Monza",
-    "played": 5,
+    "played": 6,
     "goals": 4,
     "assists": 0,
     "penalties": 1
@@ -2519,7 +2519,7 @@
    {
     "player": "Daniel Maldini",
     "team": "Cagliari",
-    "played": 6,
+    "played": 7,
     "goals": 4,
     "assists": 0,
     "penalties": 1
@@ -2855,7 +2855,7 @@
    {
     "player": "Alessandro Romano",
     "team": "Cagliari",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2903,7 +2903,7 @@
    {
     "player": "Andrea Colpani",
     "team": "Monza",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2983,7 +2983,7 @@
    {
     "player": "Jay Robinson",
     "team": "Monza",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3079,7 +3079,7 @@
    {
     "player": "Paul Mendy",
     "team": "Cagliari",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3095,7 +3095,7 @@
    {
     "player": "Ricardo Mangas",
     "team": "Monza",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 2,
     "penalties": 0
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-19T12:45:32.356781+00:00"
+  "updated": "2026-10-19T16:39:27.269165+00:00"
  },
  "Bundesliga": {
   "matchday": 6,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-19T12:45:53.832656+00:00"
+  "updated": "2026-10-19T16:39:49.422155+00:00"
  },
  "Ligue 1": {
   "matchday": 7,
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-19T12:46:15.658638+00:00"
+  "updated": "2026-10-19T16:40:12.387401+00:00"
  },
- "_updated": "2026-10-19T12:46:15.658679+00:00",
+ "_updated": "2026-10-19T16:40:12.387440+00:00",
  "_version": 2
 }
