@@ -40,6 +40,13 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
+      - name: Añadir ads.txt y código de AdSense
+        run: |
+          cp estatico/ads.txt web/ads.txt
+          for f in web/*.html; do
+            sed -i 's#</head>#<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6680488121204410" crossorigin="anonymous"></script></head>#' "$f"
+          done
+
       - name: Mensaje de bienvenida en Telegram (solo si lo marcas al lanzarlo a mano)
         if: github.event_name == 'workflow_dispatch' && inputs.bienvenida_telegram
         run: python run.py telegram-bienvenida
