@@ -326,9 +326,6 @@ details.foot-clubs { width:100%; font-size:13px; line-height:1.9; border-top:0; 
 .foot-clubs > summary:hover { color:var(--ink); }
 .foot-clubs nav { margin-top:8px; }
 .foot-clubs a { margin-right:12px; white-space:nowrap; }
-.foot-sections { width:100%; font-size:14px; line-height:2; }
-.foot-sections strong { color:var(--ink); margin-right:10px; }
-.foot-sections a { margin-right:14px; white-space:nowrap; }
 .tag { font-size:12px; font-weight:600; padding:1px 8px; border-radius:20px; }
 .tag.live { background:color-mix(in srgb, var(--hot) 14%, transparent); color:var(--hot); }
 .tag.rum { background:color-mix(in srgb, var(--warm) 20%, transparent); color:color-mix(in srgb, var(--warm) 70%, var(--ink)); }
@@ -1409,7 +1406,7 @@ def _news_tag(path, root, news, inline=False):
 def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
            description, canonical, root, tagline="", page="news", table_league=None,
            static_html=None, counts=None, fx_report=(), standings=None, club=None, club_info=None,
-           fx_players=None, fx_ignore=(), club_intro=()):
+           fx_players=None, fx_ignore=(), club_intro=(), ld_page=()):
     esc = html_lib.escape
     verification = (f'<meta name="google-site-verification" content="{esc(config.GOOGLE_VERIFICATION, quote=True)}">'
                     if config.GOOGLE_VERIFICATION else "")
@@ -1417,6 +1414,9 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
           # Plan B de Google para subdominios: el subdominio en minúsculas como nombre alternativo
           "alternateName": ["RumoresyFichajes", config.SITE_URL.split("//", 1)[1].rstrip("/").lower()],
           "url": config.SITE_URL + "/", "inLanguage": "es-ES", "description": config.SITE_DESCRIPTION}
+    if ld_page:
+        ld = {"@context": "https://schema.org",
+              "@graph": [{k: v for k, v in ld.items() if k != "@context"}] + list(ld_page)}
     html = (TEMPLATE
             .replace("__DESCRIPTION__", esc(description, quote=True))
             .replace("__CANONICAL__", esc(canonical, quote=True))
@@ -1522,8 +1522,9 @@ def _sections_footer(root):
     links = [("Noticias", root or "./"), ("Rumores de fichajes", f"{root}rumores/"),
              ("LaLiga Fantasy", f"{root}fantasy/")]
     links += [(f"Clasificación de {lg}", f"{root}clasificacion/{league_slug(lg)}/") for lg in config.STANDINGS_COMPETITIONS]
-    return ('<nav class="foot-sections" aria-label="Secciones de la web"><strong>Secciones</strong>'
-            + " ".join(f'<a href="{esc(h, quote=True)}">{esc(t)}</a>' for t, h in links) + "</nav>")
+    return (f'<details class="foot-clubs"><summary>Secciones ({len(links)})</summary>'
+            '<nav aria-label="Secciones de la web">'
+            + " ".join(f'<a href="{esc(h, quote=True)}">{esc(t)}</a>' for t, h in links) + "</nav></details>")
 
 
 def _club_footer(root):
@@ -1561,13 +1562,55 @@ def _club_info(standings):
 
 
 def _crumbs(root, *items):
-    """Migas de pan: Rumores y Fichajes › ... › página actual (la última, sin enlace)."""
+    """Migas de pan: Rumores y Fichajes › ... › página actual (la última, sin enlace).
+    items = (texto, ruta del sitio como "/clasificacion/laliga/" o None)."""
     esc = html_lib.escape
     parts = [f'<a href="{root}">{esc(config.SITE_NAME)}</a>']
-    for text, href in items:
+    for text, path in items:
         parts.append('<span class="sep" aria-hidden="true">›</span>')
-        parts.append(f'<a href="{esc(href, quote=True)}">{esc(text)}</a>' if href else f"<span>{esc(text)}</span>")
+        parts.append(f'<a href="{esc(root + path.lstrip("/"), quote=True)}">{esc(text)}</a>' if path
+                     else f"<span>{esc(text)}</span>")
     return '<nav class="crumbs" aria-label="Migas de pan">' + "".join(parts) + "</nav>"
+
+
+def _iso_max(*values):
+    """La fecha más reciente de varias (texto ISO), en formato W3C para sitemap y datos estructurados."""
+    best = None
+    for v in values:
+        if not v:
+            continue
+        try:
+            d = datetime.fromisoformat(str(v).replace("Z", "+00:00"))
+        except ValueError:
+            continue
+        if d.tzinfo is None:
+            d = d.replace(tzinfo=_now_spain().tzinfo)
+        if best is None or d > best:
+            best = d
+    if best is None:
+        return None
+    from datetime import timezone
+    return best.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S+00:00")
+
+
+def _page_ld(path, name, description, crumbs=(), modified=None, about=None):
+    """Datos estructurados de una página: CollectionPage y, si no es la portada, BreadcrumbList
+    (las mismas migas que se ven en la página). path = ruta del sitio, p. ej. "/club/fc-barcelona/"."""
+    url = config.SITE_URL + path
+    page = {"@type": "CollectionPage", "@id": url + "#pagina", "url": url, "name": name,
+            "description": description, "inLanguage": "es-ES",
+            "isPartOf": {"@type": "WebSite", "url": config.SITE_URL + "/"}}
+    if modified:
+        page["dateModified"] = modified
+    if about:
+        page["about"] = {"@type": "SportsTeam", "name": about}
+    out = [page]
+    if crumbs:
+        items = [(config.SITE_NAME, "/")] + list(crumbs)
+        out.append({"@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": i, "name": text, "item": config.SITE_URL + (p or path)}
+            for i, (text, p) in enumerate(items, 1)]})
+    return out
 
 
 def _plural(n, one, many):
@@ -1721,13 +1764,26 @@ def generate(data, news=(), months=(), out_dir="web"):
     except Exception as exc:
         print("[aviso] parte médico:", exc)
         fx, fx_players, ignore = [], {}, []
-    write_static(months, out_dir, list(standings), list(_CLUB_PAGES.values()))
+    # Fecha real de cada página (para el sitemap y dateModified)
+    news_date = _iso_max(*(n.get("date") for n in news))
+    rum_date = _iso_max(*(r.get("last_update") for r in rumors))
+    lastmod = {"/": _iso_max(news_date, rum_date), "/rumores/": _iso_max(news_date, rum_date),
+               "/fantasy/": news_date}
+    for lg, d_ in standings.items():
+        lastmod[f"/clasificacion/{league_slug(lg)}/"] = _iso_max(d_.get("updated"))
+    for club, slug in _CLUB_PAGES.items():
+        lastmod[f"/club/{slug}/"] = _iso_max(
+            *(n.get("date") for n in news if club in n["clubs"]),
+            *(r.get("last_update") for r in rumors if club in (r.get("clubs") or [r["from_club"], r["to_club"]])),
+            (standings.get((info.get(club) or {}).get("league")) or {}).get("updated"))
+    write_static(months, out_dir, list(standings), list(_CLUB_PAGES.values()), lastmod)
     common = dict(is_archive=False,
                   tagline=config.SITE_TAGLINE, counts=counts, standings=standings)
 
     # Portada: noticias
     index = _write(os.path.join(out_dir, "index.html"), page="news", root="",
                    heading=config.SITE_NAME, crumbs="",
+                   ld_page=_page_ld("/", config.SITE_TITLE, config.SITE_DESCRIPTION, modified=lastmod["/"]),
                    title=config.SITE_TITLE, description=config.SITE_DESCRIPTION,
                    canonical=config.SITE_URL + "/", rumors=rumors, news=news,
                    archive=_archive(months, prefix="archivo/"), **common)
@@ -1736,6 +1792,9 @@ def generate(data, news=(), months=(), out_dir="web"):
     _write(os.path.join(out_dir, "rumores", "index.html"), page="rumors", root="../",
            heading=f"Rumores de fichajes y mercado de invierno {_winter_year()}",
            crumbs=_crumbs("../", ("Rumores de fichajes", None)),
+           ld_page=_page_ld("/rumores/", f"Rumores de fichajes y mercado de invierno {_winter_year()}",
+                            f"Fichajes cerrados y los rumores más calientes del mercado de invierno {_winter_year()}",
+                            [("Rumores de fichajes", None)], lastmod["/rumores/"]),
            title=_fit_title(f"Rumores de fichajes y mercado de invierno {_winter_year()}"),
            description=(f"Fichajes cerrados y los rumores más calientes del mercado de invierno {_winter_year()} "
                         "de LaLiga, Premier y Serie A, con termómetro de probabilidad. Cada hora."),
@@ -1751,6 +1810,9 @@ def generate(data, news=(), months=(), out_dir="web"):
                root="../../", table_league=lg,
                heading=f"Clasificación de {art}{lg}",
                crumbs=_crumbs("../../", (f"Clasificación de {art}{lg}", None)),
+               ld_page=_page_ld(f"/clasificacion/{league_slug(lg)}/", f"Clasificación de {art}{lg}",
+                                f"Clasificación, máximos goleadores y asistentes de {art}{lg}.",
+                                [(f"Clasificación de {art}{lg}", None)], lastmod.get(f"/clasificacion/{league_slug(lg)}/")),
                title=_fit_title(f"Clasificación de {art}{lg}: {top} y asistencias"),
                description=(f"Clasificación de {art}{lg} actualizada tras cada jornada: puntos, goles y racha de cada "
                             f"equipo, y las tablas de máximos goleadores y asistentes."),
@@ -1764,11 +1826,14 @@ def generate(data, news=(), months=(), out_dir="web"):
         ci = info.get(club)
         where = f" y su posición en {ci['league']}" if ci else ""
         intro = _club_intro(club, ci, standings, c_rumors, c_news, fx)
-        liga_crumb = ((f"Clasificación de {ci['league']}", f"../../clasificacion/{league_slug(ci['league'])}/"),) if ci else ()
+        liga_crumb = ((f"Clasificación de {ci['league']}", f"/clasificacion/{league_slug(ci['league'])}/"),) if ci else ()
         _write(os.path.join(out_dir, "club", slug, "index.html"), page="club", root="../../",
                club=club, club_info=ci, club_intro=intro,
                heading=f"Fichajes y rumores del {club}",
                crumbs=_crumbs("../../", *liga_crumb, (club, None)),
+               ld_page=_page_ld(f"/club/{slug}/", f"Fichajes y rumores del {club}",
+                                f"Rumores de fichajes, noticias y situación en la tabla del {club}.",
+                                [*liga_crumb, (club, None)], lastmod.get(f"/club/{slug}/"), about=club),
                title=_fit_title(f"Fichajes y rumores del {club}: últimas noticias"),
                description=(f"Rumores de fichajes del {club} con termómetro de probabilidad, sus noticias de hoy"
                             f"{where}. Actualizado cada hora.")[:160],
@@ -1781,6 +1846,9 @@ def generate(data, news=(), months=(), out_dir="web"):
     _write(os.path.join(out_dir, "fantasy", "index.html"), page="fantasy", root="../",
            heading=_fantasy_title(standings),
            crumbs=_crumbs("../", ("LaLiga Fantasy", None)),
+           ld_page=_page_ld("/fantasy/", _fantasy_title(standings),
+                            "Bajas por lesión o sanción y jugadores en duda para LaLiga Fantasy.",
+                            [("LaLiga Fantasy", None)], lastmod["/fantasy/"]),
            title=_fit_title(_fantasy_title(standings)),
            description=("Bajas por lesión o sanción y jugadores en duda según la prensa de los últimos días. "
                         "Comprueba tu once de LaLiga Fantasy antes de cada jornada."),
@@ -1875,7 +1943,7 @@ def _share_image():
     return im
 
 
-def write_static(months, out_dir="web", leagues=(), clubs=()):
+def write_static(months, out_dir="web", leagues=(), clubs=(), lastmod=None):
     """favicon, imagen para compartir, robots.txt y sitemap.xml."""
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, "favicon.svg"), "w", encoding="utf-8") as f:
@@ -1903,20 +1971,20 @@ def write_static(months, out_dir="web", leagues=(), clubs=()):
             f.write(config.INDEXNOW_KEY)
     with open(os.path.join(out_dir, "robots.txt"), "w", encoding="utf-8") as f:
         f.write(f"User-agent: *\nAllow: /\n\nSitemap: {config.SITE_URL}/sitemap.xml\n")
-    today = _now_spain().strftime("%Y-%m-%d")
-    urls = [(config.SITE_URL + "/", today, "hourly", "1.0"),
-            (config.SITE_URL + "/rumores/", today, "hourly", "0.9"),
-            (config.SITE_URL + "/fantasy/", today, "hourly", "0.9")]
-    urls += [(f"{config.SITE_URL}/sobre", today, "monthly", "0.3"),
-             (f"{config.SITE_URL}/privacidad", today, "monthly", "0.3")]
-    urls += [(f"{config.SITE_URL}/clasificacion/{league_slug(lg)}/", today, "daily", "0.8") for lg in leagues]
-    urls += [(f"{config.SITE_URL}/club/{slug}/", today, "hourly", "0.8") for slug in clubs]
+    lastmod = lastmod or {}
+    # Fecha de cada página = la de su contenido más reciente (no la de hoy para todas).
+    # Páginas sin fecha fiable (legales, meses cerrados del archivo): sin <lastmod>, que es opcional.
+    urls = [(config.SITE_URL + "/", lastmod.get("/")),
+            (config.SITE_URL + "/rumores/", lastmod.get("/rumores/")),
+            (config.SITE_URL + "/fantasy/", lastmod.get("/fantasy/"))]
+    urls += [(f"{config.SITE_URL}/sobre", None), (f"{config.SITE_URL}/privacidad", None)]
+    urls += [(f"{config.SITE_URL}/clasificacion/{league_slug(lg)}/", lastmod.get(f"/clasificacion/{league_slug(lg)}/"))
+             for lg in leagues]
+    urls += [(f"{config.SITE_URL}/club/{slug}/", lastmod.get(f"/club/{slug}/")) for slug in clubs]
     current = _now_spain().strftime("%Y-%m")
     for ym, _, _ in months:
-        urls.append((f"{config.SITE_URL}/archivo/{ym}", today if ym == current else f"{ym}-28",
-                     "daily" if ym == current else "monthly", "0.6"))
-    body = "".join(f"<url><loc>{u}</loc><lastmod>{m}</lastmod><changefreq>{c}</changefreq>"
-                   f"<priority>{p}</priority></url>" for u, m, c, p in urls)
+        urls.append((f"{config.SITE_URL}/archivo/{ym}", lastmod.get("/") if ym == current else None))
+    body = "".join(f"<url><loc>{u}</loc>" + (f"<lastmod>{m}</lastmod>" if m else "") + "</url>" for u, m in urls)
     with open(os.path.join(out_dir, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n'
                 f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{body}</urlset>\n')
