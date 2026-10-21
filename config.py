@@ -294,3 +294,17 @@ STAFF_WORDS = ["director", "director deportivo", "presidente", "president", "ceo
 
 # Expresiones que indican el club de ORIGEN cuando aparecen justo antes del club
 FROM_MARKERS = ["from", "desde el", "deja el", "dejar el", "leaves", "salida del", "saldria del", "adios al"]
+
+
+# Ruido que no es un rumor de fichaje (se comprueba sobre el titular sin tildes y en minúsculas)
+MATCH_INCIDENT_WORDS = ["gol", "goles", "falta", "faltas", "penalti", "penalty", "var", "cronica",
+                        "resumen", "en directo", "minuto a minuto", "tarjeta", "autogol", "remontada",
+                        "goal", "foul", "highlights", "live"]
+REPLACEMENT_PHRASES = ["sustituir a", "sustituto de", "sustituta de", "sustituirlo", "suplir a", "relevo de",
+                       "relevar a", "sucesor de", "heredero de", "reemplazo de", "reemplazar a",
+                       "replace", "replacement for", "successor to", "sucesor para", "recambio de",
+                       "alternativa a", "como ", "al estilo de", "tipo "]
+RENEWAL_WORDS = ["renovacion", "renueva", "renovar", "renovado", "renews", "new contract", "extends contract",
+                 "contract extension", "amplia su contrato", "amplia contrato", "ampliacion de contrato"]
+RENEWAL_KEEP = ["fichaje", "fichar", "traspaso", "oferta", "clausula", "salida", "interes", "negocia",
+                "cesion", "transfer", "bid", "offer", "interested", "cierra la puerta", "rechaza"]
