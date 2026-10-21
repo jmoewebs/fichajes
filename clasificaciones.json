@@ -143,18 +143,18 @@
     "form": "L,L,D,L,W"
    },
    {
-    "id": 77,
+    "id": 88,
     "pos": 11,
-    "team": "Athletic",
-    "played": 7,
+    "team": "Levante",
+    "played": 9,
     "won": 2,
-    "draw": 3,
-    "lost": 2,
-    "gf": 7,
-    "ga": 6,
-    "gd": 1,
-    "points": 9,
-    "form": "W,W,D,D,D"
+    "draw": 4,
+    "lost": 3,
+    "gf": 14,
+    "ga": 16,
+    "gd": -2,
+    "points": 10,
+    "form": "D,L,L,D,D"
    },
    {
     "id": 94,
@@ -171,8 +171,22 @@
     "form": "L,W,W,L,D"
    },
    {
-    "id": 87,
+    "id": 77,
     "pos": 13,
+    "team": "Athletic",
+    "played": 8,
+    "won": 2,
+    "draw": 3,
+    "lost": 3,
+    "gf": 7,
+    "ga": 8,
+    "gd": -1,
+    "points": 9,
+    "form": "W,W,D,D,D"
+   },
+   {
+    "id": 87,
+    "pos": 14,
     "team": "Rayo Vallecano",
     "played": 8,
     "won": 2,
@@ -186,7 +200,7 @@
    },
    {
     "id": 82,
-    "pos": 14,
+    "pos": 15,
     "team": "Getafe",
     "played": 9,
     "won": 2,
@@ -200,7 +214,7 @@
    },
    {
     "id": 80,
-    "pos": 15,
+    "pos": 16,
     "team": "Espanyol",
     "played": 9,
     "won": 2,
@@ -214,7 +228,7 @@
    },
    {
     "id": 5335,
-    "pos": 16,
+    "pos": 17,
     "team": "Santander",
     "played": 9,
     "won": 2,
@@ -225,20 +239,6 @@
     "gd": -12,
     "points": 8,
     "form": "W,L,L,D,L"
-   },
-   {
-    "id": 88,
-    "pos": 17,
-    "team": "Levante",
-    "played": 8,
-    "won": 1,
-    "draw": 4,
-    "lost": 3,
-    "gf": 12,
-    "ga": 16,
-    "gd": -4,
-    "points": 7,
-    "form": "D,L,L,D,D"
    },
    {
     "id": 285,
@@ -373,6 +373,14 @@
     "penalties": 1
    },
    {
+    "player": "Brugui",
+    "team": "Levante",
+    "played": 8,
+    "goals": 5,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
     "player": "Fermín López",
     "team": "Barça",
     "played": 9,
@@ -418,14 +426,6 @@
     "played": 9,
     "goals": 3,
     "assists": 0,
-    "penalties": 0
-   },
-   {
-    "player": "Brugui",
-    "team": "Levante",
-    "played": 8,
-    "goals": 3,
-    "assists": 1,
     "penalties": 0
    },
    {
@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-21T14:38:30.230264+00:00"
+  "updated": "2026-10-21T18:39:52.537167+00:00"
  },
  "Premier League": {
   "matchday": 7,
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-21T14:38:51.803617+00:00"
+  "updated": "2026-10-21T18:40:16.585982+00:00"
  },
  "Serie A": {
   "matchday": 7,
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-21T14:39:13.599131+00:00"
+  "updated": "2026-10-21T18:40:38.521885+00:00"
  },
  "Bundesliga": {
   "matchday": 7,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-21T14:39:34.839508+00:00"
+  "updated": "2026-10-21T18:41:00.785913+00:00"
  },
  "Ligue 1": {
   "matchday": 8,
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-21T14:39:56.080971+00:00"
+  "updated": "2026-10-21T18:41:23.205945+00:00"
  },
- "_updated": "2026-10-21T14:39:56.081020+00:00",
+ "_updated": "2026-10-21T18:41:23.205991+00:00",
  "_version": 2
 }
