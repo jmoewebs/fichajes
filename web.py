@@ -19,6 +19,7 @@ TEMPLATE = r"""<!DOCTYPE html>
 <title>__TITLE__</title>
 <meta name="description" content="__DESCRIPTION__">
 <link rel="canonical" href="__CANONICAL__">
+<link rel="alternate" type="application/rss+xml" title="Movimientos del mercado de fichajes" href="__SITE_URL__/feed.xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="__SITE_NAME__">
 <meta name="application-name" content="__SITE_NAME__">
@@ -320,6 +321,7 @@ a.club:hover { text-decoration:underline; }
 .club-box h2 { font:700 26px/1.1 var(--cond); margin:0 0 6px; }
 .club-box p { margin:0; color:var(--muted); }
 .club-box p + p { margin-top:10px; }
+footer .pref { white-space:nowrap; }
 .vote-row { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:10px; font-size:14px; color:var(--muted); }
 .vote-row button { font:600 14px/1 var(--body); padding:7px 13px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--ink); cursor:pointer; }
 .vote-row button:hover { border-color:var(--ok); }
@@ -434,6 +436,7 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
   <span>Los titulares pertenecen a sus medios; cada uno enlaza a la noticia original.</span>
   __KOFI_FOOT__
   __TG_FOOT__
+  __PREF_SOURCE__
   <a href="__ROOT__sobre">Sobre esta web</a>
   <a href="__ROOT__privacidad">Privacidad</a>
   <a href="__ROOT__cookies.html">Política de cookies</a>
@@ -1500,6 +1503,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
                          f'<a class="kofi" href="{esc(config.KOFI_URL, quote=True)}" target="_blank" rel="noopener">'
                          f'<span>☕</span><span><span class="long">Invítame a un </span>café</span></a>'
                          if config.KOFI_URL else "") + '</div><span class="visits" id="visits" hidden></span></div>')
+            .replace("__PREF_SOURCE__", _pref_source_link())
             .replace("__TG_URL__", telegram_url())
             .replace("__TG_FOOT__", f'<a href="{esc(telegram_url(), quote=True)}" target="_blank" rel="noopener">'
                                     f'Canal de Telegram</a>' if telegram_url() else "")
@@ -1866,6 +1870,7 @@ def _jornada_page(md, snap, mds, out_dir):
     analytics = (ANALYTICS.replace("__GA_ID__", config.GA_MEASUREMENT_ID).replace("__ROOT__", root)
                  if config.GA_MEASUREMENT_ID else "")
     html = (JORNADA_PAGE.replace("__NAV__", _nav(root, "fantasy")).replace("__OGTYPE__", "article")
+            .replace("__PREF_SOURCE__", _pref_source_link()).replace("__SITE_URL__", config.SITE_URL)
             .replace("__TITLE__", esc(_fit_title(title)))
             .replace("__DESCRIPTION__", esc(desc[:160], quote=True))
             .replace("__CANONICAL__", url).replace("__LDJSON__", _json(ld))
@@ -1889,6 +1894,7 @@ JORNADA_PAGE = r"""<!DOCTYPE html>
 <title>__TITLE__</title>
 <meta name="description" content="__DESCRIPTION__">
 <link rel="canonical" href="__CANONICAL__">
+<link rel="alternate" type="application/rss+xml" title="Movimientos del mercado de fichajes" href="__SITE_URL__/feed.xml">
 <meta property="og:type" content="__OGTYPE__"><meta property="og:site_name" content="__SITE_NAME__">
 <meta property="og:title" content="__TITLE__"><meta property="og:description" content="__DESCRIPTION__">
 <meta property="og:url" content="__CANONICAL__"><meta property="og:locale" content="es_ES">
@@ -1932,10 +1938,53 @@ table.tb { border-collapse:collapse; width:100%; font-size:15px; } .tb th, .tb t
 </style></head><body>
 <header><nav>__NAV__</nav></header>
 <main>__CRUMBS__<h1>__H1__</h1>__BODY__</main>
-<footer>__FOOTER__<p><a href="__ROOT__sobre">Sobre esta web</a><a href="__ROOT__privacidad">Privacidad</a><a href="__ROOT__cookies.html">Cookies</a>__COOKIE_BUTTON__</p></footer>
+<footer>__FOOTER__<p>__PREF_SOURCE__<a href="__ROOT__sobre">Sobre esta web</a><a href="__ROOT__privacidad">Privacidad</a><a href="__ROOT__cookies.html">Cookies</a>__COOKIE_BUTTON__</p></footer>
 __ANALYTICS__
 </body></html>
 """
+
+
+def _pref_source_link():
+    """Enlace para que el lector añada la web como fuente preferida en Google (gratis, sin código externo)."""
+    domain = config.SITE_URL.split("//", 1)[1].rstrip("/")
+    return (f'<a class="pref" href="https://www.google.com/preferences/source?q={html_lib.escape(domain, quote=True)}" '
+            'target="_blank" rel="noopener">⭐ Añádenos como fuente preferida en Google</a>')
+
+
+def _player_page_entries(rumors):
+    """Rumores con ficha propia: al menos dos titulares y un nombre de URL seguro; los 150 más calientes."""
+    ok = [e for e in rumors if len(e["mentions"]) >= 2 and re.fullmatch(r"[a-z0-9-]{2,60}", e.get("player_slug") or "")]
+    return sorted(ok, key=lambda e: -e["score"])[:150]
+
+
+def _write_feed(events, out_dir):
+    """feed.xml (RSS 2.0) con los últimos movimientos del mercado."""
+    esc = html_lib.escape
+    from email.utils import format_datetime
+    items = []
+    for ev in sorted(events, key=lambda ev: ev["date"], reverse=True)[:40]:
+        e = ev["entry"]
+        route = f"{e['from_club'] or '?'} → {e['to_club'] or '?'}"
+        if ev["kind"] == "entra":
+            title = f"{e['player']} ({route}) entra en el termómetro con {ev['score']}°"
+        elif ev["kind"] == "estado":
+            title = f"{e['player']}: el rumor pasa a «{STAT_ES.get(ev['status'], ev['status'])}» ({ev['score']}°)"
+        else:
+            title = f"{e['player']} sube a {ev['score']}° en el termómetro"
+        link = (f"{config.SITE_URL}/jugador/{e['player_slug']}/" if e["player_slug"] in _PLAYER_PAGES
+                else f"{config.SITE_URL}/rumores/movimientos/")
+        when = datetime.fromisoformat(ev["date"].replace("Z", "+00:00"))
+        items.append(f"<item><title>{esc(title)}</title><link>{esc(link)}</link>"
+                     f'<guid isPermaLink="false">{esc(e["player_slug"])}|{esc(ev["date"])}|{ev["kind"]}</guid>'
+                     f"<pubDate>{format_datetime(when)}</pubDate>"
+                     f"<description>{esc(title + '. Según ' + ev['source'] + '.')}</description></item>")
+    now = format_datetime(datetime.now().astimezone())
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel>'
+           f"<title>{esc(config.SITE_NAME)}: movimientos del mercado</title><link>{config.SITE_URL}/rumores/movimientos/</link>"
+           "<description>Cada vez que un rumor de fichaje entra, sube o avanza de estado.</description>"
+           f"<language>es-ES</language><lastBuildDate>{now}</lastBuildDate>{''.join(items)}</channel></rss>\n")
+    with open(os.path.join(out_dir, "feed.xml"), "w", encoding="utf-8") as f:
+        f.write(xml)
 
 
 STAT_ES = {"interes": "Interés", "negociacion": "Negociación", "acuerdo": "Acuerdo", "oficial": "Oficial",
@@ -2031,6 +2080,7 @@ def _write_info_page(out_dir, rel, *, root, nav_on, title, description, h1, crum
     analytics = (ANALYTICS.replace("__GA_ID__", config.GA_MEASUREMENT_ID).replace("__ROOT__", root)
                  if config.GA_MEASUREMENT_ID else "")
     html = (JORNADA_PAGE.replace("__NAV__", _nav(root, nav_on)).replace("__OGTYPE__", ogtype)
+            .replace("__PREF_SOURCE__", _pref_source_link()).replace("__SITE_URL__", config.SITE_URL)
             .replace("__TITLE__", esc(_fit_title(title))).replace("__DESCRIPTION__", esc(description[:160], quote=True))
             .replace("__CANONICAL__", f"{config.SITE_URL}/{rel}").replace("__LDJSON__", _json(ld))
             .replace("__SITE_NAME__", esc(config.SITE_NAME)).replace("__ROOT__", root).replace("__H1__", esc(h1))
@@ -2208,8 +2258,7 @@ def _movimientos_page(events, out_dir):
 def _build_player_pages(rumors, out_dir):
     """Páginas de jugador (solo con 2 o más titulares), hub y feed de movimientos. Devuelve {ruta: lastmod}."""
     lm, events, hub = {}, [], []
-    ok = [e for e in rumors if len(e["mentions"]) >= 2 and re.fullmatch(r"[a-z0-9-]{2,60}", e.get("player_slug") or "")]
-    ok = sorted(ok, key=lambda e: -e["score"])[:150]
+    ok = _player_page_entries(rumors)
     _PLAYER_PAGES.clear()
     _PLAYER_PAGES.update(e["player_slug"] for e in ok)
     for e in rumors:
@@ -2226,6 +2275,7 @@ def _build_player_pages(rumors, out_dir):
         _players_hub(hub, out_dir)
         lm["/jugador/"] = _iso_max(*(v for v in lm.values()))
     lm["/rumores/movimientos/"] = _movimientos_page(events, out_dir)
+    _write_feed(events, out_dir)
     return lm
 
 
