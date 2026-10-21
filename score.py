@@ -26,6 +26,25 @@ def thermometer(sources, statuses):
     return min(95, base + config.STATUS_BONUS[best])
 
 
+def _dup_key(r):
+    """Mismo medio + mismo titular + mismo día = la misma noticia (llega por el feed del medio y por Google Noticias)."""
+    return (r["source"], norm(r["title"]), str(r["published"])[:10])
+
+
+def dedupe(rows):
+    """Quita copias de la misma noticia; se queda con el enlace directo del medio, no con el de Google Noticias."""
+    best = {}
+    order = []
+    for r in rows:
+        k = _dup_key(r)
+        if k not in best:
+            best[k] = r
+            order.append(k)
+        elif "news.google.com" in best[k]["url"] and "news.google.com" not in r["url"]:
+            best[k] = r
+    return [best[k] for k in order]
+
+
 def published_groups(db, start=None, end=None):
     """Rumores que se publican, agrupados por (jugador, destino).
     Un grupo sale si tiene alguna mención aprobada, o si lo cuentan al menos
@@ -40,7 +59,7 @@ def published_groups(db, start=None, end=None):
         (start, end),
     ).fetchall()
     groups = defaultdict(list)
-    for r in rows:
+    for r in dedupe(rows):
         groups[(r["player_slug"], r["to_club"] or "?")].append(r)
     out = {}
     for key, mentions in groups.items():
@@ -147,10 +166,10 @@ def build_news(db, start=None, end=None, limit=None):
     end = end or "9999"
     rumor_items = {m["item_id"] for ms in published_groups(db, start, end).values() for m in ms}
     news = []
-    for r in db.execute("""SELECT id, source, title, url, published FROM items
+    rows_n = db.execute("""SELECT id, source, title, url, published FROM items
                            WHERE published >= ? AND published < ? AND rumor_only = 0
-                           ORDER BY published DESC""",
-                        (start, end)):
+                           ORDER BY published DESC""", (start, end)).fetchall()
+    for r in dedupe(rows_n):
         title_n = norm(r["title"])
         if _has_any(title_n, config.NOT_FOOTBALL):
             continue
