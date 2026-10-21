@@ -170,6 +170,8 @@ def build_news(db, start=None, end=None, limit=None):
                            WHERE published >= ? AND published < ? AND rumor_only = 0
                            ORDER BY published DESC""", (start, end)).fetchall()
     for r in dedupe(rows_n):
+        if r["id"] in rumor_items:
+            continue   # los rumores tienen su pestaña; en Noticias no se repiten
         title_n = norm(r["title"])
         if _has_any(title_n, config.NOT_FOOTBALL):
             continue
