@@ -3,6 +3,7 @@ Las páginas se abren con doble clic, sin servidor."""
 import html as html_lib
 import json
 import os
+import re
 
 import config
 from datetime import datetime
@@ -478,6 +479,7 @@ const FX_REPORT = __FX_REPORT__;
 const FX_PLAYERS = __FX_PLAYERS__;       // jugadores conocidos y sus formas de nombrarlos (solo en Fantasy)
 const FX_IGNORE = __FX_IGNORE__;         // fragmentos de titulares que se ignoran (fantasy_ignorar.txt)
 const CLUB_SLUGS = __CLUB_SLUGS__;       // clubes con página propia
+const PLAYER_PAGES = new Set(__PLAYER_PAGES__);   // jugadores con página propia
 const CLUB = __CLUB__;                   // en una página de club: su nombre
 const CLUB_INTRO = __CLUB_INTRO__;       // párrafos propios del club (generados con reglas)
 const CLUB_INFO = __CLUB_INFO__;         // posición en la tabla del club de esta página
@@ -820,7 +822,10 @@ function bestStatus(r) {
 
 function rumorCard(r) {
   const card = el("article", "rumor"), left = el("div");
-  left.append(el("h3", "player", r.player));
+  const hp = el("h3", "player");
+  if (PLAYER_PAGES.has(r.player_slug)) { const pa = el("a", null, r.player); pa.href = ROOT + "jugador/" + r.player_slug + "/"; hp.append(pa); }
+  else hp.textContent = r.player;
+  left.append(hp);
   const route = el("p", "route");
   route.append(r.from_club ? clubLink(r.from_club) : el("span", "unk", "Origen sin confirmar"),
                el("span", "arrow", "→"),
@@ -1344,7 +1349,9 @@ def _static_list(news, rumors, limit=60):
         parts.append("<h2>Rumores de fichajes</h2><ul>")
         for r in rumors[:20]:
             route = f"{r['from_club'] or 'origen sin confirmar'} → {r['to_club'] or 'destino sin confirmar'}"
-            parts.append(f"<li>{esc(r['player'])}: {esc(route)} ({r['score']}°)</li>")
+            name = (f'<a href="/jugador/{esc(r["player_slug"], quote=True)}/">{esc(r["player"])}</a>'
+                    if r.get("player_slug") in _PLAYER_PAGES else esc(r["player"]))
+            parts.append(f"<li>{name}: {esc(route)} ({r['score']}°)</li>")
         parts.append("</ul>")
     shown = list(news)[:limit]
     if shown:
@@ -1465,6 +1472,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__FX_PLAYERS__", _json(fx_players or {}))
             .replace("__FX_IGNORE__", _json(list(fx_ignore)))
             .replace("__CLUB_SLUGS__", _json(_CLUB_PAGES))
+            .replace("__PLAYER_PAGES__", _json(sorted(_PLAYER_PAGES)))
             .replace("__CLUB__", _json(club))
             .replace("__CLUB_INTRO__", _json(list(club_intro)))
             .replace("__CLUB_INFO__", _json(club_info))
@@ -1529,6 +1537,9 @@ def _sections_footer(root):
              ("LaLiga Fantasy", f"{root}fantasy/")]
     links += [(f"Clasificación de {lg}", f"{root}clasificacion/{league_slug(lg)}/") for lg in config.STANDINGS_COMPETITIONS]
     links += [(f"Lesionados jornada {md}", f"{root}fantasy/jornada-{md}/") for md in _JORNADAS[:4]]
+    if _PLAYER_PAGES:
+        links += [("Últimos movimientos del mercado", f"{root}rumores/movimientos/"),
+                  ("Jugadores con rumores de fichaje", f"{root}jugador/")]
     return (f'<details class="foot-clubs"><summary>Secciones ({len(links)})</summary>'
             '<nav aria-label="Secciones de la web">'
             + " ".join(f'<a href="{esc(h, quote=True)}">{esc(t)}</a>' for t, h in links) + "</nav></details>")
@@ -1698,6 +1709,7 @@ def _club_intro(club, ci, standings, rumors, news, fx):
     return out
 
 
+_PLAYER_PAGES = set()   # slugs de jugador con página propia
 _JORNADAS = []          # jornadas con página (de la más reciente a la más antigua)
 
 
@@ -1798,7 +1810,8 @@ def _jornada_page(md, snap, mds, out_dir):
             f"{_plural(len(bajas), 'baja', 'bajas')} y {_plural(len(dudas), 'duda', 'dudas')}. Actualizado {_dmy(snap['updated'])}.")
     analytics = (ANALYTICS.replace("__GA_ID__", config.GA_MEASUREMENT_ID).replace("__ROOT__", root)
                  if config.GA_MEASUREMENT_ID else "")
-    html = (JORNADA_PAGE.replace("__TITLE__", esc(_fit_title(title)))
+    html = (JORNADA_PAGE.replace("__NAV__", _nav(root, "fantasy")).replace("__OGTYPE__", "article")
+            .replace("__TITLE__", esc(_fit_title(title)))
             .replace("__DESCRIPTION__", esc(desc[:160], quote=True))
             .replace("__CANONICAL__", url).replace("__LDJSON__", _json(ld))
             .replace("__SITE_NAME__", esc(config.SITE_NAME)).replace("__ROOT__", root)
@@ -1821,7 +1834,7 @@ JORNADA_PAGE = r"""<!DOCTYPE html>
 <title>__TITLE__</title>
 <meta name="description" content="__DESCRIPTION__">
 <link rel="canonical" href="__CANONICAL__">
-<meta property="og:type" content="article"><meta property="og:site_name" content="__SITE_NAME__">
+<meta property="og:type" content="__OGTYPE__"><meta property="og:site_name" content="__SITE_NAME__">
 <meta property="og:title" content="__TITLE__"><meta property="og:description" content="__DESCRIPTION__">
 <meta property="og:url" content="__CANONICAL__"><meta property="og:locale" content="es_ES">
 <link rel="icon" href="__ROOT__favicon.svg" type="image/svg+xml">
@@ -1851,13 +1864,314 @@ footer button { font:inherit; background:none; border:0; color:inherit; text-dec
 .cookies p { margin:0 0 12px; font-size:15px; } .cookies .btns { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
 .cookies button { font:600 15px/1 inherit; padding:10px 16px; border-radius:6px; cursor:pointer; border:1px solid var(--line); background:var(--card); color:var(--ink); }
 .cookies .yes { background:var(--grass); color:#fff; border-color:var(--grass); } .cookies[hidden] { display:none; }
+:root { --acc:#1b6b3d; } @media (prefers-color-scheme: dark) { :root { --acc:#5fd08a; } }
+table.tb { border-collapse:collapse; width:100%; font-size:15px; } .tb th, .tb td { text-align:left; padding:7px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+.chart { width:100%; height:auto; max-width:640px; } .chart text { fill:var(--muted); font-size:11px; font-family:inherit; }
+.chart .ax { stroke:var(--line); } .chart .ln { fill:none; stroke:var(--acc); stroke-width:2.5; } .chart .pt { fill:var(--acc); }
+.vote { border:1px solid var(--line); background:var(--card); border-radius:10px; padding:14px 16px; margin:18px 0; }
+.vote p { margin:0 0 8px; font-weight:600; } .vote .vb { display:flex; gap:10px; flex-wrap:wrap; }
+.vote button { font:inherit; font-weight:600; padding:9px 18px; border-radius:8px; border:1px solid var(--line); background:var(--chalk); color:var(--ink); cursor:pointer; }
+.vote button:hover { border-color:var(--acc); } .vote .bar { height:10px; border-radius:5px; background:var(--line); overflow:hidden; margin:6px 0 2px; } .vote .bar i { display:block; height:100%; background:var(--acc); }
+.vote .small { font-size:14px; color:var(--muted); font-weight:400; }
+.ev { list-style:none; padding:0; } .ev li { padding:8px 0; border-bottom:1px solid var(--line); } .ev time { color:var(--muted); font-size:14px; margin-right:8px; font-variant-numeric:tabular-nums; }
 </style></head><body>
-<header><nav><a class="site" href="__ROOT__">__SITE_NAME__</a><a href="__ROOT__">Noticias</a><a href="__ROOT__rumores/">Rumores</a><a href="__ROOT__clasificacion/laliga/">Clasificación</a><a class="on" href="__ROOT__fantasy/">Fantasy</a></nav></header>
+<header><nav>__NAV__</nav></header>
 <main>__CRUMBS__<h1>__H1__</h1>__BODY__</main>
 <footer>__FOOTER__<p><a href="__ROOT__sobre">Sobre esta web</a><a href="__ROOT__privacidad">Privacidad</a><a href="__ROOT__cookies.html">Cookies</a>__COOKIE_BUTTON__</p></footer>
 __ANALYTICS__
 </body></html>
 """
+
+
+STAT_ES = {"interes": "Interés", "negociacion": "Negociación", "acuerdo": "Acuerdo", "oficial": "Oficial",
+           "descartado": "Descartado"}
+
+
+def _nav(root, on):
+    items = [("news", "Noticias", root or "./"), ("rumors", "Rumores", f"{root}rumores/"),
+             ("table", "Clasificación", f"{root}clasificacion/{league_slug('LaLiga')}/"),
+             ("fantasy", "Fantasy", f"{root}fantasy/")]
+    return (f'<a class="site" href="{root or "./"}">{html_lib.escape(config.SITE_NAME)}</a>'
+            + "".join(f'<a{" class=" + chr(34) + "on" + chr(34) if k == on else ""} href="{h}">{t}</a>' for k, t, h in items))
+
+
+def _day_label(iso, now):
+    d = datetime.fromisoformat(str(iso).replace("Z", "+00:00")).astimezone(now.tzinfo)
+    delta = (now.date() - d.date()).days
+    if delta == 0:
+        return "Hoy"
+    if delta == 1:
+        return "Ayer"
+    return f"{d.day} de {MONTHS[d.month - 1]}"
+
+
+def _series(entry):
+    """Evolución del termómetro de un rumor: [(fecha ISO, grados, estado, medios)] y eventos."""
+    import score
+    ms = sorted(entry["mentions"], key=lambda m: m["date"])
+    need = config.AUTO_PUBLISH_MIN_SOURCES
+    sources, statuses, pts, events = set(), set(), [], []
+    entered, last_ev, best_rank = False, None, -1
+    for m in ms:
+        sources.add(m["source"]); statuses.add(m["status"])
+        sc = score.thermometer(sources, statuses)
+        st = score.best_status(statuses)
+        rank = score.ORDER.index(st) if st in score.ORDER else -1
+        pts.append((m["date"], sc, st, len(sources)))
+        if not entered and len(sources) >= need:
+            entered = True
+            events.append({"date": m["date"], "kind": "entra", "score": sc, "status": st, "source": m["source"],
+                           "n": len(sources)})
+            last_ev, best_rank = sc, rank
+        elif entered:
+            if rank > best_rank:
+                events.append({"date": m["date"], "kind": "estado", "score": sc, "status": st, "source": m["source"],
+                               "n": len(sources)})
+                last_ev, best_rank = sc, rank
+            elif sc - last_ev >= 10:
+                events.append({"date": m["date"], "kind": "sube", "score": sc, "status": st, "source": m["source"],
+                               "n": len(sources)})
+                last_ev = sc
+    if not entered and ms:                       # publicado a mano con menos medios
+        events.append({"date": ms[0]["date"], "kind": "entra", "score": pts[0][1], "status": pts[0][2],
+                       "source": ms[0]["source"], "n": 1})
+    return pts, events
+
+
+def _chart_svg(pts, now_iso):
+    """Gráfico del termómetro (escalón) en SVG, sin librerías."""
+    W, H, L, R, T, B = 640, 190, 34, 12, 12, 28
+    t0 = datetime.fromisoformat(pts[0][0].replace("Z", "+00:00")).timestamp()
+    t1 = max(datetime.fromisoformat(now_iso).timestamp(),
+             datetime.fromisoformat(pts[-1][0].replace("Z", "+00:00")).timestamp())
+    span = max(t1 - t0, 3600)
+    x = lambda t: L + (t - t0) / span * (W - L - R)
+    y = lambda v: T + (100 - v) / 100 * (H - T - B)
+    path, cur = [], None
+    for iso, sc, _, _ in pts:
+        t = datetime.fromisoformat(iso.replace("Z", "+00:00")).timestamp()
+        if cur is not None:
+            path.append(f"{x(t):.1f},{y(cur):.1f}")
+        path.append(f"{x(t):.1f},{y(sc):.1f}")
+        cur = sc
+    path.append(f"{x(t1):.1f},{y(cur):.1f}")
+    dots = "".join(f'<circle class="pt" cx="{x(datetime.fromisoformat(i.replace("Z", "+00:00")).timestamp()):.1f}" '
+                   f'cy="{y(sc):.1f}" r="3.5"/>' for i, sc, _, _ in pts)
+    grid = "".join(f'<line class="ax" x1="{L}" x2="{W - R}" y1="{y(v):.1f}" y2="{y(v):.1f}"/>'
+                   f'<text x="{L - 6}" y="{y(v) + 4:.1f}" text-anchor="end">{v}°</text>' for v in (0, 50, 100))
+    d0 = datetime.fromtimestamp(t0, _now_spain().tzinfo).strftime("%d/%m")
+    d1 = datetime.fromtimestamp(t1, _now_spain().tzinfo).strftime("%d/%m")
+    return (f'<svg class="chart" viewBox="0 0 {W} {H}" role="img" aria-label="Evolución del termómetro de {d0} a {d1}">'
+            f'{grid}<polyline class="ln" points="{" ".join(path)}"/>{dots}'
+            f'<text x="{L}" y="{H - 8}">{d0}</text><text x="{W - R}" y="{H - 8}" text-anchor="end">{d1}</text></svg>')
+
+
+def _force(sc):
+    return ("muy avanzado" if sc >= 70 else "con opciones reales" if sc >= 40 else
+            "en fase de interés" if sc >= 15 else "todavía frío")
+
+
+def _write_info_page(out_dir, rel, *, root, nav_on, title, description, h1, crumbs, body, ld, ogtype="website"):
+    esc = html_lib.escape
+    analytics = (ANALYTICS.replace("__GA_ID__", config.GA_MEASUREMENT_ID).replace("__ROOT__", root)
+                 if config.GA_MEASUREMENT_ID else "")
+    html = (JORNADA_PAGE.replace("__NAV__", _nav(root, nav_on)).replace("__OGTYPE__", ogtype)
+            .replace("__TITLE__", esc(_fit_title(title))).replace("__DESCRIPTION__", esc(description[:160], quote=True))
+            .replace("__CANONICAL__", f"{config.SITE_URL}/{rel}").replace("__LDJSON__", _json(ld))
+            .replace("__SITE_NAME__", esc(config.SITE_NAME)).replace("__ROOT__", root).replace("__H1__", esc(h1))
+            .replace("__CRUMBS__", crumbs).replace("__BODY__", body).replace("__FOOTER__", _sections_footer(root))
+            .replace("__ANALYTICS__", analytics)
+            .replace("__COOKIE_BUTTON__", '<button id="ck-config">Configurar cookies</button>'
+                     if config.GA_MEASUREMENT_ID else ""))
+    path = os.path.join(out_dir, rel, "index.html")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(html)
+
+
+VOTE_JS = r"""<script>
+(function () {
+  var box = document.getElementById("vote"); if (!box) return;
+  var slug = box.getAttribute("data-slug"), KEY = "voto-" + slug;
+  function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  function put(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+  function show(c, mine) {
+    var yes = c.si || 0, no = c.no || 0, n = yes + no;
+    box.replaceChildren();
+    var p = document.createElement("p"); p.textContent = "Tu voto: " + (mine === "si" ? "sí se hará" : "no se hará"); box.append(p);
+    if (n >= 5) {
+      var pc = Math.round(yes * 100 / n), bar = document.createElement("div"); bar.className = "bar";
+      var i = document.createElement("i"); i.style.width = pc + "%"; bar.append(i);
+      var t = document.createElement("div"); t.className = "small";
+      t.textContent = pc + "% de los lectores cree que sí se hará (" + n + " votos). Es solo una opinión, no un dato oficial.";
+      box.append(bar, t);
+    } else {
+      var t2 = document.createElement("div"); t2.className = "small"; t2.textContent = "Gracias. Aún hay pocos votos para mostrar el resultado.";
+      box.append(t2);
+    }
+  }
+  function load(mine) {
+    fetch("/api/votos?rumor=" + encodeURIComponent(slug)).then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (c) { if (c) show(c, mine); }).catch(function () {});
+  }
+  function send(v) {
+    fetch("/api/votos", { method: "POST", body: JSON.stringify({ rumor: slug, v: v }) })
+      .then(function (r) { if (r.ok) { put(v); load(v); } }).catch(function () {});
+  }
+  fetch("/api/votos?rumor=" + encodeURIComponent(slug)).then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function () {
+    box.hidden = false;
+    var mine = get(); if (mine) { load(mine); return; }
+    box.querySelectorAll("button").forEach(function (b) { b.addEventListener("click", function () { send(b.getAttribute("data-v")); }); });
+  }).catch(function () { box.hidden = true; });
+})();
+</script>"""
+
+
+def _player_page(e, pts, events, out_dir):
+    esc = html_lib.escape
+    root = "../../"
+    slug, name = e["player_slug"], e["player"]
+    now = _now_spain()
+    route = f"{e['from_club'] or 'origen sin confirmar'} → {e['to_club'] or 'destino sin confirmar'}"
+    ms = sorted(e["mentions"], key=lambda m: m["date"])
+    best = pts[-1][2]
+    fee = next((m["fee"] for m in reversed(ms) if m.get("fee")), None)
+    srcs = sorted({m["source"] for m in ms})
+    first, last = ms[0], ms[-1]
+    fmt = lambda iso: datetime.fromisoformat(iso.replace("Z", "+00:00")).astimezone(now.tzinfo).strftime("%d/%m/%Y")
+    paras = [f"El rumor del fichaje de {name} ({route}) está ahora en {e['score']}° en el termómetro de {config.SITE_NAME}, "
+             f"es decir, {_force(e['score'])}. Lo cuentan {_plural(len(srcs), 'medio', 'medios')} "
+             f"({', '.join(srcs)}) en {_plural(len(ms), 'titular', 'titulares')} de los últimos {config.WINDOW_DAYS} días. "
+             f"El estado más avanzado es «{STAT_ES.get(best, best)}»."]
+    t2 = f"El primer titular que seguimos es del {fmt(first['date'])} ({first['source']}) y el último, del {fmt(last['date'])} ({last['source']})."
+    if fee:
+        t2 += f" Según los titulares, la operación rondaría los {fee:g} millones de euros."
+    paras.append(t2)
+    if e.get("others"):
+        alt = ", ".join(f"{o['to_club']} ({o['score']}°)" for o in e["others"] if o.get("to_club"))
+        if alt:
+            paras.append(f"También suenan otros destinos para {name}: {alt}.")
+    def club_link(c):
+        sl = _CLUB_PAGES.get(c)
+        return f'<a href="{root}club/{sl}/">{esc(c)}</a>' if sl else esc(c)
+    related = " · ".join(club_link(c) for c in e.get("clubs", []) if c)
+    rows = "".join(
+        f'<tr><td>{fmt(m["date"])}</td><td>{esc(m["source"])}</td><td>{esc(STAT_ES.get(m["status"], m["status"]))}</td>'
+        f'<td><a href="{esc(m["url"], quote=True)}" target="_blank" rel="noopener">{esc(m["title"])}</a></td></tr>'
+        for m in reversed(ms))
+    ch_rows = "".join(f'<li>{fmt(d)}: {sc}° ({STAT_ES.get(st, st)}, {_plural(n, "medio", "medios")})</li>'
+                      for d, sc, st, n in pts)
+    body = ("".join(f"<p>{esc(t)}</p>" for t in paras)
+            + f'<div class="vote" id="vote" data-slug="{esc(slug, quote=True)}" hidden><p>¿Crees que el fichaje de {esc(name)} se hará?</p>'
+              '<div class="vb"><button type="button" data-v="si">Sí, se hará</button><button type="button" data-v="no">No se hará</button></div></div>'
+            + "<h2>Evolución del termómetro</h2>" + _chart_svg(pts, now.isoformat())
+            + f'<details><summary class="small">Ver los datos del gráfico</summary><ul>{ch_rows}</ul></details>'
+            + f'<h2>Todos los titulares sobre {esc(name)}</h2><div style="overflow-x:auto"><table class="tb"><thead><tr><th>Fecha</th><th>Medio</th><th>Estado</th><th>Titular</th></tr></thead><tbody>{rows}</tbody></table></div>'
+            + (f"<h2>Clubes implicados</h2><p>{related}</p>" if related else "")
+            + f'<p><a href="{root}rumores/">Todos los rumores de fichajes</a> · <a href="{root}rumores/movimientos/">Últimos movimientos del mercado</a> · <a href="{root}jugador/">Más jugadores</a></p>'
+            + "<h2>Cómo se calcula</h2><p>El termómetro (de 0° a 100°) es una estimación automática: cuenta cuántos medios distintos hablan del rumor, cuánto se fía la web de cada uno y lo avanzado que está el estado de la operación. No es información oficial ni una predicción. Cada titular enlaza a la noticia original, que conserva su autoría.</p>"
+            + VOTE_JS)
+    title = f"Fichaje de {name}: rumores, termómetro e historial"
+    desc = (f"{name}: {e['score']}° en el termómetro, {_plural(len(srcs), 'medio', 'medios')} y {_plural(len(ms), 'titular', 'titulares')}. "
+            f"Rumor {route}, con enlaces a cada fuente.")
+    modified = _iso_max(*(m["date"] for m in ms))
+    ld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "WebSite", "name": config.SITE_NAME, "url": config.SITE_URL + "/", "inLanguage": "es-ES"},
+        *_page_ld(f"/jugador/{slug}/", title, desc, [("Jugadores con rumores", "/jugador/"), (name, None)], modified)]}
+    crumbs = _crumbs(root, ("Jugadores con rumores", "/jugador/"), (name, None))
+    _write_info_page(out_dir, f"jugador/{slug}", root=root, nav_on="rumors", title=title, description=desc,
+                     h1=f"Fichaje de {name}: rumores y termómetro", crumbs=crumbs, body=body, ld=ld, ogtype="article")
+    return modified
+
+
+def _players_hub(entries, out_dir):
+    esc = html_lib.escape
+    root = "../"
+    now = _now_spain()
+    items = "".join(
+        f'<li><a href="{root}jugador/{esc(e["player_slug"], quote=True)}/"><strong>{esc(e["player"])}</strong></a>: '
+        f'{esc(e["from_club"] or "origen sin confirmar")} → {esc(e["to_club"] or "destino sin confirmar")} '
+        f'<span class="mt">({e["score"]}° · {esc(STAT_ES.get(pts_best, pts_best))})</span></li>'
+        for e, pts_best in entries)
+    intro = (f"Estos son los jugadores con un rumor de fichaje que siguen al menos dos titulares en los últimos {config.WINDOW_DAYS} días, "
+             f"ordenados de más a menos caliente según el termómetro de {config.SITE_NAME}. Cada ficha reúne todos los titulares, "
+             "la evolución del rumor y la opinión de los lectores.")
+    body = f"<p>{esc(intro)}</p><ol>{items}</ol><p><a href=\"{root}rumores/movimientos/\">Últimos movimientos del mercado</a></p>"
+    title, desc = "Jugadores con rumores de fichaje", "Todos los jugadores con rumores de fichaje, ordenados por termómetro: historial, titulares y opinión de los lectores."
+    ld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "WebSite", "name": config.SITE_NAME, "url": config.SITE_URL + "/", "inLanguage": "es-ES"},
+        *_page_ld("/jugador/", title, desc, [("Jugadores con rumores", None)], _iso_max(now.isoformat()))]}
+    _write_info_page(out_dir, "jugador", root=root, nav_on="rumors", title=title, description=desc, h1=title,
+                     crumbs=_crumbs(root, ("Jugadores con rumores", None)), body=body, ld=ld)
+
+
+def _movimientos_page(events, out_dir):
+    """Últimos movimientos del mercado: cada vez que un rumor entra, sube o avanza de estado."""
+    esc = html_lib.escape
+    root = "../../"
+    now = _now_spain()
+    events = sorted(events, key=lambda ev: ev["date"], reverse=True)[:80]
+    parts, cur = [], None
+    for ev in events:
+        day = _day_label(ev["date"], now)
+        if day != cur:
+            if cur is not None:
+                parts.append("</ul>")
+            parts.append(f"<h2>{esc(day)}</h2><ul class=\"ev\">")
+            cur = day
+        hhmm = datetime.fromisoformat(ev["date"].replace("Z", "+00:00")).astimezone(now.tzinfo).strftime("%H:%M")
+        e = ev["entry"]
+        nm = (f'<a href="{root}jugador/{esc(e["player_slug"], quote=True)}/">{esc(e["player"])}</a>'
+              if e["player_slug"] in _PLAYER_PAGES else esc(e["player"]))
+        route = f"{esc(e['from_club'] or '?')} → {esc(e['to_club'] or '?')}"
+        if ev["kind"] == "entra":
+            txt = f"{nm} ({route}) entra en el termómetro con {ev['score']}°, según {esc(ev['source'])}."
+        elif ev["kind"] == "estado":
+            txt = f"El rumor de {nm} ({route}) pasa a «{esc(STAT_ES.get(ev['status'], ev['status']))}» y marca {ev['score']}° ({esc(ev['source'])})."
+        else:
+            txt = f"{nm} ({route}) sube a {ev['score']}° con {_plural(ev['n'], 'medio', 'medios')}."
+        parts.append(f"<li><time>{hhmm}</time>{txt}</li>")
+    if cur is not None:
+        parts.append("</ul>")
+    if not events:
+        parts.append("<p>Todavía no hay movimientos recientes que mostrar.</p>")
+    intro = ("Cada vez que un rumor entra en el termómetro, sube de forma notable o pasa a un estado más avanzado "
+             "(negociación, acuerdo u oficial), queda anotado aquí con su hora. La lista se actualiza cada hora a partir "
+             "de los titulares de la prensa deportiva.")
+    body = f"<p>{esc(intro)}</p>" + "".join(parts) + f'<p><a href="{root}rumores/">Todos los rumores</a> · <a href="{root}jugador/">Jugadores con rumores</a></p>'
+    title, desc = "Últimos movimientos del mercado de fichajes", "Qué rumores suben, entran o avanzan de estado en el mercado de fichajes, con la hora de cada cambio. Actualizado cada hora."
+    mod = _iso_max(*(ev["date"] for ev in events)) if events else None
+    ld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "WebSite", "name": config.SITE_NAME, "url": config.SITE_URL + "/", "inLanguage": "es-ES"},
+        *_page_ld("/rumores/movimientos/", title, desc, [("Rumores de fichajes", "/rumores/"), ("Últimos movimientos", None)], mod)]}
+    _write_info_page(out_dir, "rumores/movimientos", root=root, nav_on="rumors", title=title, description=desc, h1=title,
+                     crumbs=_crumbs(root, ("Rumores de fichajes", "/rumores/"), ("Últimos movimientos", None)),
+                     body=body, ld=ld)
+    return mod
+
+
+def _build_player_pages(rumors, out_dir):
+    """Páginas de jugador (solo con 2 o más titulares), hub y feed de movimientos. Devuelve {ruta: lastmod}."""
+    lm, events, hub = {}, [], []
+    ok = [e for e in rumors if len(e["mentions"]) >= 2 and re.fullmatch(r"[a-z0-9-]{2,60}", e.get("player_slug") or "")]
+    ok = sorted(ok, key=lambda e: -e["score"])[:150]
+    _PLAYER_PAGES.clear()
+    _PLAYER_PAGES.update(e["player_slug"] for e in ok)
+    for e in rumors:
+        pts, evs = _series(e)
+        for ev in evs:
+            if ev["status"] == "descartado" or (ev["kind"] == "entra" and ev["score"] < 10):
+                continue                       # rumores fríos o descartados no son un "movimiento"
+            events.append({**ev, "entry": e})
+    for e in ok:
+        pts, _ = _series(e)
+        lm[f"/jugador/{e['player_slug']}/"] = _player_page(e, pts, _, out_dir)
+        hub.append((e, pts[-1][2]))
+    if ok:
+        _players_hub(hub, out_dir)
+        lm["/jugador/"] = _iso_max(*(v for v in lm.values()))
+    lm["/rumores/movimientos/"] = _movimientos_page(events, out_dir)
+    return lm
 
 
 def _fit_title(text, limit=62):
@@ -1936,6 +2250,8 @@ def generate(data, news=(), months=(), out_dir="web"):
     # Páginas fijas por jornada de Fantasy (las pasadas se conservan)
     snaps = _update_jornadas(fx, _next_jornada(standings), info)
     _JORNADAS[:] = sorted((int(k) for k in snaps), reverse=True)
+    # Páginas de jugador, hub y movimientos (antes que el resto, para poder enlazarlas)
+    player_lm = _build_player_pages(rumors, out_dir)
     # Fecha real de cada página (para el sitemap y dateModified)
     news_date = _iso_max(*(n.get("date") for n in news))
     rum_date = _iso_max(*(r.get("last_update") for r in rumors))
@@ -1950,6 +2266,9 @@ def generate(data, news=(), months=(), out_dir="web"):
             (standings.get((info.get(club) or {}).get("league")) or {}).get("updated"))
     for md_ in _JORNADAS:
         lastmod[f"/fantasy/jornada-{md_}/"] = _iso_max(snaps[str(md_)]["updated"])
+    lastmod.update({k: v for k, v in player_lm.items() if v})
+    for k in player_lm:
+        lastmod.setdefault(k, None)
     write_static(months, out_dir, list(standings), list(_CLUB_PAGES.values()), lastmod)
     common = dict(is_archive=False,
                   tagline=config.SITE_TAGLINE, counts=counts, standings=standings)
@@ -2153,7 +2472,8 @@ def write_static(months, out_dir="web", leagues=(), clubs=(), lastmod=None):
     urls = [(config.SITE_URL + "/", lastmod.get("/")),
             (config.SITE_URL + "/rumores/", lastmod.get("/rumores/")),
             (config.SITE_URL + "/fantasy/", lastmod.get("/fantasy/"))]
-    urls += [(config.SITE_URL + k, v) for k, v in sorted(lastmod.items()) if k.startswith("/fantasy/jornada-")]
+    urls += [(config.SITE_URL + k, v) for k, v in sorted(lastmod.items())
+             if k.startswith(("/fantasy/jornada-", "/jugador/", "/rumores/movimientos"))]
     urls += [(f"{config.SITE_URL}/sobre", None), (f"{config.SITE_URL}/privacidad", None)]
     urls += [(f"{config.SITE_URL}/clasificacion/{league_slug(lg)}/", lastmod.get(f"/clasificacion/{league_slug(lg)}/"))
              for lg in leagues]
@@ -2215,7 +2535,7 @@ a { color:inherit; }
 <p>En __SITE_NAME__ no hay registro de usuarios, formularios ni comentarios, y no pedimos datos personales.</p>
 <h2>Qué datos se tratan</h2>
 <p>Solo si aceptas las cookies de análisis, Google Analytics mide de forma agregada las visitas (páginas vistas, país, dispositivo). Si las rechazas, no se instala ninguna cookie de análisis. Más detalle en la <a href="cookies.html">política de cookies</a>.</p>
-<p>La web guarda en tu navegador, sin enviarlo a ningún servidor, tus preferencias (filtros, equipo de Fantasy y tu respuesta al aviso de cookies).</p>
+<p>La web guarda en tu navegador, sin enviarlo a ningún servidor, tus preferencias (filtros, equipo de Fantasy, los votos que emites en los rumores y tu respuesta al aviso de cookies). Los votos se suman de forma anónima: solo se guarda el total de síes y noses de cada rumor, sin ningún dato tuyo.</p>
 <h2>Servicios de terceros</h2>
 <p>Para mostrar el icono de cada medio, tu navegador solicita una imagen a Google, que puede registrar tu dirección IP según su <a href="https://policies.google.com/privacy?hl=es">política de privacidad</a>. La web se aloja en Cloudflare, que puede tratar datos técnicos de la conexión (IP, navegador) para entregar y proteger el sitio. Los enlaces a medios, Telegram o Ko-fi te llevan a sitios externos con su propia política.</p>
 <h2>Tus derechos</h2>
