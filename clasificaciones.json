@@ -150,11 +150,11 @@
     "won": 2,
     "draw": 4,
     "lost": 3,
-    "gf": 14,
-    "ga": 16,
+    "gf": 15,
+    "ga": 17,
     "gd": -2,
     "points": 10,
-    "form": "D,L,L,D,D"
+    "form": "L,L,D,D,W"
    },
    {
     "id": 94,
@@ -178,11 +178,11 @@
     "won": 2,
     "draw": 3,
     "lost": 3,
-    "gf": 7,
-    "ga": 8,
+    "gf": 8,
+    "ga": 9,
     "gd": -1,
     "points": 9,
-    "form": "W,W,D,D,D"
+    "form": "W,D,D,D,L"
    },
    {
     "id": 87,
@@ -597,6 +597,14 @@
     "penalties": 0
    },
    {
+    "player": "Álex Berenguer",
+    "team": "Athletic",
+    "played": 9,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 1
+   },
+   {
     "player": "Roberto Navarro",
     "team": "Athletic",
     "played": 9,
@@ -869,14 +877,6 @@
     "penalties": 0
    },
    {
-    "player": "Álex Berenguer",
-    "team": "Athletic",
-    "played": 9,
-    "goals": 1,
-    "assists": 1,
-    "penalties": 0
-   },
-   {
     "player": "Troy Parrott",
     "team": "Real Betis",
     "played": 8,
@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-21T18:39:52.537167+00:00"
+  "updated": "2026-10-21T22:34:51.561319+00:00"
  },
  "Premier League": {
   "matchday": 7,
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-21T18:40:16.585982+00:00"
+  "updated": "2026-10-21T22:35:13.879686+00:00"
  },
  "Serie A": {
   "matchday": 7,
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-21T18:40:38.521885+00:00"
+  "updated": "2026-10-21T22:35:35.672868+00:00"
  },
  "Bundesliga": {
   "matchday": 7,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-21T18:41:00.785913+00:00"
+  "updated": "2026-10-21T22:35:57.511047+00:00"
  },
  "Ligue 1": {
   "matchday": 8,
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-21T18:41:23.205945+00:00"
+  "updated": "2026-10-21T22:36:19.252646+00:00"
  },
- "_updated": "2026-10-21T18:41:23.205991+00:00",
+ "_updated": "2026-10-21T22:36:19.252687+00:00",
  "_version": 2
 }
