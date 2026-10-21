@@ -326,6 +326,9 @@ details.foot-clubs { width:100%; font-size:13px; line-height:1.9; border-top:0; 
 .foot-clubs > summary:hover { color:var(--ink); }
 .foot-clubs nav { margin-top:8px; }
 .foot-clubs a { margin-right:12px; white-space:nowrap; }
+.foot-sections { width:100%; font-size:14px; line-height:2; }
+.foot-sections strong { color:var(--ink); margin-right:10px; }
+.foot-sections a { margin-right:14px; white-space:nowrap; }
 .tag { font-size:12px; font-weight:600; padding:1px 8px; border-radius:20px; }
 .tag.live { background:color-mix(in srgb, var(--hot) 14%, transparent); color:var(--hot); }
 .tag.rum { background:color-mix(in srgb, var(--warm) 20%, transparent); color:color-mix(in srgb, var(--warm) 70%, var(--ink)); }
@@ -404,7 +407,7 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
       <input id="q" type="search" placeholder="Buscar jugador, club o medio" aria-label="Buscar">
       <select id="club" aria-label="Filtrar por club"><option value="">Todos los clubes</option></select>
     </div>
-    <nav class="tabs" id="tabs"></nav>
+    <nav class="tabs" id="tabs" aria-label="Secciones">__TABS__</nav>
   </div>
 </header>
 <div class="wrap layout">
@@ -510,6 +513,7 @@ if (IS_ARCHIVE) { if (["news", "rumors"].includes(hashTab)) tab = hashTab; }
 else if (["news", "rumors", "table", "fantasy"].includes(hashTab) && hashTab !== PAGE) location.replace(pageUrl(hashTab));  // enlaces antiguos con #
 let day = "";   // "" = recientes (portada) o todo el mes (archivo); si no, AAAA-MM-DD
 const nav = document.getElementById("tabs");
+nav.replaceChildren();   // quita las pestañas en HTML normal; aquí se rehacen con contadores
 for (const [id, label, n] of tabs) {
   const b = el(IS_ARCHIVE ? "button" : "a", "tab"); b.dataset.tab = id;
   if (id === "table") b.append(el("span", "lg-only", label), el("span", "sm-only", "Tabla"));
@@ -1465,6 +1469,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__CLUB_INTRO__", _json(list(club_intro)))
             .replace("__CLUB_INFO__", _json(club_info))
             .replace("__CLUB_FOOTER__", _club_footer(root))
+            .replace("__TABS__", _tabs_html(root, page, is_archive))
             .replace("__RECENT_DAYS__", str(config.RECENT_DAYS)).replace("__NEWS_DAYS__", str(config.NEWS_DAYS)))
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
@@ -1497,13 +1502,37 @@ def _fantasy_title(standings):
         "Lesionados y sancionados para tu Fantasy"
 
 
+def _tabs_html(root, page, is_archive):
+    """Pestañas principales en HTML normal (buscadores y quien no ejecute JavaScript). El JS las sustituye
+    por las interactivas. En el archivo las pestañas son botones, así que ahí no se pone nada."""
+    if is_archive:
+        return ""
+    items = [("news", "Noticias", root or "./"), ("rumors", "Rumores", f"{root}rumores/"),
+             ("table", '<span class="lg-only">Clasificación</span><span class="sm-only">Tabla</span>',
+              f"{root}clasificacion/{league_slug('LaLiga')}/"),
+             ("fantasy", "Fantasy", f"{root}fantasy/")]
+    return "".join(f'<a class="tab{" on" if page == id_ else ""}" data-tab="{id_}" href="{href}"'
+                   f'{" aria-current=" + chr(34) + "page" + chr(34) if page == id_ else ""}>{label}</a>'
+                   for id_, label, href in items)
+
+
+def _sections_footer(root):
+    """Enlaces visibles a todas las secciones en el pie de cada página."""
+    esc = html_lib.escape
+    links = [("Noticias", root or "./"), ("Rumores de fichajes", f"{root}rumores/"),
+             ("LaLiga Fantasy", f"{root}fantasy/")]
+    links += [(f"Clasificación de {lg}", f"{root}clasificacion/{league_slug(lg)}/") for lg in config.STANDINGS_COMPETITIONS]
+    return ('<nav class="foot-sections" aria-label="Secciones de la web"><strong>Secciones</strong>'
+            + " ".join(f'<a href="{esc(h, quote=True)}">{esc(t)}</a>' for t, h in links) + "</nav>")
+
+
 def _club_footer(root):
     """Enlaces a todas las páginas de club en el pie (ayudan a Google a encontrarlas)."""
     if not _CLUB_PAGES:
-        return ""
+        return _sections_footer(root)
     links = " ".join(f'<a href="{root}club/{slug}/">{html_lib.escape(club)}</a>'
                     for club, slug in sorted(_CLUB_PAGES.items(), key=lambda x: x[0]))
-    return (f'<details class="foot-clubs"><summary>Equipos ({len(_CLUB_PAGES)})</summary>'
+    return (_sections_footer(root) + f'<details class="foot-clubs"><summary>Equipos ({len(_CLUB_PAGES)})</summary>'
             f'<nav aria-label="Páginas de cada equipo">{links}</nav></details>')
 
 
