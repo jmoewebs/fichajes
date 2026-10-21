@@ -87,15 +87,43 @@ def _negated(toks, s, e):
     return any(t in rules["neg_after"] for t in toks[e:e + 1])
 
 
+_NO_NAME_BEFORE = {"sin", "con", "tras", "por", "para", "ante", "contra", "sobre", "segun", "como", "que", "y", "e"}
+_REPLACES = ["sustituto de", "sustituta de", "plan b de", "relevo de", "recambio de", "suplente de", "reemplazo de",
+             "alternativa a", "heredero de", "sucesor de", "ausencia de", "hueco de", "puesto de", "lugar de"]
+
+
+def _is_that_player(span, toks, cap, players):
+    """Descarta un acierto dudoso: un apellido suelto precedido de otro nombre propio ("Borja Iglesias" no es
+    "Juan Iglesias") o un jugador citado como a quien sustituye otro ("Kroupi, el plan B de Álvarez")."""
+    s, e, name = span
+    own = set(_n(name).split())
+    s0 = s
+    while s0 > 0 and toks[s0 - 1] in own:                 # empieza antes si el nombre va completo
+        s0 -= 1
+    for phrase in _REPLACES:
+        p = phrase.split()
+        if s0 >= len(p) and toks[s0 - len(p):s0] == p:
+            return False
+    if e - s == 1 and len(own) > 1 and s >= 1 and cap[s - 1] and cap[s] \
+            and toks[s - 1] not in own and toks[s - 1] not in _NO_NAME_BEFORE and len(toks[s - 1]) > 2:
+        return False
+    return True
+
+
 def analyze(title, players):
     """Estado de cada jugador que aparece en un titular. players = {nombre: {"keys": {...}}}.
     Devuelve {nombre: "back" | "susp" | "out" | "doubt" | "ok"}."""
     rules = config.FANTASY_RULES
-    toks = _n(title).split()
+    toks, cap = [], []                                  # palabras y si empezaban en mayúscula
+    for w in str(title).split():
+        parts = _n(w).split()
+        toks += parts
+        cap += [w[:1].isupper()] * len(parts)
     for idiom in rules["idioms"]:                       # "sin duda", "altas y bajas"... no cuentan
         for s, e, _ in _spans(toks, [(idiom.split(), None)]):
             toks[s:e] = ["_"] * (e - s)
     spans = _spans(toks, [(k.split(), name) for name, c in players.items() for k in c["keys"]])
+    spans = [sp for sp in spans if _is_that_player(sp, toks, cap, players)]
     if not spans:
         return {}
     # Jugadores enumerados ("Lamine Yamal, Pedri y Raphinha") forman un grupo: comparten el mismo sujeto
