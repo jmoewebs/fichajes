@@ -86,6 +86,46 @@ def digest_text(items):
     return "\n".join(lines)
 
 
+def _page_is_live(url):
+    """La página de la jornada responde 200 (el aviso puede salir antes de que Cloudflare termine de publicar)."""
+    try:
+        req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            return r.status == 200
+    except Exception:
+        return False
+
+
+def _fantasy_message(db, now_spain):
+    """(clave, texto) del aviso de la jornada más reciente si toca publicarlo; None si no."""
+    try:
+        row = db.execute("SELECT jornada, data FROM fx_jornadas ORDER BY jornada DESC LIMIT 1").fetchone()
+    except Exception:
+        return None                      # todavía no existe la tabla
+    if not row or now_spain.hour < 10:   # nada de avisos de madrugada
+        return None
+    md, snap = row[0], json.loads(row[1])
+    key = f"fantasy|{md}"
+    rows = snap.get("rows", [])
+    bajas = [r for r in rows if r["st"] == "out"]
+    dudas = [r for r in rows if r["st"] == "doubt"]
+    if _done(db, key) or len(bajas) + len(dudas) < 3:
+        return None
+    url = f"{config.SITE_URL}/fantasy/jornada-{md}/"
+    if not _page_is_live(url):
+        return None
+    e = html.escape
+    by_team = {}
+    for r in bajas + dudas:
+        by_team[r["team"]] = by_team.get(r["team"], 0) + 1
+    top = ", ".join(f"{e(t)} ({n})" for t, n in sorted(by_team.items(), key=lambda x: (-x[1], x[0]))[:3])
+    lines = [f"🚑 <b>Parte médico de la jornada {md}</b> · LaLiga Fantasy",
+             f"{len(bajas)} baja(s) y {len(dudas)} duda(s) detectadas en la prensa.",
+             f"Más afectados: {top}.",
+             f"\n👉 <a href=\"{url}\">Lesionados y sancionados por equipo</a>"]
+    return key, "\n".join(lines)
+
+
 def run(db, rumors, news, now_spain=None, sender=None):
     """rumors = lista de rumores publicados (como en la web); news = noticias recientes."""
     token, chat = os.environ.get("TELEGRAM_BOT_TOKEN"), os.environ.get("TELEGRAM_CHAT_ID")
@@ -116,6 +156,15 @@ def run(db, rumors, news, now_spain=None, sender=None):
         except Exception as exc:
             errors.append(str(exc))
             break
+    # Parte médico de Fantasy: un solo aviso por jornada, cuando la página ya está publicada
+    try:
+        txt = _fantasy_message(db, now_spain or datetime.now())
+        if txt:
+            send(txt[1])
+            _mark(db, txt[0])
+            sent += 1
+    except Exception as exc:
+        errors.append(f"fantasy: {exc}")
     # Resumen diario a la hora indicada (hora de España)
     now_spain = now_spain or datetime.now()
     day_key = f"resumen|{now_spain.strftime('%Y-%m-%d')}"
