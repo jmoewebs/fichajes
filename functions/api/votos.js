@@ -44,6 +44,19 @@ export async function onRequestPost({ env, request }) {
 
 export async function onRequestGet({ env, request }) {
   if (!env.DB) return json({ error: "sin base de datos" }, 503);
+  const many = new URL(request.url).searchParams.get("rumores");
+  if (many !== null) {                 // varios rumores de una vez (la lista de rumores): {slug: {si, no}}
+    const slugs = [...new Set(many.split(",").filter(x => SLUG.test(x)))].slice(0, 60);
+    const out = {};
+    for (const x of slugs) out[x] = { si: 0, no: 0 };
+    if (!slugs.length) return json(out);
+    try {
+      const marks = slugs.map(() => "?").join(",");
+      const { results } = await env.DB.prepare(`SELECT rumor, v, n FROM votos WHERE rumor IN (${marks})`).bind(...slugs).all();
+      for (const r of results || []) if (out[r.rumor] && (r.v === "si" || r.v === "no")) out[r.rumor][r.v] = r.n;
+    } catch (e) { await ensureTable(env); }
+    return json(out);
+  }
   const slug = String(new URL(request.url).searchParams.get("rumor") || "");
   if (!SLUG.test(slug)) return json({ error: "rumor no válido" }, 400);
   const out = { si: 0, no: 0 };
