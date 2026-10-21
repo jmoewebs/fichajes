@@ -52,7 +52,7 @@ def rumor_key(r):
     return f"rumor|{r['player_slug']}|{r['to_club'] or '?'}|{best_status(r)}"
 
 
-def rumor_text(r):
+def rumor_text(r, page_url=None):
     e = html.escape
     st = best_status(r)
     head = "✅ <b>FICHAJE CERRADO</b>" if st == "oficial" else f"🔥 <b>RUMOR</b> · {STATUS.get(st, st)}"
@@ -62,6 +62,8 @@ def rumor_text(r):
         lines.append(f"🌡️ {r['score']}° en el termómetro · {r['sources']} medio(s)")
     lines.append(f"📰 {e(r['mentions'][0]['source'])}: <a href=\"{e(r['mentions'][0]['url'], quote=True)}\">"
                  f"{e(r['mentions'][0]['title'])}</a>")
+    if page_url:
+        lines.append(f"\n🔎 <a href=\"{e(page_url, quote=True)}\">Historial del rumor y vota si se hará</a>")
     lines.append(f"\n👉 <a href=\"{config.SITE_URL}/rumores/\">Todos los rumores en {e(config.SITE_NAME)}</a>")
     return "\n".join(lines)
 
@@ -142,6 +144,11 @@ def run(db, rumors, news, now_spain=None, sender=None):
             _mark(db, rumor_key(r))
         db.commit()
         return f"primera ejecución: {len(candidates)} rumores apuntados sin publicar"
+    try:                                  # rumores con ficha propia en la web (historial y votos)
+        import web
+        with_page = {e["player_slug"] for e in web._player_page_entries(rumors)}
+    except Exception:
+        with_page = set()
     sent, errors = 0, []
     for r in sorted(candidates, key=lambda r: r["last_update"]):
         if sent >= config.TELEGRAM_MAX_PER_RUN:
@@ -150,7 +157,8 @@ def run(db, rumors, news, now_spain=None, sender=None):
         if _done(db, key):
             continue
         try:
-            send(rumor_text(r))
+            page = f"{config.SITE_URL}/jugador/{r['player_slug']}/"
+            send(rumor_text(r, page if r.get("player_slug") in with_page and _page_is_live(page) else None))
             _mark(db, key)
             sent += 1
         except Exception as exc:
