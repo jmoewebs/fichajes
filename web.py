@@ -1496,8 +1496,14 @@ def _winter_year():
     return now.year + 1 if now.month >= 7 else now.year
 
 
-def _fantasy_title(standings):
+def _next_jornada(standings):
+    """Jornada de LaLiga que se prepara en Fantasy: la API da la última jugada, así que es la siguiente."""
     md = (standings.get("LaLiga") or {}).get("matchday")
+    return int(md) + 1 if md else None
+
+
+def _fantasy_title(standings):
+    md = _next_jornada(standings)
     return f"Lesionados y sancionados de la jornada {md} de LaLiga Fantasy" if md else \
         "Lesionados y sancionados para tu Fantasy"
 
@@ -1522,6 +1528,7 @@ def _sections_footer(root):
     links = [("Noticias", root or "./"), ("Rumores de fichajes", f"{root}rumores/"),
              ("LaLiga Fantasy", f"{root}fantasy/")]
     links += [(f"Clasificación de {lg}", f"{root}clasificacion/{league_slug(lg)}/") for lg in config.STANDINGS_COMPETITIONS]
+    links += [(f"Lesionados jornada {md}", f"{root}fantasy/jornada-{md}/") for md in _JORNADAS[:4]]
     return (f'<details class="foot-clubs"><summary>Secciones ({len(links)})</summary>'
             '<nav aria-label="Secciones de la web">'
             + " ".join(f'<a href="{esc(h, quote=True)}">{esc(t)}</a>' for t, h in links) + "</nav></details>")
@@ -1691,6 +1698,168 @@ def _club_intro(club, ci, standings, rumors, news, fx):
     return out
 
 
+_JORNADAS = []          # jornadas con página (de la más reciente a la más antigua)
+
+
+def _update_jornadas(fx, md, info):
+    """Guarda el parte médico de la jornada actual (se sobrescribe cada hora) y conserva el de las anteriores.
+    Solo equipos de LaLiga. Devuelve {jornada: {"updated", "rows"}}."""
+    import sqlite3
+    db = sqlite3.connect(config.DB_PATH)      # la base ya se guarda en el repositorio tras cada ejecución
+    db.execute("CREATE TABLE IF NOT EXISTS fx_jornadas (jornada INTEGER PRIMARY KEY, data TEXT NOT NULL)")
+    snaps = {str(j): json.loads(d) for j, d in db.execute("SELECT jornada, data FROM fx_jornadas")}
+    rows = []
+    for r in fx:
+        club = _club_of_team(str(r.get("team") or ""))
+        if club and (info.get(club) or {}).get("league") == "LaLiga":
+            rows.append({k: r[k] for k in ("player", "st", "label", "title", "url", "source", "date")} | {"team": club})
+    if md and rows:
+        snaps[str(md)] = {"updated": datetime.now().astimezone().isoformat(), "rows": rows}
+        db.execute("INSERT OR REPLACE INTO fx_jornadas VALUES (?, ?)", (md, json.dumps(snaps[str(md)], ensure_ascii=False)))
+        db.commit()
+    db.close()
+    return snaps
+
+
+def _dmy(iso, with_time=False):
+    d = datetime.fromisoformat(str(iso).replace("Z", "+00:00"))
+    if d.tzinfo is not None:
+        d = d.astimezone(_now_spain().tzinfo)
+    return d.strftime("%d/%m/%Y a las %H:%M" if with_time else "%d/%m")
+
+
+def _jornada_page(md, snap, mds, out_dir):
+    """/fantasy/jornada-N/: página estática con las bajas y dudas por equipo y los recuperados."""
+    esc = html_lib.escape
+    root = "../../"
+    rows = snap["rows"]
+    bajas = [r for r in rows if r["st"] == "out"]
+    dudas = [r for r in rows if r["st"] == "doubt"]
+    back = [r for r in rows if r["st"] == "back"]
+    url = f"{config.SITE_URL}/fantasy/jornada-{md}/"
+    upd = _dmy(snap["updated"], True)
+    title = f"Lesionados y sancionados de la jornada {md} de LaLiga Fantasy"
+
+    def item(r, with_team=False):
+        team = f" ({esc(r['team'])})" if with_team else ""
+        return (f'<li><strong>{esc(r["player"])}</strong>{team} · <span class="lb {r["st"]}">{esc(r["label"])}</span>. '
+                f'<a href="{esc(r["url"], quote=True)}" target="_blank" rel="noopener">{esc(r["title"])}</a> '
+                f'<span class="mt">({esc(r["source"])}, {_dmy(r["date"])})</span></li>')
+
+    by_team = {}
+    for r in bajas + dudas:
+        by_team.setdefault(r["team"], []).append(r)
+    order = sorted(by_team, key=lambda t: (-len(by_team[t]), t))
+
+    # texto propio con reglas
+    intro = [f"Este es el parte médico de LaLiga para la jornada {md} de LaLiga Fantasy (Biwenger, Comunio, Mister y "
+             f"similares): {_plural(len(bajas), 'baja', 'bajas')} por lesión o sanción, {_plural(len(dudas), 'duda', 'dudas')} "
+             f"y {_plural(len(back), 'jugador recuperado', 'jugadores recuperados')} según los titulares de los últimos "
+             f"{config.FANTASY_DAYS} días. Actualizado el {upd}."]
+    if order:
+        top = [f"{t} ({len(by_team[t])})" for t in order[:3]]
+        intro.append("Los equipos con más jugadores en la enfermería son " + ", ".join(top[:-1]) +
+                     (" y " if len(top) > 1 else "") + top[-1] + ". Antes de cerrar tu once, comprueba cada nombre "
+                     "en su equipo, o prueba la herramienta de tu plantilla en la página de Fantasy.")
+
+    body = [f"<p>{esc(t)}</p>" for t in intro]
+    body.append(f'<p><a class="btn" href="{root}fantasy/">Comprueba tu once en la herramienta de Fantasy</a></p>')
+    if order:
+        body.append("<h2>Bajas y dudas por equipo</h2>")
+        for t in order:
+            slug = _CLUB_PAGES.get(t)
+            lis = "".join(item(r) for r in by_team[t])
+            more = (f'<p class="mt2"><a class="mt" href="{root}club/{slug}/">Rumores y noticias del {esc(t)}</a></p>'
+                    if slug else "")
+            body.append(f"<h3>Lesionados y sancionados del {esc(t)}</h3><ul>{lis}</ul>{more}")
+    else:
+        body.append("<p>Ahora mismo no hay bajas ni dudas detectadas en la prensa para esta jornada.</p>")
+    body.append("<h2>Recuperados</h2>")
+    if back:
+        body.append("<ul>" + "".join(item(r, True) for r in sorted(back, key=lambda r: (r["team"], r["player"]))) + "</ul>")
+    else:
+        body.append("<p>Todavía no hay jugadores que la prensa dé por recuperados en esta jornada.</p>")
+    body.append("<h2>Cómo se elabora este parte</h2>"
+                "<p>Un programa lee cada hora los titulares de los principales medios deportivos y detecta el jugador y "
+                "si se habla de baja, duda, sanción o recuperación. No es un parte médico oficial: cada línea enlaza a la "
+                "noticia original para que compruebes el detalle y la fecha de vuelta. Si un dato no está al día, "
+                "escríbenos desde la página Sobre esta web.</p>")
+    others = [m for m in mds if m != md]
+    if others:
+        body.append("<h2>Otras jornadas</h2><p>" + " · ".join(
+            f'<a href="{root}fantasy/jornada-{m}/">Jornada {m}</a>' for m in others[:12]) + "</p>")
+
+    ld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "WebSite", "name": config.SITE_NAME, "url": config.SITE_URL + "/", "inLanguage": "es-ES"},
+        *_page_ld(f"/fantasy/jornada-{md}/", title,
+                  f"Bajas, dudas y recuperados de LaLiga para la jornada {md} de Fantasy, por equipo.",
+                  [("LaLiga Fantasy", "/fantasy/"), (f"Jornada {md}", None)], _iso_max(snap["updated"]))]}
+    desc = (f"Bajas, dudas y recuperados de LaLiga para la jornada {md} de Fantasy, por equipo: "
+            f"{_plural(len(bajas), 'baja', 'bajas')} y {_plural(len(dudas), 'duda', 'dudas')}. Actualizado {_dmy(snap['updated'])}.")
+    analytics = (ANALYTICS.replace("__GA_ID__", config.GA_MEASUREMENT_ID).replace("__ROOT__", root)
+                 if config.GA_MEASUREMENT_ID else "")
+    html = (JORNADA_PAGE.replace("__TITLE__", esc(_fit_title(title)))
+            .replace("__DESCRIPTION__", esc(desc[:160], quote=True))
+            .replace("__CANONICAL__", url).replace("__LDJSON__", _json(ld))
+            .replace("__SITE_NAME__", esc(config.SITE_NAME)).replace("__ROOT__", root)
+            .replace("__H1__", esc(title))
+            .replace("__CRUMBS__", _crumbs(root, ("LaLiga Fantasy", "/fantasy/"), (f"Jornada {md}", None)))
+            .replace("__BODY__", "".join(body))
+            .replace("__FOOTER__", _sections_footer(root))
+            .replace("__ANALYTICS__", analytics)
+            .replace("__COOKIE_BUTTON__", '<button id="ck-config">Configurar cookies</button>'
+                     if config.GA_MEASUREMENT_ID else ""))
+    path = os.path.join(out_dir, "fantasy", f"jornada-{md}", "index.html")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(html)
+
+
+JORNADA_PAGE = r"""<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<meta name="description" content="__DESCRIPTION__">
+<link rel="canonical" href="__CANONICAL__">
+<meta property="og:type" content="article"><meta property="og:site_name" content="__SITE_NAME__">
+<meta property="og:title" content="__TITLE__"><meta property="og:description" content="__DESCRIPTION__">
+<meta property="og:url" content="__CANONICAL__"><meta property="og:locale" content="es_ES">
+<link rel="icon" href="__ROOT__favicon.svg" type="image/svg+xml">
+<link rel="icon" href="__ROOT__favicon.png" type="image/png" sizes="48x48">
+<script type="application/ld+json">__LDJSON__</script>
+<style>
+:root { --chalk:#f2f6f3; --card:#fff; --ink:#10201a; --muted:#5d6d65; --line:#dbe3de; --grass:#145a32; --ok:#1f8f4e; --hot:#b3361b; --warm:#a96f00; }
+@media (prefers-color-scheme: dark) { :root { --chalk:#0c1611; --card:#14211a; --ink:#e4ece7; --muted:#93a39a; --line:#24352c; --grass:#0f4426; --hot:#ff8a6d; --warm:#f0c24a; --ok:#5fd08a; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--chalk); color:var(--ink); font:17px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif; }
+a { color:inherit; }
+header { background:var(--grass); color:#fff; padding:14px 20px; }
+header nav { max-width:760px; margin:0 auto; display:flex; flex-wrap:wrap; gap:6px 18px; align-items:baseline; }
+header a { color:#fff; text-decoration:none; font-weight:600; } header .site { font-size:19px; margin-right:auto; }
+header a.on { text-decoration:underline; }
+main { max-width:760px; margin:0 auto; padding:22px 20px 40px; }
+h1 { font-size:30px; line-height:1.15; margin:8px 0 14px; } h2 { font-size:22px; margin:30px 0 8px; } h3 { font-size:18px; margin:20px 0 6px; }
+.crumbs { display:flex; flex-wrap:wrap; align-items:center; gap:4px 8px; font-size:14px; color:var(--muted); } .crumbs a { color:inherit; } .crumbs .sep { opacity:.6; }
+ul { padding-left:20px; } li { margin:7px 0; }
+.lb { font-weight:700; } .lb.out { color:var(--hot); } .lb.doubt { color:var(--warm); } .lb.back { color:var(--ok); }
+.mt { color:var(--muted); font-size:14px; } .mt2 { margin:4px 0 0; }
+.btn { display:inline-block; padding:10px 16px; border-radius:8px; background:var(--grass); color:#fff; text-decoration:none; font-weight:600; }
+footer { max-width:760px; margin:0 auto; padding:0 20px 50px; font-size:14px; color:var(--muted); }
+footer a { margin-right:12px; white-space:nowrap; } footer details { line-height:1.9; margin-bottom:12px; } footer summary { cursor:pointer; }
+footer button { font:inherit; background:none; border:0; color:inherit; text-decoration:underline; cursor:pointer; padding:0; }
+.cookies { position:fixed; left:16px; right:16px; bottom:16px; z-index:10; max-width:560px; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; box-shadow:0 6px 24px #0003; }
+.cookies p { margin:0 0 12px; font-size:15px; } .cookies .btns { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+.cookies button { font:600 15px/1 inherit; padding:10px 16px; border-radius:6px; cursor:pointer; border:1px solid var(--line); background:var(--card); color:var(--ink); }
+.cookies .yes { background:var(--grass); color:#fff; border-color:var(--grass); } .cookies[hidden] { display:none; }
+</style></head><body>
+<header><nav><a class="site" href="__ROOT__">__SITE_NAME__</a><a href="__ROOT__">Noticias</a><a href="__ROOT__rumores/">Rumores</a><a href="__ROOT__clasificacion/laliga/">Clasificación</a><a class="on" href="__ROOT__fantasy/">Fantasy</a></nav></header>
+<main>__CRUMBS__<h1>__H1__</h1>__BODY__</main>
+<footer>__FOOTER__<p><a href="__ROOT__sobre">Sobre esta web</a><a href="__ROOT__privacidad">Privacidad</a><a href="__ROOT__cookies.html">Cookies</a>__COOKIE_BUTTON__</p></footer>
+__ANALYTICS__
+</body></html>
+"""
+
+
 def _fit_title(text, limit=62):
     """Añade " | nombre de la web" solo si cabe sin que Google corte el título."""
     full = f"{text} | {config.SITE_NAME}"
@@ -1764,6 +1933,9 @@ def generate(data, news=(), months=(), out_dir="web"):
     except Exception as exc:
         print("[aviso] parte médico:", exc)
         fx, fx_players, ignore = [], {}, []
+    # Páginas fijas por jornada de Fantasy (las pasadas se conservan)
+    snaps = _update_jornadas(fx, _next_jornada(standings), info)
+    _JORNADAS[:] = sorted((int(k) for k in snaps), reverse=True)
     # Fecha real de cada página (para el sitemap y dateModified)
     news_date = _iso_max(*(n.get("date") for n in news))
     rum_date = _iso_max(*(r.get("last_update") for r in rumors))
@@ -1776,6 +1948,8 @@ def generate(data, news=(), months=(), out_dir="web"):
             *(n.get("date") for n in news if club in n["clubs"]),
             *(r.get("last_update") for r in rumors if club in (r.get("clubs") or [r["from_club"], r["to_club"]])),
             (standings.get((info.get(club) or {}).get("league")) or {}).get("updated"))
+    for md_ in _JORNADAS:
+        lastmod[f"/fantasy/jornada-{md_}/"] = _iso_max(snaps[str(md_)]["updated"])
     write_static(months, out_dir, list(standings), list(_CLUB_PAGES.values()), lastmod)
     common = dict(is_archive=False,
                   tagline=config.SITE_TAGLINE, counts=counts, standings=standings)
@@ -1854,6 +2028,8 @@ def generate(data, news=(), months=(), out_dir="web"):
                         "Comprueba tu once de LaLiga Fantasy antes de cada jornada."),
            canonical=config.SITE_URL + "/fantasy/", rumors=[], news=news, archive=[],
            static_html=_static_fantasy(fx), fx_report=fx, fx_players=fx_players, fx_ignore=ignore, **common)
+    for md_ in _JORNADAS:
+        _jornada_page(md_, snaps[str(md_)], _JORNADAS, out_dir)
     _clean_news_files(out_dir)
     return index
 
@@ -1977,6 +2153,7 @@ def write_static(months, out_dir="web", leagues=(), clubs=(), lastmod=None):
     urls = [(config.SITE_URL + "/", lastmod.get("/")),
             (config.SITE_URL + "/rumores/", lastmod.get("/rumores/")),
             (config.SITE_URL + "/fantasy/", lastmod.get("/fantasy/"))]
+    urls += [(config.SITE_URL + k, v) for k, v in sorted(lastmod.items()) if k.startswith("/fantasy/jornada-")]
     urls += [(f"{config.SITE_URL}/sobre", None), (f"{config.SITE_URL}/privacidad", None)]
     urls += [(f"{config.SITE_URL}/clasificacion/{league_slug(lg)}/", lastmod.get(f"/clasificacion/{league_slug(lg)}/"))
              for lg in leagues]
