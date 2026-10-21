@@ -154,6 +154,23 @@ def assign_clubs(title_n, clubs, player_club):
     return (names[1][0] if len(names) > 1 else None), names[0][0]
 
 
+IDIOM_RE = re.compile(r"\ba lo ['\"“‘«]?[A-ZÁÉÍÓÚÑ]|\bal estilo de\b|\bat the level of\b|\bthe next [A-Z]")
+
+
+def _is_noise(title, padded):
+    """Incidencias de partido, modismos ("a lo Haaland"), sustitutos y renovaciones: no son rumores."""
+    if any(f" {w} " in padded for w in config.MATCH_INCIDENT_WORDS) and \
+            not any(f" {w} " in padded for w in config.TRANSFER_WORDS):
+        return True
+    if IDIOM_RE.search(title):
+        return True
+    if any(f" {w} " in padded or f" {w}" in padded for w in config.REPLACEMENT_PHRASES if w.strip() not in ("como", "tipo")):
+        return True
+    if any(w in padded for w in config.RENEWAL_WORDS) and not any(w in padded for w in config.RENEWAL_KEEP):
+        return True
+    return False
+
+
 def extract_one(title, summary, players, ignored=frozenset()):
     """Devuelve una lista de rumores (dicts) detectados en un titular."""
     title = QUOTE_RE.sub(" ", title)
@@ -167,6 +184,8 @@ def extract_one(title, summary, players, ignored=frozenset()):
     if (any(f" {w} " in padded for w in config.MATCH_WORDS)
             and not any(f" {w} " in padded for w in config.TRANSFER_WORDS)):
         return []           # previa de partido, lesión o sanción ("descartado ante el Barça")
+    if _is_noise(title, padded):
+        return []
     clubs = _find_all(title_n, CLUB_INDEX)
     found_players = {}
     for s, e, (name, club) in _find_all(title_n, players):
