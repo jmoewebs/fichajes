@@ -201,7 +201,14 @@ table.tb { border-collapse:collapse; width:100%; font-size:15px; font-variant-nu
 .foot .kofi { box-shadow:none; border:1px solid var(--line); background:var(--card); color:var(--ink); text-decoration:none; }
 .visits { font-variant-numeric:tabular-nums; }
 .visits b { color:var(--ink); }
-@media (max-width:560px) { .top-btns { gap:6px; } .kofi.tg .tg-txt { display:none; } .kofi-top { top:14px; right:12px; gap:6px; } .kofi-top .visits { font-size:12px; padding:3px 8px; } .kofi-top .kofi { padding:7px 11px; font-size:13px; } .kofi-top .kofi .long { display:none; } }
+.fbtn { display:none; }
+@media (max-width:820px) {
+  .fbtn { display:flex; align-items:center; justify-content:space-between; width:100%; font:600 16px var(--body);
+    padding:12px 14px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--ink); cursor:pointer; }
+  .filters:not(.open) .fgroup { display:none; }
+  .filters.open .fgroup { margin-top:12px; }
+}
+@media (max-width:560px) { header h1 { padding-top:44px; } .top-btns { gap:6px; } .kofi.tg .tg-txt { display:none; } .kofi-top { top:14px; right:12px; gap:6px; } .kofi-top .visits { font-size:12px; padding:3px 8px; } .kofi-top .kofi { padding:7px 11px; font-size:13px; } .kofi-top .kofi .long { display:none; } }
 
 .foot { border-top:1px solid var(--line); margin-top:20px; padding:22px 20px 40px; align-items:center; font-size:14px;
   color:var(--muted); display:flex; flex-wrap:wrap; gap:8px 22px; }
@@ -417,6 +424,7 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
 </header>
 <div class="wrap layout">
   <aside class="filters" id="filters">
+    <button type="button" class="fbtn" id="fbtn" aria-expanded="false">Filtrar por liga o medio <span>▾</span></button>
     <div class="fgroup"><h2 class="flabel">Ligas</h2>
       <div class="flist" id="f-leagues" role="group" aria-label="Filtrar por liga"></div></div>
     <div class="fgroup"><h2 class="flabel">Medios</h2>
@@ -762,6 +770,11 @@ const SLOTS = [[0, 7, "Madrugada"], [7, 10, "Mañana"], [10, 13, "Mañana"], [13
                [16, 19, "Tarde"], [19, 22, "Noche"], [22, 24, "Noche"]];
 function slotOf(iso) { const h = new Date(iso).getHours(); return SLOTS.findIndex(s => h >= s[0] && h < s[1]); }
 function two(n) { return String(n).padStart(2, "0") + ":00"; }
+
+(function () {
+  const fb = document.getElementById("fbtn"), fl = document.getElementById("filters");
+  if (fb && fl) fb.addEventListener("click", () => { const o = fl.classList.toggle("open"); fb.setAttribute("aria-expanded", o); });
+})();
 
 function newsItem(n) {
   const li = el("li"), body = el("div"), a = el("a", "t", n.title);
