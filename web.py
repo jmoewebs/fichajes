@@ -320,6 +320,11 @@ a.club:hover { text-decoration:underline; }
 .club-box h2 { font:700 26px/1.1 var(--cond); margin:0 0 6px; }
 .club-box p { margin:0; color:var(--muted); }
 .club-box p + p { margin-top:10px; }
+.vote-row { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:10px; font-size:14px; color:var(--muted); }
+.vote-row button { font:600 14px/1 var(--body); padding:7px 13px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--ink); cursor:pointer; }
+.vote-row button:hover { border-color:var(--ok); }
+.vote-row .vbar { flex:1 1 110px; min-width:90px; max-width:220px; height:8px; border-radius:4px; background:var(--line); overflow:hidden; }
+.vote-row .vbar i { display:block; height:100%; background:var(--ok); }
 .crumbs .sep { opacity:.6; }
 .club-box a { color:var(--ink); font-weight:600; }
 details.foot-clubs { width:100%; font-size:13px; line-height:1.9; border-top:0; padding-top:0; margin-top:0; }
@@ -820,6 +825,55 @@ function bestStatus(r) {
     (statuses.filter(s => ORDER.includes(s)).sort((a, b) => ORDER.indexOf(b) - ORDER.indexOf(a))[0] || statuses[0]);
 }
 
+// Votos de los lectores ("¿se hará el fichaje?"): un solo envío para todas las fichas con página de jugador
+let votesPromise = null;
+function loadVotes() {
+  if (!votesPromise) {
+    const slugs = [...PLAYER_PAGES].slice(0, 60);
+    votesPromise = slugs.length
+      ? fetch("/api/votos?rumores=" + slugs.join(",")).then(r => r.ok ? r.json() : null).catch(() => null)
+      : Promise.resolve(null);
+  }
+  return votesPromise;
+}
+function myVote(slug) { try { return localStorage.getItem("voto-" + slug); } catch (e) { return null; } }
+function voteRow(r) {
+  const slug = r.player_slug;
+  if (!PLAYER_PAGES.has(slug)) return null;
+  const box = el("div", "vote-row"); box.hidden = true;
+  let counts = {si: 0, no: 0};
+  function paint() {
+    box.replaceChildren();
+    const mine = myVote(slug), n = counts.si + counts.no;
+    if (!mine) {
+      box.append(el("span", null, "¿Se hará el fichaje?"));
+      for (const [v, label] of [["si", "Sí"], ["no", "No"]]) {
+        const b = el("button", null, label); b.type = "button";
+        b.addEventListener("click", () => {
+          fetch("/api/votos", {method: "POST", body: JSON.stringify({rumor: slug, v})}).then(res => {
+            if (!res.ok) return;
+            try { localStorage.setItem("voto-" + slug, v); } catch (e) {}
+            counts[v]++; paint();
+          }).catch(() => {});
+        });
+        box.append(b);
+      }
+      return;
+    }
+    box.append(el("span", null, "Tu voto: " + (mine === "si" ? "sí" : "no")));
+    if (n >= 5) {
+      const pc = Math.round(counts.si * 100 / n), bar = el("span", "vbar"), fill = el("i");
+      fill.style.width = pc + "%"; bar.append(fill);
+      box.append(bar, el("span", null, pc + "% cree que sí (" + n + " votos)"));
+    } else box.append(el("span", null, "· gracias, aún hay pocos votos"));
+  }
+  loadVotes().then(all => {
+    if (!all) return;                     // sin base de datos: no se muestra nada
+    counts = all[slug] || counts; box.hidden = false; paint();
+  });
+  return box;
+}
+
 function rumorCard(r) {
   const card = el("article", "rumor"), left = el("div");
   const hp = el("h3", "player");
@@ -851,6 +905,7 @@ function rumorCard(r) {
     (r.from_club || "?") + " → " + (r.to_club || "?") + (best === "oficial" ? "" : " (" + r.score + "° en el termómetro)");
   row.append(shareBtn(shareText, SITE_URL + "/rumores/"));
   left.append(row);
+  const vr = voteRow(r); if (vr) left.append(vr);
 
   const thermo = el("div", "thermo"), tube = el("div", "tube"), fill = el("span");
   fill.style.height = r.score + "%"; fill.style.setProperty("--w", r.score + "%");
