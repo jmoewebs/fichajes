@@ -318,6 +318,8 @@ a.club:hover { text-decoration:underline; }
 .club-box { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:16px 18px; margin:20px 0 6px; }
 .club-box h2 { font:700 26px/1.1 var(--cond); margin:0 0 6px; }
 .club-box p { margin:0; color:var(--muted); }
+.club-box p + p { margin-top:10px; }
+.crumbs .sep { opacity:.6; }
 .club-box a { color:var(--ink); font-weight:600; }
 details.foot-clubs { width:100%; font-size:13px; line-height:1.9; border-top:0; padding-top:0; margin-top:0; }
 .foot-clubs > summary { cursor:pointer; font-size:14px; color:var(--muted); width:max-content; }
@@ -477,6 +479,7 @@ const FX_PLAYERS = __FX_PLAYERS__;       // jugadores conocidos y sus formas de 
 const FX_IGNORE = __FX_IGNORE__;         // fragmentos de titulares que se ignoran (fantasy_ignorar.txt)
 const CLUB_SLUGS = __CLUB_SLUGS__;       // clubes con página propia
 const CLUB = __CLUB__;                   // en una página de club: su nombre
+const CLUB_INTRO = __CLUB_INTRO__;       // párrafos propios del club (generados con reglas)
 const CLUB_INFO = __CLUB_INFO__;         // posición en la tabla del club de esta página
 const SITE_URL = "__SITE_URL__";
 const PLANE_SVG = '__PLANE__';
@@ -910,6 +913,7 @@ function renderClub(text) {
       " con " + CLUB_INFO.points + " puntos en " + CLUB_INFO.played + " partidos.");
     box.append(p);
   }
+  for (const t of CLUB_INTRO) box.append(el("p", null, t));
   list.append(box);
   if (rumors.length) renderRumors(text, "");
   list.append(el("h2", "sec-h", "Noticias del " + CLUB));
@@ -1401,7 +1405,7 @@ def _news_tag(path, root, news, inline=False):
 def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
            description, canonical, root, tagline="", page="news", table_league=None,
            static_html=None, counts=None, fx_report=(), standings=None, club=None, club_info=None,
-           fx_players=None, fx_ignore=()):
+           fx_players=None, fx_ignore=(), club_intro=()):
     esc = html_lib.escape
     verification = (f'<meta name="google-site-verification" content="{esc(config.GOOGLE_VERIFICATION, quote=True)}">'
                     if config.GOOGLE_VERIFICATION else "")
@@ -1458,6 +1462,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__FX_IGNORE__", _json(list(fx_ignore)))
             .replace("__CLUB_SLUGS__", _json(_CLUB_PAGES))
             .replace("__CLUB__", _json(club))
+            .replace("__CLUB_INTRO__", _json(list(club_intro)))
             .replace("__CLUB_INFO__", _json(club_info))
             .replace("__CLUB_FOOTER__", _club_footer(root))
             .replace("__RECENT_DAYS__", str(config.RECENT_DAYS)).replace("__NEWS_DAYS__", str(config.NEWS_DAYS)))
@@ -1526,6 +1531,94 @@ def _club_info(standings):
     return out
 
 
+def _crumbs(root, *items):
+    """Migas de pan: Rumores y Fichajes › ... › página actual (la última, sin enlace)."""
+    esc = html_lib.escape
+    parts = [f'<a href="{root}">{esc(config.SITE_NAME)}</a>']
+    for text, href in items:
+        parts.append('<span class="sep" aria-hidden="true">›</span>')
+        parts.append(f'<a href="{esc(href, quote=True)}">{esc(text)}</a>' if href else f"<span>{esc(text)}</span>")
+    return '<nav class="crumbs" aria-label="Migas de pan">' + "".join(parts) + "</nav>"
+
+
+def _plural(n, one, many):
+    return f"{n} {one if n == 1 else many}"
+
+
+def _club_intro(club, ci, standings, rumors, news, fx):
+    """Texto propio de la página de un club, generado con reglas a partir de sus datos (sin IA ni coste).
+    Devuelve una lista de párrafos en texto plano."""
+    import hashlib
+    v = int(hashlib.md5(club.encode("utf-8")).hexdigest(), 16)      # variante estable por club
+    out = []
+
+    # 1) Liga: balance, diferencia con el líder y máximo goleador
+    d = standings.get(ci["league"]) if ci else None
+    if d and d.get("table"):
+        table = d["table"]
+        row = next((t for t in table if _club_of_team(t.get("team") or "") == club), None)
+        if row:
+            n = len(table)
+            zona = ("en zona de descenso" if row["pos"] > n - 3 else
+                    "en la zona alta" if row["pos"] <= 4 else "en la zona media")
+            bal = (f"{_plural(row['won'], 'victoria', 'victorias')}, {_plural(row['draw'], 'empate', 'empates')} "
+                   f"y {_plural(row['lost'], 'derrota', 'derrotas')}, con {row['gf']} goles a favor y {row['ga']} en contra")
+            if row["pos"] == 1 and n > 1:
+                gap = f"Lidera con {table[0]['points'] - table[1]['points']} puntos de ventaja sobre el {table[1]['team']}."
+            elif table[0]["points"] == row["points"]:
+                gap = f"Está empatado a puntos con el líder, el {table[0]['team']}."
+            else:
+                gap = f"Está a {table[0]['points'] - row['points']} puntos del líder, el {table[0]['team']}."
+            first = (f"En {ci['league']} el {club} está {zona} de la tabla" if v % 2 else
+                     f"El {club} se mueve {zona} de la clasificación de {ci['league']}")
+            sc = [x for x in d.get("scorers", []) if _club_of_team(str(x.get("team") or "")) == club]
+            top = max(sc, key=lambda x: x["goals"], default=None)
+            tail = (f" Su máximo goleador es {top['player']}, con {_plural(top['goals'], 'gol', 'goles')}."
+                    if top and top["goals"] else "")
+            out.append(f"{first}: {bal}. {gap}{tail}")
+
+    # 2) Mercado: rumores del club y el más caliente
+    inc = [r for r in rumors if r.get("to_club") == club]
+    sal = [r for r in rumors if r.get("from_club") == club]
+    allr = sorted(inc + [r for r in sal if r not in inc], key=lambda r: -r["score"])
+    if allr:
+        top = allr[0]
+        if top.get("to_club") == club:
+            ruta = f"que podría llegar desde {top.get('from_club') or 'un club sin confirmar'}"
+        else:
+            ruta = f"que podría salir hacia {top.get('to_club') or 'un destino sin confirmar'}"
+        fuerza = ("muy avanzado" if top["score"] >= 70 else "con opciones reales" if top["score"] >= 40 else
+                  "en fase de interés" if top["score"] >= 15 else "todavía frío")
+        txt = (f"En el mercado seguimos {_plural(len(allr), 'rumor', 'rumores')} del {club}: "
+               f"{_plural(len(inc), 'de posible llegada', 'de posibles llegadas')} y "
+               f"{_plural(len(sal), 'de posible salida', 'de posibles salidas')}. "
+               f"El más caliente es {top['player']}, {ruta}, con {top['score']}° en el termómetro ({fuerza}).")
+        otros = [r["player"] for r in allr[1:4]]
+        if otros:
+            txt += (" También suenan " if len(otros) > 1 else " También suena ") + \
+                   (", ".join(otros[:-1]) + " y " + otros[-1] if len(otros) > 1 else otros[0]) + "."
+        out.append(txt)
+    else:
+        out.append(f"Ahora mismo no seguimos ningún rumor de fichaje del {club}. Cuando los medios publiquen "
+                   "alguno lo verás aquí con su termómetro de probabilidad (de 0° a 100°).")
+
+    # 3) Fantasy: bajas y dudas del club según la prensa
+    fxc = [r for r in fx if r.get("team") and _club_of_team(str(r["team"])) == club and r.get("st") in ("out", "susp", "doubt")]
+    if fxc:
+        items = [f"{r['player']} ({str(r['label']).lower()})" for r in fxc[:5]]
+        out.append("Parte médico para tu Fantasy: según la prensa de los últimos días, " + ", ".join(items) + ".")
+
+    # 4) Prensa: cuántas noticias y qué medios
+    if news:
+        from collections import Counter
+        cnt = Counter(n["source"] for n in news).most_common(3)
+        medios = [m for m, _ in cnt]
+        fuentes = ", ".join(medios[:-1]) + " y " + medios[-1] if len(medios) > 1 else medios[0]
+        out.append(f"En los últimos {config.NEWS_DAYS} días hay {_plural(len(news), 'noticia', 'noticias')} del {club} "
+                   f"en la web, sobre todo de {fuentes}. Cada titular enlaza a la noticia original.")
+    return out
+
+
 def _fit_title(text, limit=62):
     """Añade " | nombre de la web" solo si cabe sin que Google corte el título."""
     full = f"{text} | {config.SITE_NAME}"
@@ -1589,18 +1682,31 @@ def generate(data, news=(), months=(), out_dir="web"):
            any(club in (r.get("clubs") or [r["from_club"], r["to_club"]]) for r in rumors):
             _CLUB_PAGES[club] = slugify(club)
     counts = {"news": len(news), "rumors": len(rumors)}
+    # Fantasy: parte médico general + herramienta para tu once
+    try:
+        import fantasy, rules
+        cands = fantasy.candidates(rules.load_players(), standings)
+        ignore = fantasy.load_ignore()
+        fx = fantasy.report(news, cands, ignore=ignore)
+        fx_players = {name: sorted(c["keys"]) for name, c in cands.items()}
+    except Exception as exc:
+        print("[aviso] parte médico:", exc)
+        fx, fx_players, ignore = [], {}, []
     write_static(months, out_dir, list(standings), list(_CLUB_PAGES.values()))
-    common = dict(heading=config.SITE_NAME, crumbs="", is_archive=False,
+    common = dict(is_archive=False,
                   tagline=config.SITE_TAGLINE, counts=counts, standings=standings)
 
     # Portada: noticias
     index = _write(os.path.join(out_dir, "index.html"), page="news", root="",
+                   heading=config.SITE_NAME, crumbs="",
                    title=config.SITE_TITLE, description=config.SITE_DESCRIPTION,
                    canonical=config.SITE_URL + "/", rumors=rumors, news=news,
                    archive=_archive(months, prefix="archivo/"), **common)
 
     # Rumores
     _write(os.path.join(out_dir, "rumores", "index.html"), page="rumors", root="../",
+           heading=f"Rumores de fichajes y mercado de invierno {_winter_year()}",
+           crumbs=_crumbs("../", ("Rumores de fichajes", None)),
            title=_fit_title(f"Rumores de fichajes y mercado de invierno {_winter_year()}"),
            description=(f"Fichajes cerrados y los rumores más calientes del mercado de invierno {_winter_year()} "
                         "de LaLiga, Premier y Serie A, con termómetro de probabilidad. Cada hora."),
@@ -1614,6 +1720,8 @@ def generate(data, news=(), months=(), out_dir="web"):
         top = "pichichi" if lg == "LaLiga" else "goleadores"
         _write(os.path.join(out_dir, "clasificacion", league_slug(lg), "index.html"), page="table",
                root="../../", table_league=lg,
+               heading=f"Clasificación de {art}{lg}",
+               crumbs=_crumbs("../../", (f"Clasificación de {art}{lg}", None)),
                title=_fit_title(f"Clasificación de {art}{lg}: {top} y asistencias"),
                description=(f"Clasificación de {art}{lg} actualizada tras cada jornada: puntos, goles y racha de cada "
                             f"equipo, y las tablas de máximos goleadores y asistentes."),
@@ -1626,27 +1734,24 @@ def generate(data, news=(), months=(), out_dir="web"):
         c_rumors = [r for r in rumors if club in (r.get("clubs") or [r["from_club"], r["to_club"]])]
         ci = info.get(club)
         where = f" y su posición en {ci['league']}" if ci else ""
+        intro = _club_intro(club, ci, standings, c_rumors, c_news, fx)
+        liga_crumb = ((f"Clasificación de {ci['league']}", f"../../clasificacion/{league_slug(ci['league'])}/"),) if ci else ()
         _write(os.path.join(out_dir, "club", slug, "index.html"), page="club", root="../../",
-               club=club, club_info=ci,
+               club=club, club_info=ci, club_intro=intro,
+               heading=f"Fichajes y rumores del {club}",
+               crumbs=_crumbs("../../", *liga_crumb, (club, None)),
                title=_fit_title(f"Fichajes y rumores del {club}: últimas noticias"),
                description=(f"Rumores de fichajes del {club} con termómetro de probabilidad, sus noticias de hoy"
                             f"{where}. Actualizado cada hora.")[:160],
                canonical=f"{config.SITE_URL}/club/{slug}/", rumors=c_rumors, news=c_news,
                archive=_archive(months, prefix="../../archivo/"),
                static_html=(f"<h2>Fichajes, rumores y noticias del {html_lib.escape(club)}</h2>"
+                            + "".join(f"<p>{html_lib.escape(t)}</p>" for t in intro)
                             + _static_list(c_news, c_rumors, limit=40)), **common)
 
-    # Fantasy: parte médico general + herramienta para tu once
-    try:
-        import fantasy, rules
-        cands = fantasy.candidates(rules.load_players(), standings)
-        ignore = fantasy.load_ignore()
-        fx = fantasy.report(news, cands, ignore=ignore)
-        fx_players = {name: sorted(c["keys"]) for name, c in cands.items()}
-    except Exception as exc:
-        print("[aviso] parte médico:", exc)
-        fx, fx_players, ignore = [], {}, []
     _write(os.path.join(out_dir, "fantasy", "index.html"), page="fantasy", root="../",
+           heading=_fantasy_title(standings),
+           crumbs=_crumbs("../", ("LaLiga Fantasy", None)),
            title=_fit_title(_fantasy_title(standings)),
            description=("Bajas por lesión o sanción y jugadores en duda según la prensa de los últimos días. "
                         "Comprueba tu once de LaLiga Fantasy antes de cada jornada."),
