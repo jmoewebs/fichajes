@@ -136,6 +136,24 @@ def parse_feed(xml_bytes):
     return [i for i in out if i["title"] and i["url"]]
 
 
+def purge_duplicates(db):
+    """Borra copias de una misma noticia (mismo medio, titular y día), quedándose con el enlace directo."""
+    rows = db.execute("SELECT id, source, title, url, published FROM items ORDER BY id").fetchall()
+    keep = {}
+    for r in rows:
+        k = (r["source"], norm(r["title"]), r["published"][:10])
+        cur = keep.get(k)
+        if cur is None:
+            keep[k] = r
+        elif "news.google.com" in cur["url"] and "news.google.com" not in r["url"]:
+            keep[k] = r
+    keep_ids = {r["id"] for r in keep.values()}
+    dead = [(r["id"],) for r in rows if r["id"] not in keep_ids]
+    db.executemany("DELETE FROM rumors WHERE item_id = ?", dead)
+    db.executemany("DELETE FROM items WHERE id = ?", dead)
+    return len(dead)
+
+
 def fetch_all(db, feeds=None):
     """Descarga todos los feeds y guarda los titulares nuevos. Devuelve cuántos son nuevos."""
     new = 0
@@ -162,6 +180,9 @@ def fetch_all(db, feeds=None):
         items = [it for it in items if it["published"] >= too_old]   # noticias viejas en el feed
         added = 0
         for it in items:
+            if db.execute("SELECT 1 FROM items WHERE source=? AND title=? AND substr(published,1,10)=?",
+                          (feed["source"], it["title"], it["published"][:10])).fetchone():
+                continue   # misma noticia que ya tenemos por otro enlace (feed del medio vs Google Noticias)
             cur = db.execute(
                 "INSERT OR IGNORE INTO items (source, url, title, summary, published, rumor_only) VALUES (?,?,?,?,?,?)",
                 (feed["source"], it["url"], it["title"], it["summary"], it["published"], int(bool(feed.get("only_rumors")))),
@@ -173,5 +194,6 @@ def fetch_all(db, feeds=None):
     old_ids = "SELECT id FROM items WHERE published < ?"
     db.execute(f"DELETE FROM rumors WHERE item_id IN ({old_ids})", (config.HISTORY_START,))
     db.execute("DELETE FROM items WHERE published < ?", (config.HISTORY_START,))
+    purge_duplicates(db)
     db.commit()
     return new
