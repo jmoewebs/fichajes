@@ -68,7 +68,16 @@ with tempfile.TemporaryDirectory() as tmp:
              ("Lamine Yamal no entrena por lesión", {"Lamine Yamal": "out"}),
              ("Sin duda, Lamine Yamal es el mejor del mundo", {}),
              ("Altas y bajas del Barça: Lamine Yamal renueva", {}),
-             ("Sanción de la UEFA al Barcelona; esta noche juega Lamine Yamal", {})]
+             ("Sanción de la UEFA al Barcelona; esta noche juega Lamine Yamal", {}),
+             ("¡Cuatro partidos de sanción por los cabezazos a Lamine Yamal!", {}),
+             ("Baja por lesión: Pedri", {"Pedri": "out"}),
+             ('Hansi Flick lo confirma: "Pedri mañana es titular"', {"Pedri": "ok"}),
+             ("Pedri no será titular", {"Pedri": "doubt"}),
+             ("Pedri se reincorpora al trabajo con sus compañeros", {"Pedri": "back"}),
+             ('Flick insiste en la necesidad de "gestionar" a Pedri: "Vuelve de una lesión"', {"Pedri": "back"}),
+             ("Escasas opciones de Flick para la defensa con el cartucho Pedri ante las tres bajas", {}),
+             ("El delantero burgalés Yamal González será baja varias semanas", {}),
+             ("Lamine Yamal será baja varias semanas", {"Lamine Yamal": "out"})]
     for title, expected in cases:
         assert fantasy.analyze(title, FP) == expected, (title, fantasy.analyze(title, FP))
     db.close()

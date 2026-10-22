@@ -1005,7 +1005,7 @@ const FXW = __FX_WORDS__, FXR = FXW.rules;
 const FX_LABELS = {back:"Recuperado", susp:"Baja por sanción", out:"Baja", doubt:"Duda", ok:"Disponible"};
 const FX_PRIORITY = ["back", "susp", "out", "doubt", "ok"];
 const FX_PHRASES = [];
-for (const cat of ["back", "susp", "out", "doubt"]) for (const w of FXW[cat]) FX_PHRASES.push([w.split(" "), cat]);
+for (const cat of ["back", "susp", "out", "doubt", "ok"]) for (const w of FXW[cat]) FX_PHRASES.push([w.split(" "), cat]);
 FX_PHRASES.sort((a, b) => b[0].length - a[0].length);
 
 function nrm(s) { return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim(); }
@@ -1027,6 +1027,10 @@ function fxNegated(toks, s, e) {
   if (toks.slice(Math.max(0, s - 3), s).some(t => FXR.avoid.includes(t))) return true;
   return FXR.neg_after.includes(toks[e]);
 }
+function fxVictim(toks, s, e, ps, pe) {   // "sanción por los cabezazos a X", "X ante las tres bajas": no es de X
+  if (e < ps && FXR.victim.includes(toks[ps - 1]) && toks.slice(e, ps - 1).some(t => FXR.cause.includes(t))) return true;
+  return pe <= s && toks.slice(pe, s).some(t => FXR.apart.includes(t));
+}
 // Estado de cada jugador de `players` ({nombre: [formas]}) en un titular
 function fxAnalyze(title, players) {
   const toks = nrm(title).split(" ").filter(Boolean);
@@ -1047,11 +1051,11 @@ function fxAnalyze(title, players) {
   });
   const found = {};
   for (const [s, e, cat] of fxSpans(toks, FX_PHRASES)) {
-    const gaps = spans.map((sp, i) => [Math.max(sp[0] - e, s - sp[1], 0), group[i], sp[2], sp[1]]);
+    const gaps = spans.map((sp, i) => [fxVictim(toks, s, e, sp[0], sp[1]) ? 99 : Math.max(sp[0] - e, s - sp[1], 0), group[i], sp[2], sp[1]]);
     const best = Math.min(...gaps.map(g => g[0]));
     if (best > FXR.window) continue;
     const neg = fxNegated(toks, s, e);
-    const eff = !neg ? cat : (cat === "back" ? "doubt" : "ok");
+    const eff = !neg ? cat : (cat === "back" || cat === "ok" ? "doubt" : "ok");
     const winners = new Set(gaps.filter(g => g[0] === best).map(g => g[1]));
     const groupEnd = {};
     for (const g of gaps) if (winners.has(g[1])) groupEnd[g[1]] = Math.max(groupEnd[g[1]] || 0, g[3]);

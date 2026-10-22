@@ -32,7 +32,12 @@ FANTASY_DAYS = 10            # días de titulares que se miran para el parte mé
 FANTASY_WORDS = {
     "back": ["recibe el alta", "alta medica", "recuperado", "recuperados", "se recupera", "vuelve a entrenar",
              "vuelve a la convocatoria", "entra en la convocatoria", "ya entrena", "back in training",
-             "returns from injury", "fit again", "available again", "disponible", "back in contention"],
+             "returns from injury", "fit again", "available again", "disponible", "back in contention",
+             "disponibles", "regresa a la convocatoria", "regresan a la convocatoria", "vuelven a la convocatoria",
+             "se reincorpora", "reaparece", "vuelve de una lesion", "vuelve de su lesion", "vuelve tras su lesion",
+             "vuelve tras una lesion"],
+    # Juega con normalidad: anula una lesión antigua si el titular es más reciente
+    "ok": ["titular", "listo", "listos"],
     "susp": ["sancion", "sancionado", "sancionada", "sancionados", "sancionadas", "suspendido", "suspendidos", "expulsion", "expulsado", "tarjeta roja",
              "ciclo de amarillas", "suspended", "suspension", "ban", "banned", "red card"],
     "out": ["lesion", "lesionado", "lesionada", "lesionados", "lesionadas", "se pierde", "se perdera", "se perderan", "baja", "bajas",
@@ -62,6 +67,11 @@ FANTASY_RULES = {
               "descartada", "descartado", "descarta", "descartan", "desmiente", "desmienten"],
     # Palabras que anulan lo que tienen justo delante: "lesión descartada"
     "neg_after": ["descartada", "descartado", "descartadas", "desmentida", "desmentido", "superada", "superado"],
+    # "Sanción por los cabezazos a X": X es la víctima, no el sancionado (causa + una de estas justo antes del nombre)
+    "cause": ["por", "tras"],
+    "victim": ["a", "sobre", "contra"],
+    # "El cartucho Rodri ante las tres bajas": entre el jugador y el estado que va detrás, el estado es de otros
+    "apart": ["ante", "frente"],
     # Días que sigue valiendo un aviso (pasado ese tiempo se ignora, salvo las sanciones, que se avisan como antiguas)
     "stale": {"susp": 5, "doubt": 3, "out": 21, "back": 10, "ok": 7},
 }

@@ -87,7 +87,16 @@ def _negated(toks, s, e):
     return any(t in rules["neg_after"] for t in toks[e:e + 1])
 
 
-_NO_NAME_BEFORE = {"sin", "con", "tras", "por", "para", "ante", "contra", "sobre", "segun", "como", "que", "y", "e"}
+def _victim(toks, s, e, ps, pe):
+    """El estado (s, e) no es del jugador (ps, pe): este recibe la acción que lo causa ("sanción por ... a X")
+    o se le cita como remedio de las bajas de otros ("Rodri ante las tres bajas")."""
+    rules = config.FANTASY_RULES
+    if e < ps and toks[ps - 1] in rules["victim"] and any(t in rules["cause"] for t in toks[e:ps - 1]):
+        return True
+    return pe <= s and any(t in rules["apart"] for t in toks[pe:s])
+
+
+_NO_NAME_BEFORE ={"sin", "con", "tras", "por", "para", "ante", "contra", "sobre", "segun", "como", "que", "y", "e"}
 _REPLACES = ["sustituto de", "sustituta de", "plan b de", "relevo de", "recambio de", "suplente de", "reemplazo de",
              "alternativa a", "heredero de", "sucesor de", "ausencia de", "hueco de", "puesto de", "lugar de"]
 
@@ -107,7 +116,14 @@ def _is_that_player(span, toks, cap, players):
     if e - s == 1 and len(own) > 1 and s >= 1 and cap[s - 1] and cap[s] \
             and toks[s - 1] not in own and toks[s - 1] not in _NO_NAME_BEFORE and len(toks[s - 1]) > 2:
         return False
+    # Lo mismo con un nombre propio detrás: "David González" no es "Jonathan David"
+    if e - s == 1 and len(own) > 1 and e < len(toks) and cap[s] and cap[e] \
+            and toks[e] not in own and toks[e] not in _STATUS_TOKENS and len(toks[e]) > 2:
+        return False
     return True
+
+
+_STATUS_TOKENS = {t for words in config.FANTASY_WORDS.values() for w in words for t in w.split()}
 
 
 def analyze(title, players):
@@ -136,12 +152,14 @@ def analyze(title, players):
     found = {}
     for s, e, cat in _spans(toks, _phrases(config.FANTASY_WORDS)):
         # Jugador (o grupo) más cercano a la palabra de estado
-        gaps = [(max(ps - e, s - pe, 0), grp, name) for (ps, pe, name), grp in zip(spans, group)]
+        # (la víctima de "sanción por los cabezazos a X" queda fuera de alcance)
+        gaps = [(99 if _victim(toks, s, e, ps, pe) else max(ps - e, s - pe, 0), grp, name)
+                for (ps, pe, name), grp in zip(spans, group)]
         best = min(g for g, _, _ in gaps)
         if best > rules["window"]:
             continue
         neg = _negated(toks, s, e)
-        eff = cat if not neg else ("doubt" if cat == "back" else "ok")
+        eff = cat if not neg else ("doubt" if cat in ("back", "ok") else "ok")
         winners = {grp for g, grp, _ in gaps if g == best}
         group_end = {grp: max(pe for (ps, pe, _), gg in zip(spans, group) if gg == grp) for grp in winners}
         for g, grp, name in gaps:
