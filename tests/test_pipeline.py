@@ -77,9 +77,19 @@ with tempfile.TemporaryDirectory() as tmp:
              ('Flick insiste en la necesidad de "gestionar" a Pedri: "Vuelve de una lesión"', {"Pedri": "back"}),
              ("Escasas opciones de Flick para la defensa con el cartucho Pedri ante las tres bajas", {}),
              ("El delantero burgalés Yamal González será baja varias semanas", {}),
-             ("Lamine Yamal será baja varias semanas", {"Lamine Yamal": "out"})]
+             ("Lamine Yamal será baja varias semanas", {"Lamine Yamal": "out"}),
+             ("4-1: Baño histórico de Pedri al United que deja 'tocado' a Carrick", {}),
+             ("El Bayern descarta multar a Pedri por su expulsión en la Champions", {}),
+             ("Pedri, tocado en un tobillo", {"Pedri": "doubt"})]
     for title, expected in cases:
         assert fantasy.analyze(title, FP) == expected, (title, fantasy.analyze(title, FP))
+    # Un aviso caducado: la sanción explícita se avisa como antigua, una simple expulsión se descarta
+    from datetime import datetime, timedelta, timezone
+    old = (datetime.now(timezone.utc) - timedelta(days=8)).isoformat()
+    mk = lambda t: [{"title": t, "date": old, "url": "u", "source": "s"}]
+    cp = {"Pedri": {"keys": {"pedri"}, "team": "FC Barcelona"}}
+    assert [r["st"] for r in fantasy.report(mk("Pedri sancionado dos partidos"), cp)] == ["doubt"]
+    assert fantasy.report(mk("Pedri, señalado tras su expulsión"), cp) == []
     db.close()
     os.chdir(ROOT)
 print("OK: todas las pruebas pasan")

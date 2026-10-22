@@ -57,7 +57,14 @@ FANTASY_RULES = {
     "idioms": ["sin duda", "sin ninguna duda", "no cabe duda", "no hay duda", "fuera de duda", "sin lugar a dudas",
                "no queda duda", "altas y bajas", "altas bajas", "baja forma", "a la baja", "dar de baja",
                "de baja forma", "baja el precio", "baja su precio", "baja la clausula", "bajas de la",
-               "mercado de altas", "sancion economica", "sancion al club", "sancion a la federacion"],
+               "mercado de altas", "sancion economica", "sancion al club", "sancion a la federacion",
+               # "deja tocado a Carrick": el jugador lo deja tocado, no lo está él
+               "deja tocado", "deja tocada", "dejan tocado", "dejan tocada", "dejo tocado", "dejar tocado",
+               "deja muy tocado", "dejan muy tocado"],
+    # Multa interna del club: no es una sanción que lo deje sin jugar ("El Bayern descarta multar a Olise por su expulsión")
+    # Palabras de "susp" que describen una incidencia de partido y no una sanción: caducada la noticia, se descarta
+    "red_only": ["expulsion", "expulsado", "tarjeta roja", "red card"],
+    "fine": ["multa", "multas", "multar", "multarle", "multado", "multada", "multan"],
     # Palabras que niegan lo que viene justo después: "sin lesión", "no es baja"
     "neg_adjacent": ["sin", "ni", "nunca", "no"],
     "neg_fillers": ["es", "esta", "sera", "hay", "tiene", "tendra", "sufre", "ninguna", "ningun", "la", "el", "una", "un",

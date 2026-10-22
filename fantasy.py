@@ -151,6 +151,8 @@ def analyze(title, players):
         group.append(gid)
     found = {}
     for s, e, cat in _spans(toks, _phrases(config.FANTASY_WORDS)):
+        if cat == "susp" and any(t in rules["fine"] for t in toks):
+            continue
         # Jugador (o grupo) más cercano a la palabra de estado
         # (la víctima de "sanción por los cabezazos a X" queda fuera de alcance)
         gaps = [(99 if _victim(toks, s, e, ps, pe) else max(ps - e, s - pe, 0), grp, name)
@@ -188,8 +190,10 @@ def report(news, cands, days=None, ignore=()):
                 continue
             label = LABELS[st]
             if age > rules["stale"][st]:
-                if st != "susp":
+                if st != "susp" or not _has(f" {_n(n['title'])} ",
+                                            [w for w in config.FANTASY_WORDS["susp"] if w not in rules["red_only"]]):
                     continue                     # un aviso caducado se ignora y se mira el siguiente más antiguo
+                                                 # (también una simple expulsión: sin sanción explícita no hay nada que comprobar)
                 st, label = "doubt", f"Sanción de hace {int(age)} días: comprueba si sigue"
             done[name] = {"player": name, "team": cands[name].get("team"), "st": {"susp": "out"}.get(st, st),
                           "label": label, "title": n["title"], "url": n["url"], "source": n["source"],

@@ -1051,6 +1051,7 @@ function fxAnalyze(title, players) {
   });
   const found = {};
   for (const [s, e, cat] of fxSpans(toks, FX_PHRASES)) {
+    if (cat === "susp" && toks.some(t => FXR.fine.includes(t))) continue;
     const gaps = spans.map((sp, i) => [fxVictim(toks, s, e, sp[0], sp[1]) ? 99 : Math.max(sp[0] - e, s - sp[1], 0), group[i], sp[2], sp[1]]);
     const best = Math.min(...gaps.map(g => g[0]));
     if (best > FXR.window) continue;
