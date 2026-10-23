@@ -367,7 +367,7 @@
    {
     "player": "Lucas Boyé",
     "team": "Alavés",
-    "played": 8,
+    "played": 9,
     "goals": 5,
     "assists": 0,
     "penalties": 1
@@ -391,7 +391,7 @@
    {
     "player": "Mariano Díaz",
     "team": "Alavés",
-    "played": 9,
+    "played": 10,
     "goals": 3,
     "assists": 4,
     "penalties": 0
@@ -431,7 +431,7 @@
    {
     "player": "Adrián",
     "team": "Málaga",
-    "played": 5,
+    "played": 6,
     "goals": 3,
     "assists": 0,
     "penalties": 0
@@ -687,7 +687,7 @@
    {
     "player": "Nahuel Tenaglia",
     "team": "Alavés",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -799,7 +799,7 @@
    {
     "player": "Chupete",
     "team": "Málaga",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 1
@@ -943,7 +943,7 @@
    {
     "player": "Pablo Ibáñez Tébar",
     "team": "Alavés",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -1007,7 +1007,7 @@
    {
     "player": "Ville Koski",
     "team": "Alavés",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-23T14:41:39.704850+00:00"
+  "updated": "2026-10-23T18:39:30.719767+00:00"
  },
  "Premier League": {
   "matchday": 8,
@@ -1535,7 +1535,7 @@
    {
     "player": "Emersonn",
     "team": "Ipswich Town",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -1607,7 +1607,7 @@
    {
     "player": "Dan Ndoye",
     "team": "Nottingham",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -1631,7 +1631,7 @@
    {
     "player": "Leif Davis",
     "team": "Ipswich Town",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -1655,7 +1655,7 @@
    {
     "player": "Zian Flemming",
     "team": "Ipswich Town",
-    "played": 5,
+    "played": 6,
     "goals": 2,
     "assists": 0,
     "penalties": 1
@@ -1751,7 +1751,7 @@
    {
     "player": "Jack Clarke",
     "team": "Ipswich Town",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -1815,7 +1815,7 @@
    {
     "player": "Morgan Gibbs-White",
     "team": "Nottingham",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 2,
     "penalties": 1
@@ -1871,7 +1871,7 @@
    {
     "player": "Chuba Akpom",
     "team": "Ipswich Town",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -1967,7 +1967,7 @@
    {
     "player": "Liam Delap",
     "team": "Nottingham",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2151,7 +2151,7 @@
    {
     "player": "Abdoul Ouattara",
     "team": "Ipswich Town",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -2159,7 +2159,7 @@
    {
     "player": "Dara O'Shea",
     "team": "Ipswich Town",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-23T14:42:02.634581+00:00"
+  "updated": "2026-10-23T18:39:52.226690+00:00"
  },
  "Serie A": {
   "matchday": 8,
@@ -2471,7 +2471,7 @@
    {
     "player": "Gustavo Varela",
     "team": "Monza",
-    "played": 6,
+    "played": 7,
     "goals": 6,
     "assists": 1,
     "penalties": 1
@@ -2551,7 +2551,7 @@
    {
     "player": "Che Adams",
     "team": "Torino",
-    "played": 5,
+    "played": 6,
     "goals": 3,
     "assists": 0,
     "penalties": 0
@@ -2735,7 +2735,7 @@
    {
     "player": "Jay Robinson",
     "team": "Monza",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2807,7 +2807,7 @@
    {
     "player": "Sandro Kulenović",
     "team": "Torino",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2839,7 +2839,7 @@
    {
     "player": "Giovanni Simeone",
     "team": "Torino",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2903,7 +2903,7 @@
    {
     "player": "Pietro Comuzzo",
     "team": "Torino",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2919,7 +2919,7 @@
    {
     "player": "Andrea Colpani",
     "team": "Monza",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2967,7 +2967,7 @@
    {
     "player": "Rolando Mandragora",
     "team": "Torino",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3103,7 +3103,7 @@
    {
     "player": "Ricardo Mangas",
     "team": "Monza",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 2,
     "penalties": 0
@@ -3111,7 +3111,7 @@
    {
     "player": "Exequiel Zeballos",
     "team": "Monza",
-    "played": 3,
+    "played": 4,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-23T14:42:25.900946+00:00"
+  "updated": "2026-10-23T18:40:18.077925+00:00"
  },
  "Bundesliga": {
   "matchday": 7,
@@ -3379,8 +3379,22 @@
     "form": "W,D,W,D,D"
    },
    {
-    "id": 7,
+    "id": 10,
     "pos": 9,
+    "team": "Stuttgart",
+    "played": 7,
+    "won": 3,
+    "draw": 0,
+    "lost": 4,
+    "gf": 9,
+    "ga": 10,
+    "gd": -1,
+    "points": 9,
+    "form": "W,L,L,W,L"
+   },
+   {
+    "id": 7,
+    "pos": 10,
     "team": "HSV",
     "played": 6,
     "won": 3,
@@ -3394,7 +3408,7 @@
    },
    {
     "id": 16,
-    "pos": 10,
+    "pos": 11,
     "team": "Augsburg",
     "played": 6,
     "won": 2,
@@ -3408,7 +3422,7 @@
    },
    {
     "id": 19,
-    "pos": 11,
+    "pos": 12,
     "team": "Frankfurt",
     "played": 6,
     "won": 2,
@@ -3422,7 +3436,7 @@
    },
    {
     "id": 1,
-    "pos": 12,
+    "pos": 13,
     "team": "1. FC Köln",
     "played": 6,
     "won": 2,
@@ -3433,20 +3447,6 @@
     "gd": -3,
     "points": 7,
     "form": "L,D,L,W,L"
-   },
-   {
-    "id": 10,
-    "pos": 13,
-    "team": "Stuttgart",
-    "played": 6,
-    "won": 2,
-    "draw": 0,
-    "lost": 4,
-    "gf": 8,
-    "ga": 10,
-    "gd": -2,
-    "points": 6,
-    "form": "W,L,L,W,L"
    },
    {
     "id": 2,
@@ -3508,13 +3508,13 @@
     "id": 18,
     "pos": 18,
     "team": "M'gladbach",
-    "played": 6,
+    "played": 7,
     "won": 0,
     "draw": 0,
-    "lost": 6,
+    "lost": 7,
     "gf": 8,
-    "ga": 20,
-    "gd": -12,
+    "ga": 21,
+    "gd": -13,
     "points": 0,
     "form": "L,L,L,L,L"
    }
@@ -3745,6 +3745,14 @@
     "penalties": 0
    },
    {
+    "player": "Ermedin Demirovic",
+    "team": "Stuttgart",
+    "played": 7,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
     "player": "Marco Grüll",
     "team": "Bremen",
     "played": 6,
@@ -3771,7 +3779,7 @@
    {
     "player": "Hugo Bolin",
     "team": "M'gladbach",
-    "played": 6,
+    "played": 7,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -3779,7 +3787,7 @@
    {
     "player": "Joseph Scally",
     "team": "M'gladbach",
-    "played": 6,
+    "played": 7,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -3979,7 +3987,7 @@
    {
     "player": "Bilal El Khannouss",
     "team": "Stuttgart",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3987,15 +3995,7 @@
    {
     "player": "Grischa Prömel",
     "team": "Stuttgart",
-    "played": 6,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
-    "player": "Ermedin Demirovic",
-    "team": "Stuttgart",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -4107,7 +4107,7 @@
    {
     "player": "Maximilian Mittelstädt",
     "team": "Stuttgart",
-    "played": 5,
+    "played": 6,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -4171,7 +4171,7 @@
    {
     "player": "Florian Neuhaus",
     "team": "M'gladbach",
-    "played": 4,
+    "played": 5,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -4203,7 +4203,7 @@
    {
     "player": "Shuto Machino",
     "team": "M'gladbach",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 1
@@ -4307,7 +4307,7 @@
    {
     "player": "Julian Chabot",
     "team": "Stuttgart",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -4315,13 +4315,13 @@
    {
     "player": "Chris Führich",
     "team": "Stuttgart",
-    "played": 5,
+    "played": 6,
     "goals": 1,
     "assists": 0,
     "penalties": 0
    }
   ],
-  "updated": "2026-10-23T14:42:48.144077+00:00"
+  "updated": "2026-10-23T18:40:39.656753+00:00"
  },
  "Ligue 1": {
   "matchday": 8,
@@ -4623,7 +4623,7 @@
    {
     "player": "Kamory Doumbia",
     "team": "Brest",
-    "played": 7,
+    "played": 8,
     "goals": 4,
     "assists": 1,
     "penalties": 1
@@ -4759,7 +4759,7 @@
    {
     "player": "Ludovic Ajorque",
     "team": "Brest",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -4791,7 +4791,7 @@
    {
     "player": "Sepe Elye Wahi",
     "team": "Nice",
-    "played": 6,
+    "played": 7,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -4847,7 +4847,7 @@
    {
     "player": "Pathé Mboup",
     "team": "Brest",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -4855,7 +4855,7 @@
    {
     "player": "Mama Baldé",
     "team": "Brest",
-    "played": 6,
+    "played": 7,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -5271,7 +5271,7 @@
    {
     "player": "Mohammed Amoura",
     "team": "Nice",
-    "played": 5,
+    "played": 6,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -5303,7 +5303,7 @@
    {
     "player": "Lucas Tousart",
     "team": "Brest",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -5311,7 +5311,7 @@
    {
     "player": "Kenny Lala",
     "team": "Brest",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 1
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-23T14:43:10.464560+00:00"
+  "updated": "2026-10-23T18:41:01.079247+00:00"
  },
- "_updated": "2026-10-23T14:43:10.464602+00:00",
+ "_updated": "2026-10-23T18:41:01.079283+00:00",
  "_version": 2
 }
