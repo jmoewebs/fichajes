@@ -157,8 +157,22 @@
     "form": "L,L,D,D,W"
    },
    {
-    "id": 94,
+    "id": 285,
     "pos": 12,
+    "team": "Elche",
+    "played": 10,
+    "won": 2,
+    "draw": 4,
+    "lost": 4,
+    "gf": 12,
+    "ga": 17,
+    "gd": -5,
+    "points": 10,
+    "form": "D,L,W,D,D"
+   },
+   {
+    "id": 94,
+    "pos": 13,
     "team": "Villarreal",
     "played": 9,
     "won": 2,
@@ -172,7 +186,7 @@
    },
    {
     "id": 77,
-    "pos": 13,
+    "pos": 14,
     "team": "Athletic",
     "played": 8,
     "won": 2,
@@ -186,21 +200,21 @@
    },
    {
     "id": 87,
-    "pos": 14,
+    "pos": 15,
     "team": "Rayo Vallecano",
-    "played": 8,
+    "played": 9,
     "won": 2,
     "draw": 3,
-    "lost": 3,
+    "lost": 4,
     "gf": 12,
-    "ga": 17,
-    "gd": -5,
+    "ga": 18,
+    "gd": -6,
     "points": 9,
     "form": "W,L,W,D,D"
    },
    {
     "id": 82,
-    "pos": 15,
+    "pos": 16,
     "team": "Getafe",
     "played": 9,
     "won": 2,
@@ -214,7 +228,7 @@
    },
    {
     "id": 80,
-    "pos": 16,
+    "pos": 17,
     "team": "Espanyol",
     "played": 9,
     "won": 2,
@@ -228,7 +242,7 @@
    },
    {
     "id": 5335,
-    "pos": 17,
+    "pos": 18,
     "team": "Santander",
     "played": 9,
     "won": 2,
@@ -239,20 +253,6 @@
     "gd": -12,
     "points": 8,
     "form": "W,L,L,D,L"
-   },
-   {
-    "id": 285,
-    "pos": 18,
-    "team": "Elche",
-    "played": 9,
-    "won": 1,
-    "draw": 4,
-    "lost": 4,
-    "gf": 11,
-    "ga": 17,
-    "gd": -6,
-    "points": 7,
-    "form": "D,L,W,D,D"
    },
    {
     "id": 95,
@@ -311,7 +311,7 @@
    {
     "player": "Sergio Camello",
     "team": "Rayo Vallecano",
-    "played": 9,
+    "played": 10,
     "goals": 7,
     "assists": 1,
     "penalties": 0
@@ -341,6 +341,14 @@
     "penalties": 0
    },
    {
+    "player": "Fer Niño",
+    "team": "Elche",
+    "played": 10,
+    "goals": 6,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
     "player": "Pierre-Emerick Aubameyang",
     "team": "Deportivo",
     "played": 7,
@@ -354,14 +362,6 @@
     "played": 9,
     "goals": 5,
     "assists": 2,
-    "penalties": 0
-   },
-   {
-    "player": "Fer Niño",
-    "team": "Elche",
-    "played": 9,
-    "goals": 5,
-    "assists": 0,
     "penalties": 0
    },
    {
@@ -407,7 +407,7 @@
    {
     "player": "Álvaro García",
     "team": "Rayo Vallecano",
-    "played": 9,
+    "played": 10,
     "goals": 3,
     "assists": 2,
     "penalties": 0
@@ -831,7 +831,7 @@
    {
     "player": "Buba",
     "team": "Elche",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -991,7 +991,7 @@
    {
     "player": "Thomas Lemar",
     "team": "Elche",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -1015,7 +1015,7 @@
    {
     "player": "Facundo Buonanotte",
     "team": "Elche",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 1
@@ -1063,7 +1063,7 @@
    {
     "player": "Adrià Pedrosa",
     "team": "Rayo Vallecano",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -1079,13 +1079,13 @@
    {
     "player": "Abiel Osorio",
     "team": "Elche",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
    }
   ],
-  "updated": "2026-10-24T09:33:16.942781+00:00"
+  "updated": "2026-10-24T12:38:37.525549+00:00"
  },
  "Premier League": {
   "matchday": 8,
@@ -1094,13 +1094,13 @@
     "id": 65,
     "pos": 1,
     "team": "Man City",
-    "played": 7,
+    "played": 8,
     "won": 7,
     "draw": 0,
-    "lost": 0,
+    "lost": 1,
     "gf": 19,
-    "ga": 7,
-    "gd": 12,
+    "ga": 8,
+    "gd": 11,
     "points": 21,
     "form": "W,W,W,W,W"
    },
@@ -1161,8 +1161,22 @@
     "form": "W,D,W,L,W"
    },
    {
-    "id": 402,
+    "id": 58,
     "pos": 6,
+    "team": "Aston Villa",
+    "played": 8,
+    "won": 3,
+    "draw": 2,
+    "lost": 3,
+    "gf": 8,
+    "ga": 11,
+    "gd": -3,
+    "points": 11,
+    "form": "D,L,W,D,W"
+   },
+   {
+    "id": 402,
+    "pos": 7,
     "team": "Brentford",
     "played": 7,
     "won": 2,
@@ -1176,7 +1190,7 @@
    },
    {
     "id": 341,
-    "pos": 7,
+    "pos": 8,
     "team": "Leeds United",
     "played": 7,
     "won": 2,
@@ -1190,7 +1204,7 @@
    },
    {
     "id": 62,
-    "pos": 8,
+    "pos": 9,
     "team": "Everton",
     "played": 7,
     "won": 2,
@@ -1204,7 +1218,7 @@
    },
    {
     "id": 349,
-    "pos": 9,
+    "pos": 10,
     "team": "Ipswich Town",
     "played": 8,
     "won": 3,
@@ -1218,7 +1232,7 @@
    },
    {
     "id": 322,
-    "pos": 10,
+    "pos": 11,
     "team": "Hull City",
     "played": 7,
     "won": 2,
@@ -1232,7 +1246,7 @@
    },
    {
     "id": 67,
-    "pos": 11,
+    "pos": 12,
     "team": "Newcastle",
     "played": 7,
     "won": 2,
@@ -1243,20 +1257,6 @@
     "gd": -4,
     "points": 8,
     "form": "D,L,W,L,L"
-   },
-   {
-    "id": 58,
-    "pos": 12,
-    "team": "Aston Villa",
-    "played": 7,
-    "won": 2,
-    "draw": 2,
-    "lost": 3,
-    "gf": 7,
-    "ga": 11,
-    "gd": -4,
-    "points": 8,
-    "form": "D,L,W,D,W"
    },
    {
     "id": 66,
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-24T09:33:38.829745+00:00"
+  "updated": "2026-10-24T12:38:59.944952+00:00"
  },
  "Serie A": {
   "matchday": 8,
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-24T09:34:00.397158+00:00"
+  "updated": "2026-10-24T12:39:23.085039+00:00"
  },
  "Bundesliga": {
   "matchday": 7,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-24T09:34:22.483728+00:00"
+  "updated": "2026-10-24T12:39:45.999769+00:00"
  },
  "Ligue 1": {
   "matchday": 8,
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-24T09:34:44.235537+00:00"
+  "updated": "2026-10-24T12:40:15.057770+00:00"
  },
- "_updated": "2026-10-24T09:34:44.235569+00:00",
+ "_updated": "2026-10-24T12:40:15.057811+00:00",
  "_version": 2
 }
