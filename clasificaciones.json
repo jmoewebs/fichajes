@@ -20,14 +20,14 @@
     "id": 78,
     "pos": 2,
     "team": "Atleti",
-    "played": 9,
-    "won": 7,
+    "played": 10,
+    "won": 8,
     "draw": 1,
     "lost": 1,
-    "gf": 19,
+    "gf": 20,
     "ga": 8,
-    "gd": 11,
-    "points": 22,
+    "gd": 12,
+    "points": 25,
     "form": "W,W,W,W,W"
    },
    {
@@ -101,8 +101,22 @@
     "form": "L,D,L,L,D"
    },
    {
-    "id": 558,
+    "id": 94,
     "pos": 8,
+    "team": "Villarreal",
+    "played": 10,
+    "won": 3,
+    "draw": 3,
+    "lost": 4,
+    "gf": 15,
+    "ga": 14,
+    "gd": 1,
+    "points": 12,
+    "form": "L,W,W,L,D"
+   },
+   {
+    "id": 558,
+    "pos": 9,
     "team": "Celta",
     "played": 9,
     "won": 2,
@@ -116,21 +130,21 @@
    },
    {
     "id": 560,
-    "pos": 9,
+    "pos": 10,
     "team": "Deportivo",
-    "played": 9,
+    "played": 10,
     "won": 2,
     "draw": 5,
-    "lost": 2,
+    "lost": 3,
     "gf": 13,
-    "ga": 12,
-    "gd": 1,
+    "ga": 13,
+    "gd": 0,
     "points": 11,
     "form": "D,L,D,L,D"
    },
    {
     "id": 79,
-    "pos": 10,
+    "pos": 11,
     "team": "Osasuna",
     "played": 9,
     "won": 3,
@@ -144,7 +158,7 @@
    },
    {
     "id": 5335,
-    "pos": 11,
+    "pos": 12,
     "team": "Santander",
     "played": 10,
     "won": 3,
@@ -154,21 +168,7 @@
     "ga": 26,
     "gd": -11,
     "points": 11,
-    "form": "W,L,L,D,L"
-   },
-   {
-    "id": 94,
-    "pos": 12,
-    "team": "Villarreal",
-    "played": 10,
-    "won": 2,
-    "draw": 4,
-    "lost": 4,
-    "gf": 13,
-    "ga": 13,
-    "gd": 0,
-    "points": 10,
-    "form": "L,W,W,L,D"
+    "form": "L,L,D,L,W"
    },
    {
     "id": 88,
@@ -252,7 +252,7 @@
     "ga": 14,
     "gd": -2,
     "points": 8,
-    "form": "W,L,L,D,L"
+    "form": "L,L,D,L,L"
    },
    {
     "id": 95,
@@ -260,12 +260,12 @@
     "team": "Valencia",
     "played": 10,
     "won": 1,
-    "draw": 4,
-    "lost": 5,
-    "gf": 6,
-    "ga": 15,
-    "gd": -9,
-    "points": 7,
+    "draw": 3,
+    "lost": 6,
+    "gf": 7,
+    "ga": 17,
+    "gd": -10,
+    "points": 6,
     "form": "L,W,L,D,D"
    },
    {
@@ -301,14 +301,6 @@
     "penalties": 2
    },
    {
-    "player": "Yassir Zabiri",
-    "team": "Santander",
-    "played": 10,
-    "goals": 8,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
     "player": "Lamine Yamal",
     "team": "Barça",
     "played": 9,
@@ -319,7 +311,7 @@
    {
     "player": "Sergio Camello",
     "team": "Rayo Vallecano",
-    "played": 10,
+    "played": 9,
     "goals": 7,
     "assists": 1,
     "penalties": 0
@@ -333,20 +325,20 @@
     "penalties": 4
    },
    {
-    "player": "Roberto Fernández",
-    "team": "Espanyol",
-    "played": 10,
-    "goals": 6,
+    "player": "Yassir Zabiri",
+    "team": "Santander",
+    "played": 9,
+    "goals": 7,
     "assists": 0,
     "penalties": 0
    },
    {
-    "player": "Fer Niño",
-    "team": "Elche",
-    "played": 10,
+    "player": "Roberto Fernández",
+    "team": "Espanyol",
+    "played": 9,
     "goals": 6,
     "assists": 0,
-    "penalties": 1
+    "penalties": 0
    },
    {
     "player": "Pierre-Emerick Aubameyang",
@@ -362,6 +354,14 @@
     "played": 9,
     "goals": 5,
     "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Fer Niño",
+    "team": "Elche",
+    "played": 9,
+    "goals": 5,
+    "assists": 0,
     "penalties": 0
    },
    {
@@ -407,7 +407,7 @@
    {
     "player": "Álvaro García",
     "team": "Rayo Vallecano",
-    "played": 10,
+    "played": 9,
     "goals": 3,
     "assists": 2,
     "penalties": 0
@@ -415,7 +415,7 @@
    {
     "player": "Pape Gueye",
     "team": "Villarreal",
-    "played": 10,
+    "played": 9,
     "goals": 3,
     "assists": 0,
     "penalties": 1
@@ -519,7 +519,7 @@
    {
     "player": "Gerard Moreno",
     "team": "Villarreal",
-    "played": 10,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 1
@@ -527,7 +527,7 @@
    {
     "player": "Georges Mikautadze",
     "team": "Villarreal",
-    "played": 10,
+    "played": 9,
     "goals": 2,
     "assists": 1,
     "penalties": 1
@@ -551,7 +551,7 @@
    {
     "player": "Pablo García",
     "team": "Santander",
-    "played": 10,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -639,17 +639,9 @@
    {
     "player": "Alberto Moleiro",
     "team": "Villarreal",
-    "played": 10,
+    "played": 9,
     "goals": 2,
     "assists": 3,
-    "penalties": 0
-   },
-   {
-    "player": "Germán Valera",
-    "team": "Elche",
-    "played": 10,
-    "goals": 2,
-    "assists": 0,
     "penalties": 0
    },
    {
@@ -727,7 +719,7 @@
    {
     "player": "Andrés Martín",
     "team": "Santander",
-    "played": 6,
+    "played": 5,
     "goals": 1,
     "assists": 0,
     "penalties": 1
@@ -743,7 +735,7 @@
    {
     "player": "Tyrhys Dolan",
     "team": "Espanyol",
-    "played": 10,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -783,7 +775,7 @@
    {
     "player": "Álex Calatrava",
     "team": "Espanyol",
-    "played": 10,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -839,7 +831,7 @@
    {
     "player": "Buba",
     "team": "Elche",
-    "played": 9,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -911,9 +903,9 @@
    {
     "player": "Canales",
     "team": "Santander",
-    "played": 10,
+    "played": 9,
     "goals": 1,
-    "assists": 1,
+    "assists": 0,
     "penalties": 0
    },
    {
@@ -967,7 +959,7 @@
    {
     "player": "Marcos Fernández",
     "team": "Espanyol",
-    "played": 10,
+    "played": 9,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -999,7 +991,7 @@
    {
     "player": "Thomas Lemar",
     "team": "Elche",
-    "played": 7,
+    "played": 6,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -1023,9 +1015,9 @@
    {
     "player": "Facundo Buonanotte",
     "team": "Elche",
-    "played": 10,
+    "played": 9,
     "goals": 1,
-    "assists": 1,
+    "assists": 0,
     "penalties": 1
    },
    {
@@ -1071,7 +1063,7 @@
    {
     "player": "Adrià Pedrosa",
     "team": "Rayo Vallecano",
-    "played": 8,
+    "played": 7,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -1079,13 +1071,21 @@
    {
     "player": "Luis Rioja",
     "team": "Valencia",
-    "played": 6,
+    "played": 5,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Abiel Osorio",
+    "team": "Elche",
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
    }
   ],
-  "updated": "2026-10-24T16:33:00.443388+00:00"
+  "updated": "2026-10-24T20:30:51.013810+00:00"
  },
  "Premier League": {
   "matchday": 8,
@@ -1138,12 +1138,12 @@
     "team": "Chelsea",
     "played": 8,
     "won": 4,
-    "draw": 2,
-    "lost": 2,
+    "draw": 1,
+    "lost": 3,
     "gf": 17,
-    "ga": 13,
-    "gd": 4,
-    "points": 14,
+    "ga": 15,
+    "gd": 2,
+    "points": 13,
     "form": "L,D,L,W,W"
    },
    {
@@ -1245,8 +1245,22 @@
     "form": "D,D,L,D,L"
    },
    {
-    "id": 63,
+    "id": 73,
     "pos": 12,
+    "team": "Tottenham",
+    "played": 8,
+    "won": 2,
+    "draw": 3,
+    "lost": 3,
+    "gf": 8,
+    "ga": 10,
+    "gd": -2,
+    "points": 9,
+    "form": "D,D,L,D,W"
+   },
+   {
+    "id": 63,
+    "pos": 13,
     "team": "Fulham",
     "played": 8,
     "won": 2,
@@ -1260,7 +1274,7 @@
    },
    {
     "id": 67,
-    "pos": 13,
+    "pos": 14,
     "team": "Newcastle",
     "played": 7,
     "won": 2,
@@ -1274,7 +1288,7 @@
    },
    {
     "id": 66,
-    "pos": 14,
+    "pos": 15,
     "team": "Man United",
     "played": 7,
     "won": 1,
@@ -1285,20 +1299,6 @@
     "gd": 0,
     "points": 7,
     "form": "D,L,D,D,D"
-   },
-   {
-    "id": 73,
-    "pos": 15,
-    "team": "Tottenham",
-    "played": 8,
-    "won": 1,
-    "draw": 4,
-    "lost": 3,
-    "gf": 6,
-    "ga": 10,
-    "gd": -4,
-    "points": 7,
-    "form": "D,D,L,D,W"
    },
    {
     "id": 354,
@@ -2173,14 +2173,28 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-24T16:33:22.901494+00:00"
+  "updated": "2026-10-24T20:31:13.755893+00:00"
  },
  "Serie A": {
   "matchday": 8,
   "table": [
    {
-    "id": 108,
+    "id": 110,
     "pos": 1,
+    "team": "Lazio",
+    "played": 8,
+    "won": 7,
+    "draw": 1,
+    "lost": 0,
+    "gf": 16,
+    "ga": 4,
+    "gd": 12,
+    "points": 22,
+    "form": "W,D,W,W,W"
+   },
+   {
+    "id": 108,
+    "pos": 2,
     "team": "Inter",
     "played": 7,
     "won": 6,
@@ -2193,31 +2207,17 @@
     "form": "W,W,D,W,W"
    },
    {
-    "id": 110,
-    "pos": 2,
-    "team": "Lazio",
-    "played": 7,
-    "won": 6,
-    "draw": 1,
-    "lost": 0,
-    "gf": 14,
-    "ga": 4,
-    "gd": 10,
-    "points": 19,
-    "form": "W,D,W,W,W"
-   },
-   {
     "id": 100,
     "pos": 3,
     "team": "Roma",
     "played": 8,
     "won": 5,
-    "draw": 2,
-    "lost": 1,
-    "gf": 16,
-    "ga": 4,
-    "gd": 12,
-    "points": 17,
+    "draw": 3,
+    "lost": 0,
+    "gf": 19,
+    "ga": 6,
+    "gd": 13,
+    "points": 18,
     "form": "W,W,D,D,W"
    },
    {
@@ -2263,22 +2263,8 @@
     "form": "W,D,W,L,W"
    },
    {
-    "id": 113,
-    "pos": 7,
-    "team": "Napoli",
-    "played": 8,
-    "won": 4,
-    "draw": 1,
-    "lost": 3,
-    "gf": 11,
-    "ga": 7,
-    "gd": 4,
-    "points": 13,
-    "form": "L,W,D,W,L"
-   },
-   {
     "id": 586,
-    "pos": 8,
+    "pos": 7,
     "team": "Torino",
     "played": 8,
     "won": 4,
@@ -2292,7 +2278,7 @@
    },
    {
     "id": 104,
-    "pos": 9,
+    "pos": 8,
     "team": "Cagliari",
     "played": 8,
     "won": 4,
@@ -2302,7 +2288,21 @@
     "ga": 9,
     "gd": -3,
     "points": 13,
-    "form": "W,W,W,D,L"
+    "form": "W,W,D,L,L"
+   },
+   {
+    "id": 113,
+    "pos": 9,
+    "team": "Napoli",
+    "played": 8,
+    "won": 3,
+    "draw": 2,
+    "lost": 3,
+    "gf": 13,
+    "ga": 10,
+    "gd": 3,
+    "points": 11,
+    "form": "L,W,D,W,L"
    },
    {
     "id": 109,
@@ -2358,7 +2358,7 @@
     "ga": 10,
     "gd": -2,
     "points": 8,
-    "form": "D,L,D,W,L"
+    "form": "L,D,W,L,W"
    },
    {
     "id": 471,
@@ -2434,13 +2434,13 @@
     "id": 112,
     "pos": 19,
     "team": "Parma",
-    "played": 7,
+    "played": 8,
     "won": 1,
     "draw": 1,
-    "lost": 5,
+    "lost": 6,
     "gf": 4,
-    "ga": 13,
-    "gd": -9,
+    "ga": 15,
+    "gd": -11,
     "points": 4,
     "form": "D,L,W,L,L"
    },
@@ -2479,8 +2479,16 @@
    {
     "player": "Donyell Malen",
     "team": "Roma",
-    "played": 6,
+    "played": 7,
     "goals": 6,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Anastasios Douvikas",
+    "team": "Como 1907",
+    "played": 8,
+    "goals": 5,
     "assists": 0,
     "penalties": 0
    },
@@ -2519,18 +2527,10 @@
    {
     "player": "Daniel Maldini",
     "team": "Cagliari",
-    "played": 7,
+    "played": 8,
     "goals": 4,
     "assists": 0,
     "penalties": 1
-   },
-   {
-    "player": "Anastasios Douvikas",
-    "team": "Como 1907",
-    "played": 7,
-    "goals": 3,
-    "assists": 0,
-    "penalties": 0
    },
    {
     "player": "Hakan Çalhanoğlu",
@@ -2543,7 +2543,7 @@
    {
     "player": "Kevin De Bruyne",
     "team": "Napoli",
-    "played": 7,
+    "played": 8,
     "goals": 3,
     "assists": 1,
     "penalties": 1
@@ -2559,7 +2559,7 @@
    {
     "player": "Davide Frattesi",
     "team": "Lazio",
-    "played": 7,
+    "played": 8,
     "goals": 3,
     "assists": 0,
     "penalties": 0
@@ -2568,6 +2568,14 @@
     "player": "Jurgen Ekkelenkamp",
     "team": "Udinese",
     "played": 7,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Matias Soule",
+    "team": "Roma",
+    "played": 8,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -2591,7 +2599,7 @@
    {
     "player": "Vasilije Adzic",
     "team": "Sassuolo",
-    "played": 7,
+    "played": 8,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -2647,7 +2655,7 @@
    {
     "player": "Cas Odenthal",
     "team": "Sassuolo",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2663,7 +2671,7 @@
    {
     "player": "Niccolo Pisilli",
     "team": "Roma",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2679,7 +2687,7 @@
    {
     "player": "Domenico Berardi",
     "team": "Sassuolo",
-    "played": 6,
+    "played": 7,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2687,7 +2695,7 @@
    {
     "player": "Martin Baturina",
     "team": "Como 1907",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -2695,17 +2703,9 @@
    {
     "player": "Rasmus Højlund",
     "team": "Napoli",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
-    "penalties": 0
-   },
-   {
-    "player": "Matias Soule",
-    "team": "Roma",
-    "played": 7,
-    "goals": 2,
-    "assists": 1,
     "penalties": 0
    },
    {
@@ -2719,7 +2719,7 @@
    {
     "player": "Nico Paz",
     "team": "Como 1907",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -2759,7 +2759,7 @@
    {
     "player": "Tijjani Noslin",
     "team": "Lazio",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -2783,7 +2783,7 @@
    {
     "player": "José Romero",
     "team": "Parma",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2803,6 +2803,14 @@
     "goals": 2,
     "assists": 0,
     "penalties": 0
+   },
+   {
+    "player": "Federico Bernardeschi",
+    "team": "Bologna",
+    "played": 8,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 1
    },
    {
     "player": "Sandro Kulenović",
@@ -2831,7 +2839,7 @@
    {
     "player": "Gustav Isaksen",
     "team": "Lazio",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2842,6 +2850,22 @@
     "played": 8,
     "goals": 2,
     "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Scott McTominay",
+    "team": "Napoli",
+    "played": 5,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Leonardo Balerdi",
+    "team": "Roma",
+    "played": 7,
+    "goals": 2,
+    "assists": 0,
     "penalties": 0
    },
    {
@@ -2863,7 +2887,7 @@
    {
     "player": "Antonio Vergara",
     "team": "Napoli",
-    "played": 5,
+    "played": 6,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2871,7 +2895,7 @@
    {
     "player": "Alessandro Romano",
     "team": "Cagliari",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2895,7 +2919,7 @@
    {
     "player": "Cristian Volpato",
     "team": "Sassuolo",
-    "played": 5,
+    "played": 6,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2951,7 +2975,7 @@
    {
     "player": "Rodrigo Mora",
     "team": "Roma",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2975,9 +2999,9 @@
    {
     "player": "Matteo Politano",
     "team": "Napoli",
-    "played": 7,
+    "played": 8,
     "goals": 1,
-    "assists": 1,
+    "assists": 2,
     "penalties": 0
    },
    {
@@ -2991,7 +3015,7 @@
    {
     "player": "Mario Hermoso",
     "team": "Roma",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2999,7 +3023,7 @@
    {
     "player": "Simone Lontani",
     "team": "Parma",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3023,7 +3047,7 @@
    {
     "player": "Josh Doig",
     "team": "Sassuolo",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3039,7 +3063,7 @@
    {
     "player": "Artem Dovbyk",
     "team": "Bologna",
-    "played": 5,
+    "played": 6,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3079,7 +3103,7 @@
    {
     "player": "Matteo Cancellieri",
     "team": "Lazio",
-    "played": 5,
+    "played": 6,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3087,7 +3111,7 @@
    {
     "player": "Paul Mendy",
     "team": "Cagliari",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3119,7 +3143,7 @@
    {
     "player": "Stanislav Lobotka",
     "team": "Napoli",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3127,7 +3151,7 @@
    {
     "player": "Sebastiano Esposito",
     "team": "Sassuolo",
-    "played": 5,
+    "played": 6,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3135,7 +3159,7 @@
    {
     "player": "Kieron Bowie",
     "team": "Sassuolo",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3143,7 +3167,7 @@
    {
     "player": "Jacobo Ramón",
     "team": "Como 1907",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3151,9 +3175,9 @@
    {
     "player": "Kaiki Bruno",
     "team": "Como 1907",
-    "played": 7,
+    "played": 8,
     "goals": 1,
-    "assists": 0,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -3181,17 +3205,9 @@
     "penalties": 0
    },
    {
-    "player": "Federico Bernardeschi",
-    "team": "Bologna",
-    "played": 7,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
     "player": "Mattia Zaccagni",
     "team": "Lazio",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 3,
     "penalties": 1
@@ -3199,7 +3215,7 @@
    {
     "player": "Billy Gilmour",
     "team": "Napoli",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3243,25 +3259,9 @@
     "goals": 1,
     "assists": 0,
     "penalties": 0
-   },
-   {
-    "player": "Petar Sucic",
-    "team": "Inter",
-    "played": 7,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
-    "player": "Noa Lang",
-    "team": "Napoli",
-    "played": 7,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
    }
   ],
-  "updated": "2026-10-24T16:33:45.166255+00:00"
+  "updated": "2026-10-24T20:31:37.593105+00:00"
  },
  "Bundesliga": {
   "matchday": 7,
@@ -3271,13 +3271,13 @@
     "pos": 1,
     "team": "Dortmund",
     "played": 7,
-    "won": 4,
-    "draw": 3,
+    "won": 5,
+    "draw": 2,
     "lost": 0,
-    "gf": 11,
+    "gf": 12,
     "ga": 4,
-    "gd": 7,
-    "points": 15,
+    "gd": 8,
+    "points": 17,
     "form": "W,W,W,D,D"
    },
    {
@@ -3334,7 +3334,7 @@
     "ga": 11,
     "gd": 9,
     "points": 12,
-    "form": "W,L,W,L,W"
+    "form": "L,W,L,W,L"
    },
    {
     "id": 12,
@@ -3376,7 +3376,7 @@
     "ga": 15,
     "gd": -3,
     "points": 10,
-    "form": "L,D,L,W,L"
+    "form": "W,L,D,L,W"
    },
    {
     "id": 16,
@@ -3393,22 +3393,8 @@
     "form": "W,D,L,D,L"
    },
    {
-    "id": 19,
-    "pos": 10,
-    "team": "Frankfurt",
-    "played": 7,
-    "won": 2,
-    "draw": 3,
-    "lost": 2,
-    "gf": 10,
-    "ga": 16,
-    "gd": -6,
-    "points": 9,
-    "form": "L,W,D,L,W"
-   },
-   {
     "id": 7,
-    "pos": 11,
+    "pos": 10,
     "team": "HSV",
     "played": 7,
     "won": 3,
@@ -3418,11 +3404,11 @@
     "ga": 16,
     "gd": -10,
     "points": 9,
-    "form": "L,W,W,W,L"
+    "form": "L,L,W,W,W"
    },
    {
     "id": 1,
-    "pos": 12,
+    "pos": 11,
     "team": "1. FC Köln",
     "played": 7,
     "won": 2,
@@ -3436,7 +3422,7 @@
    },
    {
     "id": 29,
-    "pos": 13,
+    "pos": 12,
     "team": "SC Paderborn",
     "played": 7,
     "won": 2,
@@ -3446,7 +3432,21 @@
     "ga": 9,
     "gd": -3,
     "points": 8,
-    "form": "L,W,L,D,W"
+    "form": "L,L,W,L,D"
+   },
+   {
+    "id": 19,
+    "pos": 13,
+    "team": "Frankfurt",
+    "played": 7,
+    "won": 2,
+    "draw": 2,
+    "lost": 3,
+    "gf": 10,
+    "ga": 17,
+    "gd": -7,
+    "points": 8,
+    "form": "L,W,D,L,W"
    },
    {
     "id": 2,
@@ -4321,14 +4321,28 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-24T16:34:08.527885+00:00"
+  "updated": "2026-10-24T20:31:59.665159+00:00"
  },
  "Ligue 1": {
   "matchday": 8,
   "table": [
    {
-    "id": 523,
+    "id": 1045,
     "pos": 1,
+    "team": "Paris FC",
+    "played": 8,
+    "won": 4,
+    "draw": 3,
+    "lost": 1,
+    "gf": 13,
+    "ga": 8,
+    "gd": 5,
+    "points": 15,
+    "form": "W,D,W,L,W"
+   },
+   {
+    "id": 523,
+    "pos": 2,
     "team": "Olympique Lyon",
     "played": 7,
     "won": 4,
@@ -4342,7 +4356,7 @@
    },
    {
     "id": 524,
-    "pos": 2,
+    "pos": 3,
     "team": "PSG",
     "played": 7,
     "won": 4,
@@ -4353,20 +4367,6 @@
     "gd": 5,
     "points": 14,
     "form": "L,W,W,W,W"
-   },
-   {
-    "id": 1045,
-    "pos": 3,
-    "team": "Paris FC",
-    "played": 7,
-    "won": 4,
-    "draw": 2,
-    "lost": 1,
-    "gf": 12,
-    "ga": 7,
-    "gd": 5,
-    "points": 14,
-    "form": "W,D,W,L,W"
    },
    {
     "id": 521,
@@ -4411,8 +4411,22 @@
     "form": "W,W,L,W,L"
    },
    {
-    "id": 525,
+    "id": 546,
     "pos": 7,
+    "team": "RC Lens",
+    "played": 8,
+    "won": 3,
+    "draw": 2,
+    "lost": 3,
+    "gf": 15,
+    "ga": 12,
+    "gd": 3,
+    "points": 11,
+    "form": "L,D,L,W,W"
+   },
+   {
+    "id": 525,
+    "pos": 8,
     "team": "Lorient",
     "played": 7,
     "won": 3,
@@ -4426,7 +4440,7 @@
    },
    {
     "id": 522,
-    "pos": 8,
+    "pos": 9,
     "team": "Nice",
     "played": 8,
     "won": 3,
@@ -4437,20 +4451,6 @@
     "gd": -2,
     "points": 11,
     "form": "L,W,W,L,W"
-   },
-   {
-    "id": 546,
-    "pos": 9,
-    "team": "RC Lens",
-    "played": 7,
-    "won": 3,
-    "draw": 1,
-    "lost": 3,
-    "gf": 14,
-    "ga": 11,
-    "gd": 3,
-    "points": 10,
-    "form": "L,D,L,W,W"
    },
    {
     "id": 516,
@@ -4591,9 +4591,9 @@
    {
     "player": "Lassine Sinayoko",
     "team": "Paris FC",
-    "played": 7,
+    "played": 8,
     "goals": 6,
-    "assists": 3,
+    "assists": 4,
     "penalties": 3
    },
    {
@@ -4611,6 +4611,14 @@
     "goals": 5,
     "assists": 1,
     "penalties": 2
+   },
+   {
+    "player": "Florian Thauvin",
+    "team": "RC Lens",
+    "played": 8,
+    "goals": 4,
+    "assists": 8,
+    "penalties": 3
    },
    {
     "player": "Louis Mafouta",
@@ -4651,14 +4659,6 @@
     "goals": 4,
     "assists": 0,
     "penalties": 0
-   },
-   {
-    "player": "Florian Thauvin",
-    "team": "RC Lens",
-    "played": 7,
-    "goals": 3,
-    "assists": 7,
-    "penalties": 3
    },
    {
     "player": "Daniel Namaso",
@@ -4711,7 +4711,7 @@
    {
     "player": "Franjo Ivanovic",
     "team": "RC Lens",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -4831,7 +4831,7 @@
    {
     "player": "Matthieu Udol",
     "team": "RC Lens",
-    "played": 6,
+    "played": 7,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -4887,7 +4887,7 @@
    {
     "player": "Maxime López",
     "team": "Paris FC",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -4911,7 +4911,7 @@
    {
     "player": "Saud Abdulhamid",
     "team": "RC Lens",
-    "played": 3,
+    "played": 4,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -5215,7 +5215,7 @@
    {
     "player": "Ilan Kebbal",
     "team": "Paris FC",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -5223,7 +5223,7 @@
    {
     "player": "Pablo Pagis",
     "team": "Paris FC",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -5287,7 +5287,7 @@
    {
     "player": "Florian Sotoca",
     "team": "RC Lens",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-24T16:34:30.760428+00:00"
+  "updated": "2026-10-24T20:32:21.771664+00:00"
  },
- "_updated": "2026-10-24T16:34:30.760465+00:00",
+ "_updated": "2026-10-24T20:32:21.771703+00:00",
  "_version": 2
 }
