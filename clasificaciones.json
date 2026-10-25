@@ -6,15 +6,15 @@
     "id": 81,
     "pos": 1,
     "team": "Barça",
-    "played": 9,
+    "played": 10,
     "won": 9,
     "draw": 0,
-    "lost": 0,
-    "gf": 39,
-    "ga": 9,
-    "gd": 30,
+    "lost": 1,
+    "gf": 40,
+    "ga": 11,
+    "gd": 29,
     "points": 27,
-    "form": "W,W,W,W,W"
+    "form": "W,W,W,W,L"
    },
    {
     "id": 78,
@@ -34,15 +34,15 @@
     "id": 86,
     "pos": 3,
     "team": "Real Madrid",
-    "played": 9,
-    "won": 7,
+    "played": 10,
+    "won": 8,
     "draw": 0,
     "lost": 2,
-    "gf": 23,
-    "ga": 9,
-    "gd": 14,
-    "points": 21,
-    "form": "W,W,L,W,W"
+    "gf": 25,
+    "ga": 10,
+    "gd": 15,
+    "points": 24,
+    "form": "W,L,W,W,W"
    },
    {
     "id": 90,
@@ -288,7 +288,7 @@
     "player": "Raphinha",
     "team": "Barça",
     "played": 9,
-    "goals": 12,
+    "goals": 13,
     "assists": 2,
     "penalties": 3
    },
@@ -296,7 +296,7 @@
     "player": "Kylian Mbappé",
     "team": "Real Madrid",
     "played": 10,
-    "goals": 9,
+    "goals": 11,
     "assists": 2,
     "penalties": 2
    },
@@ -953,7 +953,7 @@
     "team": "Barça",
     "played": 10,
     "goals": 1,
-    "assists": 1,
+    "assists": 2,
     "penalties": 0
    },
    {
@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-25T19:30:19.613296+00:00"
+  "updated": "2026-10-25T23:28:16.841277+00:00"
  },
  "Premier League": {
   "matchday": 8,
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-25T19:30:41.259691+00:00"
+  "updated": "2026-10-25T23:28:39.231857+00:00"
  },
  "Serie A": {
   "matchday": 8,
@@ -2221,8 +2221,22 @@
     "form": "W,D,D,W,D"
    },
    {
-    "id": 7397,
+    "id": 98,
     "pos": 4,
+    "team": "Milan",
+    "played": 8,
+    "won": 5,
+    "draw": 3,
+    "lost": 0,
+    "gf": 16,
+    "ga": 7,
+    "gd": 9,
+    "points": 18,
+    "form": "D,W,D,W,W"
+   },
+   {
+    "id": 7397,
+    "pos": 5,
     "team": "Como 1907",
     "played": 8,
     "won": 5,
@@ -2233,20 +2247,6 @@
     "gd": 7,
     "points": 17,
     "form": "W,L,D,W,W"
-   },
-   {
-    "id": 98,
-    "pos": 5,
-    "team": "Milan",
-    "played": 7,
-    "won": 4,
-    "draw": 3,
-    "lost": 0,
-    "gf": 14,
-    "ga": 7,
-    "gd": 7,
-    "points": 15,
-    "form": "D,D,W,D,W"
    },
    {
     "id": 470,
@@ -2406,13 +2406,13 @@
     "id": 115,
     "pos": 17,
     "team": "Udinese",
-    "played": 7,
+    "played": 8,
     "won": 1,
     "draw": 1,
-    "lost": 5,
+    "lost": 6,
     "gf": 9,
-    "ga": 16,
-    "gd": -7,
+    "ga": 18,
+    "gd": -9,
     "points": 4,
     "form": "L,L,L,L,L"
    },
@@ -2869,6 +2869,14 @@
     "penalties": 0
    },
    {
+    "player": "Christian Pulisic",
+    "team": "Milan",
+    "played": 8,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
     "player": "Gustav Isaksen",
     "team": "Lazio",
     "played": 8,
@@ -3251,17 +3259,9 @@
     "goals": 1,
     "assists": 1,
     "penalties": 0
-   },
-   {
-    "player": "Christian Pulisic",
-    "team": "Milan",
-    "played": 8,
-    "goals": 1,
-    "assists": 1,
-    "penalties": 0
    }
   ],
-  "updated": "2026-10-25T19:31:04.959869+00:00"
+  "updated": "2026-10-25T23:29:01.264974+00:00"
  },
  "Bundesliga": {
   "matchday": 7,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-25T19:31:27.310295+00:00"
+  "updated": "2026-10-25T23:29:23.314377+00:00"
  },
  "Ligue 1": {
   "matchday": 8,
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-25T19:31:49.367132+00:00"
+  "updated": "2026-10-25T23:29:45.319004+00:00"
  },
- "_updated": "2026-10-25T19:31:49.367165+00:00",
+ "_updated": "2026-10-25T23:29:45.319045+00:00",
  "_version": 2
 }
