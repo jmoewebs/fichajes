@@ -56,21 +56,21 @@
     "ga": 14,
     "gd": 2,
     "points": 20,
-    "form": "W,W,D,W,L"
+    "form": "W,D,W,L,D"
    },
    {
     "id": 92,
     "pos": 5,
     "team": "Real Sociedad",
-    "played": 9,
-    "won": 5,
+    "played": 10,
+    "won": 6,
     "draw": 1,
     "lost": 3,
-    "gf": 17,
-    "ga": 17,
-    "gd": 0,
-    "points": 16,
-    "form": "W,L,W,W,W"
+    "gf": 19,
+    "ga": 18,
+    "gd": 1,
+    "points": 19,
+    "form": "L,W,W,W,W"
    },
    {
     "id": 559,
@@ -126,7 +126,7 @@
     "ga": 7,
     "gd": 3,
     "points": 12,
-    "form": "D,D,W,D,W"
+    "form": "D,W,D,W,D"
    },
    {
     "id": 94,
@@ -188,15 +188,15 @@
     "id": 88,
     "pos": 14,
     "team": "Levante",
-    "played": 9,
+    "played": 10,
     "won": 2,
     "draw": 4,
-    "lost": 3,
-    "gf": 15,
-    "ga": 17,
-    "gd": -2,
+    "lost": 4,
+    "gf": 16,
+    "ga": 19,
+    "gd": -3,
     "points": 10,
-    "form": "L,L,D,D,W"
+    "form": "L,D,D,W,L"
    },
    {
     "id": 285,
@@ -287,7 +287,7 @@
    {
     "player": "Raphinha",
     "team": "Barça",
-    "played": 8,
+    "played": 9,
     "goals": 12,
     "assists": 2,
     "penalties": 3
@@ -295,7 +295,7 @@
    {
     "player": "Kylian Mbappé",
     "team": "Real Madrid",
-    "played": 9,
+    "played": 10,
     "goals": 9,
     "assists": 2,
     "penalties": 2
@@ -311,7 +311,7 @@
    {
     "player": "Lamine Yamal",
     "team": "Barça",
-    "played": 9,
+    "played": 10,
     "goals": 8,
     "assists": 6,
     "penalties": 1
@@ -375,7 +375,7 @@
    {
     "player": "Brugui",
     "team": "Levante",
-    "played": 8,
+    "played": 9,
     "goals": 5,
     "assists": 1,
     "penalties": 0
@@ -383,7 +383,7 @@
    {
     "player": "Fermín López",
     "team": "Barça",
-    "played": 9,
+    "played": 10,
     "goals": 4,
     "assists": 3,
     "penalties": 0
@@ -423,7 +423,7 @@
    {
     "player": "Jude Bellingham",
     "team": "Real Madrid",
-    "played": 9,
+    "played": 10,
     "goals": 3,
     "assists": 3,
     "penalties": 0
@@ -438,6 +438,14 @@
    },
    {
     "player": "Luka Sučić",
+    "team": "Real Sociedad",
+    "played": 10,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Orri Oskarsson",
     "team": "Real Sociedad",
     "played": 9,
     "goals": 3,
@@ -455,7 +463,7 @@
    {
     "player": "Iván Romero",
     "team": "Levante",
-    "played": 9,
+    "played": 10,
     "goals": 3,
     "assists": 0,
     "penalties": 0
@@ -479,7 +487,7 @@
    {
     "player": "Gabriel Jesus",
     "team": "Barça",
-    "played": 6,
+    "played": 7,
     "goals": 3,
     "assists": 0,
     "penalties": 0
@@ -535,7 +543,7 @@
    {
     "player": "Carlos Espí",
     "team": "Real Madrid",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -559,7 +567,7 @@
    {
     "player": "Karim Adeyemi",
     "team": "Barça",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -583,17 +591,9 @@
    {
     "player": "Ander Barrenetxea",
     "team": "Real Sociedad",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 1,
-    "penalties": 0
-   },
-   {
-    "player": "Orri Oskarsson",
-    "team": "Real Sociedad",
-    "played": 8,
-    "goals": 2,
-    "assists": 0,
     "penalties": 0
    },
    {
@@ -607,7 +607,7 @@
    {
     "player": "Arda Guler",
     "team": "Real Madrid",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -679,7 +679,7 @@
    {
     "player": "Yan Diomandé",
     "team": "Real Madrid",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -687,9 +687,9 @@
    {
     "player": "Gonçalo Guedes",
     "team": "Real Sociedad",
-    "played": 8,
+    "played": 9,
     "goals": 2,
-    "assists": 0,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -703,7 +703,7 @@
    {
     "player": "Mikel Oyarzabal",
     "team": "Real Sociedad",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -871,7 +871,7 @@
    {
     "player": "Jon Olasagasti",
     "team": "Levante",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -951,7 +951,7 @@
    {
     "player": "Pedri",
     "team": "Barça",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -991,7 +991,7 @@
    {
     "player": "Ochieng",
     "team": "Real Sociedad",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 3,
     "penalties": 0
@@ -999,7 +999,7 @@
    {
     "player": "Yangel Herrera",
     "team": "Real Sociedad",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -1039,7 +1039,7 @@
    {
     "player": "Álvaro Carreras",
     "team": "Real Madrid",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -1047,7 +1047,7 @@
    {
     "player": "Xavi Espart",
     "team": "Barça",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-25T15:32:31.453586+00:00"
+  "updated": "2026-10-25T19:30:19.613296+00:00"
  },
  "Premier League": {
   "matchday": 8,
@@ -1130,7 +1130,7 @@
     "ga": 7,
     "gd": 16,
     "points": 16,
-    "form": "D,W,W,W,W"
+    "form": "W,W,W,W,L"
    },
    {
     "id": 64,
@@ -1144,7 +1144,7 @@
     "ga": 8,
     "gd": 3,
     "points": 15,
-    "form": "W,D,W,L,W"
+    "form": "D,W,L,W,W"
    },
    {
     "id": 61,
@@ -1172,11 +1172,25 @@
     "ga": 9,
     "gd": 5,
     "points": 11,
-    "form": "D,D,W,D,L"
+    "form": "D,W,D,L,D"
+   },
+   {
+    "id": 341,
+    "pos": 7,
+    "team": "Leeds United",
+    "played": 8,
+    "won": 2,
+    "draw": 5,
+    "lost": 1,
+    "gf": 9,
+    "ga": 6,
+    "gd": 3,
+    "points": 11,
+    "form": "W,D,L,D,D"
    },
    {
     "id": 67,
-    "pos": 7,
+    "pos": 8,
     "team": "Newcastle",
     "played": 8,
     "won": 3,
@@ -1186,11 +1200,11 @@
     "ga": 14,
     "gd": -2,
     "points": 11,
-    "form": "D,L,W,L,L"
+    "form": "L,W,L,L,W"
    },
    {
     "id": 58,
-    "pos": 8,
+    "pos": 9,
     "team": "Aston Villa",
     "played": 8,
     "won": 3,
@@ -1201,20 +1215,6 @@
     "gd": -3,
     "points": 11,
     "form": "L,W,D,W,W"
-   },
-   {
-    "id": 341,
-    "pos": 9,
-    "team": "Leeds United",
-    "played": 7,
-    "won": 2,
-    "draw": 4,
-    "lost": 1,
-    "gf": 9,
-    "ga": 6,
-    "gd": 3,
-    "points": 10,
-    "form": "D,W,D,L,D"
    },
    {
     "id": 322,
@@ -1228,7 +1228,7 @@
     "ga": 8,
     "gd": 1,
     "points": 10,
-    "form": "D,D,L,D,L"
+    "form": "D,L,D,L,D"
    },
    {
     "id": 62,
@@ -1270,7 +1270,7 @@
     "ga": 13,
     "gd": -1,
     "points": 9,
-    "form": "D,D,L,L,W"
+    "form": "D,L,L,W,W"
    },
    {
     "id": 73,
@@ -1312,7 +1312,7 @@
     "ga": 13,
     "gd": -3,
     "points": 7,
-    "form": "D,L,D,D,D"
+    "form": "L,D,D,D,L"
    },
    {
     "id": 354,
@@ -1326,7 +1326,7 @@
     "ga": 19,
     "gd": -10,
     "points": 7,
-    "form": "W,L,D,W,L"
+    "form": "L,D,W,L,L"
    },
    {
     "id": 351,
@@ -1360,15 +1360,15 @@
     "id": 71,
     "pos": 20,
     "team": "Sunderland",
-    "played": 7,
+    "played": 8,
     "won": 1,
-    "draw": 1,
+    "draw": 2,
     "lost": 5,
     "gf": 6,
     "ga": 14,
     "gd": -8,
-    "points": 4,
-    "form": "D,L,L,L,L"
+    "points": 5,
+    "form": "L,L,L,L,D"
    }
   ],
   "scorers": [
@@ -1487,7 +1487,7 @@
    {
     "player": "Dominic Calvert-Lewin",
     "team": "Leeds United",
-    "played": 7,
+    "played": 8,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -1519,7 +1519,7 @@
    {
     "player": "Brian Brobbey",
     "team": "Sunderland",
-    "played": 5,
+    "played": 6,
     "goals": 3,
     "assists": 0,
     "penalties": 0
@@ -1663,7 +1663,7 @@
    {
     "player": "Jayden Bogle",
     "team": "Leeds United",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -1751,7 +1751,7 @@
    {
     "player": "Nilson Angulo",
     "team": "Sunderland",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -1767,7 +1767,7 @@
    {
     "player": "Anton Stach",
     "team": "Leeds United",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -1903,7 +1903,7 @@
    {
     "player": "Enzo Le Fée",
     "team": "Sunderland",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 1,
     "penalties": 1
@@ -2007,7 +2007,7 @@
    {
     "player": "Noah Okafor",
     "team": "Leeds United",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2119,7 +2119,7 @@
    {
     "player": "James Justin",
     "team": "Leeds United",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-25T15:32:54.243051+00:00"
+  "updated": "2026-10-25T19:30:41.259691+00:00"
  },
  "Serie A": {
   "matchday": 8,
@@ -2254,17 +2254,31 @@
     "team": "Frosinone",
     "played": 8,
     "won": 4,
-    "draw": 1,
-    "lost": 3,
-    "gf": 16,
+    "draw": 2,
+    "lost": 2,
+    "gf": 17,
     "ga": 13,
+    "gd": 4,
+    "points": 14,
+    "form": "D,W,L,W,D"
+   },
+   {
+    "id": 109,
+    "pos": 7,
+    "team": "Juventus",
+    "played": 8,
+    "won": 4,
+    "draw": 2,
+    "lost": 2,
+    "gf": 11,
+    "ga": 8,
     "gd": 3,
-    "points": 13,
-    "form": "W,D,W,L,W"
+    "points": 14,
+    "form": "L,W,D,L,W"
    },
    {
     "id": 586,
-    "pos": 7,
+    "pos": 8,
     "team": "Torino",
     "played": 8,
     "won": 4,
@@ -2278,7 +2292,7 @@
    },
    {
     "id": 104,
-    "pos": 8,
+    "pos": 9,
     "team": "Cagliari",
     "played": 8,
     "won": 4,
@@ -2289,20 +2303,6 @@
     "gd": -3,
     "points": 13,
     "form": "W,W,D,L,L"
-   },
-   {
-    "id": 102,
-    "pos": 9,
-    "team": "Atalanta",
-    "played": 8,
-    "won": 4,
-    "draw": 0,
-    "lost": 4,
-    "gf": 14,
-    "ga": 14,
-    "gd": 0,
-    "points": 12,
-    "form": "L,L,L,W,L"
    },
    {
     "id": 113,
@@ -2319,32 +2319,32 @@
     "form": "W,D,W,L,D"
    },
    {
-    "id": 109,
+    "id": 102,
     "pos": 11,
-    "team": "Juventus",
-    "played": 7,
+    "team": "Atalanta",
+    "played": 8,
     "won": 3,
-    "draw": 2,
-    "lost": 2,
-    "gf": 9,
-    "ga": 8,
-    "gd": 1,
-    "points": 11,
-    "form": "D,L,W,D,L"
+    "draw": 1,
+    "lost": 4,
+    "gf": 14,
+    "ga": 15,
+    "gd": -1,
+    "points": 10,
+    "form": "L,L,W,L,D"
    },
    {
     "id": 5890,
     "pos": 12,
     "team": "Lecce",
-    "played": 7,
+    "played": 8,
     "won": 3,
     "draw": 0,
-    "lost": 4,
+    "lost": 5,
     "gf": 9,
-    "ga": 12,
-    "gd": -3,
+    "ga": 14,
+    "gd": -5,
     "points": 9,
-    "form": "L,W,L,L,W"
+    "form": "W,L,L,W,L"
    },
    {
     "id": 103,
@@ -2400,7 +2400,7 @@
     "ga": 13,
     "gd": -7,
     "points": 7,
-    "form": "L,D,L,W,L"
+    "form": "D,L,W,L,W"
    },
    {
     "id": 115,
@@ -2456,7 +2456,7 @@
     "ga": 17,
     "gd": -11,
     "points": 3,
-    "form": "L,L,L,L,W"
+    "form": "L,L,L,W,L"
    }
   ],
   "scorers": [
@@ -2567,7 +2567,7 @@
    {
     "player": "Jurgen Ekkelenkamp",
     "team": "Udinese",
-    "played": 7,
+    "played": 8,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -2631,7 +2631,7 @@
    {
     "player": "Hassane Kamara",
     "team": "Udinese",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -2655,7 +2655,7 @@
    {
     "player": "Bremer",
     "team": "Juventus",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2663,7 +2663,7 @@
    {
     "player": "Tiago Gabriel",
     "team": "Lecce",
-    "played": 6,
+    "played": 7,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -2679,7 +2679,7 @@
    {
     "player": "Alphadjo Cisse",
     "team": "Milan",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2695,7 +2695,7 @@
    {
     "player": "Gonçalo Ramos",
     "team": "Milan",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 1
@@ -2807,7 +2807,7 @@
    {
     "player": "Edon Zhegrova",
     "team": "Juventus",
-    "played": 6,
+    "played": 7,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -2935,7 +2935,7 @@
    {
     "player": "Olaf Gorter",
     "team": "Lecce",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2967,7 +2967,7 @@
    {
     "player": "Jakub Piotrowski",
     "team": "Udinese",
-    "played": 4,
+    "played": 5,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2999,7 +2999,7 @@
    {
     "player": "Teun Koopmeiners",
     "team": "Juventus",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3087,15 +3087,15 @@
    {
     "player": "Federico Gatti",
     "team": "Juventus",
-    "played": 6,
+    "played": 7,
     "goals": 1,
-    "assists": 0,
+    "assists": 1,
     "penalties": 0
    },
    {
     "player": "Jesper Karlström",
     "team": "Udinese",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3199,7 +3199,7 @@
    {
     "player": "James Abankwah",
     "team": "Udinese",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3255,20 +3255,34 @@
    {
     "player": "Christian Pulisic",
     "team": "Milan",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 1,
     "penalties": 0
    }
   ],
-  "updated": "2026-10-25T15:33:17.026031+00:00"
+  "updated": "2026-10-25T19:31:04.959869+00:00"
  },
  "Bundesliga": {
   "matchday": 7,
   "table": [
    {
-    "id": 4,
+    "id": 5,
     "pos": 1,
+    "team": "Bayern",
+    "played": 7,
+    "won": 5,
+    "draw": 2,
+    "lost": 0,
+    "gf": 25,
+    "ga": 6,
+    "gd": 19,
+    "points": 17,
+    "form": "W,W,D,W,W"
+   },
+   {
+    "id": 4,
+    "pos": 2,
     "team": "Dortmund",
     "played": 7,
     "won": 5,
@@ -3281,46 +3295,32 @@
     "form": "W,W,D,D,W"
    },
    {
-    "id": 5,
-    "pos": 2,
-    "team": "Bayern",
-    "played": 6,
-    "won": 4,
-    "draw": 2,
-    "lost": 0,
-    "gf": 22,
-    "ga": 5,
-    "gd": 17,
-    "points": 14,
-    "form": "D,W,W,D,W"
-   },
-   {
-    "id": 3,
+    "id": 17,
     "pos": 3,
-    "team": "Leverkusen",
+    "team": "Freiburg",
     "played": 7,
     "won": 4,
-    "draw": 2,
-    "lost": 1,
+    "draw": 1,
+    "lost": 2,
     "gf": 16,
     "ga": 9,
     "gd": 7,
-    "points": 14,
-    "form": "W,D,W,W,W"
+    "points": 13,
+    "form": "W,D,W,L,L"
    },
    {
-    "id": 17,
+    "id": 3,
     "pos": 4,
-    "team": "Freiburg",
-    "played": 6,
+    "team": "Leverkusen",
+    "played": 7,
     "won": 4,
     "draw": 1,
-    "lost": 1,
-    "gf": 15,
-    "ga": 6,
-    "gd": 9,
+    "lost": 2,
+    "gf": 16,
+    "ga": 12,
+    "gd": 4,
     "points": 13,
-    "form": "W,W,D,W,L"
+    "form": "D,W,W,W,L"
    },
    {
     "id": 721,
@@ -3393,8 +3393,22 @@
     "form": "D,L,D,L,D"
    },
    {
-    "id": 7,
+    "id": 2,
     "pos": 10,
+    "team": "Hoffenheim",
+    "played": 7,
+    "won": 3,
+    "draw": 0,
+    "lost": 4,
+    "gf": 14,
+    "ga": 14,
+    "gd": 0,
+    "points": 9,
+    "form": "W,L,L,W,W"
+   },
+   {
+    "id": 7,
+    "pos": 11,
     "team": "HSV",
     "played": 7,
     "won": 3,
@@ -3408,7 +3422,7 @@
    },
    {
     "id": 1,
-    "pos": 11,
+    "pos": 12,
     "team": "1. FC Köln",
     "played": 7,
     "won": 2,
@@ -3422,7 +3436,7 @@
    },
    {
     "id": 29,
-    "pos": 12,
+    "pos": 13,
     "team": "SC Paderborn",
     "played": 7,
     "won": 2,
@@ -3436,7 +3450,7 @@
    },
    {
     "id": 19,
-    "pos": 13,
+    "pos": 14,
     "team": "Frankfurt",
     "played": 7,
     "won": 2,
@@ -3447,20 +3461,6 @@
     "gd": -7,
     "points": 8,
     "form": "W,D,L,W,L"
-   },
-   {
-    "id": 2,
-    "pos": 14,
-    "team": "Hoffenheim",
-    "played": 7,
-    "won": 2,
-    "draw": 1,
-    "lost": 4,
-    "gf": 11,
-    "ga": 14,
-    "gd": -3,
-    "points": 7,
-    "form": "L,W,L,L,W"
    },
    {
     "id": 10,
@@ -3529,18 +3529,18 @@
     "penalties": 3
    },
    {
+    "player": "Michael Olise",
+    "team": "Bayern",
+    "played": 7,
+    "goals": 6,
+    "assists": 3,
+    "penalties": 0
+   },
+   {
     "player": "Patrik Schick",
     "team": "Leverkusen",
     "played": 7,
     "goals": 6,
-    "assists": 2,
-    "penalties": 0
-   },
-   {
-    "player": "Michael Olise",
-    "team": "Bayern",
-    "played": 6,
-    "goals": 5,
     "assists": 2,
     "penalties": 0
    },
@@ -3571,7 +3571,7 @@
    {
     "player": "Yuito Suzuki",
     "team": "Freiburg",
-    "played": 5,
+    "played": 6,
     "goals": 4,
     "assists": 0,
     "penalties": 0
@@ -3595,7 +3595,7 @@
    {
     "player": "Harry Kane",
     "team": "Bayern",
-    "played": 6,
+    "played": 7,
     "goals": 4,
     "assists": 4,
     "penalties": 1
@@ -3611,7 +3611,7 @@
    {
     "player": "Igor Matanovic",
     "team": "Freiburg",
-    "played": 6,
+    "played": 7,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -3643,7 +3643,7 @@
    {
     "player": "Maximilian Eggestein",
     "team": "Freiburg",
-    "played": 6,
+    "played": 7,
     "goals": 3,
     "assists": 0,
     "penalties": 0
@@ -3686,6 +3686,14 @@
     "played": 7,
     "goals": 3,
     "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Dayot Upamecano",
+    "team": "Bayern",
+    "played": 7,
+    "goals": 2,
+    "assists": 0,
     "penalties": 0
    },
    {
@@ -3867,7 +3875,7 @@
    {
     "player": "Ismael Saibari",
     "team": "Bayern",
-    "played": 6,
+    "played": 7,
     "goals": 2,
     "assists": 3,
     "penalties": 0
@@ -3891,7 +3899,7 @@
    {
     "player": "Derry Scherhant",
     "team": "Freiburg",
-    "played": 6,
+    "played": 7,
     "goals": 2,
     "assists": 3,
     "penalties": 0
@@ -3953,11 +3961,11 @@
     "penalties": 0
    },
    {
-    "player": "Dayot Upamecano",
-    "team": "Bayern",
-    "played": 6,
-    "goals": 1,
-    "assists": 0,
+    "player": "Alexander Prass",
+    "team": "Hoffenheim",
+    "played": 3,
+    "goals": 2,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -4171,7 +4179,7 @@
    {
     "player": "Lennart Karl",
     "team": "Bayern",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -4311,38 +4319,58 @@
     "goals": 1,
     "assists": 0,
     "penalties": 0
-   },
-   {
-    "player": "Julian Chabot",
-    "team": "Stuttgart",
-    "played": 7,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
    }
   ],
-  "updated": "2026-10-25T15:33:39.475655+00:00"
+  "updated": "2026-10-25T19:31:27.310295+00:00"
  },
  "Ligue 1": {
   "matchday": 8,
   "table": [
    {
-    "id": 521,
+    "id": 529,
     "pos": 1,
-    "team": "Lille",
+    "team": "Stade Rennais",
     "played": 8,
     "won": 5,
-    "draw": 2,
+    "draw": 1,
+    "lost": 2,
+    "gf": 18,
+    "ga": 14,
+    "gd": 4,
+    "points": 16,
+    "form": "W,L,W,L,W"
+   },
+   {
+    "id": 521,
+    "pos": 2,
+    "team": "Lille",
+    "played": 8,
+    "won": 4,
+    "draw": 3,
     "lost": 1,
     "gf": 11,
-    "ga": 5,
-    "gd": 6,
-    "points": 17,
-    "form": "W,W,L,W,D"
+    "ga": 6,
+    "gd": 5,
+    "points": 15,
+    "form": "W,L,W,D,D"
+   },
+   {
+    "id": 548,
+    "pos": 3,
+    "team": "Monaco",
+    "played": 8,
+    "won": 4,
+    "draw": 3,
+    "lost": 1,
+    "gf": 11,
+    "ga": 7,
+    "gd": 4,
+    "points": 15,
+    "form": "D,W,D,L,D"
    },
    {
     "id": 523,
-    "pos": 2,
+    "pos": 4,
     "team": "Olympique Lyon",
     "played": 7,
     "won": 4,
@@ -4356,7 +4384,7 @@
    },
    {
     "id": 524,
-    "pos": 3,
+    "pos": 5,
     "team": "PSG",
     "played": 7,
     "won": 4,
@@ -4370,7 +4398,7 @@
    },
    {
     "id": 1045,
-    "pos": 4,
+    "pos": 6,
     "team": "Paris FC",
     "played": 8,
     "won": 4,
@@ -4383,22 +4411,8 @@
     "form": "D,W,L,W,L"
    },
    {
-    "id": 548,
-    "pos": 5,
-    "team": "Monaco",
-    "played": 8,
-    "won": 4,
-    "draw": 2,
-    "lost": 2,
-    "gf": 10,
-    "ga": 7,
-    "gd": 3,
-    "points": 14,
-    "form": "W,D,W,D,L"
-   },
-   {
     "id": 546,
-    "pos": 6,
+    "pos": 7,
     "team": "RC Lens",
     "played": 8,
     "won": 4,
@@ -4411,36 +4425,36 @@
     "form": "D,L,W,W,W"
    },
    {
-    "id": 529,
-    "pos": 7,
-    "team": "Stade Rennais",
-    "played": 7,
+    "id": 516,
+    "pos": 8,
+    "team": "Marseille",
+    "played": 8,
     "won": 4,
-    "draw": 1,
-    "lost": 2,
-    "gf": 15,
-    "ga": 14,
-    "gd": 1,
-    "points": 13,
-    "form": "W,W,L,W,L"
+    "draw": 0,
+    "lost": 4,
+    "gf": 18,
+    "ga": 13,
+    "gd": 5,
+    "points": 12,
+    "form": "L,L,W,W,W"
    },
    {
     "id": 525,
-    "pos": 8,
+    "pos": 9,
     "team": "Lorient",
-    "played": 7,
+    "played": 8,
     "won": 3,
-    "draw": 2,
+    "draw": 3,
     "lost": 2,
     "gf": 7,
     "ga": 6,
     "gd": 1,
-    "points": 11,
-    "form": "W,D,L,W,W"
+    "points": 12,
+    "form": "D,L,W,W,D"
    },
    {
     "id": 522,
-    "pos": 9,
+    "pos": 10,
     "team": "Nice",
     "played": 8,
     "won": 3,
@@ -4453,22 +4467,36 @@
     "form": "L,W,W,L,W"
    },
    {
-    "id": 516,
-    "pos": 10,
-    "team": "Marseille",
-    "played": 7,
+    "id": 511,
+    "pos": 11,
+    "team": "Toulouse",
+    "played": 8,
+    "won": 2,
+    "draw": 4,
+    "lost": 2,
+    "gf": 12,
+    "ga": 11,
+    "gd": 1,
+    "points": 10,
+    "form": "D,W,D,W,D"
+   },
+   {
+    "id": 519,
+    "pos": 12,
+    "team": "Auxerre",
+    "played": 8,
     "won": 3,
-    "draw": 0,
+    "draw": 1,
     "lost": 4,
-    "gf": 14,
-    "ga": 10,
-    "gd": 4,
-    "points": 9,
-    "form": "L,L,L,W,W"
+    "gf": 12,
+    "ga": 18,
+    "gd": -6,
+    "points": 10,
+    "form": "W,W,L,W,D"
    },
    {
     "id": 512,
-    "pos": 11,
+    "pos": 13,
     "team": "Brest",
     "played": 8,
     "won": 2,
@@ -4481,102 +4509,74 @@
     "form": "L,L,W,D,L"
    },
    {
-    "id": 511,
-    "pos": 12,
-    "team": "Toulouse",
-    "played": 7,
-    "won": 2,
-    "draw": 3,
-    "lost": 2,
-    "gf": 12,
-    "ga": 11,
-    "gd": 1,
-    "points": 9,
-    "form": "L,D,W,D,W"
-   },
-   {
-    "id": 519,
-    "pos": 13,
-    "team": "Auxerre",
-    "played": 7,
-    "won": 3,
-    "draw": 0,
-    "lost": 4,
-    "gf": 11,
-    "ga": 17,
-    "gd": -6,
-    "points": 9,
-    "form": "L,W,W,L,W"
-   },
-   {
-    "id": 576,
-    "pos": 14,
-    "team": "Strasbourg",
-    "played": 7,
-    "won": 2,
-    "draw": 1,
-    "lost": 4,
-    "gf": 12,
-    "ga": 15,
-    "gd": -3,
-    "points": 7,
-    "form": "W,D,L,L,L"
-   },
-   {
     "id": 532,
-    "pos": 15,
+    "pos": 14,
     "team": "Angers SCO",
-    "played": 7,
+    "played": 8,
     "won": 2,
-    "draw": 1,
+    "draw": 2,
     "lost": 4,
     "gf": 9,
     "ga": 15,
     "gd": -6,
-    "points": 7,
-    "form": "L,D,W,L,L"
+    "points": 8,
+    "form": "D,W,L,L,D"
    },
    {
     "id": 535,
-    "pos": 16,
+    "pos": 15,
     "team": "Le Mans",
-    "played": 7,
+    "played": 8,
     "won": 1,
-    "draw": 3,
+    "draw": 4,
     "lost": 3,
-    "gf": 10,
-    "ga": 15,
+    "gf": 11,
+    "ga": 16,
     "gd": -5,
-    "points": 6,
-    "form": "D,D,W,L,L"
+    "points": 7,
+    "form": "D,W,L,L,D"
+   },
+   {
+    "id": 576,
+    "pos": 16,
+    "team": "Strasbourg",
+    "played": 8,
+    "won": 2,
+    "draw": 1,
+    "lost": 5,
+    "gf": 12,
+    "ga": 18,
+    "gd": -6,
+    "points": 7,
+    "form": "D,L,L,L,L"
    },
    {
     "id": 531,
     "pos": 17,
     "team": "Troyes",
-    "played": 7,
+    "played": 8,
     "won": 1,
-    "draw": 1,
+    "draw": 2,
     "lost": 5,
     "gf": 5,
     "ga": 16,
     "gd": -11,
-    "points": 4,
-    "form": "L,L,L,L,L"
+    "points": 5,
+    "form": "L,L,L,L,D"
    },
    {
     "id": 533,
     "pos": 18,
     "team": "Le Havre",
-    "played": 7,
+    "played": 8,
     "won": 0,
     "draw": 2,
-    "lost": 5,
-    "gf": 5,
-    "ga": 11,
-    "gd": -6,
+    "lost": 6,
+    "gf": 8,
+    "ga": 15,
+    "gd": -7,
     "points": 2,
-    "form": "L,D,L,L,L"
+    "form": "D,L,L,L,L"
    }
   ],
   "scorers": [
@@ -4599,14 +4599,14 @@
    {
     "player": "Amine Gouiri",
     "team": "Marseille",
-    "played": 7,
+    "played": 8,
     "goals": 5,
-    "assists": 1,
+    "assists": 2,
     "penalties": 1
    },
    {
-    "player": "Paris Brunner",
-    "team": "Monaco",
+    "player": "Cameron Archer",
+    "team": "Auxerre",
     "played": 6,
     "goals": 5,
     "assists": 0,
@@ -4653,8 +4653,8 @@
     "penalties": 0
    },
    {
-    "player": "Cameron Archer",
-    "team": "Auxerre",
+    "player": "Paris Brunner",
+    "team": "Monaco",
     "played": 6,
     "goals": 4,
     "assists": 0,
@@ -4667,6 +4667,14 @@
     "goals": 3,
     "assists": 2,
     "penalties": 1
+   },
+   {
+    "player": "Sebastian Szymański",
+    "team": "Stade Rennais",
+    "played": 8,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
    },
    {
     "player": "Marquinhos",
@@ -4707,6 +4715,30 @@
     "goals": 3,
     "assists": 1,
     "penalties": 0
+   },
+   {
+    "player": "Josh Maja",
+    "team": "Le Havre",
+    "played": 8,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
+    "player": "Boulaye Dia",
+    "team": "Stade Rennais",
+    "played": 6,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Himad Abdelli",
+    "team": "Marseille",
+    "played": 8,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 1
    },
    {
     "player": "Franjo Ivanovic",
@@ -4751,7 +4783,7 @@
    {
     "player": "Mbwana Samatta",
     "team": "Le Havre",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -4791,7 +4823,7 @@
    {
     "player": "Rayan Fofana",
     "team": "Le Havre",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 1
@@ -4869,28 +4901,28 @@
     "penalties": 0
    },
    {
-    "player": "Boulaye Dia",
-    "team": "Stade Rennais",
-    "played": 6,
-    "goals": 2,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
-    "player": "Amine Harit",
-    "team": "Marseille",
-    "played": 7,
+    "player": "Edan Diop",
+    "team": "Monaco",
+    "played": 5,
     "goals": 2,
     "assists": 1,
     "penalties": 0
    },
    {
-    "player": "Himad Abdelli",
+    "player": "Amine Harit",
     "team": "Marseille",
-    "played": 7,
+    "played": 8,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Igor Paixão",
+    "team": "Marseille",
+    "played": 8,
     "goals": 2,
     "assists": 0,
-    "penalties": 1
+    "penalties": 0
    },
    {
     "player": "Maxime López",
@@ -4903,7 +4935,7 @@
    {
     "player": "Keyliane Abdallah",
     "team": "Marseille",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -4911,7 +4943,7 @@
    {
     "player": "Pierre Emile Højbjerg",
     "team": "Marseille",
-    "played": 5,
+    "played": 6,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -4976,14 +5008,6 @@
     "player": "Eric Dier",
     "team": "Monaco",
     "played": 6,
-    "goals": 1,
-    "assists": 1,
-    "penalties": 0
-   },
-   {
-    "player": "Sebastian Szymański",
-    "team": "Stade Rennais",
-    "played": 8,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -5169,7 +5193,7 @@
     "team": "Stade Rennais",
     "played": 8,
     "goals": 1,
-    "assists": 1,
+    "assists": 2,
     "penalties": 0
    },
    {
@@ -5245,14 +5269,6 @@
     "penalties": 0
    },
    {
-    "player": "Josh Maja",
-    "team": "Le Havre",
-    "played": 7,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
     "player": "Amine Sbaï",
     "team": "Angers SCO",
     "played": 8,
@@ -5279,7 +5295,7 @@
    {
     "player": "Angel Gomes",
     "team": "Marseille",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -5349,14 +5365,6 @@
     "penalties": 0
    },
    {
-    "player": "Edan Diop",
-    "team": "Monaco",
-    "played": 5,
-    "goals": 1,
-    "assists": 1,
-    "penalties": 0
-   },
-   {
     "player": "Matthis Abline",
     "team": "Monaco",
     "played": 7,
@@ -5371,18 +5379,10 @@
     "goals": 1,
     "assists": 0,
     "penalties": 0
-   },
-   {
-    "player": "Dario Essugo",
-    "team": "Strasbourg",
-    "played": 6,
-    "goals": 1,
-    "assists": 1,
-    "penalties": 0
    }
   ],
-  "updated": "2026-10-25T15:34:01.992121+00:00"
+  "updated": "2026-10-25T19:31:49.367132+00:00"
  },
- "_updated": "2026-10-25T15:34:01.992162+00:00",
+ "_updated": "2026-10-25T19:31:49.367165+00:00",
  "_version": 2
 }
