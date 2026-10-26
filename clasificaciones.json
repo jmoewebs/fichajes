@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-26T14:48:02.304200+00:00"
+  "updated": "2026-10-26T18:49:18.711291+00:00"
  },
  "Premier League": {
   "matchday": 8,
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-26T14:48:23.869676+00:00"
+  "updated": "2026-10-26T18:49:41.138909+00:00"
  },
  "Serie A": {
   "matchday": 9,
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-26T14:48:46.567917+00:00"
+  "updated": "2026-10-26T18:50:05.293017+00:00"
  },
  "Bundesliga": {
   "matchday": 7,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-26T14:49:07.916925+00:00"
+  "updated": "2026-10-26T18:50:27.680224+00:00"
  },
  "Ligue 1": {
   "matchday": 8,
@@ -4647,7 +4647,7 @@
    {
     "player": "Ferrán Torres",
     "team": "PSG",
-    "played": 7,
+    "played": 8,
     "goals": 4,
     "assists": 1,
     "penalties": 0
@@ -4695,7 +4695,7 @@
    {
     "player": "Ernest Nuamah",
     "team": "Olympique Lyon",
-    "played": 7,
+    "played": 8,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -4815,7 +4815,7 @@
    {
     "player": "Zachary Athekame",
     "team": "Olympique Lyon",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 3,
     "penalties": 0
@@ -4991,7 +4991,7 @@
    {
     "player": "Noah Nartey",
     "team": "Olympique Lyon",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -5023,7 +5023,7 @@
    {
     "player": "Vitinha",
     "team": "PSG",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -5119,7 +5119,7 @@
    {
     "player": "Felix Bacher",
     "team": "Olympique Lyon",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -5279,7 +5279,7 @@
    {
     "player": "Corentin Tolisso",
     "team": "Olympique Lyon",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 2,
     "penalties": 0
@@ -5311,7 +5311,7 @@
    {
     "player": "Khalis Merah",
     "team": "Olympique Lyon",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -5343,7 +5343,7 @@
    {
     "player": "Lucas Beraldo",
     "team": "PSG",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 1
@@ -5359,7 +5359,7 @@
    {
     "player": "Maghnes Akliouche",
     "team": "PSG",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-26T14:49:29.942000+00:00"
+  "updated": "2026-10-26T18:50:49.723033+00:00"
  },
- "_updated": "2026-10-26T14:49:29.942035+00:00",
+ "_updated": "2026-10-26T18:50:49.723070+00:00",
  "_version": 2
 }
