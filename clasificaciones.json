@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-26T10:42:45.111199+00:00"
+  "updated": "2026-10-26T14:48:02.304200+00:00"
  },
  "Premier League": {
   "matchday": 8,
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-26T10:43:07.573096+00:00"
+  "updated": "2026-10-26T14:48:23.869676+00:00"
  },
  "Serie A": {
   "matchday": 9,
@@ -2190,7 +2190,7 @@
     "ga": 10,
     "gd": 13,
     "points": 22,
-    "form": "W,D,W,W,W"
+    "form": "W,W,D,W,W"
    },
    {
     "id": 110,
@@ -2232,7 +2232,7 @@
     "ga": 7,
     "gd": 9,
     "points": 18,
-    "form": "D,W,D,W,W"
+    "form": "D,D,W,D,W"
    },
    {
     "id": 7397,
@@ -2260,7 +2260,7 @@
     "ga": 13,
     "gd": 4,
     "points": 14,
-    "form": "D,W,L,W,D"
+    "form": "W,D,W,L,W"
    },
    {
     "id": 109,
@@ -2274,7 +2274,7 @@
     "ga": 8,
     "gd": 3,
     "points": 14,
-    "form": "L,W,D,L,W"
+    "form": "D,L,W,D,L"
    },
    {
     "id": 586,
@@ -2330,7 +2330,7 @@
     "ga": 15,
     "gd": -1,
     "points": 10,
-    "form": "L,L,W,L,D"
+    "form": "L,L,L,W,L"
    },
    {
     "id": 5890,
@@ -2344,7 +2344,7 @@
     "ga": 14,
     "gd": -5,
     "points": 9,
-    "form": "W,L,L,W,L"
+    "form": "L,W,L,L,W"
    },
    {
     "id": 103,
@@ -2400,7 +2400,7 @@
     "ga": 13,
     "gd": -7,
     "points": 7,
-    "form": "D,L,W,L,W"
+    "form": "L,D,L,W,L"
    },
    {
     "id": 115,
@@ -2428,7 +2428,7 @@
     "ga": 19,
     "gd": -10,
     "points": 4,
-    "form": "W,D,L,L,L"
+    "form": "L,W,D,L,L"
    },
    {
     "id": 112,
@@ -2456,7 +2456,7 @@
     "ga": 17,
     "gd": -11,
     "points": 3,
-    "form": "L,L,L,W,L"
+    "form": "L,L,L,L,W"
    }
   ],
   "scorers": [
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-26T10:43:30.261826+00:00"
+  "updated": "2026-10-26T14:48:46.567917+00:00"
  },
  "Bundesliga": {
   "matchday": 7,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-26T10:43:52.289896+00:00"
+  "updated": "2026-10-26T14:49:07.916925+00:00"
  },
  "Ligue 1": {
   "matchday": 8,
@@ -4338,7 +4338,7 @@
     "ga": 14,
     "gd": 4,
     "points": 16,
-    "form": "W,W,L,W,L"
+    "form": "W,L,W,L,W"
    },
    {
     "id": 521,
@@ -4352,7 +4352,7 @@
     "ga": 6,
     "gd": 5,
     "points": 15,
-    "form": "W,W,L,W,D"
+    "form": "W,L,W,D,D"
    },
    {
     "id": 548,
@@ -4366,7 +4366,7 @@
     "ga": 7,
     "gd": 4,
     "points": 15,
-    "form": "W,D,W,D,L"
+    "form": "D,W,D,L,D"
    },
    {
     "id": 523,
@@ -4436,7 +4436,7 @@
     "ga": 13,
     "gd": 5,
     "points": 12,
-    "form": "L,L,L,W,W"
+    "form": "L,L,W,W,W"
    },
    {
     "id": 525,
@@ -4450,7 +4450,7 @@
     "ga": 6,
     "gd": 1,
     "points": 12,
-    "form": "W,D,L,W,W"
+    "form": "D,L,W,W,D"
    },
    {
     "id": 522,
@@ -4478,7 +4478,7 @@
     "ga": 11,
     "gd": 1,
     "points": 10,
-    "form": "L,D,W,D,W"
+    "form": "D,W,D,W,D"
    },
    {
     "id": 519,
@@ -4492,7 +4492,7 @@
     "ga": 18,
     "gd": -6,
     "points": 10,
-    "form": "L,W,W,L,W"
+    "form": "W,W,L,W,D"
    },
    {
     "id": 512,
@@ -4520,7 +4520,7 @@
     "ga": 15,
     "gd": -6,
     "points": 8,
-    "form": "L,D,W,L,L"
+    "form": "D,W,L,L,D"
    },
    {
     "id": 535,
@@ -4534,7 +4534,7 @@
     "ga": 16,
     "gd": -5,
     "points": 7,
-    "form": "D,D,W,L,L"
+    "form": "D,W,L,L,D"
    },
    {
     "id": 576,
@@ -4548,7 +4548,7 @@
     "ga": 18,
     "gd": -6,
     "points": 7,
-    "form": "W,D,L,L,L"
+    "form": "D,L,L,L,L"
    },
    {
     "id": 531,
@@ -4562,7 +4562,7 @@
     "ga": 16,
     "gd": -11,
     "points": 5,
-    "form": "L,L,L,L,L"
+    "form": "L,L,L,L,D"
    },
    {
     "id": 533,
@@ -4576,7 +4576,7 @@
     "ga": 15,
     "gd": -7,
     "points": 2,
-    "form": "L,D,L,L,L"
+    "form": "D,L,L,L,L"
    }
   ],
   "scorers": [
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-26T10:44:14.993130+00:00"
+  "updated": "2026-10-26T14:49:29.942000+00:00"
  },
- "_updated": "2026-10-26T10:44:14.993170+00:00",
+ "_updated": "2026-10-26T14:49:29.942035+00:00",
  "_version": 2
 }
