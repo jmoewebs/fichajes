@@ -94,6 +94,8 @@ COMMON_SURNAMES = {"junior", "jr", "silva", "santos", "fernandes", "fernandez", 
 TELEGRAM_MIN_SCORE = 30      # rumores a partir de este termómetro (los acuerdos y oficiales, siempre)
 TELEGRAM_MAX_PER_RUN = 2     # como mucho, mensajes por ejecución (cada hora), para no saturar
 TELEGRAM_DIGEST_HOUR = 21    # hora (España) del resumen diario de "Lo más leído"
+FANTASY_SEND_WEEKDAYS = (1, 4)   # parte médico de Fantasy: martes (1) y viernes (4)
+FANTASY_SEND_HOUR = 12           # a partir de esta hora (España)
 
 # IndexNow: aviso diario a Bing y otros buscadores de todas las páginas
 INDEXNOW_KEY = "14ca996f61e8e8c39c670c73dc9243e6"

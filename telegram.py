@@ -104,10 +104,11 @@ def _fantasy_message(db, now_spain):
         row = db.execute("SELECT jornada, data FROM fx_jornadas ORDER BY jornada DESC LIMIT 1").fetchone()
     except Exception:
         return None                      # todavía no existe la tabla
-    if not row or now_spain.hour < 10:   # nada de avisos de madrugada
+    # Solo los días y la hora fijados en config (martes y viernes, a las 12:00)
+    if not row or now_spain.weekday() not in config.FANTASY_SEND_WEEKDAYS or now_spain.hour < config.FANTASY_SEND_HOUR:
         return None
     md, snap = row[0], json.loads(row[1])
-    key = f"fantasy|{md}"
+    key = f"fantasy|{md}|{now_spain.strftime('%Y-%m-%d')}"
     rows = snap.get("rows", [])
     bajas = [r for r in rows if r["st"] == "out"]
     dudas = [r for r in rows if r["st"] == "doubt"]
