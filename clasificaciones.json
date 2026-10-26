@@ -14,7 +14,7 @@
     "ga": 11,
     "gd": 29,
     "points": 27,
-    "form": "W,W,W,W,L"
+    "form": "W,W,W,W,W"
    },
    {
     "id": 78,
@@ -42,7 +42,7 @@
     "ga": 10,
     "gd": 15,
     "points": 24,
-    "form": "W,L,W,W,W"
+    "form": "W,W,L,W,W"
    },
    {
     "id": 90,
@@ -56,7 +56,7 @@
     "ga": 14,
     "gd": 2,
     "points": 20,
-    "form": "W,D,W,L,D"
+    "form": "W,W,D,W,L"
    },
    {
     "id": 92,
@@ -70,7 +70,7 @@
     "ga": 18,
     "gd": 1,
     "points": 19,
-    "form": "L,W,W,W,W"
+    "form": "W,L,W,W,W"
    },
    {
     "id": 559,
@@ -112,7 +112,7 @@
     "ga": 9,
     "gd": 3,
     "points": 12,
-    "form": "D,D,D,L,W"
+    "form": "W,D,D,D,L"
    },
    {
     "id": 558,
@@ -126,7 +126,7 @@
     "ga": 7,
     "gd": 3,
     "points": 12,
-    "form": "D,W,D,W,D"
+    "form": "D,D,W,D,W"
    },
    {
     "id": 94,
@@ -196,7 +196,7 @@
     "ga": 19,
     "gd": -3,
     "points": 10,
-    "form": "L,D,D,W,L"
+    "form": "L,L,D,D,W"
    },
    {
     "id": 285,
@@ -238,7 +238,7 @@
     "ga": 15,
     "gd": -10,
     "points": 9,
-    "form": "L,W,L,D,L"
+    "form": "D,L,W,L,D"
    },
    {
     "id": 80,
@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-25T23:28:16.841277+00:00"
+  "updated": "2026-10-26T02:37:40.525781+00:00"
  },
  "Premier League": {
   "matchday": 8,
@@ -1130,7 +1130,7 @@
     "ga": 7,
     "gd": 16,
     "points": 16,
-    "form": "W,W,W,W,L"
+    "form": "D,W,W,W,W"
    },
    {
     "id": 64,
@@ -1144,7 +1144,7 @@
     "ga": 8,
     "gd": 3,
     "points": 15,
-    "form": "D,W,L,W,W"
+    "form": "W,D,W,L,W"
    },
    {
     "id": 61,
@@ -1172,7 +1172,7 @@
     "ga": 9,
     "gd": 5,
     "points": 11,
-    "form": "D,W,D,L,D"
+    "form": "D,D,W,D,L"
    },
    {
     "id": 341,
@@ -1186,7 +1186,7 @@
     "ga": 6,
     "gd": 3,
     "points": 11,
-    "form": "W,D,L,D,D"
+    "form": "D,W,D,L,D"
    },
    {
     "id": 67,
@@ -1200,7 +1200,7 @@
     "ga": 14,
     "gd": -2,
     "points": 11,
-    "form": "L,W,L,L,W"
+    "form": "D,L,W,L,L"
    },
    {
     "id": 58,
@@ -1228,7 +1228,7 @@
     "ga": 8,
     "gd": 1,
     "points": 10,
-    "form": "D,L,D,L,D"
+    "form": "D,D,L,D,L"
    },
    {
     "id": 62,
@@ -1270,7 +1270,7 @@
     "ga": 13,
     "gd": -1,
     "points": 9,
-    "form": "D,L,L,W,W"
+    "form": "D,D,L,L,W"
    },
    {
     "id": 73,
@@ -1312,7 +1312,7 @@
     "ga": 13,
     "gd": -3,
     "points": 7,
-    "form": "L,D,D,D,L"
+    "form": "D,L,D,D,D"
    },
    {
     "id": 354,
@@ -1326,7 +1326,7 @@
     "ga": 19,
     "gd": -10,
     "points": 7,
-    "form": "L,D,W,L,L"
+    "form": "W,L,D,W,L"
    },
    {
     "id": 351,
@@ -1368,7 +1368,7 @@
     "ga": 14,
     "gd": -8,
     "points": 5,
-    "form": "L,L,L,L,D"
+    "form": "D,L,L,L,L"
    }
   ],
   "scorers": [
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-25T23:28:39.231857+00:00"
+  "updated": "2026-10-26T02:38:02.541539+00:00"
  },
  "Serie A": {
   "matchday": 8,
@@ -2190,7 +2190,7 @@
     "ga": 10,
     "gd": 13,
     "points": 22,
-    "form": "W,D,W,W,W"
+    "form": "W,W,D,W,W"
    },
    {
     "id": 110,
@@ -2232,7 +2232,7 @@
     "ga": 7,
     "gd": 9,
     "points": 18,
-    "form": "D,W,D,W,W"
+    "form": "D,D,W,D,W"
    },
    {
     "id": 7397,
@@ -2260,7 +2260,7 @@
     "ga": 13,
     "gd": 4,
     "points": 14,
-    "form": "D,W,L,W,D"
+    "form": "W,D,W,L,W"
    },
    {
     "id": 109,
@@ -2274,7 +2274,7 @@
     "ga": 8,
     "gd": 3,
     "points": 14,
-    "form": "L,W,D,L,W"
+    "form": "D,L,W,D,L"
    },
    {
     "id": 586,
@@ -2330,7 +2330,7 @@
     "ga": 15,
     "gd": -1,
     "points": 10,
-    "form": "L,L,W,L,D"
+    "form": "L,L,L,W,L"
    },
    {
     "id": 5890,
@@ -2344,7 +2344,7 @@
     "ga": 14,
     "gd": -5,
     "points": 9,
-    "form": "W,L,L,W,L"
+    "form": "L,W,L,L,W"
    },
    {
     "id": 103,
@@ -2400,7 +2400,7 @@
     "ga": 13,
     "gd": -7,
     "points": 7,
-    "form": "D,L,W,L,W"
+    "form": "L,D,L,W,L"
    },
    {
     "id": 115,
@@ -2428,7 +2428,7 @@
     "ga": 19,
     "gd": -10,
     "points": 4,
-    "form": "W,D,L,L,L"
+    "form": "L,W,D,L,L"
    },
    {
     "id": 112,
@@ -2456,7 +2456,7 @@
     "ga": 17,
     "gd": -11,
     "points": 3,
-    "form": "L,L,L,W,L"
+    "form": "L,L,L,L,W"
    }
   ],
   "scorers": [
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-25T23:29:01.264974+00:00"
+  "updated": "2026-10-26T02:38:24.685429+00:00"
  },
  "Bundesliga": {
   "matchday": 7,
@@ -3278,7 +3278,7 @@
     "ga": 6,
     "gd": 19,
     "points": 17,
-    "form": "W,W,D,W,W"
+    "form": "D,W,W,D,W"
    },
    {
     "id": 4,
@@ -3306,7 +3306,7 @@
     "ga": 9,
     "gd": 7,
     "points": 13,
-    "form": "W,D,W,L,L"
+    "form": "W,W,D,W,L"
    },
    {
     "id": 3,
@@ -3320,7 +3320,7 @@
     "ga": 12,
     "gd": 4,
     "points": 13,
-    "form": "D,W,W,W,L"
+    "form": "W,D,W,W,W"
    },
    {
     "id": 721,
@@ -3404,7 +3404,7 @@
     "ga": 14,
     "gd": 0,
     "points": 9,
-    "form": "W,L,L,W,W"
+    "form": "L,W,L,L,W"
    },
    {
     "id": 7,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-25T23:29:23.314377+00:00"
+  "updated": "2026-10-26T02:38:46.382187+00:00"
  },
  "Ligue 1": {
   "matchday": 8,
@@ -4338,7 +4338,7 @@
     "ga": 14,
     "gd": 4,
     "points": 16,
-    "form": "W,L,W,L,W"
+    "form": "W,W,L,W,L"
    },
    {
     "id": 521,
@@ -4352,7 +4352,7 @@
     "ga": 6,
     "gd": 5,
     "points": 15,
-    "form": "W,L,W,D,D"
+    "form": "W,W,L,W,D"
    },
    {
     "id": 548,
@@ -4366,7 +4366,7 @@
     "ga": 7,
     "gd": 4,
     "points": 15,
-    "form": "D,W,D,L,D"
+    "form": "W,D,W,D,L"
    },
    {
     "id": 523,
@@ -4436,7 +4436,7 @@
     "ga": 13,
     "gd": 5,
     "points": 12,
-    "form": "L,L,W,W,W"
+    "form": "L,L,L,W,W"
    },
    {
     "id": 525,
@@ -4450,7 +4450,7 @@
     "ga": 6,
     "gd": 1,
     "points": 12,
-    "form": "D,L,W,W,D"
+    "form": "W,D,L,W,W"
    },
    {
     "id": 522,
@@ -4478,7 +4478,7 @@
     "ga": 11,
     "gd": 1,
     "points": 10,
-    "form": "D,W,D,W,D"
+    "form": "L,D,W,D,W"
    },
    {
     "id": 519,
@@ -4492,7 +4492,7 @@
     "ga": 18,
     "gd": -6,
     "points": 10,
-    "form": "W,W,L,W,D"
+    "form": "L,W,W,L,W"
    },
    {
     "id": 512,
@@ -4520,7 +4520,7 @@
     "ga": 15,
     "gd": -6,
     "points": 8,
-    "form": "D,W,L,L,D"
+    "form": "L,D,W,L,L"
    },
    {
     "id": 535,
@@ -4534,7 +4534,7 @@
     "ga": 16,
     "gd": -5,
     "points": 7,
-    "form": "D,W,L,L,D"
+    "form": "D,D,W,L,L"
    },
    {
     "id": 576,
@@ -4548,7 +4548,7 @@
     "ga": 18,
     "gd": -6,
     "points": 7,
-    "form": "D,L,L,L,L"
+    "form": "W,D,L,L,L"
    },
    {
     "id": 531,
@@ -4562,7 +4562,7 @@
     "ga": 16,
     "gd": -11,
     "points": 5,
-    "form": "L,L,L,L,D"
+    "form": "L,L,L,L,L"
    },
    {
     "id": 533,
@@ -4576,7 +4576,7 @@
     "ga": 15,
     "gd": -7,
     "points": 2,
-    "form": "D,L,L,L,L"
+    "form": "L,D,L,L,L"
    }
   ],
   "scorers": [
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-25T23:29:45.319004+00:00"
+  "updated": "2026-10-26T02:39:09.457776+00:00"
  },
- "_updated": "2026-10-25T23:29:45.319045+00:00",
+ "_updated": "2026-10-26T02:39:09.457816+00:00",
  "_version": 2
 }
