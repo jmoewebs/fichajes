@@ -76,15 +76,15 @@
     "id": 559,
     "pos": 6,
     "team": "Sevilla FC",
-    "played": 9,
-    "won": 4,
+    "played": 10,
+    "won": 5,
     "draw": 2,
     "lost": 3,
-    "gf": 14,
+    "gf": 16,
     "ga": 16,
-    "gd": -2,
-    "points": 14,
-    "form": "W,W,L,D,L"
+    "gd": 0,
+    "points": 17,
+    "form": "W,L,D,L,W"
    },
    {
     "id": 263,
@@ -160,15 +160,15 @@
     "id": 79,
     "pos": 12,
     "team": "Osasuna",
-    "played": 9,
+    "played": 10,
     "won": 3,
     "draw": 2,
-    "lost": 4,
+    "lost": 5,
     "gf": 10,
-    "ga": 18,
-    "gd": -8,
+    "ga": 20,
+    "gd": -10,
     "points": 11,
-    "form": "L,L,D,L,W"
+    "form": "L,D,L,W,L"
    },
    {
     "id": 5335,
@@ -327,7 +327,7 @@
    {
     "player": "Ante Budimir",
     "team": "Osasuna",
-    "played": 9,
+    "played": 10,
     "goals": 7,
     "assists": 0,
     "penalties": 4
@@ -419,6 +419,14 @@
     "goals": 3,
     "assists": 0,
     "penalties": 1
+   },
+   {
+    "player": "Isaac",
+    "team": "Sevilla FC",
+    "played": 9,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
    },
    {
     "player": "Jude Bellingham",
@@ -522,14 +530,6 @@
     "played": 10,
     "goals": 2,
     "assists": 0,
-    "penalties": 0
-   },
-   {
-    "player": "Isaac",
-    "team": "Sevilla FC",
-    "played": 8,
-    "goals": 2,
-    "assists": 1,
     "penalties": 0
    },
    {
@@ -701,6 +701,14 @@
     "penalties": 1
    },
    {
+    "player": "Félix Correia",
+    "team": "Sevilla FC",
+    "played": 7,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
     "player": "Mikel Oyarzabal",
     "team": "Real Sociedad",
     "played": 10,
@@ -727,7 +735,7 @@
    {
     "player": "Jon Guridi",
     "team": "Sevilla FC",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 1
@@ -735,7 +743,7 @@
    {
     "player": "Peque",
     "team": "Sevilla FC",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 1
@@ -783,7 +791,7 @@
    {
     "player": "Chidera Ejuke",
     "team": "Sevilla FC",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -839,7 +847,7 @@
    {
     "player": "Kike Barja",
     "team": "Osasuna",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -967,7 +975,7 @@
    {
     "player": "Lucas Stassin",
     "team": "Sevilla FC",
-    "played": 4,
+    "played": 5,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -1015,7 +1023,7 @@
    {
     "player": "Juan Iglesias",
     "team": "Sevilla FC",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -1075,17 +1083,9 @@
     "goals": 1,
     "assists": 1,
     "penalties": 0
-   },
-   {
-    "player": "Luis Rioja",
-    "team": "Valencia",
-    "played": 6,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
    }
   ],
-  "updated": "2026-10-26T18:49:18.711291+00:00"
+  "updated": "2026-10-26T22:37:10.927664+00:00"
  },
  "Premier League": {
   "matchday": 8,
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-26T18:49:41.138909+00:00"
+  "updated": "2026-10-26T22:37:32.835793+00:00"
  },
  "Serie A": {
   "matchday": 9,
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-26T18:50:05.293017+00:00"
+  "updated": "2026-10-26T22:37:54.975641+00:00"
  },
  "Bundesliga": {
   "matchday": 7,
@@ -4321,14 +4321,28 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-26T18:50:27.680224+00:00"
+  "updated": "2026-10-26T22:38:16.669714+00:00"
  },
  "Ligue 1": {
   "matchday": 8,
   "table": [
    {
-    "id": 529,
+    "id": 524,
     "pos": 1,
+    "team": "PSG",
+    "played": 8,
+    "won": 5,
+    "draw": 2,
+    "lost": 1,
+    "gf": 16,
+    "ga": 9,
+    "gd": 7,
+    "points": 17,
+    "form": "W,W,W,W,W"
+   },
+   {
+    "id": 529,
+    "pos": 2,
     "team": "Stade Rennais",
     "played": 8,
     "won": 5,
@@ -4342,7 +4356,7 @@
    },
    {
     "id": 521,
-    "pos": 2,
+    "pos": 3,
     "team": "Lille",
     "played": 8,
     "won": 4,
@@ -4356,7 +4370,7 @@
    },
    {
     "id": 548,
-    "pos": 3,
+    "pos": 4,
     "team": "Monaco",
     "played": 8,
     "won": 4,
@@ -4370,31 +4384,17 @@
    },
    {
     "id": 523,
-    "pos": 4,
-    "team": "Olympique Lyon",
-    "played": 7,
-    "won": 4,
-    "draw": 2,
-    "lost": 1,
-    "gf": 13,
-    "ga": 5,
-    "gd": 8,
-    "points": 14,
-    "form": "W,D,W,L,W"
-   },
-   {
-    "id": 524,
     "pos": 5,
-    "team": "PSG",
-    "played": 7,
+    "team": "Olympique Lyon",
+    "played": 8,
     "won": 4,
     "draw": 2,
-    "lost": 1,
-    "gf": 14,
-    "ga": 9,
-    "gd": 5,
+    "lost": 2,
+    "gf": 13,
+    "ga": 7,
+    "gd": 6,
     "points": 14,
-    "form": "L,W,W,W,W"
+    "form": "D,W,L,W,L"
    },
    {
     "id": 1045,
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-26T18:50:49.723033+00:00"
+  "updated": "2026-10-26T22:38:38.656180+00:00"
  },
- "_updated": "2026-10-26T18:50:49.723070+00:00",
+ "_updated": "2026-10-26T22:38:38.656226+00:00",
  "_version": 2
 }
