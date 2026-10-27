@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-27T16:49:49.562988+00:00"
+  "updated": "2026-10-27T20:39:34.838269+00:00"
  },
  "Premier League": {
   "matchday": 8,
@@ -2173,14 +2173,28 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-27T16:50:13.966278+00:00"
+  "updated": "2026-10-27T20:39:56.362800+00:00"
  },
  "Serie A": {
   "matchday": 9,
   "table": [
    {
-    "id": 108,
+    "id": 110,
     "pos": 1,
+    "team": "Lazio",
+    "played": 9,
+    "won": 8,
+    "draw": 1,
+    "lost": 0,
+    "gf": 22,
+    "ga": 7,
+    "gd": 15,
+    "points": 25,
+    "form": "W,W,W,W,W"
+   },
+   {
+    "id": 108,
+    "pos": 2,
     "team": "Inter",
     "played": 8,
     "won": 7,
@@ -2193,31 +2207,17 @@
     "form": "W,D,W,W,W"
    },
    {
-    "id": 110,
-    "pos": 2,
-    "team": "Lazio",
-    "played": 8,
-    "won": 7,
-    "draw": 1,
-    "lost": 0,
-    "gf": 16,
-    "ga": 5,
-    "gd": 11,
-    "points": 22,
-    "form": "D,W,W,W,W"
-   },
-   {
     "id": 100,
     "pos": 3,
     "team": "Roma",
-    "played": 8,
-    "won": 5,
+    "played": 9,
+    "won": 6,
     "draw": 3,
     "lost": 0,
-    "gf": 19,
-    "ga": 6,
-    "gd": 13,
-    "points": 18,
+    "gf": 21,
+    "ga": 7,
+    "gd": 14,
+    "points": 21,
     "form": "W,D,D,W,D"
    },
    {
@@ -2238,19 +2238,33 @@
     "id": 7397,
     "pos": 5,
     "team": "Como 1907",
-    "played": 8,
+    "played": 9,
     "won": 5,
     "draw": 2,
-    "lost": 1,
+    "lost": 2,
     "gf": 14,
-    "ga": 7,
-    "gd": 7,
+    "ga": 8,
+    "gd": 6,
     "points": 17,
     "form": "W,L,D,W,W"
    },
    {
-    "id": 470,
+    "id": 586,
     "pos": 6,
+    "team": "Torino",
+    "played": 9,
+    "won": 5,
+    "draw": 1,
+    "lost": 3,
+    "gf": 14,
+    "ga": 11,
+    "gd": 3,
+    "points": 16,
+    "form": "L,D,W,W,W"
+   },
+   {
+    "id": 470,
+    "pos": 7,
     "team": "Frosinone",
     "played": 8,
     "won": 4,
@@ -2264,7 +2278,7 @@
    },
    {
     "id": 109,
-    "pos": 7,
+    "pos": 8,
     "team": "Juventus",
     "played": 8,
     "won": 4,
@@ -2277,30 +2291,16 @@
     "form": "L,W,D,L,W"
    },
    {
-    "id": 586,
-    "pos": 8,
-    "team": "Torino",
-    "played": 8,
-    "won": 4,
-    "draw": 1,
-    "lost": 3,
-    "gf": 13,
-    "ga": 11,
-    "gd": 2,
-    "points": 13,
-    "form": "L,D,W,W,W"
-   },
-   {
     "id": 104,
     "pos": 9,
     "team": "Cagliari",
-    "played": 8,
+    "played": 9,
     "won": 4,
     "draw": 1,
-    "lost": 3,
-    "gf": 6,
-    "ga": 9,
-    "gd": -3,
+    "lost": 4,
+    "gf": 7,
+    "ga": 11,
+    "gd": -4,
     "points": 13,
     "form": "W,W,D,L,L"
    },
@@ -2364,15 +2364,15 @@
     "id": 471,
     "pos": 14,
     "team": "Sassuolo",
-    "played": 8,
+    "played": 9,
     "won": 2,
     "draw": 2,
-    "lost": 4,
-    "gf": 12,
-    "ga": 16,
-    "gd": -4,
+    "lost": 5,
+    "gf": 14,
+    "ga": 22,
+    "gd": -8,
     "points": 8,
-    "form": "W,L,D,L,L"
+    "form": "L,D,L,L,L"
    },
    {
     "id": 5911,
@@ -2487,7 +2487,7 @@
    {
     "player": "Donyell Malen",
     "team": "Roma",
-    "played": 7,
+    "played": 8,
     "goals": 6,
     "assists": 1,
     "penalties": 0
@@ -2495,7 +2495,7 @@
    {
     "player": "Anastasios Douvikas",
     "team": "Como 1907",
-    "played": 8,
+    "played": 9,
     "goals": 5,
     "assists": 0,
     "penalties": 0
@@ -2517,6 +2517,14 @@
     "penalties": 0
    },
    {
+    "player": "Che Adams",
+    "team": "Torino",
+    "played": 7,
+    "goals": 4,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
     "player": "Lautaro Martínez",
     "team": "Inter",
     "played": 6,
@@ -2527,10 +2535,18 @@
    {
     "player": "Daniel Maldini",
     "team": "Cagliari",
-    "played": 8,
+    "played": 9,
     "goals": 4,
     "assists": 0,
     "penalties": 1
+   },
+   {
+    "player": "Tijjani Noslin",
+    "team": "Lazio",
+    "played": 9,
+    "goals": 4,
+    "assists": 2,
+    "penalties": 0
    },
    {
     "player": "Hakan Çalhanoğlu",
@@ -2549,16 +2565,16 @@
     "penalties": 1
    },
    {
-    "player": "Che Adams",
-    "team": "Torino",
-    "played": 6,
+    "player": "Davide Frattesi",
+    "team": "Lazio",
+    "played": 9,
     "goals": 3,
     "assists": 0,
     "penalties": 0
    },
    {
-    "player": "Davide Frattesi",
-    "team": "Lazio",
+    "player": "Niccolo Pisilli",
+    "team": "Roma",
     "played": 9,
     "goals": 3,
     "assists": 0,
@@ -2575,7 +2591,7 @@
    {
     "player": "Matias Soule",
     "team": "Roma",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -2624,6 +2640,14 @@
     "player": "Giacomo Calò",
     "team": "Frosinone",
     "played": 8,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Gustav Isaksen",
+    "team": "Lazio",
+    "played": 9,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -2685,14 +2709,6 @@
     "penalties": 0
    },
    {
-    "player": "Niccolo Pisilli",
-    "team": "Roma",
-    "played": 8,
-    "goals": 2,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
     "player": "Gonçalo Ramos",
     "team": "Milan",
     "played": 8,
@@ -2711,7 +2727,7 @@
    {
     "player": "Martin Baturina",
     "team": "Como 1907",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -2735,7 +2751,7 @@
    {
     "player": "Nico Paz",
     "team": "Como 1907",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -2789,16 +2805,16 @@
     "penalties": 0
    },
    {
-    "player": "Tijjani Noslin",
-    "team": "Lazio",
-    "played": 9,
+    "player": "Lassana Coulibaly",
+    "team": "Lecce",
+    "played": 7,
     "goals": 2,
-    "assists": 2,
+    "assists": 1,
     "penalties": 0
    },
    {
-    "player": "Lassana Coulibaly",
-    "team": "Lecce",
+    "player": "Sebastiano Esposito",
+    "team": "Sassuolo",
     "played": 7,
     "goals": 2,
     "assists": 1,
@@ -2847,7 +2863,7 @@
    {
     "player": "Sandro Kulenović",
     "team": "Torino",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2859,6 +2875,14 @@
     "goals": 2,
     "assists": 0,
     "penalties": 0
+   },
+   {
+    "player": "Mattia Zaccagni",
+    "team": "Lazio",
+    "played": 9,
+    "goals": 2,
+    "assists": 5,
+    "penalties": 1
    },
    {
     "player": "Álex Jiménez",
@@ -2877,17 +2901,25 @@
     "penalties": 0
    },
    {
-    "player": "Gustav Isaksen",
-    "team": "Lazio",
+    "player": "Kristian Thorstvedt",
+    "team": "Sassuolo",
     "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 0
    },
    {
+    "player": "Emanuele Lulli",
+    "team": "Roma",
+    "played": 9,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
     "player": "Giovanni Simeone",
     "team": "Torino",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -2903,9 +2935,17 @@
    {
     "player": "Leonardo Balerdi",
     "team": "Roma",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Kenneth Taylor",
+    "team": "Lazio",
+    "played": 9,
+    "goals": 2,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -2935,7 +2975,7 @@
    {
     "player": "Alessandro Romano",
     "team": "Cagliari",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2967,7 +3007,7 @@
    {
     "player": "Pietro Comuzzo",
     "team": "Torino",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3015,7 +3055,7 @@
    {
     "player": "Rodrigo Mora",
     "team": "Roma",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3047,7 +3087,7 @@
    {
     "player": "Mario Hermoso",
     "team": "Roma",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3073,7 +3113,7 @@
     "team": "Sassuolo",
     "played": 9,
     "goals": 1,
-    "assists": 0,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -3135,7 +3175,7 @@
    {
     "player": "Paul Mendy",
     "team": "Cagliari",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3173,14 +3213,6 @@
     "penalties": 0
    },
    {
-    "player": "Sebastiano Esposito",
-    "team": "Sassuolo",
-    "played": 7,
-    "goals": 1,
-    "assists": 1,
-    "penalties": 0
-   },
-   {
     "player": "Kieron Bowie",
     "team": "Sassuolo",
     "played": 9,
@@ -3191,7 +3223,7 @@
    {
     "player": "Jacobo Ramón",
     "team": "Como 1907",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3199,7 +3231,7 @@
    {
     "player": "Kaiki Bruno",
     "team": "Como 1907",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3227,41 +3259,9 @@
     "goals": 1,
     "assists": 0,
     "penalties": 0
-   },
-   {
-    "player": "Mattia Zaccagni",
-    "team": "Lazio",
-    "played": 9,
-    "goals": 1,
-    "assists": 3,
-    "penalties": 1
-   },
-   {
-    "player": "Billy Gilmour",
-    "team": "Napoli",
-    "played": 8,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
-    "player": "Pontus Almqvist",
-    "team": "Parma",
-    "played": 5,
-    "goals": 1,
-    "assists": 1,
-    "penalties": 0
-   },
-   {
-    "player": "Francisco Conceição",
-    "team": "Juventus",
-    "played": 7,
-    "goals": 1,
-    "assists": 1,
-    "penalties": 0
    }
   ],
-  "updated": "2026-10-27T16:50:36.437558+00:00"
+  "updated": "2026-10-27T20:40:20.095279+00:00"
  },
  "Bundesliga": {
   "matchday": 7,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-27T16:50:59.060691+00:00"
+  "updated": "2026-10-27T20:40:41.656383+00:00"
  },
  "Ligue 1": {
   "matchday": 8,
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-27T16:51:21.273851+00:00"
+  "updated": "2026-10-27T20:41:03.021561+00:00"
  },
- "_updated": "2026-10-27T16:51:21.273889+00:00",
+ "_updated": "2026-10-27T20:41:03.021602+00:00",
  "_version": 2
 }
