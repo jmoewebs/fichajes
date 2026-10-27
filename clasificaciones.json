@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-27T12:46:45.768871+00:00"
+  "updated": "2026-10-27T16:49:49.562988+00:00"
  },
  "Premier League": {
   "matchday": 8,
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-27T12:47:07.104093+00:00"
+  "updated": "2026-10-27T16:50:13.966278+00:00"
  },
  "Serie A": {
   "matchday": 9,
@@ -2559,7 +2559,7 @@
    {
     "player": "Davide Frattesi",
     "team": "Lazio",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 0,
     "penalties": 0
@@ -2599,7 +2599,7 @@
    {
     "player": "Vasilije Adzic",
     "team": "Sassuolo",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -2671,7 +2671,7 @@
    {
     "player": "Cas Odenthal",
     "team": "Sassuolo",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2703,7 +2703,7 @@
    {
     "player": "Domenico Berardi",
     "team": "Sassuolo",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2791,7 +2791,7 @@
    {
     "player": "Tijjani Noslin",
     "team": "Lazio",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -2879,7 +2879,7 @@
    {
     "player": "Gustav Isaksen",
     "team": "Lazio",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2959,7 +2959,7 @@
    {
     "player": "Cristian Volpato",
     "team": "Sassuolo",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3071,7 +3071,7 @@
    {
     "player": "Josh Doig",
     "team": "Sassuolo",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3127,7 +3127,7 @@
    {
     "player": "Matteo Cancellieri",
     "team": "Lazio",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3175,7 +3175,7 @@
    {
     "player": "Sebastiano Esposito",
     "team": "Sassuolo",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3183,7 +3183,7 @@
    {
     "player": "Kieron Bowie",
     "team": "Sassuolo",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3231,7 +3231,7 @@
    {
     "player": "Mattia Zaccagni",
     "team": "Lazio",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 3,
     "penalties": 1
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-27T12:47:29.067760+00:00"
+  "updated": "2026-10-27T16:50:36.437558+00:00"
  },
  "Bundesliga": {
   "matchday": 7,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-27T12:47:50.696101+00:00"
+  "updated": "2026-10-27T16:50:59.060691+00:00"
  },
  "Ligue 1": {
   "matchday": 8,
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-27T12:48:12.611582+00:00"
+  "updated": "2026-10-27T16:51:21.273851+00:00"
  },
- "_updated": "2026-10-27T12:48:12.611624+00:00",
+ "_updated": "2026-10-27T16:51:21.273889+00:00",
  "_version": 2
 }
