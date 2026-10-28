@@ -365,6 +365,8 @@ details.foot-clubs { width:100%; font-size:13px; line-height:1.9; border-top:0; 
 .route .unk { color:var(--muted); }
 .row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:12px; }
 .status { font-size:13px; font-weight:600; padding:2px 10px; border-radius:20px; color:#fff; }
+.rlab { font-size:13px; font-weight:700; padding:2px 8px; border-radius:20px; border:1.5px solid var(--off); color:var(--muted); }
+.rl-probable { border-color:var(--warm); color:var(--ink); } .rl-oficial { border-color:var(--hot); color:var(--hot); }
 .st-interes { background:var(--cold); } .st-negociacion { background:var(--warm); color:#2a1d00; }
 .st-acuerdo { background:var(--ok); } .st-oficial { background:var(--hot); } .st-descartado { background:var(--off); }
 .outlets { display:flex; gap:4px; }
@@ -425,17 +427,17 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
 <div class="wrap layout">
   <aside class="filters" id="filters">
     <button type="button" class="fbtn" id="fbtn" aria-expanded="false">Filtrar por liga o medio <span>▾</span></button>
-    <div class="fgroup"><h2 class="flabel">Ligas</h2>
+    <div class="fgroup"><div class="flabel">Ligas</div>
       <div class="flist" id="f-leagues" role="group" aria-label="Filtrar por liga"></div></div>
-    <div class="fgroup"><h2 class="flabel">Medios</h2>
+    <div class="fgroup"><div class="flabel">Medios</div>
       <div class="flist" id="f-sources" role="group" aria-label="Elegir medios"></div></div>
   </aside>
   <main id="list">__STATIC__</main>
   <aside class="dates" id="dates">
     <div class="fgroup side-read" id="side-read"></div>
-    <div class="fgroup"><h2 class="flabel" id="days-title">Últimos días</h2>
+    <div class="fgroup"><div class="flabel" id="days-title">Últimos días</div>
       <div class="flist" id="f-days" role="group" aria-label="Elegir día"></div></div>
-    <div class="fgroup" id="history-box"><h2 class="flabel">Historial</h2>
+    <div class="fgroup" id="history-box"><div class="flabel">Historial</div>
       <div class="flist" id="f-months"></div></div>
   </aside>
 </div>
@@ -517,11 +519,12 @@ function dirUrl(path) {   // carpeta -> su index.html cuando se abre el archivo 
 function pageUrl(id) {
   if (id === "rumors") return dirUrl(ROOT + "rumores/");
   if (id === "fantasy") return dirUrl(ROOT + "fantasy/");
+  if (id === "hoy") return dirUrl(ROOT + "rumores-fichajes-hoy/");
   if (id === "table") return dirUrl(ROOT + "clasificacion/" + (LEAGUE_SLUGS[load("liga-tabla", "LaLiga")] || "laliga") + "/");
   return dirUrl(ROOT);
 }
 const tabs = [["news", "Noticias", COUNTS.news], ["rumors", "Rumores", COUNTS.rumors]];
-if (!IS_ARCHIVE) tabs.push(["table", "Clasificación", null], ["fantasy", "Fantasy", null]);
+if (!IS_ARCHIVE) tabs.push(["table", "Clasificación", null], ["fantasy", "Fantasy", null], ["hoy", "Hoy", null]);
 let tab = PAGE;
 const hashTab = (location.hash || "").slice(1);
 if (IS_ARCHIVE) { if (["news", "rumors"].includes(hashTab)) tab = hashTab; }
@@ -911,7 +914,8 @@ function rumorCard(r) {
     left.append(also);
   }
   const row = el("div", "row"), best = bestStatus(r);
-  row.append(el("span", "status st-" + best, STATUS[best] || best));
+  const lab = best === "oficial" || r.score >= 100 ? "Oficial" : r.score >= 40 ? "Probable" : "Rumor";
+  row.append(el("span", "status st-" + best, STATUS[best] || best), el("span", "rlab rl-" + lab.toLowerCase(), lab));
   const outlets = el("span", "outlets"), seen = new Set();
   for (const m of r.mentions) if (!seen.has(m.source)) { seen.add(m.source); outlets.append(outlet(m.url, m.source, true)); }
   row.append(outlets);
@@ -1416,6 +1420,27 @@ ANALYTICS = r"""<div class="cookies" id="cookies" hidden role="dialog" aria-labe
 </script>"""
 
 
+def _label(score, status=None):
+    """Etiqueta según el termómetro: Oficial (cerrado), Probable (≥40°) o Rumor."""
+    return "Oficial" if status == "oficial" or score >= 100 else "Probable" if score >= 40 else "Rumor"
+
+
+def _best_status(r):
+    sts = {m["status"] for m in r["mentions"]}
+    return next((x for x in ("oficial", "acuerdo", "negociacion", "interes") if x in sts), None)
+
+
+def _sources_html(r, n=3):
+    """Enlaces a las noticias originales de un rumor (un enlace por medio, hasta n)."""
+    esc = html_lib.escape
+    seen, out = set(), []
+    for m in sorted(r["mentions"], key=lambda m: m["date"], reverse=True):
+        if m["source"] not in seen and len(out) < n:
+            seen.add(m["source"])
+            out.append(f'<a href="{esc(m["url"], quote=True)}" target="_blank" rel="noopener nofollow">{esc(m["source"])}</a>')
+    return ", ".join(out)
+
+
 def _static_list(news, rumors, limit=60):
     """Titulares en HTML normal, para buscadores y para quien no ejecute JavaScript.
     Al cargar la página, el código la sustituye por la versión interactiva."""
@@ -1427,7 +1452,8 @@ def _static_list(news, rumors, limit=60):
             route = f"{r['from_club'] or 'origen sin confirmar'} → {r['to_club'] or 'destino sin confirmar'}"
             name = (f'<a href="/jugador/{esc(r["player_slug"], quote=True)}/">{esc(r["player"])}</a>'
                     if r.get("player_slug") in _PLAYER_PAGES else esc(r["player"]))
-            parts.append(f"<li>{name}: {esc(route)} ({r['score']}°)</li>")
+            parts.append(f"<li><b>{_label(r['score'], _best_status(r))}</b> · {name}: {esc(route)} "
+                         f"({r['score']}°). Fuente: {_sources_html(r)}</li>")
         parts.append("</ul>")
     shown = list(news)[:limit]
     if shown:
@@ -1601,7 +1627,7 @@ def _tabs_html(root, page, is_archive):
     items = [("news", "Noticias", root or "./"), ("rumors", "Rumores", f"{root}rumores/"),
              ("table", '<span class="lg-only">Clasificación</span><span class="sm-only">Tabla</span>',
               f"{root}clasificacion/{league_slug('LaLiga')}/"),
-             ("fantasy", "Fantasy", f"{root}fantasy/")]
+             ("fantasy", "Fantasy", f"{root}fantasy/"), ("hoy", "Hoy", f"{root}rumores-fichajes-hoy/")]
     return "".join(f'<a class="tab{" on" if page == id_ else ""}" data-tab="{id_}" href="{href}"'
                    f'{" aria-current=" + chr(34) + "page" + chr(34) if page == id_ else ""}>{label}</a>'
                    for id_, label, href in items)
@@ -1611,6 +1637,7 @@ def _sections_footer(root):
     """Enlaces visibles a todas las secciones en el pie de cada página."""
     esc = html_lib.escape
     links = [("Noticias", root or "./"), ("Rumores de fichajes", f"{root}rumores/"),
+             ("Rumores de fichajes de hoy", f"{root}rumores-fichajes-hoy/"),
              ("LaLiga Fantasy", f"{root}fantasy/")]
     links += [(f"Clasificación de {lg}", f"{root}clasificacion/{league_slug(lg)}/") for lg in config.STANDINGS_COMPETITIONS]
     links += [(f"Lesionados jornada {md}", f"{root}fantasy/jornada-{md}/") for md in _JORNADAS[:4]]
@@ -1697,15 +1724,71 @@ def _page_ld(path, name, description, crumbs=(), modified=None, about=None):
             "isPartOf": {"@type": "WebSite", "url": config.SITE_URL + "/"}}
     if modified:
         page["dateModified"] = modified
-    if about:
-        page["about"] = {"@type": "SportsTeam", "name": about}
     out = [page]
+    if about:
+        team = {"@type": "SportsTeam", "@id": url + "#club", "name": about, "sport": "Fútbol", "url": url}
+        page["about"] = {"@id": team["@id"]}
+        out.append(team)
     if crumbs:
         items = [(config.SITE_NAME, "/")] + list(crumbs)
         out.append({"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": i, "name": text, "item": config.SITE_URL + (p or path)}
             for i, (text, p) in enumerate(items, 1)]})
     return out
+
+
+def _item_list(rumors, url, limit=20):
+    """ItemList de datos estructurados con los rumores más calientes (ficha propia si la tienen)."""
+    items = []
+    for i, r in enumerate(rumors[:limit], 1):
+        href = (f"{config.SITE_URL}/jugador/{r['player_slug']}/" if r.get("player_slug") in _PLAYER_PAGES else url)
+        items.append({"@type": "ListItem", "position": i, "url": href,
+                      "name": f"{r['player']}: {r['from_club'] or '?'} → {r['to_club'] or '?'} ({r['score']}°)"})
+    return {"@type": "ItemList", "@id": url + "#lista", "url": url, "numberOfItems": len(items),
+            "itemListOrder": "https://schema.org/ItemListOrderDescending", "itemListElement": items}
+
+
+def _hoy_page(rumors, out_dir):
+    """/rumores-fichajes-hoy/: dirección estable, con la fecha de hoy visible; se regenera cada hora."""
+    esc = html_lib.escape
+    root = "../"
+    now = _now_spain()
+    dias = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
+    fecha = f"{dias[now.weekday()]} {now.day} de {MONTHS[now.month - 1].lower()} de {now.year}"
+    iso = now.isoformat(timespec="minutes")
+    cerrados = [r for r in rumors if _label(r["score"], _best_status(r)) == "Oficial"]
+    abiertos = [r for r in rumors if r not in cerrados]
+    def li(r):
+        nm = (f'<a href="{root}jugador/{esc(r["player_slug"], quote=True)}/"><strong>{esc(r["player"])}</strong></a>'
+              if r.get("player_slug") in _PLAYER_PAGES else f'<strong>{esc(r["player"])}</strong>')
+        route = f"{esc(r['from_club'] or 'origen sin confirmar')} → {esc(r['to_club'] or 'destino sin confirmar')}"
+        return (f'<li><span class="lb">{_label(r["score"], _best_status(r))}</span> · {nm}: {route} '
+                f'<span class="mt">({r["score"]}°)</span><br><span class="mt">Fuente: {_sources_html(r)}</span></li>')
+    parts = [f'<p class="mt">Actualizado el <time datetime="{iso}">{fecha}, a las {now.strftime("%H:%M")}</time>. '
+             'Esta página se regenera cada hora.</p>',
+             f"<p>Los rumores de fichajes de hoy, ordenados por el termómetro de {esc(config.SITE_NAME)}: "
+             "<b>Oficial</b> si el fichaje está cerrado, <b>Probable</b> si marca 40° o más y <b>Rumor</b> en el resto. "
+             "Cada rumor enlaza a las noticias originales, que conservan su autoría.</p>"]
+    if cerrados:
+        parts.append("<h2>Fichajes cerrados</h2><ul>" + "".join(li(r) for r in cerrados) + "</ul>")
+    if abiertos:
+        parts.append("<h2>Rumores y fichajes probables</h2><ul>" + "".join(li(r) for r in abiertos) + "</ul>")
+    if not rumors:
+        parts.append("<p>Ahora mismo no hay rumores de fichajes publicados. Con el mercado cerrado es normal.</p>")
+    parts.append(f'<p><a href="{root}rumores/">Todos los rumores</a> · <a href="{root}rumores/movimientos/">Últimos movimientos</a>'
+                 f' · <a href="{root}jugador/">Jugadores con rumores</a></p>')
+    title = f"Rumores de fichajes hoy: {now.day} de {MONTHS[now.month - 1].lower()} de {now.year}"
+    desc = (f"Rumores de fichajes de hoy, {fecha}: {_plural(len(rumors), 'rumor', 'rumores')} con etiqueta "
+            "Rumor, Probable u Oficial y enlace a cada fuente. Actualizado cada hora.")
+    url = "/rumores-fichajes-hoy/"
+    ld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "WebSite", "name": config.SITE_NAME, "url": config.SITE_URL + "/", "inLanguage": "es-ES"},
+        *_page_ld(url, title, desc, [("Rumores de fichajes hoy", None)], _iso_max(now.isoformat())),
+        _item_list(rumors, config.SITE_URL + url)]}
+    _write_info_page(out_dir, "rumores-fichajes-hoy", root=root, nav_on="hoy", title=title, description=desc,
+                     h1=f"Rumores de fichajes hoy: {fecha}", crumbs=_crumbs(root, ("Rumores de fichajes hoy", None)),
+                     body="".join(parts), ld=ld)
+    return _iso_max(now.isoformat())
 
 
 def _plural(n, one, many):
@@ -2012,7 +2095,7 @@ STAT_ES = {"interes": "Interés", "negociacion": "Negociación", "acuerdo": "Acu
 def _nav(root, on):
     items = [("news", "Noticias", root or "./"), ("rumors", "Rumores", f"{root}rumores/"),
              ("table", "Clasificación", f"{root}clasificacion/{league_slug('LaLiga')}/"),
-             ("fantasy", "Fantasy", f"{root}fantasy/")]
+             ("fantasy", "Fantasy", f"{root}fantasy/"), ("hoy", "Hoy", f"{root}rumores-fichajes-hoy/")]
     return (f'<a class="site" href="{root or "./"}">{html_lib.escape(config.SITE_NAME)}</a>'
             + "".join(f'<a{" class=" + chr(34) + "on" + chr(34) if k == on else ""} href="{h}">{t}</a>' for k, t, h in items))
 
@@ -2200,7 +2283,11 @@ def _player_page(e, pts, events, out_dir):
     modified = _iso_max(*(m["date"] for m in ms))
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "WebSite", "name": config.SITE_NAME, "url": config.SITE_URL + "/", "inLanguage": "es-ES"},
-        *_page_ld(f"/jugador/{slug}/", title, desc, [("Jugadores con rumores", "/jugador/"), (name, None)], modified)]}
+        *_page_ld(f"/jugador/{slug}/", title, desc, [("Jugadores con rumores", "/jugador/"), (name, None)], modified),
+        {"@type": "Person", "@id": f"{config.SITE_URL}/jugador/{slug}/#jugador", "name": name,
+         "url": f"{config.SITE_URL}/jugador/{slug}/", "jobTitle": "Futbolista",
+         **({"affiliation": {"@type": "SportsTeam", "name": e["from_club"]}} if e.get("from_club") else {})}]}
+    ld["@graph"][1]["about"] = {"@id": f"{config.SITE_URL}/jugador/{slug}/#jugador"}
     crumbs = _crumbs(root, ("Jugadores con rumores", "/jugador/"), (name, None))
     _write_info_page(out_dir, f"jugador/{slug}", root=root, nav_on="rumors", title=title, description=desc,
                      h1=f"Fichaje de {name}: rumores y termómetro", crumbs=crumbs, body=body, ld=ld, ogtype="article")
@@ -2389,6 +2476,7 @@ def generate(data, news=(), months=(), out_dir="web"):
             (standings.get((info.get(club) or {}).get("league")) or {}).get("updated"))
     for md_ in _JORNADAS:
         lastmod[f"/fantasy/jornada-{md_}/"] = _iso_max(snaps[str(md_)]["updated"])
+    lastmod["/rumores-fichajes-hoy/"] = _hoy_page(rumors, out_dir)
     lastmod.update({k: v for k, v in player_lm.items() if v})
     for k in player_lm:
         lastmod.setdefault(k, None)
@@ -2410,7 +2498,8 @@ def generate(data, news=(), months=(), out_dir="web"):
            crumbs=_crumbs("../", ("Rumores de fichajes", None)),
            ld_page=_page_ld("/rumores/", f"Rumores de fichajes y mercado de invierno {_winter_year()}",
                             f"Fichajes cerrados y los rumores más calientes del mercado de invierno {_winter_year()}",
-                            [("Rumores de fichajes", None)], lastmod["/rumores/"]),
+                            [("Rumores de fichajes", None)], lastmod["/rumores/"])
+                   + [_item_list(rumors, config.SITE_URL + "/rumores/")],
            title=_fit_title(f"Rumores de fichajes y mercado de invierno {_winter_year()}"),
            description=(f"Fichajes cerrados y los rumores más calientes del mercado de invierno {_winter_year()} "
                         "de LaLiga, Premier y Serie A, con termómetro de probabilidad. Cada hora."),
@@ -2594,6 +2683,7 @@ def write_static(months, out_dir="web", leagues=(), clubs=(), lastmod=None):
     # Páginas sin fecha fiable (legales, meses cerrados del archivo): sin <lastmod>, que es opcional.
     urls = [(config.SITE_URL + "/", lastmod.get("/")),
             (config.SITE_URL + "/rumores/", lastmod.get("/rumores/")),
+            (config.SITE_URL + "/rumores-fichajes-hoy/", lastmod.get("/rumores-fichajes-hoy/")),
             (config.SITE_URL + "/fantasy/", lastmod.get("/fantasy/"))]
     urls += [(config.SITE_URL + k, v) for k, v in sorted(lastmod.items())
              if k.startswith(("/fantasy/jornada-", "/jugador/", "/rumores/movimientos"))]
