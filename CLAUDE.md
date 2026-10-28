@@ -1,4 +1,4 @@
-# Rumores y Fichajes (rumoresyfichajes.pages.dev)
+# Rumores y Fichajes (rumoresyfichajes.com)
 
 Web estática de rumores y noticias de fútbol, hecha en Python, **gratuita y sin IA en la actualización**. Idioma de la web y de las respuestas: español. El usuario trabaja en Windows (PowerShell).
 

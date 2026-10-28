@@ -1,12 +1,12 @@
 """Configuración del rastreador de rumores de fichajes."""
 
 # Datos de la web para Google y redes sociales
-SITE_URL = "https://rumoresyfichajes.pages.dev"   # sin barra al final; cámbialo si usas otro dominio
+SITE_URL = "https://rumoresyfichajes.com"   # única fuente del dominio (sin barra ni www); todo el generador, Telegram e IndexNow salen de aquí
 SITE_NAME = "Rumores y Fichajes"
 # Lo que Google muestra: título (máx. ~60 caracteres) y descripción (máx. ~155)
-SITE_TITLE = "Rumores y Fichajes | Fichajes y rumores de fútbol de hoy"
-SITE_DESCRIPTION = ("Rumores de fichajes con termómetro, clasificación y pichichi de LaLiga, Premier y "
-                    "Serie A, y bajas y lesionados para tu Fantasy. Actualizado cada hora.")
+SITE_TITLE = "Rumores y Fichajes | Noticias de fútbol, mercado y Fantasy"
+SITE_DESCRIPTION = ("Noticias de fútbol y rumores de fichajes con termómetro, clasificación de LaLiga, Premier y "
+                    "Serie A, y bajas para tu Fantasy. Cada hora.")
 SITE_TAGLINE = "Fichajes, rumores y noticias de fútbol, actualizados cada hora."
 # Código de verificación de Google Search Console (solo el valor de content="...")
 GOOGLE_VERIFICATION = "UlSzLwyxSoXaFmkbcCi2i-11eWegnuhRbMtCd54l2CU"

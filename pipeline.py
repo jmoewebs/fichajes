@@ -39,7 +39,7 @@ ATOM = "{http://www.w3.org/2005/Atom}"
 
 # Nos identificamos como lector de noticias; algunos medios rechazan peticiones sin este formato
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (compatible; RumoresYFichajes/1.0; +https://rumoresyfichajes.pages.dev)",
+    "User-Agent": "Mozilla/5.0 (compatible; RumoresYFichajes/1.0; +" + config.SITE_URL + ")",
     "Accept": "application/rss+xml, application/xml;q=0.9, text/xml;q=0.8, */*;q=0.5",
     "Accept-Language": "es-ES,es;q=0.9,en;q=0.6",
 }
