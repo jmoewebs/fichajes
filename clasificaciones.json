@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-28T18:49:49.626705+00:00"
+  "updated": "2026-10-28T22:42:32.510509+00:00"
  },
  "Premier League": {
   "matchday": 9,
@@ -2173,14 +2173,28 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-28T18:50:14.366803+00:00"
+  "updated": "2026-10-28T22:42:54.870305+00:00"
  },
  "Serie A": {
   "matchday": 9,
   "table": [
    {
-    "id": 110,
+    "id": 108,
     "pos": 1,
+    "team": "Inter",
+    "played": 9,
+    "won": 8,
+    "draw": 1,
+    "lost": 0,
+    "gf": 25,
+    "ga": 10,
+    "gd": 15,
+    "points": 25,
+    "form": "D,W,W,W,W"
+   },
+   {
+    "id": 110,
+    "pos": 2,
     "team": "Lazio",
     "played": 9,
     "won": 8,
@@ -2191,20 +2205,6 @@
     "gd": 15,
     "points": 25,
     "form": "W,W,W,W,W"
-   },
-   {
-    "id": 108,
-    "pos": 2,
-    "team": "Inter",
-    "played": 9,
-    "won": 7,
-    "draw": 2,
-    "lost": 0,
-    "gf": 23,
-    "ga": 10,
-    "gd": 13,
-    "points": 23,
-    "form": "W,D,W,W,W"
    },
    {
     "id": 100,
@@ -2221,22 +2221,8 @@
     "form": "D,D,W,D,W"
    },
    {
-    "id": 98,
-    "pos": 4,
-    "team": "Milan",
-    "played": 9,
-    "won": 6,
-    "draw": 3,
-    "lost": 0,
-    "gf": 18,
-    "ga": 8,
-    "gd": 10,
-    "points": 21,
-    "form": "D,W,D,W,W"
-   },
-   {
     "id": 7397,
-    "pos": 5,
+    "pos": 4,
     "team": "Como 1907",
     "played": 9,
     "won": 6,
@@ -2249,8 +2235,36 @@
     "form": "L,D,W,W,W"
    },
    {
-    "id": 470,
+    "id": 98,
+    "pos": 5,
+    "team": "Milan",
+    "played": 9,
+    "won": 5,
+    "draw": 3,
+    "lost": 1,
+    "gf": 18,
+    "ga": 11,
+    "gd": 7,
+    "points": 18,
+    "form": "W,D,W,W,L"
+   },
+   {
+    "id": 113,
     "pos": 6,
+    "team": "Napoli",
+    "played": 9,
+    "won": 4,
+    "draw": 2,
+    "lost": 3,
+    "gf": 17,
+    "ga": 11,
+    "gd": 6,
+    "points": 14,
+    "form": "D,W,L,D,W"
+   },
+   {
+    "id": 470,
+    "pos": 7,
     "team": "Frosinone",
     "played": 8,
     "won": 4,
@@ -2264,21 +2278,21 @@
    },
    {
     "id": 109,
-    "pos": 7,
+    "pos": 8,
     "team": "Juventus",
-    "played": 8,
+    "played": 9,
     "won": 4,
     "draw": 2,
-    "lost": 2,
+    "lost": 3,
     "gf": 11,
-    "ga": 8,
-    "gd": 3,
+    "ga": 10,
+    "gd": 1,
     "points": 14,
-    "form": "L,W,D,L,W"
+    "form": "W,D,L,W,L"
    },
    {
     "id": 586,
-    "pos": 8,
+    "pos": 9,
     "team": "Torino",
     "played": 9,
     "won": 4,
@@ -2292,7 +2306,7 @@
    },
    {
     "id": 104,
-    "pos": 9,
+    "pos": 10,
     "team": "Cagliari",
     "played": 9,
     "won": 4,
@@ -2305,22 +2319,22 @@
     "form": "W,D,L,L,L"
    },
    {
-    "id": 113,
-    "pos": 10,
-    "team": "Napoli",
-    "played": 8,
+    "id": 103,
+    "pos": 11,
+    "team": "Bologna",
+    "played": 9,
     "won": 3,
     "draw": 2,
-    "lost": 3,
-    "gf": 13,
-    "ga": 10,
-    "gd": 3,
+    "lost": 4,
+    "gf": 12,
+    "ga": 12,
+    "gd": 0,
     "points": 11,
-    "form": "W,D,W,L,D"
+    "form": "D,W,L,W,W"
    },
    {
     "id": 102,
-    "pos": 11,
+    "pos": 12,
     "team": "Atalanta",
     "played": 8,
     "won": 3,
@@ -2333,8 +2347,22 @@
     "form": "L,L,W,L,D"
    },
    {
+    "id": 107,
+    "pos": 13,
+    "team": "Genoa",
+    "played": 9,
+    "won": 3,
+    "draw": 1,
+    "lost": 5,
+    "gf": 8,
+    "ga": 13,
+    "gd": -5,
+    "points": 10,
+    "form": "L,W,L,W,W"
+   },
+   {
     "id": 5890,
-    "pos": 12,
+    "pos": 14,
     "team": "Lecce",
     "played": 8,
     "won": 3,
@@ -2347,22 +2375,8 @@
     "form": "W,L,L,W,L"
    },
    {
-    "id": 103,
-    "pos": 13,
-    "team": "Bologna",
-    "played": 9,
-    "won": 2,
-    "draw": 2,
-    "lost": 5,
-    "gf": 9,
-    "ga": 12,
-    "gd": -3,
-    "points": 8,
-    "form": "L,D,W,L,W"
-   },
-   {
     "id": 471,
-    "pos": 14,
+    "pos": 15,
     "team": "Sassuolo",
     "played": 9,
     "won": 2,
@@ -2376,31 +2390,17 @@
    },
    {
     "id": 5911,
-    "pos": 15,
-    "team": "Monza",
-    "played": 8,
-    "won": 2,
-    "draw": 1,
-    "lost": 5,
-    "gf": 15,
-    "ga": 18,
-    "gd": -3,
-    "points": 7,
-    "form": "L,W,L,W,L"
-   },
-   {
-    "id": 107,
     "pos": 16,
-    "team": "Genoa",
-    "played": 8,
+    "team": "Monza",
+    "played": 9,
     "won": 2,
     "draw": 1,
-    "lost": 5,
-    "gf": 6,
-    "ga": 13,
-    "gd": -7,
+    "lost": 6,
+    "gf": 16,
+    "ga": 22,
+    "gd": -6,
     "points": 7,
-    "form": "D,L,W,L,W"
+    "form": "W,L,W,L,L"
    },
    {
     "id": 115,
@@ -2414,7 +2414,7 @@
     "ga": 18,
     "gd": -9,
     "points": 5,
-    "form": "L,L,L,L,L"
+    "form": "L,L,L,L,D"
    },
    {
     "id": 112,
@@ -2428,7 +2428,7 @@
     "ga": 15,
     "gd": -10,
     "points": 5,
-    "form": "L,W,L,L,L"
+    "form": "W,L,L,L,D"
    },
    {
     "id": 99,
@@ -2450,21 +2450,21 @@
     "team": "Venezia FC",
     "played": 9,
     "won": 1,
-    "draw": 1,
-    "lost": 7,
+    "draw": 0,
+    "lost": 8,
     "gf": 6,
-    "ga": 17,
-    "gd": -11,
-    "points": 4,
-    "form": "L,L,L,W,L"
+    "ga": 19,
+    "gd": -13,
+    "points": 3,
+    "form": "L,L,W,L,L"
    }
   ],
   "scorers": [
    {
     "player": "Gustavo Varela",
     "team": "Monza",
-    "played": 7,
-    "goals": 7,
+    "played": 8,
+    "goals": 8,
     "assists": 1,
     "penalties": 1
    },
@@ -2517,6 +2517,14 @@
     "penalties": 1
    },
    {
+    "player": "Kevin De Bruyne",
+    "team": "Napoli",
+    "played": 9,
+    "goals": 4,
+    "assists": 1,
+    "penalties": 1
+   },
+   {
     "player": "Alphadjo Cisse",
     "team": "Milan",
     "played": 9,
@@ -2565,14 +2573,6 @@
     "penalties": 1
    },
    {
-    "player": "Kevin De Bruyne",
-    "team": "Napoli",
-    "played": 8,
-    "goals": 3,
-    "assists": 1,
-    "penalties": 1
-   },
-   {
     "player": "Davide Frattesi",
     "team": "Lazio",
     "played": 9,
@@ -2605,6 +2605,14 @@
     "penalties": 0
    },
    {
+    "player": "Rasmus Højlund",
+    "team": "Napoli",
+    "played": 9,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
     "player": "Matias Soule",
     "team": "Roma",
     "played": 9,
@@ -2615,7 +2623,7 @@
    {
     "player": "Milutin Osmajić",
     "team": "Genoa",
-    "played": 7,
+    "played": 8,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -2677,6 +2685,14 @@
     "penalties": 0
    },
    {
+    "player": "Samuel Mbangula",
+    "team": "Bologna",
+    "played": 6,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
     "player": "Hassane Kamara",
     "team": "Udinese",
     "played": 9,
@@ -2703,7 +2719,7 @@
    {
     "player": "Bremer",
     "team": "Juventus",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2741,14 +2757,6 @@
     "penalties": 0
    },
    {
-    "player": "Rasmus Højlund",
-    "team": "Napoli",
-    "played": 8,
-    "goals": 2,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
     "player": "Rodrigo Mora",
     "team": "Roma",
     "played": 9,
@@ -2773,6 +2781,14 @@
     "penalties": 0
    },
    {
+    "player": "Matteo Politano",
+    "team": "Napoli",
+    "played": 9,
+    "goals": 2,
+    "assists": 3,
+    "penalties": 0
+   },
+   {
     "player": "Éderson",
     "team": "Atalanta",
     "played": 8,
@@ -2783,9 +2799,9 @@
    {
     "player": "Jay Robinson",
     "team": "Monza",
-    "played": 8,
+    "played": 9,
     "goals": 2,
-    "assists": 0,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -2831,7 +2847,7 @@
    {
     "player": "Edon Zhegrova",
     "team": "Juventus",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -2943,7 +2959,7 @@
    {
     "player": "Scott McTominay",
     "team": "Napoli",
-    "played": 5,
+    "played": 6,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2983,7 +2999,7 @@
    {
     "player": "Antonio Vergara",
     "team": "Napoli",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3039,7 +3055,7 @@
    {
     "player": "Andrea Colpani",
     "team": "Monza",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3063,7 +3079,7 @@
    {
     "player": "Teun Koopmeiners",
     "team": "Juventus",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3082,14 +3098,6 @@
     "played": 8,
     "goals": 1,
     "assists": 1,
-    "penalties": 0
-   },
-   {
-    "player": "Matteo Politano",
-    "team": "Napoli",
-    "played": 8,
-    "goals": 1,
-    "assists": 2,
     "penalties": 0
    },
    {
@@ -3143,7 +3151,7 @@
    {
     "player": "Federico Gatti",
     "team": "Juventus",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3167,7 +3175,7 @@
    {
     "player": "Johan Vásquez",
     "team": "Genoa",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3199,7 +3207,7 @@
    {
     "player": "Ricardo Mangas",
     "team": "Monza",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 2,
     "penalties": 0
@@ -3207,7 +3215,7 @@
    {
     "player": "Exequiel Zeballos",
     "team": "Monza",
-    "played": 4,
+    "played": 5,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3215,7 +3223,7 @@
    {
     "player": "Stanislav Lobotka",
     "team": "Napoli",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3251,17 +3259,9 @@
     "goals": 1,
     "assists": 2,
     "penalties": 0
-   },
-   {
-    "player": "Idrissa Guèye",
-    "team": "Udinese",
-    "played": 5,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
    }
   ],
-  "updated": "2026-10-28T18:50:37.400056+00:00"
+  "updated": "2026-10-28T22:43:16.820582+00:00"
  },
  "Bundesliga": {
   "matchday": 8,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-28T18:50:59.219654+00:00"
+  "updated": "2026-10-28T22:43:38.624791+00:00"
  },
  "Ligue 1": {
   "matchday": 8,
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-28T18:51:21.569604+00:00"
+  "updated": "2026-10-28T22:44:00.724699+00:00"
  },
- "_updated": "2026-10-28T18:51:21.569644+00:00",
+ "_updated": "2026-10-28T22:44:00.724734+00:00",
  "_version": 2
 }
