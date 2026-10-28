@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-27T20:39:34.838269+00:00"
+  "updated": "2026-10-28T00:56:28.746046+00:00"
  },
  "Premier League": {
   "matchday": 8,
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-27T20:39:56.362800+00:00"
+  "updated": "2026-10-28T00:56:50.671352+00:00"
  },
  "Serie A": {
   "matchday": 9,
@@ -2214,15 +2214,29 @@
     "won": 6,
     "draw": 3,
     "lost": 0,
-    "gf": 21,
-    "ga": 7,
-    "gd": 14,
+    "gf": 23,
+    "ga": 8,
+    "gd": 15,
     "points": 21,
-    "form": "W,D,D,W,D"
+    "form": "D,D,W,D,W"
+   },
+   {
+    "id": 7397,
+    "pos": 4,
+    "team": "Como 1907",
+    "played": 9,
+    "won": 6,
+    "draw": 2,
+    "lost": 1,
+    "gf": 17,
+    "ga": 8,
+    "gd": 9,
+    "points": 20,
+    "form": "L,D,W,W,W"
    },
    {
     "id": 98,
-    "pos": 4,
+    "pos": 5,
     "team": "Milan",
     "played": 8,
     "won": 5,
@@ -2235,36 +2249,8 @@
     "form": "D,W,D,W,W"
    },
    {
-    "id": 7397,
-    "pos": 5,
-    "team": "Como 1907",
-    "played": 9,
-    "won": 5,
-    "draw": 2,
-    "lost": 2,
-    "gf": 14,
-    "ga": 8,
-    "gd": 6,
-    "points": 17,
-    "form": "W,L,D,W,W"
-   },
-   {
-    "id": 586,
-    "pos": 6,
-    "team": "Torino",
-    "played": 9,
-    "won": 5,
-    "draw": 1,
-    "lost": 3,
-    "gf": 14,
-    "ga": 11,
-    "gd": 3,
-    "points": 16,
-    "form": "L,D,W,W,W"
-   },
-   {
     "id": 470,
-    "pos": 7,
+    "pos": 6,
     "team": "Frosinone",
     "played": 8,
     "won": 4,
@@ -2278,7 +2264,7 @@
    },
    {
     "id": 109,
-    "pos": 8,
+    "pos": 7,
     "team": "Juventus",
     "played": 8,
     "won": 4,
@@ -2291,6 +2277,20 @@
     "form": "L,W,D,L,W"
    },
    {
+    "id": 586,
+    "pos": 8,
+    "team": "Torino",
+    "played": 9,
+    "won": 4,
+    "draw": 1,
+    "lost": 4,
+    "gf": 14,
+    "ga": 14,
+    "gd": 0,
+    "points": 13,
+    "form": "D,W,W,W,L"
+   },
+   {
     "id": 104,
     "pos": 9,
     "team": "Cagliari",
@@ -2298,11 +2298,11 @@
     "won": 4,
     "draw": 1,
     "lost": 4,
-    "gf": 7,
-    "ga": 11,
-    "gd": -4,
+    "gf": 8,
+    "ga": 13,
+    "gd": -5,
     "points": 13,
-    "form": "W,W,D,L,L"
+    "form": "W,D,L,L,L"
    },
    {
     "id": 113,
@@ -2469,6 +2469,14 @@
     "penalties": 1
    },
    {
+    "player": "Donyell Malen",
+    "team": "Roma",
+    "played": 8,
+    "goals": 7,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
     "player": "Antonio Raimondo",
     "team": "Frosinone",
     "played": 8,
@@ -2482,14 +2490,6 @@
     "played": 8,
     "goals": 6,
     "assists": 2,
-    "penalties": 0
-   },
-   {
-    "player": "Donyell Malen",
-    "team": "Roma",
-    "played": 8,
-    "goals": 6,
-    "assists": 1,
     "penalties": 0
    },
    {
@@ -2507,6 +2507,14 @@
     "goals": 5,
     "assists": 2,
     "penalties": 0
+   },
+   {
+    "player": "Daniel Maldini",
+    "team": "Cagliari",
+    "played": 9,
+    "goals": 5,
+    "assists": 0,
+    "penalties": 1
    },
    {
     "player": "Adrien Rabiot",
@@ -2531,14 +2539,6 @@
     "goals": 4,
     "assists": 0,
     "penalties": 0
-   },
-   {
-    "player": "Daniel Maldini",
-    "team": "Cagliari",
-    "played": 9,
-    "goals": 4,
-    "assists": 0,
-    "penalties": 1
    },
    {
     "player": "Tijjani Noslin",
@@ -2589,6 +2589,14 @@
     "penalties": 0
    },
    {
+    "player": "Martin Baturina",
+    "team": "Como 1907",
+    "played": 9,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
     "player": "Matias Soule",
     "team": "Roma",
     "played": 9,
@@ -2602,6 +2610,14 @@
     "played": 7,
     "goals": 3,
     "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Nico Paz",
+    "team": "Como 1907",
+    "played": 9,
+    "goals": 3,
+    "assists": 3,
     "penalties": 0
    },
    {
@@ -2725,17 +2741,17 @@
     "penalties": 0
    },
    {
-    "player": "Martin Baturina",
-    "team": "Como 1907",
-    "played": 9,
-    "goals": 2,
-    "assists": 1,
-    "penalties": 0
-   },
-   {
     "player": "Rasmus Højlund",
     "team": "Napoli",
     "played": 8,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Rodrigo Mora",
+    "team": "Roma",
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2746,14 +2762,6 @@
     "played": 6,
     "goals": 2,
     "assists": 1,
-    "penalties": 0
-   },
-   {
-    "player": "Nico Paz",
-    "team": "Como 1907",
-    "played": 9,
-    "goals": 2,
-    "assists": 2,
     "penalties": 0
    },
    {
@@ -2826,6 +2834,14 @@
     "played": 7,
     "goals": 2,
     "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Jacobo Ramón",
+    "team": "Como 1907",
+    "played": 9,
+    "goals": 2,
+    "assists": 0,
     "penalties": 0
    },
    {
@@ -3053,14 +3069,6 @@
     "penalties": 0
    },
    {
-    "player": "Rodrigo Mora",
-    "team": "Roma",
-    "played": 9,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
     "player": "Lazar Samardzic",
     "team": "Atalanta",
     "played": 8,
@@ -3221,14 +3229,6 @@
     "penalties": 0
    },
    {
-    "player": "Jacobo Ramón",
-    "team": "Como 1907",
-    "played": 9,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
     "player": "Kaiki Bruno",
     "team": "Como 1907",
     "played": 9,
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-27T20:40:20.095279+00:00"
+  "updated": "2026-10-28T00:57:12.644007+00:00"
  },
  "Bundesliga": {
   "matchday": 7,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-27T20:40:41.656383+00:00"
+  "updated": "2026-10-28T00:57:34.809097+00:00"
  },
  "Ligue 1": {
   "matchday": 8,
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-27T20:41:03.021561+00:00"
+  "updated": "2026-10-28T00:57:56.907121+00:00"
  },
- "_updated": "2026-10-27T20:41:03.021602+00:00",
+ "_updated": "2026-10-28T00:57:56.907167+00:00",
  "_version": 2
 }
