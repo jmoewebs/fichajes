@@ -9,6 +9,8 @@ SITE_DESCRIPTION = ("Noticias de fútbol y rumores de fichajes con termómetro, 
                     "Serie A, y bajas para tu Fantasy. Cada hora.")
 SITE_TAGLINE = "Fichajes, rumores y noticias de fútbol, actualizados cada hora."
 # Código de verificación de Google Search Console (solo el valor de content="...")
+# Google AdSense: solo el script de verificación en el <head> y ads.txt (aún sin bloques de anuncio)
+ADSENSE_CLIENT = "ca-pub-6680488121204410"
 GOOGLE_VERIFICATION = "UlSzLwyxSoXaFmkbcCi2i-11eWegnuhRbMtCd54l2CU"
 
 # Ko-fi para donaciones (vacío = sin botón)

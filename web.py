@@ -14,6 +14,7 @@ MONTHS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agost
 TEMPLATE = r"""<!DOCTYPE html>
 <html lang="es">
 <head>
+__ADSENSE__
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>__TITLE__</title>
@@ -1535,6 +1536,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__ROOT__", root)
             .replace("__VERIFICATION__", verification)
             .replace("__LDJSON__", _json(ld))
+            .replace("__ADSENSE__", ADSENSE)
             .replace("__STATIC__", static_html if static_html is not None else _static_list(list(news), rumors))
             .replace("__ANALYTICS__", ANALYTICS.replace("__GA_ID__", config.GA_MEASUREMENT_ID)
                      if config.GA_MEASUREMENT_ID else "")
@@ -1587,6 +1589,9 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
         f.write(html)
     return os.path.abspath(path)
 
+
+ADSENSE = (f'<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={config.ADSENSE_CLIENT}" '
+           'crossorigin="anonymous"></script>')   # solo verificación: aún no hay bloques de anuncio
 
 PLANE_ICON = '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M2.5 11.2 20.6 4.3c.8-.3 1.5.2 1.3 1.3l-3.1 14.5c-.2 1-.8 1.2-1.6.8l-4.6-3.4-2.2 2.1c-.3.3-.5.4-.9.4l.3-4.7 8.5-7.7c.4-.3-.1-.5-.6-.2L7.2 14.1l-4.5-1.4c-1-.3-1-1 .2-1.5z"/></svg>'
 
@@ -1970,7 +1975,7 @@ def _jornada_page(md, snap, mds, out_dir):
             f"{_plural(len(bajas), 'baja', 'bajas')} y {_plural(len(dudas), 'duda', 'dudas')}. Actualizado {_dmy(snap['updated'])}.")
     analytics = (ANALYTICS.replace("__GA_ID__", config.GA_MEASUREMENT_ID).replace("__ROOT__", root)
                  if config.GA_MEASUREMENT_ID else "")
-    html = (JORNADA_PAGE.replace("__NAV__", _nav(root, "fantasy")).replace("__OGTYPE__", "article")
+    html = (JORNADA_PAGE.replace("__ADSENSE__", ADSENSE).replace("__NAV__", _nav(root, "fantasy")).replace("__OGTYPE__", "article")
             .replace("__PREF_SOURCE__", _pref_source_link()).replace("__SITE_URL__", config.SITE_URL)
             .replace("__TITLE__", esc(_fit_title(title)))
             .replace("__DESCRIPTION__", esc(desc[:160], quote=True))
@@ -1991,6 +1996,7 @@ def _jornada_page(md, snap, mds, out_dir):
 
 JORNADA_PAGE = r"""<!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8">
+__ADSENSE__
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>__TITLE__</title>
 <meta name="description" content="__DESCRIPTION__">
@@ -2180,7 +2186,7 @@ def _write_info_page(out_dir, rel, *, root, nav_on, title, description, h1, crum
     esc = html_lib.escape
     analytics = (ANALYTICS.replace("__GA_ID__", config.GA_MEASUREMENT_ID).replace("__ROOT__", root)
                  if config.GA_MEASUREMENT_ID else "")
-    html = (JORNADA_PAGE.replace("__NAV__", _nav(root, nav_on)).replace("__OGTYPE__", ogtype)
+    html = (JORNADA_PAGE.replace("__ADSENSE__", ADSENSE).replace("__NAV__", _nav(root, nav_on)).replace("__OGTYPE__", ogtype)
             .replace("__PREF_SOURCE__", _pref_source_link()).replace("__SITE_URL__", config.SITE_URL)
             .replace("__TITLE__", esc(_fit_title(title))).replace("__DESCRIPTION__", esc(description[:160], quote=True))
             .replace("__CANONICAL__", f"{config.SITE_URL}/{rel}").replace("__LDJSON__", _json(ld))
@@ -2662,7 +2668,7 @@ def write_static(months, out_dir="web", leagues=(), clubs=(), lastmod=None):
     except ImportError:
         pass   # sin Pillow no hay PNG; el icono SVG sigue funcionando
     with open(os.path.join(out_dir, "cookies.html"), "w", encoding="utf-8") as f:
-        f.write(COOKIES_PAGE.replace("__SITE_NAME__", html_lib.escape(config.SITE_NAME)))
+        f.write(COOKIES_PAGE.replace("__ADSENSE__", ADSENSE).replace("__SITE_NAME__", html_lib.escape(config.SITE_NAME)))
     with open(os.path.join(out_dir, "_headers"), "w", encoding="utf-8") as f:
         f.write("/*\n  X-Frame-Options: SAMEORIGIN\n  Permissions-Policy: camera=(), microphone=(), geolocation=()\n\n"
                 "/datos/*\n  Cache-Control: public, max-age=31536000, immutable\n")
@@ -2671,11 +2677,13 @@ def write_static(months, out_dir="web", leagues=(), clubs=(), lastmod=None):
                if tg else "el canal de contacto indicado en la web")
     for fname, tpl in (("sobre.html", SOBRE_PAGE), ("privacidad.html", PRIVACIDAD_PAGE), ("404.html", NOTFOUND_PAGE)):
         with open(os.path.join(out_dir, fname), "w", encoding="utf-8") as f:
-            f.write(tpl.replace("__SITE_NAME__", html_lib.escape(config.SITE_NAME))
+            f.write(tpl.replace("__ADSENSE__", ADSENSE).replace("__SITE_NAME__", html_lib.escape(config.SITE_NAME))
                        .replace("__SITE_URL__", config.SITE_URL).replace("__CONTACT__", contact))
     if getattr(config, "INDEXNOW_KEY", ""):
         with open(os.path.join(out_dir, f"{config.INDEXNOW_KEY}.txt"), "w", encoding="utf-8") as f:
             f.write(config.INDEXNOW_KEY)
+    with open(os.path.join(out_dir, "ads.txt"), "w", encoding="utf-8") as f:
+        f.write(f"google.com, {config.ADSENSE_CLIENT.replace('ca-pub-', 'pub-')}, DIRECT, f08c47fec0942fa0\n")
     with open(os.path.join(out_dir, "robots.txt"), "w", encoding="utf-8") as f:
         f.write(f"User-agent: *\nAllow: /\n\nSitemap: {config.SITE_URL}/sitemap.xml\n")
     lastmod = lastmod or {}
@@ -2702,6 +2710,7 @@ def write_static(months, out_dir="web", leagues=(), clubs=(), lastmod=None):
 
 SOBRE_PAGE = """<!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8">
+__ADSENSE__
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sobre esta web | __SITE_NAME__</title>
 <meta name="description" content="Qué es Rumores y Fichajes, de dónde salen los titulares y cómo funciona el termómetro de rumores.">
@@ -2731,6 +2740,7 @@ a { color:inherit; }
 
 PRIVACIDAD_PAGE = """<!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8">
+__ADSENSE__
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Política de privacidad | __SITE_NAME__</title>
 <meta name="description" content="Qué datos trata Rumores y Fichajes, para qué y qué derechos tienes.">
@@ -2758,6 +2768,7 @@ a { color:inherit; }
 
 NOTFOUND_PAGE = """<!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8">
+__ADSENSE__
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Página no encontrada | __SITE_NAME__</title>
 <meta name="robots" content="noindex">
@@ -2778,6 +2789,7 @@ a { color:inherit; }
 
 COOKIES_PAGE = """<!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8">
+__ADSENSE__
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Política de cookies | __SITE_NAME__</title>
 <meta name="robots" content="noindex">
