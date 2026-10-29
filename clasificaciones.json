@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-29T12:55:50.904184+00:00"
+  "updated": "2026-10-29T16:55:42.643644+00:00"
  },
  "Premier League": {
   "matchday": 9,
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-29T12:56:13.715811+00:00"
+  "updated": "2026-10-29T16:56:04.430053+00:00"
  },
  "Serie A": {
   "matchday": 9,
@@ -2479,7 +2479,7 @@
    {
     "player": "Antonio Raimondo",
     "team": "Frosinone",
-    "played": 8,
+    "played": 9,
     "goals": 7,
     "assists": 0,
     "penalties": 0
@@ -2639,7 +2639,7 @@
    {
     "player": "Giorgi Kvernadze",
     "team": "Frosinone",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -2671,7 +2671,7 @@
    {
     "player": "Giacomo Calò",
     "team": "Frosinone",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -2727,7 +2727,7 @@
    {
     "player": "Tiago Gabriel",
     "team": "Lecce",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -2983,7 +2983,7 @@
    {
     "player": "Romano Schmid",
     "team": "Frosinone",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 3,
     "penalties": 0
@@ -3015,7 +3015,7 @@
    {
     "player": "Olaf Gorter",
     "team": "Lecce",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3063,7 +3063,7 @@
    {
     "player": "Gabriele Bracaglia",
     "team": "Frosinone",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-29T12:56:36.949587+00:00"
+  "updated": "2026-10-29T16:56:28.108470+00:00"
  },
  "Bundesliga": {
   "matchday": 8,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-29T12:56:59.427073+00:00"
+  "updated": "2026-10-29T16:56:49.878672+00:00"
  },
  "Ligue 1": {
   "matchday": 9,
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-29T12:57:21.852010+00:00"
+  "updated": "2026-10-29T16:57:12.071640+00:00"
  },
- "_updated": "2026-10-29T12:57:21.852051+00:00",
+ "_updated": "2026-10-29T16:57:12.071677+00:00",
  "_version": 2
 }
