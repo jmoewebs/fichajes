@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-29T16:55:42.643644+00:00"
+  "updated": "2026-10-29T20:03:41.750623+00:00"
  },
  "Premier League": {
   "matchday": 9,
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-29T16:56:04.430053+00:00"
+  "updated": "2026-10-29T20:04:03.159074+00:00"
  },
  "Serie A": {
   "matchday": 9,
@@ -2249,8 +2249,22 @@
     "form": "W,D,W,W,L"
    },
    {
-    "id": 113,
+    "id": 470,
     "pos": 6,
+    "team": "Frosinone",
+    "played": 9,
+    "won": 5,
+    "draw": 2,
+    "lost": 2,
+    "gf": 22,
+    "ga": 14,
+    "gd": 8,
+    "points": 17,
+    "form": "W,L,W,D,W"
+   },
+   {
+    "id": 113,
+    "pos": 7,
     "team": "Napoli",
     "played": 9,
     "won": 4,
@@ -2261,20 +2275,6 @@
     "gd": 6,
     "points": 14,
     "form": "D,W,L,D,W"
-   },
-   {
-    "id": 470,
-    "pos": 7,
-    "team": "Frosinone",
-    "played": 8,
-    "won": 4,
-    "draw": 2,
-    "lost": 2,
-    "gf": 17,
-    "ga": 13,
-    "gd": 4,
-    "points": 14,
-    "form": "D,W,L,W,D"
    },
    {
     "id": 109,
@@ -2336,14 +2336,14 @@
     "id": 102,
     "pos": 12,
     "team": "Atalanta",
-    "played": 8,
+    "played": 9,
     "won": 3,
-    "draw": 1,
+    "draw": 2,
     "lost": 4,
     "gf": 14,
     "ga": 15,
     "gd": -1,
-    "points": 10,
+    "points": 11,
     "form": "L,L,W,L,D"
    },
    {
@@ -2364,15 +2364,15 @@
     "id": 5890,
     "pos": 14,
     "team": "Lecce",
-    "played": 8,
+    "played": 9,
     "won": 3,
     "draw": 0,
-    "lost": 5,
-    "gf": 9,
-    "ga": 14,
-    "gd": -5,
+    "lost": 6,
+    "gf": 10,
+    "ga": 19,
+    "gd": -9,
     "points": 9,
-    "form": "W,L,L,W,L"
+    "form": "L,L,W,L,L"
    },
    {
     "id": 471,
@@ -2417,8 +2417,22 @@
     "form": "L,L,L,L,D"
    },
    {
-    "id": 112,
+    "id": 99,
     "pos": 18,
+    "team": "Fiorentina",
+    "played": 9,
+    "won": 1,
+    "draw": 2,
+    "lost": 6,
+    "gf": 9,
+    "ga": 19,
+    "gd": -10,
+    "points": 5,
+    "form": "W,D,L,L,L"
+   },
+   {
+    "id": 112,
+    "pos": 19,
     "team": "Parma",
     "played": 9,
     "won": 1,
@@ -2429,20 +2443,6 @@
     "gd": -10,
     "points": 5,
     "form": "W,L,L,L,D"
-   },
-   {
-    "id": 99,
-    "pos": 19,
-    "team": "Fiorentina",
-    "played": 8,
-    "won": 1,
-    "draw": 1,
-    "lost": 6,
-    "gf": 9,
-    "ga": 19,
-    "gd": -10,
-    "points": 4,
-    "form": "W,D,L,L,L"
    },
    {
     "id": 454,
@@ -2469,6 +2469,14 @@
     "penalties": 1
    },
    {
+    "player": "Antonio Raimondo",
+    "team": "Frosinone",
+    "played": 9,
+    "goals": 8,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
     "player": "Donyell Malen",
     "team": "Roma",
     "played": 8,
@@ -2477,17 +2485,9 @@
     "penalties": 0
    },
    {
-    "player": "Antonio Raimondo",
-    "team": "Frosinone",
-    "played": 9,
-    "goals": 7,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
     "player": "Nikola Krstović",
     "team": "Atalanta",
-    "played": 8,
+    "played": 9,
     "goals": 6,
     "assists": 2,
     "penalties": 0
@@ -2563,6 +2563,14 @@
     "goals": 4,
     "assists": 2,
     "penalties": 0
+   },
+   {
+    "player": "Giacomo Calò",
+    "team": "Frosinone",
+    "played": 9,
+    "goals": 4,
+    "assists": 1,
+    "penalties": 1
    },
    {
     "player": "Hakan Çalhanoğlu",
@@ -2641,7 +2649,7 @@
     "team": "Frosinone",
     "played": 9,
     "goals": 3,
-    "assists": 1,
+    "assists": 3,
     "penalties": 0
    },
    {
@@ -2655,7 +2663,7 @@
    {
     "player": "Franco Mastantuono",
     "team": "Fiorentina",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 0,
     "penalties": 0
@@ -2664,14 +2672,6 @@
     "player": "Diego Moreira",
     "team": "Milan",
     "played": 7,
-    "goals": 3,
-    "assists": 1,
-    "penalties": 0
-   },
-   {
-    "player": "Giacomo Calò",
-    "team": "Frosinone",
-    "played": 9,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -2775,7 +2775,7 @@
    {
     "player": "Mateo Pellegrino",
     "team": "Fiorentina",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2791,7 +2791,7 @@
    {
     "player": "Éderson",
     "team": "Atalanta",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 1
@@ -2919,7 +2919,7 @@
    {
     "player": "Álex Jiménez",
     "team": "Fiorentina",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -2985,7 +2985,15 @@
     "team": "Frosinone",
     "played": 9,
     "goals": 2,
-    "assists": 3,
+    "assists": 4,
+    "penalties": 0
+   },
+   {
+    "player": "Daniel Birligea",
+    "team": "Frosinone",
+    "played": 7,
+    "goals": 2,
+    "assists": 0,
     "penalties": 0
    },
    {
@@ -3017,7 +3025,7 @@
     "team": "Lecce",
     "played": 9,
     "goals": 1,
-    "assists": 0,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -3087,7 +3095,7 @@
    {
     "player": "Lazar Samardzic",
     "team": "Atalanta",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3251,17 +3259,9 @@
     "goals": 1,
     "assists": 0,
     "penalties": 0
-   },
-   {
-    "player": "Nicolò Barella",
-    "team": "Inter",
-    "played": 9,
-    "goals": 1,
-    "assists": 2,
-    "penalties": 0
    }
   ],
-  "updated": "2026-10-29T16:56:28.108470+00:00"
+  "updated": "2026-10-29T20:04:24.051520+00:00"
  },
  "Bundesliga": {
   "matchday": 8,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-29T16:56:49.878672+00:00"
+  "updated": "2026-10-29T20:04:46.312820+00:00"
  },
  "Ligue 1": {
   "matchday": 9,
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-29T16:57:12.071640+00:00"
+  "updated": "2026-10-29T20:05:07.262629+00:00"
  },
- "_updated": "2026-10-29T16:57:12.071677+00:00",
+ "_updated": "2026-10-29T20:05:07.262664+00:00",
  "_version": 2
 }
