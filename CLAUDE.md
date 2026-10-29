@@ -26,7 +26,7 @@ Web estática de rumores y noticias de fútbol, hecha en Python, **gratuita y si
 - Las noticias que ya son rumores publicados no se repiten en la pestaña Noticias.
 
 ## Móvil
-Se revisa siempre a 390 px. Los filtros de Ligas y Medios van plegados tras el botón "Filtrar por liga o medio" (≤820 px). No hay imágenes de noticias: solo titular, medio, fecha y enlace (los titulares pertenecen a sus medios).
+Se revisa siempre a 390 px. Los chips de liga van en una sola línea sin scroll (en ≤820 px, los 4 principales y el resto tras "Más ▾") y el filtro de Medios va plegado tras el botón "Filtrar por medio". No hay imágenes de noticias: solo titular, medio, fecha y enlace (los titulares pertenecen a sus medios).
 
 ## Despliegue
 `git add . ; git commit -m "..." ; git push`. Si el cambio no cambia datos, el siguiente ciclo horario del Action lo publica; también se puede lanzar el workflow a mano desde la pestaña Actions de GitHub.
