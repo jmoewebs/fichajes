@@ -575,7 +575,7 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
   __PREF_SOURCE__
   <a href="__ROOT__sobre">Sobre esta web</a>
   <a href="__ROOT__privacidad">Privacidad</a>
-  <a href="__ROOT__cookies.html">Política de cookies</a>
+  <a href="__ROOT__cookies">Política de cookies</a>
   __COOKIE_BUTTON__
 </footer>
 __ANALYTICS__
@@ -1579,7 +1579,7 @@ ANALYTICS = r"""<div class="cookies" id="cookies" hidden role="dialog" aria-labe
   <div class="btns">
     <button class="yes" id="ck-yes">Aceptar</button>
     <button class="no" id="ck-no">Rechazar</button>
-    <a href="__ROOT__cookies.html">Más información</a>
+    <a href="__ROOT__cookies">Más información</a>
   </div>
 </div>
 <script>
@@ -2004,14 +2004,15 @@ def _hoy_page(rumors, out_dir):
     desc = (f"Rumores de fichajes de hoy, {fecha}: {_plural(len(rumors), 'rumor', 'rumores')} con etiqueta "
             "Rumor, Probable u Oficial y enlace a cada fuente. Actualizado cada hora.")
     url = "/rumores-fichajes-hoy/"
+    lm_hoy = _iso_max(*(r.get("last_update") for r in rumors))   # el rumor más reciente, no la hora del build
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "WebSite", "name": config.SITE_NAME, "url": config.SITE_URL + "/", "inLanguage": "es-ES"},
-        *_page_ld(url, title, desc, [("Rumores de fichajes hoy", None)], _iso_max(now.isoformat())),
+        *_page_ld(url, title, desc, [("Rumores de fichajes hoy", None)], lm_hoy),
         _item_list(rumors, config.SITE_URL + url)]}
     _write_info_page(out_dir, "rumores-fichajes-hoy", root=root, nav_on="hoy", title=title, description=desc,
                      h1=f"Rumores de fichajes hoy: {fecha}", crumbs=_crumbs(root, ("Rumores de fichajes hoy", None)),
                      body="".join(parts), ld=ld)
-    return _iso_max(now.isoformat())
+    return lm_hoy
 
 
 def _plural(n, one, many):
@@ -2108,7 +2109,7 @@ def _update_jornadas(fx, md, info):
         club = _club_of_team(str(r.get("team") or ""))
         if club and (info.get(club) or {}).get("league") == "LaLiga":
             rows.append({k: r[k] for k in ("player", "st", "label", "title", "url", "source", "date")} | {"team": club})
-    if md and rows:
+    if md and rows and (snaps.get(str(md)) or {}).get("rows") != rows:   # "updated" solo cambia si cambia el parte
         snaps[str(md)] = {"updated": datetime.now().astimezone().isoformat(), "rows": rows}
         db.execute("INSERT OR REPLACE INTO fx_jornadas VALUES (?, ?)", (md, json.dumps(snaps[str(md)], ensure_ascii=False)))
         db.commit()
@@ -2263,7 +2264,7 @@ table.tb { border-collapse:collapse; width:100%; font-size:15px; } .tb th, .tb t
 </style></head><body>
 <header><nav>__NAV__</nav></header>
 <main>__CRUMBS__<h1>__H1__</h1>__BODY__</main>
-<footer>__FOOTER__<p>__PREF_SOURCE__<a href="__ROOT__sobre">Sobre esta web</a><a href="__ROOT__privacidad">Privacidad</a><a href="__ROOT__cookies.html">Cookies</a>__COOKIE_BUTTON__</p></footer>
+<footer>__FOOTER__<p>__PREF_SOURCE__<a href="__ROOT__sobre">Sobre esta web</a><a href="__ROOT__privacidad">Privacidad</a><a href="__ROOT__cookies">Cookies</a>__COOKIE_BUTTON__</p></footer>
 __ANALYTICS__
 </body></html>
 """
@@ -2407,7 +2408,7 @@ def _write_info_page(out_dir, rel, *, root, nav_on, title, description, h1, crum
     html = (JORNADA_PAGE.replace("__ADSENSE__", ADSENSE).replace("__NAV__", _nav(root, nav_on)).replace("__OGTYPE__", ogtype)
             .replace("__PREF_SOURCE__", _pref_source_link()).replace("__SITE_URL__", config.SITE_URL)
             .replace("__TITLE__", esc(_fit_title(title))).replace("__DESCRIPTION__", esc(description[:160], quote=True))
-            .replace("__CANONICAL__", f"{config.SITE_URL}/{rel}").replace("__LDJSON__", _json(ld))
+            .replace("__CANONICAL__", f"{config.SITE_URL}/{rel}/").replace("__LDJSON__", _json(ld))
             .replace("__SITE_NAME__", esc(config.SITE_NAME)).replace("__ROOT__", root).replace("__H1__", esc(h1))
             .replace("__CRUMBS__", crumbs).replace("__BODY__", body).replace("__FOOTER__", _sections_footer(root))
             .replace("__ANALYTICS__", analytics)
@@ -2952,7 +2953,7 @@ a { color:inherit; }
 <p>Los datos se actualizan cada hora. La fecha y hora de la última actualización aparece en la cabecera de cada página.</p>
 <h2>Contacto</h2>
 <p>Si eres un medio y quieres que retiremos un enlace, o si has detectado un error, escríbenos por __CONTACT__.</p>
-<p><a href="privacidad">Política de privacidad</a> · <a href="cookies.html">Política de cookies</a></p>
+<p><a href="privacidad">Política de privacidad</a> · <a href="cookies">Política de cookies</a></p>
 </main></body></html>
 """
 
@@ -2975,7 +2976,7 @@ a { color:inherit; }
 <h1>Política de privacidad</h1>
 <p>En __SITE_NAME__ no hay registro de usuarios, formularios ni comentarios, y no pedimos datos personales.</p>
 <h2>Qué datos se tratan</h2>
-<p>Solo si aceptas las cookies de análisis, Google Analytics mide de forma agregada las visitas (páginas vistas, país, dispositivo). Si las rechazas, no se instala ninguna cookie de análisis. Más detalle en la <a href="cookies.html">política de cookies</a>.</p>
+<p>Solo si aceptas las cookies de análisis, Google Analytics mide de forma agregada las visitas (páginas vistas, país, dispositivo). Si las rechazas, no se instala ninguna cookie de análisis. Más detalle en la <a href="cookies">política de cookies</a>.</p>
 <p>La web guarda en tu navegador, sin enviarlo a ningún servidor, tus preferencias (filtros, equipo de Fantasy, los votos que emites en los rumores y tu respuesta al aviso de cookies). Los votos se suman de forma anónima: solo se guarda el total de síes y noses de cada rumor, sin ningún dato tuyo.</p>
 <h2>Servicios de terceros</h2>
 <p>Para mostrar el icono de cada medio, tu navegador solicita una imagen a Google, que puede registrar tu dirección IP según su <a href="https://policies.google.com/privacy?hl=es">política de privacidad</a>. La web se aloja en Cloudflare, que puede tratar datos técnicos de la conexión (IP, navegador) para entregar y proteger el sitio. Los enlaces a medios, Telegram o Ko-fi te llevan a sitios externos con su propia política.</p>

@@ -107,12 +107,16 @@ def update_if_due(token=None, path=None, force=False):
                         t["form"] = forms.get(t["id"], "")
                 except Exception as exc:
                     errors.append(f"{league} (racha): {exc}")
-            data[league] = {
+            new = {
                 "matchday": (st.get("season") or {}).get("currentMatchday"),
                 "table": table,
                 "scorers": _parse_scorers(sc),
-                "updated": datetime.now(timezone.utc).isoformat(),
             }
+            old = data.get(league) or {}
+            # "updated" = último cambio real de la tabla (alimenta el lastmod del sitemap), no la hora de la descarga
+            same = old.get("updated") and all(old.get(k) == new[k] for k in new)
+            new["updated"] = old["updated"] if same else datetime.now(timezone.utc).isoformat()
+            data[league] = new
             ok += 1
         except Exception as exc:          # una liga que falla no borra lo que ya teníamos
             errors.append(f"{league}: {exc}")
