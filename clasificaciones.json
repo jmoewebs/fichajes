@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-30T14:01:05.824090+00:00"
+  "updated": "2026-10-30T17:44:00.968126+00:00"
  },
  "Premier League": {
   "matchday": 9,
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-30T14:01:27.607935+00:00"
+  "updated": "2026-10-30T17:44:21.884884+00:00"
  },
  "Serie A": {
   "matchday": 10,
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-30T14:01:49.035346+00:00"
+  "updated": "2026-10-30T17:44:44.164626+00:00"
  },
  "Bundesliga": {
   "matchday": 8,
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-30T14:02:11.383223+00:00"
+  "updated": "2026-10-30T17:45:05.625629+00:00"
  },
  "Ligue 1": {
   "matchday": 9,
@@ -4647,7 +4647,7 @@
    {
     "player": "Ferrán Torres",
     "team": "PSG",
-    "played": 8,
+    "played": 9,
     "goals": 4,
     "assists": 1,
     "penalties": 0
@@ -4671,7 +4671,7 @@
    {
     "player": "Sebastian Szymański",
     "team": "Stade Rennais",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -4711,7 +4711,7 @@
    {
     "player": "Sepe Elye Wahi",
     "team": "Nice",
-    "played": 7,
+    "played": 8,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -4719,7 +4719,7 @@
    {
     "player": "Josh Maja",
     "team": "Le Havre",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 0,
     "penalties": 1
@@ -4727,7 +4727,7 @@
    {
     "player": "Boulaye Dia",
     "team": "Stade Rennais",
-    "played": 6,
+    "played": 7,
     "goals": 3,
     "assists": 0,
     "penalties": 0
@@ -4783,7 +4783,7 @@
    {
     "player": "Mbwana Samatta",
     "team": "Le Havre",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -4823,7 +4823,7 @@
    {
     "player": "Rayan Fofana",
     "team": "Le Havre",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 1
@@ -4847,7 +4847,7 @@
    {
     "player": "Adrien Thomasson",
     "team": "Stade Rennais",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -5023,7 +5023,7 @@
    {
     "player": "Vitinha",
     "team": "PSG",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -5111,7 +5111,7 @@
    {
     "player": "Valentin Rongier",
     "team": "Stade Rennais",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -5191,7 +5191,7 @@
    {
     "player": "Przemysław Frankowski",
     "team": "Stade Rennais",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 2,
     "penalties": 0
@@ -5287,7 +5287,7 @@
    {
     "player": "Mohammed Amoura",
     "team": "Nice",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -5343,7 +5343,7 @@
    {
     "player": "Lucas Beraldo",
     "team": "PSG",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 1
@@ -5359,7 +5359,7 @@
    {
     "player": "Maghnes Akliouche",
     "team": "PSG",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-30T14:02:33.041627+00:00"
+  "updated": "2026-10-30T17:45:27.287392+00:00"
  },
- "_updated": "2026-10-30T14:02:33.041659+00:00",
+ "_updated": "2026-10-30T17:45:27.287424+00:00",
  "_version": 2
 }
