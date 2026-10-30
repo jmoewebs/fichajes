@@ -529,7 +529,7 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
 <header class="pitch__NOTOOLS__">
   <div class="wrap top">
     <div class="ttl">
-      <p class="updated" id="updated" data-iso="__UPDATED_ISO__">Actualizado el __UPDATED__</p>
+      <p class="updated" id="updated" data-iso="__UPDATED_ISO__">Actualizado <time datetime="__UPDATED_ISO__">el __UPDATED__</time></p>
       <h1>__HEADING__</h1>
       <p class="tagline">__TAGLINE__Cada titular enlaza a la noticia original.</p>
       __CRUMBS__
@@ -1477,12 +1477,12 @@ sel.addEventListener("change", () => {
 
 // "Actualizado hoy a las 17:57": el servidor da la hora de España; aquí se dice si fue hoy o ayer
 (function () {
-  const u = document.getElementById("updated"), d = u && new Date(u.dataset.iso);
-  if (!d || isNaN(d)) return;
+  const u = document.getElementById("updated"), d = u && new Date(u.dataset.iso), tm = u && u.querySelector("time");
+  if (!d || isNaN(d) || !tm) return;
   const tz = {timeZone: "Europe/Madrid"}, ymd = x => x.toLocaleDateString("es-ES", tz);
   const t = new Date(), y = new Date(); y.setDate(t.getDate() - 1);
   const when = ymd(d) === ymd(t) ? "hoy" : ymd(d) === ymd(y) ? "ayer" : "el " + ymd(d);
-  u.textContent = "Actualizado " + when + " a las " + d.toLocaleTimeString("es-ES", {...tz, hour: "2-digit", minute: "2-digit"});
+  tm.textContent = when + " a las " + d.toLocaleTimeString("es-ES", {...tz, hour: "2-digit", minute: "2-digit"});
 })();
 
 // Clubes en portada: los que más salen en las noticias recientes
@@ -1652,13 +1652,13 @@ def _static_list(news, rumors, limit=60):
             name = (f'<a href="/jugador/{esc(r["player_slug"], quote=True)}/">{esc(r["player"])}</a>'
                     if r.get("player_slug") in _PLAYER_PAGES else esc(r["player"]))
             parts.append(f"<li><b>{_label(r['score'], _best_status(r))}</b> · {name}: {esc(route)} "
-                         f"({r['score']}°). Fuente: {_sources_html(r)}</li>")
+                         f"({r['score']}°). Fuente: {_sources_html(r)}. Última mención: {_time_tag(max(m['date'] for m in r['mentions']))}</li>")
         parts.append("</ul>")
     shown = list(news)[:limit]
     if shown:
         parts.append("<h2>Últimas noticias de fútbol</h2><ul>")
         for n in shown:
-            parts.append(f'<li><a href="{esc(n["url"], quote=True)}">{esc(n["title"])}</a> ({esc(n["source"])})</li>')
+            parts.append(f'<li><a href="{esc(n["url"], quote=True)}">{esc(n["title"])}</a> ({esc(n["source"])}, {_time_tag(n["date"])})</li>')
         parts.append("</ul>")
     return "".join(parts)
 
@@ -1714,7 +1714,7 @@ def _news_tag(path, root, news, inline=False):
 def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
            description, canonical, root, tagline="", page="news", table_league=None,
            static_html=None, counts=None, fx_report=(), standings=None, club=None, club_info=None,
-           fx_players=None, fx_ignore=(), club_intro=(), ld_page=()):
+           fx_players=None, fx_ignore=(), club_intro=(), ld_page=(), updated=None):
     esc = html_lib.escape
     verification = (f'<meta name="google-site-verification" content="{esc(config.GOOGLE_VERIFICATION, quote=True)}">'
                     if config.GOOGLE_VERIFICATION else "")
@@ -1726,6 +1726,9 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
         ld = {"@context": "https://schema.org",
               "@graph": [{k: v for k, v in ld.items() if k != "@context"}] + list(ld_page)}
     now_es = _now_spain()
+    # updated = el mismo valor que dateModified y lastmod de la página; sin él, la hora de la build
+    upd_iso = updated or now_es.isoformat(timespec="minutes")
+    upd_txt = _es(datetime.fromisoformat(upd_iso)).strftime("%d/%m/%Y a las %H:%M") if updated else now_es.strftime("%d/%m/%Y a las %H:%M")
     html = (TEMPLATE
             .replace("__DESCRIPTION__", esc(description, quote=True))
             .replace("__CANONICAL__", esc(canonical, quote=True))
@@ -1763,8 +1766,8 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__ROOT__", root))
     html = (html
             .replace("__TITLE__", title).replace("__HEADING__", heading).replace("__CRUMBS__", crumbs)
-            .replace("__UPDATED_ISO__", now_es.isoformat(timespec="minutes"))
-            .replace("__UPDATED__", now_es.strftime("%d/%m/%Y a las %H:%M"))
+            .replace("__UPDATED_ISO__", upd_iso)
+            .replace("__UPDATED__", upd_txt)
             .replace("__IS_ARCHIVE__", "true" if is_archive else "false")
             .replace("__RUMORS__", _json(rumors)).replace("__NEWSTAG__", _news_tag(path, root, list(news), inline=is_archive))
             .replace("__ARCHIVE__", _json(archive)).replace("__LEAGUES__", _json(config.LEAGUES))
@@ -1934,8 +1937,25 @@ def _iso_max(*values):
             best = d
     if best is None:
         return None
-    from datetime import timezone
-    return best.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S+00:00")
+    return _es(best).isoformat(timespec="seconds")
+
+
+def _es(d):
+    """datetime -> hora de Madrid con su desfase real de esa fecha (verano/invierno). Sin datos de zonas (Windows), hora local."""
+    try:
+        from zoneinfo import ZoneInfo
+        return d.astimezone(ZoneInfo("Europe/Madrid"))
+    except Exception:
+        return d.astimezone()
+
+
+_MES = ("ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic")
+
+
+def _time_tag(iso, text=None):
+    """<time datetime="..."> con la fecha en hora de Madrid: "30 oct, 22:14" (para listas), o el texto dado."""
+    d = _es(datetime.fromisoformat(str(iso).replace("Z", "+00:00")))
+    return f'<time datetime="{d.isoformat(timespec="seconds")}">{text or f"{d.day} {_MES[d.month - 1]}, {d:%H:%M}"}</time>'
 
 
 def _page_ld(path, name, description, crumbs=(), modified=None, about=None):
@@ -2465,6 +2485,7 @@ def _player_page(e, pts, events, out_dir):
     now = _now_spain()
     route = f"{e['from_club'] or 'origen sin confirmar'} → {e['to_club'] or 'destino sin confirmar'}"
     ms = sorted(e["mentions"], key=lambda m: m["date"])
+    modified = _iso_max(*(m["date"] for m in ms))      # dateModified, lastmod y "Actualizado el" salen de aquí
     best = pts[-1][2]
     fee = next((m["fee"] for m in reversed(ms) if m.get("fee")), None)
     srcs = sorted({m["source"] for m in ms})
@@ -2487,12 +2508,13 @@ def _player_page(e, pts, events, out_dir):
         return f'<a href="{root}club/{sl}/">{esc(c)}</a>' if sl else esc(c)
     related = " · ".join(club_link(c) for c in e.get("clubs", []) if c)
     rows = "".join(
-        f'<tr><td>{fmt(m["date"])}</td><td>{esc(m["source"])}</td><td>{esc(STAT_ES.get(m["status"], m["status"]))}</td>'
+        f'<tr><td>{_time_tag(m["date"], fmt(m["date"]))}</td><td>{esc(m["source"])}</td><td>{esc(STAT_ES.get(m["status"], m["status"]))}</td>'
         f'<td><a href="{esc(m["url"], quote=True)}" target="_blank" rel="noopener">{esc(m["title"])}</a></td></tr>'
         for m in reversed(ms))
     ch_rows = "".join(f'<li>{fmt(d)}: {sc}° ({STAT_ES.get(st, st)}, {_plural(n, "medio", "medios")})</li>'
                       for d, sc, st, n in pts)
-    body = ("".join(f"<p>{esc(t)}</p>" for t in paras)
+    body = (f'<p class="mt">Actualizado el <time datetime="{modified}">{_es(datetime.fromisoformat(modified)):%d/%m/%Y a las %H:%M}</time></p>'
+            + "".join(f"<p>{esc(t)}</p>" for t in paras)
             + f'<div class="vote" id="vote" data-slug="{esc(slug, quote=True)}" hidden><p>¿Crees que el fichaje de {esc(name)} se hará?</p>'
               '<div class="vb"><button type="button" data-v="si">Sí, se hará</button><button type="button" data-v="no">No se hará</button></div></div>'
             + "<h2>Evolución del termómetro</h2>" + _chart_svg(pts, now.isoformat())
@@ -2505,7 +2527,6 @@ def _player_page(e, pts, events, out_dir):
     title = f"Fichaje de {name}: rumores, termómetro e historial"
     desc = (f"{name}: {e['score']}° en el termómetro, {_plural(len(srcs), 'medio', 'medios')} y {_plural(len(ms), 'titular', 'titulares')}. "
             f"Rumor {route}, con enlaces a cada fuente.")
-    modified = _iso_max(*(m["date"] for m in ms))
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "WebSite", "name": config.SITE_NAME, "url": config.SITE_URL + "/", "inLanguage": "es-ES"},
         *_page_ld(f"/jugador/{slug}/", title, desc, [("Jugadores con rumores", "/jugador/"), (name, None)], modified),
@@ -2712,7 +2733,7 @@ def generate(data, news=(), months=(), out_dir="web"):
     # Portada: noticias
     index = _write(os.path.join(out_dir, "index.html"), page="news", root="",
                    heading=config.SITE_NAME, crumbs="",
-                   ld_page=_page_ld("/", config.SITE_TITLE, config.SITE_DESCRIPTION, modified=lastmod["/"]),
+                   ld_page=_page_ld("/", config.SITE_TITLE, config.SITE_DESCRIPTION, modified=lastmod["/"]), updated=lastmod["/"],
                    title=config.SITE_TITLE, description=config.SITE_DESCRIPTION,
                    canonical=config.SITE_URL + "/", rumors=rumors, news=news,
                    archive=_archive(months, prefix="archivo/"), **common)
@@ -2764,6 +2785,7 @@ def generate(data, news=(), months=(), out_dir="web"):
                ld_page=_page_ld(f"/club/{slug}/", f"Fichajes y rumores del {club}",
                                 f"Rumores de fichajes, noticias y situación en la tabla del {club}.",
                                 [*liga_crumb, (club, None)], lastmod.get(f"/club/{slug}/"), about=club),
+               updated=lastmod.get(f"/club/{slug}/"),
                title=_fit_title(f"Fichajes y rumores del {club}: últimas noticias"),
                description=(f"Rumores de fichajes del {club} con termómetro de probabilidad, sus noticias de hoy"
                             f"{where}. Actualizado cada hora.")[:160],
