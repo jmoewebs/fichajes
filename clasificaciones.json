@@ -140,7 +140,7 @@
     "ga": 15,
     "gd": 0,
     "points": 12,
-    "form": "W,W,L,D,W"
+    "form": "W,L,D,W,L"
    },
    {
     "id": 560,
@@ -168,7 +168,7 @@
     "ga": 14,
     "gd": -1,
     "points": 11,
-    "form": "L,L,D,L,L"
+    "form": "L,D,L,L,W"
    },
    {
     "id": 79,
@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-30T21:40:44.094410+00:00"
+  "updated": "2026-10-31T00:58:00.459102+00:00"
  },
  "Premier League": {
   "matchday": 9,
@@ -4345,14 +4345,14 @@
     "pos": 2,
     "team": "Lille",
     "played": 9,
-    "won": 4,
-    "draw": 4,
+    "won": 5,
+    "draw": 3,
     "lost": 1,
-    "gf": 11,
+    "gf": 12,
     "ga": 6,
-    "gd": 5,
-    "points": 16,
-    "form": "W,L,W,D,D"
+    "gd": 6,
+    "points": 18,
+    "form": "L,W,D,D,W"
    },
    {
     "id": 529,
@@ -4397,22 +4397,8 @@
     "form": "D,W,L,W,L"
    },
    {
-    "id": 546,
-    "pos": 6,
-    "team": "RC Lens",
-    "played": 9,
-    "won": 4,
-    "draw": 2,
-    "lost": 3,
-    "gf": 16,
-    "ga": 12,
-    "gd": 4,
-    "points": 14,
-    "form": "D,L,W,W,W"
-   },
-   {
     "id": 1045,
-    "pos": 7,
+    "pos": 6,
     "team": "Paris FC",
     "played": 8,
     "won": 4,
@@ -4426,7 +4412,7 @@
    },
    {
     "id": 522,
-    "pos": 8,
+    "pos": 7,
     "team": "Nice",
     "played": 9,
     "won": 4,
@@ -4437,6 +4423,20 @@
     "gd": 1,
     "points": 14,
     "form": "W,W,L,W,W"
+   },
+   {
+    "id": 546,
+    "pos": 8,
+    "team": "RC Lens",
+    "played": 9,
+    "won": 4,
+    "draw": 1,
+    "lost": 4,
+    "gf": 16,
+    "ga": 13,
+    "gd": 3,
+    "points": 13,
+    "form": "L,W,W,W,L"
    },
    {
     "id": 516,
@@ -4701,6 +4701,14 @@
     "penalties": 1
    },
    {
+    "player": "Olivier Giroud",
+    "team": "Lille",
+    "played": 9,
+    "goals": 3,
+    "assists": 2,
+    "penalties": 1
+   },
+   {
     "player": "Marquinhos",
     "team": "PSG",
     "played": 6,
@@ -4755,14 +4763,6 @@
     "goals": 2,
     "assists": 0,
     "penalties": 0
-   },
-   {
-    "player": "Olivier Giroud",
-    "team": "Lille",
-    "played": 9,
-    "goals": 2,
-    "assists": 2,
-    "penalties": 1
    },
    {
     "player": "Tiago Santos",
@@ -5381,8 +5381,8 @@
     "penalties": 1
    }
   ],
-  "updated": "2026-10-30T21:42:13.298686+00:00"
+  "updated": "2026-10-31T00:59:32.011234+00:00"
  },
- "_updated": "2026-10-30T21:42:13.298725+00:00",
+ "_updated": "2026-10-31T00:59:32.011250+00:00",
  "_version": 2
 }
