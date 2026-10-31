@@ -983,7 +983,7 @@
    {
     "player": "Marcos Fernández",
     "team": "Espanyol",
-    "played": 11,
+    "played": 10,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-31T00:58:00.459102+00:00"
+  "updated": "2026-10-31T11:38:06.722468+00:00"
  },
  "Premier League": {
   "matchday": 9,
@@ -1407,7 +1407,7 @@
    {
     "player": "Morgan Rogers",
     "team": "Chelsea",
-    "played": 8,
+    "played": 9,
     "goals": 4,
     "assists": 1,
     "penalties": 0
@@ -1423,7 +1423,7 @@
    {
     "player": "Bryan Mbeumo",
     "team": "Man United",
-    "played": 8,
+    "played": 9,
     "goals": 4,
     "assists": 0,
     "penalties": 0
@@ -1463,7 +1463,7 @@
    {
     "player": "Pedro Neto",
     "team": "Chelsea",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -1495,7 +1495,7 @@
    {
     "player": "Bruno Fernandes",
     "team": "Man United",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 1,
     "penalties": 1
@@ -1615,7 +1615,7 @@
    {
     "player": "Cole Palmer",
     "team": "Chelsea",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 3,
     "penalties": 0
@@ -1871,7 +1871,7 @@
    {
     "player": "Romeo Lavia",
     "team": "Chelsea",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2111,7 +2111,7 @@
    {
     "player": "Matheus Cunha",
     "team": "Man United",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 2,
     "penalties": 0
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-10-30T21:41:05.882830+00:00"
+  "updated": "2026-10-31T11:38:27.901727+00:00"
  },
  "Serie A": {
   "matchday": 10,
@@ -5383,6 +5383,6 @@
   ],
   "updated": "2026-10-31T00:59:32.011234+00:00"
  },
- "_updated": "2026-10-31T07:55:02.623240+00:00",
+ "_updated": "2026-10-31T11:39:35.977103+00:00",
  "_version": 2
 }
