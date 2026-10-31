@@ -1722,9 +1722,11 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
           # Plan B de Google para subdominios: el subdominio en minúsculas como nombre alternativo
           "alternateName": ["RumoresyFichajes", config.SITE_URL.split("//", 1)[1].rstrip("/").lower()],
           "url": config.SITE_URL + "/", "inLanguage": "es-ES", "description": config.SITE_DESCRIPTION}
-    if ld_page:
-        ld = {"@context": "https://schema.org",
-              "@graph": [{k: v for k, v in ld.items() if k != "@context"}] + list(ld_page)}
+    org = {"@type": "Organization", "name": config.SITE_NAME, "url": config.SITE_URL + "/",
+           "logo": config.SITE_URL + "/apple-touch-icon.png",
+           "sameAs": [u for u in (telegram_url(), config.KOFI_URL) if u]}
+    ld = {"@context": "https://schema.org",
+          "@graph": [{k: v for k, v in ld.items() if k != "@context"}, org] + list(ld_page)}
     now_es = _now_spain()
     # updated = el mismo valor que dateModified y lastmod de la página; sin él, la hora de la build
     upd_iso = updated or now_es.isoformat(timespec="minutes")
