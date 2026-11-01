@@ -431,7 +431,7 @@
    {
     "player": "Isaac",
     "team": "Sevilla FC",
-    "played": 9,
+    "played": 10,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -631,7 +631,7 @@
    {
     "player": "Martin Satriano",
     "team": "Getafe",
-    "played": 10,
+    "played": 11,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -719,7 +719,7 @@
    {
     "player": "Félix Correia",
     "team": "Sevilla FC",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -759,7 +759,7 @@
    {
     "player": "Jon Guridi",
     "team": "Sevilla FC",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 1
@@ -767,7 +767,7 @@
    {
     "player": "Peque",
     "team": "Sevilla FC",
-    "played": 10,
+    "played": 11,
     "goals": 1,
     "assists": 0,
     "penalties": 1
@@ -815,7 +815,7 @@
    {
     "player": "Chidera Ejuke",
     "team": "Sevilla FC",
-    "played": 10,
+    "played": 11,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -839,7 +839,7 @@
    {
     "player": "Enes Ünal",
     "team": "Getafe",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -991,7 +991,7 @@
    {
     "player": "Lucas Stassin",
     "team": "Sevilla FC",
-    "played": 5,
+    "played": 6,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -1039,7 +1039,7 @@
    {
     "player": "Juan Iglesias",
     "team": "Sevilla FC",
-    "played": 10,
+    "played": 11,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -1079,13 +1079,13 @@
    {
     "player": "RamónTerrats Espacio",
     "team": "Getafe",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 0
    }
   ],
-  "updated": "2026-10-31T22:37:47.060695+00:00"
+  "updated": "2026-11-01T12:50:08.300470+00:00"
  },
  "Premier League": {
   "matchday": 9,
@@ -2221,8 +2221,22 @@
     "form": "D,W,D,W,W"
    },
    {
-    "id": 98,
+    "id": 7397,
     "pos": 4,
+    "team": "Como 1907",
+    "played": 10,
+    "won": 7,
+    "draw": 2,
+    "lost": 1,
+    "gf": 18,
+    "ga": 8,
+    "gd": 10,
+    "points": 23,
+    "form": "L,D,W,W,W"
+   },
+   {
+    "id": 98,
+    "pos": 5,
     "team": "Milan",
     "played": 10,
     "won": 6,
@@ -2233,20 +2247,6 @@
     "gd": 9,
     "points": 21,
     "form": "D,W,W,L,W"
-   },
-   {
-    "id": 7397,
-    "pos": 5,
-    "team": "Como 1907",
-    "played": 9,
-    "won": 6,
-    "draw": 2,
-    "lost": 1,
-    "gf": 17,
-    "ga": 8,
-    "gd": 9,
-    "points": 20,
-    "form": "L,D,W,W,W"
    },
    {
     "id": 470,
@@ -2448,13 +2448,13 @@
     "id": 454,
     "pos": 20,
     "team": "Venezia FC",
-    "played": 9,
+    "played": 10,
     "won": 1,
     "draw": 0,
-    "lost": 8,
+    "lost": 9,
     "gf": 6,
-    "ga": 19,
-    "gd": -13,
+    "ga": 20,
+    "gd": -14,
     "points": 3,
     "form": "L,L,W,L,L"
    }
@@ -2495,7 +2495,7 @@
    {
     "player": "Anastasios Douvikas",
     "team": "Como 1907",
-    "played": 9,
+    "played": 10,
     "goals": 5,
     "assists": 0,
     "penalties": 0
@@ -2615,7 +2615,7 @@
    {
     "player": "Martin Baturina",
     "team": "Como 1907",
-    "played": 9,
+    "played": 10,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -2655,7 +2655,7 @@
    {
     "player": "Nico Paz",
     "team": "Como 1907",
-    "played": 9,
+    "played": 10,
     "goals": 3,
     "assists": 3,
     "penalties": 0
@@ -2831,7 +2831,7 @@
    {
     "player": "Akor Adams",
     "team": "Venezia FC",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2839,7 +2839,7 @@
    {
     "player": "Antoine Hainaut",
     "team": "Venezia FC",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -2871,7 +2871,7 @@
    {
     "player": "Jacobo Ramón",
     "team": "Como 1907",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -3127,7 +3127,7 @@
    {
     "player": "John Yeboah",
     "team": "Venezia FC",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3135,7 +3135,7 @@
    {
     "player": "Richie Sagrado",
     "team": "Venezia FC",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3255,13 +3255,13 @@
    {
     "player": "Kaiki Bruno",
     "team": "Como 1907",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 1,
     "penalties": 0
    }
   ],
-  "updated": "2026-10-31T22:38:33.265396+00:00"
+  "updated": "2026-11-01T12:50:51.233367+00:00"
  },
  "Bundesliga": {
   "matchday": 8,
@@ -5383,6 +5383,6 @@
   ],
   "updated": "2026-10-31T22:39:17.737579+00:00"
  },
- "_updated": "2026-11-01T08:52:13.687058+00:00",
+ "_updated": "2026-11-01T12:51:34.965457+00:00",
  "_version": 2
 }
