@@ -66,11 +66,11 @@
     "won": 6,
     "draw": 1,
     "lost": 4,
-    "gf": 19,
-    "ga": 19,
+    "gf": 20,
+    "ga": 20,
     "gd": 0,
     "points": 19,
-    "form": "L,W,W,W,W"
+    "form": "W,W,W,W,L"
    },
    {
     "id": 559,
@@ -94,11 +94,11 @@
     "won": 4,
     "draw": 3,
     "lost": 3,
-    "gf": 13,
-    "ga": 9,
+    "gf": 14,
+    "ga": 10,
     "gd": 4,
     "points": 15,
-    "form": "D,D,D,L,W"
+    "form": "D,D,L,W,W"
    },
    {
     "id": 94,
@@ -421,6 +421,14 @@
     "penalties": 0
    },
    {
+    "player": "Álex Berenguer",
+    "team": "Athletic",
+    "played": 11,
+    "goals": 4,
+    "assists": 4,
+    "penalties": 2
+   },
+   {
     "player": "Alejandro Grimaldo",
     "team": "Atleti",
     "played": 11,
@@ -475,14 +483,6 @@
     "goals": 3,
     "assists": 0,
     "penalties": 0
-   },
-   {
-    "player": "Álex Berenguer",
-    "team": "Athletic",
-    "played": 11,
-    "goals": 3,
-    "assists": 4,
-    "penalties": 1
    },
    {
     "player": "Martin Satriano",
@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-01T20:38:47.311774+00:00"
+  "updated": "2026-11-02T01:02:13.960308+00:00"
  },
  "Premier League": {
   "matchday": 9,
@@ -2263,32 +2263,32 @@
     "form": "L,W,D,W,W"
    },
    {
-    "id": 113,
+    "id": 109,
     "pos": 7,
+    "team": "Juventus",
+    "played": 10,
+    "won": 5,
+    "draw": 2,
+    "lost": 3,
+    "gf": 13,
+    "ga": 10,
+    "gd": 3,
+    "points": 17,
+    "form": "D,L,W,L,W"
+   },
+   {
+    "id": 113,
+    "pos": 8,
     "team": "Napoli",
     "played": 10,
     "won": 4,
-    "draw": 3,
-    "lost": 3,
+    "draw": 2,
+    "lost": 4,
     "gf": 17,
-    "ga": 11,
-    "gd": 6,
-    "points": 15,
-    "form": "D,W,L,D,W"
-   },
-   {
-    "id": 109,
-    "pos": 8,
-    "team": "Juventus",
-    "played": 10,
-    "won": 4,
-    "draw": 3,
-    "lost": 3,
-    "gf": 11,
-    "ga": 10,
-    "gd": 1,
-    "points": 15,
-    "form": "W,D,L,W,L"
+    "ga": 13,
+    "gd": 4,
+    "points": 14,
+    "form": "W,L,D,W,L"
    },
    {
     "id": 103,
@@ -2865,7 +2865,7 @@
     "team": "Juventus",
     "played": 9,
     "goals": 2,
-    "assists": 1,
+    "assists": 2,
     "penalties": 0
    },
    {
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-01T20:39:33.660303+00:00"
+  "updated": "2026-11-02T01:02:58.205659+00:00"
  },
  "Bundesliga": {
   "matchday": 8,
@@ -4408,7 +4408,7 @@
     "ga": 13,
     "gd": 7,
     "points": 15,
-    "form": "L,L,W,W,W"
+    "form": "L,W,W,W,W"
    },
    {
     "id": 548,
@@ -4478,7 +4478,7 @@
     "ga": 13,
     "gd": -1,
     "points": 10,
-    "form": "D,W,D,W,D"
+    "form": "W,D,W,D,L"
    },
    {
     "id": 576,
@@ -5381,8 +5381,8 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-01T20:40:19.731960+00:00"
+  "updated": "2026-11-02T01:03:41.503014+00:00"
  },
- "_updated": "2026-11-01T20:40:19.731978+00:00",
+ "_updated": "2026-11-02T01:03:41.503033+00:00",
  "_version": 2
 }
