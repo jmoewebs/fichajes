@@ -2679,7 +2679,7 @@
    {
     "player": "Vasilije Adzic",
     "team": "Sassuolo",
-    "played": 9,
+    "played": 10,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -2687,7 +2687,7 @@
    {
     "player": "Franco Mastantuono",
     "team": "Fiorentina",
-    "played": 9,
+    "played": 10,
     "goals": 3,
     "assists": 0,
     "penalties": 0
@@ -2759,7 +2759,7 @@
    {
     "player": "Cas Odenthal",
     "team": "Sassuolo",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2775,7 +2775,7 @@
    {
     "player": "Domenico Berardi",
     "team": "Sassuolo",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2791,7 +2791,7 @@
    {
     "player": "Mateo Pellegrino",
     "team": "Fiorentina",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2855,7 +2855,7 @@
    {
     "player": "Sebastiano Esposito",
     "team": "Sassuolo",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -2927,7 +2927,7 @@
    {
     "player": "Álex Jiménez",
     "team": "Fiorentina",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -3167,7 +3167,7 @@
    {
     "player": "Josh Doig",
     "team": "Sassuolo",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-02T01:02:58.205659+00:00"
+  "updated": "2026-11-02T17:05:17.436815+00:00"
  },
  "Bundesliga": {
   "matchday": 8,
@@ -5383,6 +5383,6 @@
   ],
   "updated": "2026-11-02T01:03:41.503014+00:00"
  },
- "_updated": "2026-11-02T13:07:54.015439+00:00",
+ "_updated": "2026-11-02T17:06:00.808488+00:00",
  "_version": 2
 }
