@@ -180,7 +180,8 @@ def report(news, cands, days=None, ignore=()):
     now = datetime.now(timezone.utc)
     cutoff = (now - timedelta(days=days)).isoformat()
     ign = [" ".join(_n(i).split()) for i in ignore if i.strip()]
-    items = [n for n in news if n["date"] >= cutoff and not any(i in _n(n["title"]) for i in ign)]
+    items = [n for n in news if n["date"] >= cutoff and not any(i in _n(n["title"]) for i in ign)
+             and not _has(f" {_n(n['title'])} ", config.FANTASY_NOT_FOOTBALL)]      # NFL, rugby...: no son fútbol
     items.sort(key=lambda n: n["date"], reverse=True)
     done = {}
     for n in items:
@@ -203,3 +204,10 @@ def report(news, cands, days=None, ignore=()):
     out.sort(key=lambda r: r["date"], reverse=True)
     out.sort(key=lambda r: order[r["st"]])
     return out
+
+
+def mentions_player(row, cands):
+    """True si el titular nombra al jugador (nombre o apellido que lo identifica), no solo a su equipo."""
+    keys = (cands.get(row["player"]) or {}).get("keys") or ()
+    padded = f" {_n(row['title'])} "
+    return any(f" {k} " in padded for k in keys)

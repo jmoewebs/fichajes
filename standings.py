@@ -85,6 +85,8 @@ def update_if_due(token=None, path=None, force=False):
     last = data.get("_updated")
     if data.get("_version") != DATA_VERSION:
         force = True               # el formato ha cambiado (p. ej. se añadió la racha): descargar ya
+    if any(lg not in data for lg in config.STANDINGS_COMPETITIONS):
+        force = True               # falta una competición nueva (p. ej. la Champions): descargar ya
     if last and not force:
         age = datetime.now(timezone.utc) - datetime.fromisoformat(last)
         if age < timedelta(hours=config.STANDINGS_EVERY_HOURS):

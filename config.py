@@ -23,7 +23,8 @@ GA_MEASUREMENT_ID = "G-LJ44H4TZ4Y"
 
 # Clasificaciones (football-data.org, gratis con clave). Código de cada liga en la API.
 STANDINGS_COMPETITIONS = {"LaLiga": "PD", "Premier League": "PL", "Serie A": "SA",
-                          "Bundesliga": "BL1", "Ligue 1": "FL1"}
+                          "Bundesliga": "BL1", "Ligue 1": "FL1",
+                          "Champions League": "CL"}   # CL: fase de liga (una sola tabla de 36 equipos); gratis en football-data.org
 STANDINGS_EVERY_HOURS = 3        # cada cuántas horas se descargan (ahorra minutos de GitHub)
 STANDINGS_SCORERS_LIMIT = 100    # goleadores que se piden; de ellos salen los asistentes
 STANDINGS_FILE = "clasificaciones.json"
@@ -31,6 +32,28 @@ STANDINGS_FILE = "clasificaciones.json"
 # Parte médico de Fantasy: palabras del titular que indican cada estado (minúsculas, sin tildes)
 FANTASY_IGNORE_FILE = "fantasy_ignorar.txt"
 FANTASY_DAYS = 10            # días de titulares que se miran para el parte médico general
+# Titulares de otros deportes que se cuelan por un apellido ("Ravens QB Jackson", "Mitchell" del rugby): fuera del parte
+FANTASY_NOT_FOOTBALL = ["nfl", "qb", "quarterback", "rugby", "nba", "nhl", "mlb", "ravens", "super bowl", "touchdown",
+                        "nations championship", "six nations", "cricket", "formula 1", "motogp", "tenis", "atp", "wta"]
+CLUB_MIN_NEWS = 3            # club con menos noticias (en NEWS_DAYS) y ningun rumor: noindex y fuera del sitemap
+
+# Mercado de invierno: {año: [(liga, abre, cierra, hora de cierre, oficial?, fuente)]}. Fechas ISO.
+# Comprobadas el 2026-11-02. oficial=False: solo en prensa; revisar cuando el organismo lo publique.
+WINTER_WINDOWS = {
+    2027: [
+        ("LaLiga", "2027-01-02", "2027-02-02", "", True,
+         "https://www.laliga.com/fichajes/laliga-easports"),            # web oficial de LaLiga: 2 ene - 2 feb, ambos incluidos
+        ("Premier League", "2027-01-01", "2027-02-01", "23:00 (hora de Londres)", True,
+         "https://www.arsenal.com/news/transfer-windows-confirmed-for-202627-season-aKDa80B8CnMD"),                             # la Premier fija el cierre el lunes 1 feb (31 ene es domingo)
+        ("Serie A", "2027-01-02", "2027-02-01", "20:00", False,
+         "https://www.zonacalciofaidate.it/serie-a/calciomercato-2026-27-ufficiali-le-date-quando-apre-e-chiude-il-mercato-di-serie-a-b-e-c/"),  # calendario FIGC 2026/27 segun prensa; falta el comunicado
+        ("Bundesliga", "2027-01-01", "2027-02-01", "20:00", False,
+         "https://ran.joyn.de/sports/fussball/transfers"),              # solo prensa; falta confirmacion de DFL/DFB
+        ("Ligue 1", "2027-01-01", "2027-02-01", "19:59", True,
+         "https://sports.orange.fr/football/mercato/article/mercato-les-dates-du-mercato-2026-2027-devoilees-exclu-CNT000002pw3ub.html"),                                        # LFP, consejo de administracion del 21 mayo 2026
+    ],
+}
+
 FANTASY_WORDS = {
     "back": ["recibe el alta", "alta medica", "recuperado", "recuperados", "se recupera", "vuelve a entrenar",
              "vuelve a la convocatoria", "entra en la convocatoria", "ya entrena", "back in training",

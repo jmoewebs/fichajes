@@ -20,6 +20,7 @@ __ADSENSE__
 <title>__TITLE__</title>
 <meta name="description" content="__DESCRIPTION__">
 <link rel="canonical" href="__CANONICAL__">
+__ROBOTS__
 <link rel="alternate" type="application/rss+xml" title="Movimientos del mercado de fichajes" href="__SITE_URL__/feed.xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="__SITE_NAME__">
@@ -293,6 +294,8 @@ table.tb { border-collapse:collapse; width:100%; font-size:15px; font-variant-nu
 .form i.W { background:var(--ok); } .form i.L { background:var(--hot); }
 .tb-two { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
 .tb-note { font-size:13px; color:var(--muted); margin:8px 0 0; }
+tr.z-oct td:first-child { box-shadow:inset 4px 0 0 var(--grass); } tr.z-po td:first-child { box-shadow:inset 4px 0 0 #d9a31b; }
+.winter-link { margin:10px 0 0; font-size:15px; } .winter-link a { font-weight:600; }
 @media (max-width:720px) {
   .tb-two { grid-template-columns:1fr; }
   .tb .hide-sm { display:none; }
@@ -618,6 +621,9 @@ const PAGE = "__PAGE__";                 // news | rumors | table | fantasy
 const ROOT = "__ROOT__";                 // camino hasta la portada ("", "../", "../../")
 const COUNTS = __COUNTS__;
 const TABLE_LEAGUE = __TABLE_LEAGUE__;
+const TABLE_NOTE = __TABLE_NOTE__;
+const JORNADAS = __JORNADAS__;
+const WINTER = __WINTER__;
 const LEAGUE_SLUGS = __LEAGUE_SLUGS__;
 const FX_REPORT = __FX_REPORT__;
 const FX_PLAYERS = __FX_PLAYERS__;       // jugadores conocidos y sus formas de nombrarlos (solo en Fantasy)
@@ -1135,7 +1141,11 @@ function renderRumors(text, club) {
 function renderClub(text) {
   const box = el("section", "club-box");
   box.append(el("h2", null, "Fichajes, rumores y noticias del " + CLUB));
-  if (CLUB_INFO) {
+  if (CLUB_INFO && CLUB_INFO.pos === null) {
+    const p = el("p"), a = el("a", null, "Clasificación de " + CLUB_INFO.league);
+    a.href = dirUrl(ROOT + "clasificacion/" + LEAGUE_SLUGS[CLUB_INFO.league] + "/");
+    p.append(a); box.append(p);
+  } else if (CLUB_INFO) {
     const p = el("p");
     p.append("Va " + CLUB_INFO.pos + "º en ", (() => { const a = el("a", null, CLUB_INFO.league);
       a.href = dirUrl(ROOT + "clasificacion/" + LEAGUE_SLUGS[CLUB_INFO.league] + "/"); return a; })(),
@@ -1258,6 +1268,12 @@ function saveTeam() { save(FX_KEY, team); }
 
 function renderFxReport() {
   if (!FX_REPORT.length) return;
+  if (JORNADAS.length) {
+    const nav = el("p", "fx-intro");
+    nav.append("Por jornada: ");
+    JORNADAS.forEach((m, i) => { const a = el("a", null, "Jornada " + m); a.href = dirUrl(ROOT + "fantasy/jornada-" + m + "/"); if (i) nav.append(" · "); nav.append(a); });
+    list.append(nav);
+  }
   list.append(el("h2", "tb-h", "Parte médico de los últimos días"));
   list.append(el("p", "fx-intro", "Jugadores de la lista de la web y máximos goleadores de cada liga con noticias recientes de lesión, sanción, duda o recuperación."));
   for (const [st, title] of [["out", "Bajas"], ["doubt", "Dudas"], ["back", "Recuperados"]]) {
@@ -1400,6 +1416,7 @@ function renderTable() {
   const h = el("h2", "tb-h", "Clasificación de " + tableLeague);
   if (d.matchday) h.append(el("small", null, "Jornada " + d.matchday));
   list.append(h);
+  if (TABLE_NOTE) list.append(el("p", "tb-note", TABLE_NOTE));
   const rows = d.table.map(t => {
     const tr = el("tr");
     tr.append(cell("td", t.pos, "pos"), cell("td", t.team, "l team"), cell("td", t.played),
@@ -1411,6 +1428,7 @@ function renderTable() {
       const i = el("i", r, FORM[r] || r); i.title = {W:"Ganado", D:"Empatado", L:"Perdido"}[r] || r; box.append(i);
     }
     f.append(box); tr.append(f);
+    if (tableLeague === "Champions League") tr.className = t.pos <= 8 ? "z-oct" : t.pos <= 24 ? "z-po" : "z-out";
     return tr;
   });
   const hasForm = d.table.some(t => t.form);
@@ -1463,6 +1481,10 @@ function render() {
   fLeagues.hidden = solo;
   q.disabled = sel.disabled = solo;
   renderHero();
+  if (WINTER && PAGE !== "club" && (tab === "news" || tab === "rumors")) {
+    const w = el("p", "winter-link"), a = el("a", null, WINTER.text); a.href = dirUrl(ROOT + WINTER.path);
+    w.append("📅 ", a); list.append(w);
+  }
   if (tab === "fantasy") { renderFantasy(); return; }
   if (tab === "table") { renderTable(); return; }
   if (PAGE === "club") { renderClub(text); return; }
@@ -1714,7 +1736,8 @@ def _news_tag(path, root, news, inline=False):
 def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
            description, canonical, root, tagline="", page="news", table_league=None,
            static_html=None, counts=None, fx_report=(), standings=None, club=None, club_info=None,
-           fx_players=None, fx_ignore=(), club_intro=(), ld_page=(), updated=None):
+           fx_players=None, fx_ignore=(), club_intro=(), ld_page=(), updated=None,
+           table_note="", noindex=False):
     esc = html_lib.escape
     verification = (f'<meta name="google-site-verification" content="{esc(config.GOOGLE_VERIFICATION, quote=True)}">'
                     if config.GOOGLE_VERIFICATION else "")
@@ -1781,6 +1804,10 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__NOTOOLS__", " notools" if page in ("table", "fantasy") else "")
             .replace("__COUNTS__", _json(counts or {"news": len(list(news)), "rumors": len(rumors)}))
             .replace("__TABLE_LEAGUE__", _json(table_league))
+            .replace("__TABLE_NOTE__", _json(table_note))
+            .replace("__ROBOTS__", '<meta name="robots" content="noindex,follow">' if noindex else "")
+            .replace("__JORNADAS__", _json(_JORNADAS[:4]))
+            .replace("__WINTER__", _json(_winter_link()))
             .replace("__LEAGUE_SLUGS__", _json({lg: league_slug(lg) for lg in config.STANDINGS_COMPETITIONS}))
             .replace("__FX_REPORT__", _json(list(fx_report)))
             .replace("__FX_WORDS__", _json({**config.FANTASY_WORDS, "rules": config.FANTASY_RULES}))
@@ -1843,8 +1870,84 @@ def _next_jornada(standings):
 
 def _fantasy_title(standings):
     md = _next_jornada(standings)
-    return f"Lesionados y sancionados de la jornada {md} de LaLiga Fantasy" if md else \
-        "Lesionados y sancionados para tu Fantasy"
+    return f"Bajas y dudas LaLiga Fantasy: tu once de la jornada {md}" if md else \
+        "Bajas y dudas LaLiga Fantasy para tu once"
+
+
+def _winter_link():
+    """{"text", "path"} de la página de fechas del mercado de invierno, o None si no hay fechas cargadas."""
+    y = _winter_year()
+    return {"text": f"Fechas del mercado de invierno {y}: cuándo abre y cierra en cada liga",
+            "path": f"fichajes-enero-{y}/"} if y in config.WINTER_WINDOWS else None
+
+
+def _winter_page(rumors, news, lastmod_rumors, out_dir):
+    """/fichajes-enero-AAAA/: fechas de apertura y cierre por liga + rumores activos por termómetro.
+    Devuelve (ruta, lastmod) o None."""
+    y = _winter_year()
+    wins = config.WINTER_WINDOWS.get(y)
+    if not wins:
+        return None
+    esc = html_lib.escape
+    root = "../"
+    path = f"/fichajes-enero-{y}/"
+    title = f"Fichajes de enero {y}: fechas del mercado de invierno"
+    h1 = f"Fichajes de enero {y}: cuándo abre y cierra el mercado"
+    fmt = lambda iso: f"{datetime.fromisoformat(iso).day} de {MONTHS[datetime.fromisoformat(iso).month - 1]} de {iso[:4]}"
+    DAYS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
+    wd = lambda iso: DAYS[datetime.fromisoformat(iso).weekday()]
+    rows = "".join(
+        f"<tr><td>{esc(lg)}</td><td>{wd(a)} {fmt(a)}</td><td>{wd(c)} {fmt(c)}{(' · ' + esc(h)) if h else ''}</td>"
+        f"<td>{'Oficial' if ok else 'Según prensa, pendiente de confirmar'} "
+        f'(<a href="{esc(src, quote=True)}" target="_blank" rel="noopener">fuente</a>)</td></tr>'
+        for lg, a, c, h, ok, src in wins)
+    pend = [w[0] for w in wins if not w[4]]
+    top = sorted((r for r in rumors if _best_status(r) != "oficial"), key=lambda r: -r["score"])
+    items = "".join(
+        f'<li><strong>{esc(r["player"])}</strong> · {esc(str(r.get("from_club") or "?"))} → {esc(str(r.get("to_club") or "?"))}'
+        f' · <span class="lb doubt">{r["score"]}°</span> {esc(_label(r["score"], _best_status(r)))}</li>' for r in top[:30])
+    body = [f"<p>El mercado de invierno {y} se abre a principios de enero y se cierra el 1 o 2 de febrero, según la liga. "
+            "Estas son las fechas de las cinco grandes ligas, con la hora de cierre cuando se conoce. Pasadas esas fechas, "
+            "los clubes solo pueden fichar jugadores libres.</p>",
+            '<table class="tb"><tr><th>Liga</th><th>Abre</th><th>Cierra</th><th>Estado</th></tr>' + rows + "</table>"]
+    if pend:
+        body.append(f"<p class='mt'>Pendiente de confirmación oficial: {esc(', '.join(pend))}. Actualizaremos la tabla cuando se publique.</p>")
+    body.append(f"<h2>Rumores activos del mercado de invierno {y}</h2>")
+    if items:
+        body.append(f"<p>Los {min(len(top), 30)} rumores con más termómetro ahora mismo, de más a menos caliente "
+                    f'(<a href="{root}rumores/">ver todos los rumores</a>).</p><ol>{items}</ol>')
+    else:
+        body.append(f'<p>No hay rumores activos ahora mismo. Los nuevos aparecerán en <a href="{root}rumores/">Rumores de fichajes</a>.</p>')
+    body.append(f'<p><a class="btn" href="{root}rumores/">Todos los rumores con su termómetro</a></p>')
+    lm = lastmod_rumors
+    ld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "WebSite", "name": config.SITE_NAME, "url": config.SITE_URL + "/", "inLanguage": "es-ES"},
+        *_page_ld(path, h1, f"Fechas de apertura y cierre del mercado de invierno {y} en las cinco grandes ligas.",
+                  [("Rumores de fichajes", "/rumores/"), (f"Fichajes de enero {y}", None)], lm)]}
+    desc = (f"Fechas del mercado de invierno {y}: apertura y cierre en LaLiga, Premier League, Serie A, Bundesliga y "
+            f"Ligue 1, y los rumores de fichajes más calientes.")
+    out = _simple_page(root, "rumors", title, h1, desc, config.SITE_URL + path, ld,
+                       _crumbs(root, ("Rumores de fichajes", "/rumores/"), (f"Fichajes de enero {y}", None)), "".join(body))
+    p = os.path.join(out_dir, f"fichajes-enero-{y}", "index.html")
+    os.makedirs(os.path.dirname(p), exist_ok=True)
+    with open(p, "w", encoding="utf-8") as f:
+        f.write(out)
+    return path, lm
+
+
+def _simple_page(root, nav_on, title, h1, desc, canonical, ld, crumbs, body):
+    """Página estática ligera con la plantilla de las jornadas de Fantasy."""
+    esc = html_lib.escape
+    analytics = (ANALYTICS.replace("__GA_ID__", config.GA_MEASUREMENT_ID).replace("__ROOT__", root)
+                 if config.GA_MEASUREMENT_ID else "")
+    return (JORNADA_PAGE.replace("__ADSENSE__", ADSENSE).replace("__NAV__", _nav(root, nav_on)).replace("__OGTYPE__", "article")
+            .replace("__PREF_SOURCE__", _pref_source_link()).replace("__SITE_URL__", config.SITE_URL)
+            .replace("__TITLE__", esc(_fit_title(title))).replace("__DESCRIPTION__", esc(desc[:160], quote=True))
+            .replace("__CANONICAL__", canonical).replace("__LDJSON__", _json(ld))
+            .replace("__SITE_NAME__", esc(config.SITE_NAME)).replace("__ROOT__", root)
+            .replace("__H1__", esc(h1)).replace("__CRUMBS__", crumbs).replace("__BODY__", body)
+            .replace("__FOOTER__", _sections_footer(root)).replace("__ANALYTICS__", analytics)
+            .replace("__COOKIE_BUTTON__", '<button id="ck-config">Configurar cookies</button>' if config.GA_MEASUREMENT_ID else ""))
 
 
 def _tabs_html(root, page, is_archive):
@@ -1868,6 +1971,9 @@ def _sections_footer(root):
              ("Rumores de fichajes de hoy", f"{root}rumores-fichajes-hoy/"),
              ("LaLiga Fantasy", f"{root}fantasy/")]
     links += [(f"Clasificación de {lg}", f"{root}clasificacion/{league_slug(lg)}/") for lg in config.STANDINGS_COMPETITIONS]
+    wl = _winter_link()
+    if wl:
+        links.append((f"Fichajes de enero {_winter_year()}: fechas del mercado", root + wl["path"]))
     links += [(f"Lesionados jornada {md}", f"{root}fantasy/jornada-{md}/") for md in _JORNADAS[:4]]
     if _PLAYER_PAGES:
         links += [("Últimos movimientos del mercado", f"{root}rumores/movimientos/"),
@@ -2073,6 +2179,23 @@ def _club_intro(club, ci, standings, rumors, news, fx):
                     if top and top["goals"] else "")
             out.append(f"{first}: {bal}. {gap}{tail}")
 
+    elif not rumors:
+        # Sin datos de liga ni rumores: párrafo propio con lo que sí sabemos (liga asignada y última noticia)
+        lg = config.CLUB_LEAGUE.get(club)
+        if lg in standings:
+            txt = (f"El {club} figura en nuestra lista de {lg}, pero no aparece en la clasificación de {lg} que "
+                   f"descargamos, así que no hay posición ni balance que mostrar. " if v % 2 else
+                   f"Aunque asociamos al {club} con {lg}, ahora mismo no está en la tabla de {lg} que publicamos, "
+                   f"por eso no hay puntos ni posición. ")
+            txt += f"Puedes consultar la clasificación completa de {lg} desde el enlace de arriba."
+        else:
+            txt = (f"El {club} juega fuera de las cinco grandes ligas con clasificación en la web (LaLiga, Premier League, "
+                   f"Serie A, Bundesliga y Ligue 1), por eso aquí no hay tabla: seguimos sus noticias y sus movimientos de mercado.")
+        if news:
+            last = max(news, key=lambda n: n["date"])
+            txt += f" Lo último que hemos recogido es «{last['title']}» ({last['source']}, {_dmy(last['date'])})."
+        out.append(txt)
+
     # 2) Mercado: rumores del club y el más caliente
     inc = [r for r in rumors if r.get("to_club") == club]
     sal = [r for r in rumors if r.get("from_club") == club]
@@ -2115,6 +2238,7 @@ def _club_intro(club, ci, standings, rumors, news, fx):
     return out
 
 
+_NOINDEX_CLUBS = set()   # clubes con poco contenido: noindex y fuera del sitemap
 _PLAYER_PAGES = set()   # slugs de jugador con página propia
 _JORNADAS = []          # jornadas con página (de la más reciente a la más antigua)
 
@@ -2156,7 +2280,7 @@ def _jornada_page(md, snap, mds, out_dir):
     back = [r for r in rows if r["st"] == "back"]
     url = f"{config.SITE_URL}/fantasy/jornada-{md}/"
     upd = _dmy(snap["updated"], True)
-    title = f"Lesionados y sancionados de la jornada {md} de LaLiga Fantasy"
+    title = f"Bajas y dudas LaLiga Fantasy jornada {md}"
 
     def item(r, with_team=False):
         team = f" ({esc(r['team'])})" if with_team else ""
@@ -2202,6 +2326,15 @@ def _jornada_page(md, snap, mds, out_dir):
                 "si se habla de baja, duda, sanción o recuperación. No es un parte médico oficial: cada línea enlaza a la "
                 "noticia original para que compruebes el detalle y la fecha de vuelta. Si un dato no está al día, "
                 "escríbenos desde la página Sobre esta web.</p>")
+    prev_m = max((m for m in mds if m < md), default=None)
+    next_m = min((m for m in mds if m > md), default=None)
+    pn = []
+    if prev_m:
+        pn.append(f'<a href="{root}fantasy/jornada-{prev_m}/" rel="prev">← Jornada anterior ({prev_m})</a>')
+    if next_m:
+        pn.append(f'<a href="{root}fantasy/jornada-{next_m}/" rel="next">Jornada siguiente ({next_m}) →</a>')
+    if pn:
+        body.insert(len(intro), '<p class="mt2">' + " · ".join(pn) + "</p>")
     others = [m for m in mds if m != md]
     if others:
         body.append("<h2>Otras jornadas</h2><p>" + " · ".join(
@@ -2643,6 +2776,35 @@ def league_slug(league):
     return slugify(league)
 
 
+def _season():
+    """Temporada en curso como "2026-27" (cambia en julio)."""
+    now = datetime.now()
+    y = now.year if now.month >= 7 else now.year - 1
+    return f"{y}-{(y + 1) % 100:02d}"
+
+
+def _cl_note(d):
+    """Texto propio de la Champions: qué significa cada zona de la fase de liga (36 equipos, ocho jornadas)."""
+    table = d.get("table", [])
+    out = ["La fase de liga de la Champions League es una sola tabla de 36 equipos que juegan ocho partidos cada uno. "
+           "Los ocho primeros pasan directamente a los octavos de final; del 9.º al 24.º juegan el playoff, a doble "
+           "partido, por las ocho plazas restantes; del 25.º al 36.º quedan eliminados."]
+    if len(table) >= 9:
+        directo, corte = table[7], table[8]
+        out.append(f"Ahora mismo el {table[0]['team']} lidera con {table[0]['points']} puntos. El último puesto de "
+                   f"octavos directos es del {directo['team']} ({directo['points']} pts) y el primero del playoff es "
+                   f"el {corte['team']} ({corte['points']} pts).")
+    return " ".join(out)
+
+
+def _other_tables_html(current):
+    """Enlaces a las demás clasificaciones (también para quien no ejecute JavaScript)."""
+    esc = html_lib.escape
+    links = " · ".join(f'<a href="/clasificacion/{league_slug(lg)}/">{esc(lg)}</a>'
+                       for lg in config.STANDINGS_COMPETITIONS if lg != current)
+    return f"<p>Otras clasificaciones: {links}</p>"
+
+
 def _static_table(league, d):
     """Clasificación, goleadores y asistentes en HTML normal (para buscadores)."""
     esc = html_lib.escape
@@ -2653,6 +2815,9 @@ def _static_table(league, d):
         p.append(f"<tr><td>{t['pos']}</td><td>{esc(str(t['team']))}</td><td>{t['played']}</td><td>{t['won']}</td>"
                  f"<td>{t['draw']}</td><td>{t['lost']}</td><td>{t['gf']}</td><td>{t['ga']}</td><td>{t['points']}</td></tr>")
     p.append("</table>")
+    if league == "Champions League":
+        p.append(f"<p>{esc(_cl_note(d))}</p>")
+    p.append(_other_tables_html(league))
     goals = sorted(d.get("scorers", []), key=lambda s: -s["goals"])[:20]
     p.append(f"<h2>Máximos goleadores de {esc(league)}</h2><ol>")
     p += [f"<li>{esc(str(s['player']))} ({esc(str(s['team']))}): {s['goals']} goles</li>" for s in goals]
@@ -2668,6 +2833,9 @@ def _static_table(league, d):
 def _static_fantasy(rep_):
     esc = html_lib.escape
     p = ["<h2>Parte médico para tu Fantasy</h2>"]
+    if _JORNADAS:
+        p.append("<p>" + " · ".join(f'<a href="/fantasy/jornada-{m}/">Bajas y dudas de la jornada {m}</a>'
+                                    for m in _JORNADAS[:4]) + "</p>")
     for st, title in [("out", "Bajas"), ("doubt", "Dudas"), ("back", "Recuperados")]:
         rows = [r for r in rep_ if r["st"] == st]
         if rows:
@@ -2690,17 +2858,26 @@ def generate(data, news=(), months=(), out_dir="web"):
     info = _club_info(standings)
     # Página propia para cada club con noticias o rumores recientes, o con sitio en una clasificación
     _CLUB_PAGES.clear()
+    _NOINDEX_CLUBS.clear()
     for club in config.CLUBS:
         if club in info or any(club in n["clubs"] for n in news) or \
            any(club in (r.get("clubs") or [r["from_club"], r["to_club"]]) for r in rumors):
             _CLUB_PAGES[club] = slugify(club)
     counts = {"news": len(news), "rumors": len(rumors)}
+    for club, slug in _CLUB_PAGES.items():       # clubes con poco contenido: noindex y fuera del sitemap
+        if not any(club in (r.get("clubs") or [r["from_club"], r["to_club"]]) for r in rumors) and            sum(1 for n in news if club in n["clubs"]) < config.CLUB_MIN_NEWS:
+            _NOINDEX_CLUBS.add(slug)
     # Fantasy: parte médico general + herramienta para tu once
     try:
         import fantasy, rules
         cands = fantasy.candidates(rules.load_players(), standings)
         ignore = fantasy.load_ignore()
         fx = fantasy.report(news, cands, ignore=ignore)
+        # Solo LaLiga y solo si el titular nombra al jugador (no basta el equipo)
+        def _liga_of(r):
+            c = _club_of_team(str(r.get("team") or ""))
+            return (info.get(c) or {}).get("league") or config.CLUB_LEAGUE.get(c)
+        fx = [r for r in fx if _liga_of(r) == "LaLiga" and fantasy.mentions_player(r, cands)]
         fx_players = {name: sorted(c["keys"]) for name, c in cands.items()}
     except Exception as exc:
         print("[aviso] parte médico:", exc)
@@ -2725,10 +2902,14 @@ def generate(data, news=(), months=(), out_dir="web"):
     for md_ in _JORNADAS:
         lastmod[f"/fantasy/jornada-{md_}/"] = _iso_max(snaps[str(md_)]["updated"])
     lastmod["/rumores-fichajes-hoy/"] = _hoy_page(rumors, out_dir)
+    win = _winter_page(rumors, news, lastmod["/rumores/"], out_dir)
+    if win:
+        lastmod[win[0]] = win[1]
     lastmod.update({k: v for k, v in player_lm.items() if v})
     for k in player_lm:
         lastmod.setdefault(k, None)
-    write_static(months, out_dir, list(standings), list(_CLUB_PAGES.values()), lastmod)
+    write_static(months, out_dir, list(standings),
+                 [sl for sl in _CLUB_PAGES.values() if sl not in _NOINDEX_CLUBS], lastmod)
     common = dict(is_archive=False,
                   tagline=config.SITE_TAGLINE, counts=counts, standings=standings)
 
@@ -2753,21 +2934,26 @@ def generate(data, news=(), months=(), out_dir="web"):
                         "de LaLiga, Premier y Serie A, con termómetro de probabilidad. Cada hora."),
            canonical=config.SITE_URL + "/rumores/", rumors=rumors, news=news,
            archive=_archive(months, prefix="../archivo/"),
-           static_html=_static_list([], rumors, limit=0) + _static_list(news, [], limit=30), **common)
+           static_html=((f'<p><a href="/fichajes-enero-{_winter_year()}/">Fechas del mercado de invierno {_winter_year()}</a></p>'
+                         if _winter_link() else "") + _static_list([], rumors, limit=0) + _static_list(news, [], limit=30)), **common)
 
     # Clasificación: una página por liga (no llevan noticias: así pesan poco)
     for lg, d in standings.items():
-        art = "la " if lg in ("Premier League", "Serie A", "Bundesliga", "Ligue 1") else ""
+        art = "la " if lg in ("Premier League", "Serie A", "Bundesliga", "Ligue 1", "Champions League") else ""
         top = "pichichi" if lg == "LaLiga" else "goleadores"
+        is_cl = lg == "Champions League"
+        h1 = f"Clasificación de la Champions League {_season()}" if is_cl else f"Clasificación de {art}{lg}"
         _write(os.path.join(out_dir, "clasificacion", league_slug(lg), "index.html"), page="table",
                root="../../", table_league=lg,
-               heading=f"Clasificación de {art}{lg}",
-               crumbs=_crumbs("../../", (f"Clasificación de {art}{lg}", None)),
-               ld_page=_page_ld(f"/clasificacion/{league_slug(lg)}/", f"Clasificación de {art}{lg}",
+               heading=h1, table_note=_cl_note(d) if is_cl else "",
+               crumbs=_crumbs("../../", (h1, None)),
+               ld_page=_page_ld(f"/clasificacion/{league_slug(lg)}/", h1,
                                 f"Clasificación, máximos goleadores y asistentes de {art}{lg}.",
-                                [(f"Clasificación de {art}{lg}", None)], lastmod.get(f"/clasificacion/{league_slug(lg)}/")),
-               title=_fit_title(f"Clasificación de {art}{lg}: {top} y asistencias"),
-               description=(f"Clasificación de {art}{lg} actualizada tras cada jornada: puntos, goles y racha de cada "
+                                [(h1, None)], lastmod.get(f"/clasificacion/{league_slug(lg)}/")),
+               title=_fit_title(f"{h1}: fase de liga y goleadores" if is_cl else f"Clasificación de {art}{lg}: {top} y asistencias"),
+               description=((f"Clasificación de la fase de liga de la Champions League {_season()}: quién pasa a octavos, "
+                             "quién va al playoff y los máximos goleadores y asistentes.") if is_cl else
+                            f"Clasificación de {art}{lg} actualizada tras cada jornada: puntos, goles y racha de cada "
                             f"equipo, y las tablas de máximos goleadores y asistentes."),
                canonical=f"{config.SITE_URL}/clasificacion/{league_slug(lg)}/", rumors=[], news=[],
                archive=[], static_html=_static_table(lg, d), **common)
@@ -2777,11 +2963,16 @@ def generate(data, news=(), months=(), out_dir="web"):
         c_news = [n for n in news if club in n["clubs"]]
         c_rumors = [r for r in rumors if club in (r.get("clubs") or [r["from_club"], r["to_club"]])]
         ci = info.get(club)
+        lg_fb = config.CLUB_LEAGUE.get(club)
+        thin = not c_rumors and len(c_news) < config.CLUB_MIN_NEWS
+        if thin:
+            _NOINDEX_CLUBS.add(slug)
+        club_lg = ci or ({"league": lg_fb, "pos": None} if lg_fb in standings else None)   # solo para enlazar a la tabla
         where = f" y su posición en {ci['league']}" if ci else ""
         intro = _club_intro(club, ci, standings, c_rumors, c_news, fx)
-        liga_crumb = ((f"Clasificación de {ci['league']}", f"/clasificacion/{league_slug(ci['league'])}/"),) if ci else ()
+        liga_crumb = ((f"Clasificación de {club_lg['league']}", f"/clasificacion/{league_slug(club_lg['league'])}/"),) if club_lg else ()
         _write(os.path.join(out_dir, "club", slug, "index.html"), page="club", root="../../",
-               club=club, club_info=ci, club_intro=intro,
+               club=club, club_info=club_lg, club_intro=intro, noindex=thin,
                heading=f"Fichajes y rumores del {club}",
                crumbs=_crumbs("../../", *liga_crumb, (club, None)),
                ld_page=_page_ld(f"/club/{slug}/", f"Fichajes y rumores del {club}",
@@ -2795,6 +2986,8 @@ def generate(data, news=(), months=(), out_dir="web"):
                archive=_archive(months, prefix="../../archivo/"),
                static_html=(f"<h2>Fichajes, rumores y noticias del {html_lib.escape(club)}</h2>"
                             + "".join(f"<p>{html_lib.escape(t)}</p>" for t in intro)
+                            + (f'<p><a href="/clasificacion/{league_slug(club_lg["league"])}/">Clasificación de '
+                               f'{html_lib.escape(club_lg["league"])}</a></p>' if club_lg else "")
                             + _static_list(c_news, c_rumors, limit=40)), **common)
 
     _write(os.path.join(out_dir, "fantasy", "index.html"), page="fantasy", root="../",
@@ -2899,6 +3092,17 @@ def _share_image():
     return im
 
 
+# Fecha de la última edición del texto de las páginas legales (cámbiala al modificar SOBRE_PAGE o PRIVACIDAD_PAGE)
+LEGAL_LASTMOD = {"sobre": "2026-11-02", "privacidad": "2026-11-02"}
+
+
+def _month_end(ym):
+    """Último día de un mes ya cerrado (AAAA-MM): su archivo no cambia después de esa fecha."""
+    import calendar
+    y, m = int(ym[:4]), int(ym[5:])
+    return f"{ym}-{calendar.monthrange(y, m)[1]:02d}"
+
+
 def write_static(months, out_dir="web", leagues=(), clubs=(), lastmod=None):
     """favicon, imagen para compartir, robots.txt y sitemap.xml."""
     os.makedirs(out_dir, exist_ok=True)
@@ -2937,14 +3141,14 @@ def write_static(months, out_dir="web", leagues=(), clubs=(), lastmod=None):
             (config.SITE_URL + "/rumores-fichajes-hoy/", lastmod.get("/rumores-fichajes-hoy/")),
             (config.SITE_URL + "/fantasy/", lastmod.get("/fantasy/"))]
     urls += [(config.SITE_URL + k, v) for k, v in sorted(lastmod.items())
-             if k.startswith(("/fantasy/jornada-", "/jugador/", "/rumores/movimientos"))]
-    urls += [(f"{config.SITE_URL}/sobre", None), (f"{config.SITE_URL}/privacidad", None)]
+             if k.startswith(("/fantasy/jornada-", "/jugador/", "/rumores/movimientos", "/fichajes-enero-"))]
+    urls += [(f"{config.SITE_URL}/sobre", LEGAL_LASTMOD["sobre"]), (f"{config.SITE_URL}/privacidad", LEGAL_LASTMOD["privacidad"])]
     urls += [(f"{config.SITE_URL}/clasificacion/{league_slug(lg)}/", lastmod.get(f"/clasificacion/{league_slug(lg)}/"))
              for lg in leagues]
     urls += [(f"{config.SITE_URL}/club/{slug}/", lastmod.get(f"/club/{slug}/")) for slug in clubs]
     current = _now_spain().strftime("%Y-%m")
     for ym, _, _ in months:
-        urls.append((f"{config.SITE_URL}/archivo/{ym}", lastmod.get("/") if ym == current else None))
+        urls.append((f"{config.SITE_URL}/archivo/{ym}", lastmod.get("/") if ym == current else _month_end(ym)))
     body = "".join(f"<url><loc>{u}</loc>" + (f"<lastmod>{m}</lastmod>" if m else "") + "</url>" for u, m in urls)
     with open(os.path.join(out_dir, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write('<?xml version="1.0" encoding="UTF-8"?>\n'
