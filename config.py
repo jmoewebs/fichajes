@@ -24,7 +24,8 @@ GA_MEASUREMENT_ID = "G-LJ44H4TZ4Y"
 # Clasificaciones (football-data.org, gratis con clave). Código de cada liga en la API.
 STANDINGS_COMPETITIONS = {"LaLiga": "PD", "Premier League": "PL", "Serie A": "SA",
                           "Bundesliga": "BL1", "Ligue 1": "FL1",
-                          "Champions League": "CL"}   # CL: fase de liga (una sola tabla de 36 equipos); gratis en football-data.org
+                          "Champions League": "CL", "Championship": "ELC",
+                          "Eredivisie": "DED", "Primeira Liga": "PPL"}   # CL: fase de liga (una sola tabla de 36 equipos); gratis en football-data.org
 STANDINGS_EVERY_HOURS = 3        # cada cuántas horas se descargan (ahorra minutos de GitHub)
 STANDINGS_SCORERS_LIMIT = 100    # goleadores que se piden; de ellos salen los asistentes
 STANDINGS_FILE = "clasificaciones.json"

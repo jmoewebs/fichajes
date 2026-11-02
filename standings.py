@@ -13,6 +13,7 @@ import config
 
 API = "https://api.football-data.org/v4"
 DATA_VERSION = 2                   # súbelo si cambia lo que se guarda, para forzar una descarga
+FAIL_RETRY_HOURS = 24                # una liga que falla (p. ej. fuera del plan gratuito) no se reintenta cada hora
 PAUSE = 6.5                        # plan gratuito: 10 consultas por minuto
 
 
@@ -85,7 +86,14 @@ def update_if_due(token=None, path=None, force=False):
     last = data.get("_updated")
     if data.get("_version") != DATA_VERSION:
         force = True               # el formato ha cambiado (p. ej. se añadió la racha): descargar ya
-    if any(lg not in data for lg in config.STANDINGS_COMPETITIONS):
+    now = datetime.now(timezone.utc)
+    failed = {} if force else (data.get("_failed") or {})   # a mano (force) se reintenta todo; # {liga: cuándo falló}: no se reintenta antes de FAIL_RETRY_HOURS
+
+    def recently_failed(lg):
+        t = failed.get(lg)
+        return bool(t) and now - datetime.fromisoformat(t) < timedelta(hours=FAIL_RETRY_HOURS)
+
+    if any(lg not in data and not recently_failed(lg) for lg in config.STANDINGS_COMPETITIONS):
         force = True               # falta una competición nueva (p. ej. la Champions): descargar ya
     if last and not force:
         age = datetime.now(timezone.utc) - datetime.fromisoformat(last)
@@ -93,6 +101,8 @@ def update_if_due(token=None, path=None, force=False):
             return f"clasificaciones al día (hace {int(age.total_seconds() // 60)} min)"
     ok, errors, first = 0, [], True
     for league, code in config.STANDINGS_COMPETITIONS.items():
+        if recently_failed(league):
+            continue
         try:
             if not first:
                 time.sleep(PAUSE)
@@ -119,12 +129,17 @@ def update_if_due(token=None, path=None, force=False):
             same = old.get("updated") and all(old.get(k) == new[k] for k in new)
             new["updated"] = old["updated"] if same else datetime.now(timezone.utc).isoformat()
             data[league] = new
+            failed.pop(league, None)
             ok += 1
         except Exception as exc:          # una liga que falla no borra lo que ya teníamos
             errors.append(f"{league}: {exc}")
-    if ok:
-        data["_updated"] = datetime.now(timezone.utc).isoformat()
+            failed[league] = datetime.now(timezone.utc).isoformat()
+    if ok or errors:
+        data["_failed"] = failed
+        if ok:
+            data["_updated"] = datetime.now(timezone.utc).isoformat()
         data["_version"] = DATA_VERSION
+    if ok or errors:
         with open(path, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=1)
     msg = f"clasificaciones actualizadas: {ok} ligas"

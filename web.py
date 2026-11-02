@@ -275,6 +275,7 @@ a.chipbtn { text-decoration:none; }
 .lg-pick a { font:500 15px/1 var(--body); padding:8px 14px; border-radius:20px; cursor:pointer; text-decoration:none;
   border:1px solid var(--line); background:var(--card); color:var(--ink); }
 .lg-pick a[aria-pressed="true"] { background:var(--grass); border-color:var(--grass); color:#fff; }
+@media (max-width:520px) { .lg-pick { gap:5px; } .lg-pick a { font-size:14px; padding:8px 10px; } }
 .tb-h { font:700 22px/1.1 var(--cond); margin:26px 0 10px; display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
 .tb-h small { font:500 15px/1 var(--body); color:var(--muted); }
 .tb-wrap { overflow-x:auto; background:var(--card); border:1px solid var(--line); border-radius:16px; }
@@ -1906,7 +1907,8 @@ def _winter_page(rumors, news, lastmod_rumors, out_dir):
     items = "".join(
         f'<li><strong>{esc(r["player"])}</strong> · {esc(str(r.get("from_club") or "?"))} → {esc(str(r.get("to_club") or "?"))}'
         f' · <span class="lb doubt">{r["score"]}°</span> {esc(_label(r["score"], _best_status(r)))}</li>' for r in top[:30])
-    body = [f"<p>El mercado de invierno {y} se abre a principios de enero y se cierra el 1 o 2 de febrero, según la liga. "
+    upd = f'<p class="mt">Actualizado el {_dmy(lastmod_rumors, True)}.</p>' if lastmod_rumors else ""
+    body = [upd, f"<p>El mercado de invierno {y} se abre a principios de enero y se cierra el 1 o 2 de febrero, según la liga. "
             "Estas son las fechas de las cinco grandes ligas, con la hora de cierre cuando se conoce. Pasadas esas fechas, "
             "los clubes solo pueden fichar jugadores libres.</p>",
             '<table class="tb"><tr><th>Liga</th><th>Abre</th><th>Cierra</th><th>Estado</th></tr>' + rows + "</table>"]
@@ -2166,11 +2168,11 @@ def _club_intro(club, ci, standings, rumors, news, fx):
             bal = (f"{_plural(row['won'], 'victoria', 'victorias')}, {_plural(row['draw'], 'empate', 'empates')} "
                    f"y {_plural(row['lost'], 'derrota', 'derrotas')}, con {row['gf']} goles a favor y {row['ga']} en contra")
             if row["pos"] == 1 and n > 1:
-                gap = f"Lidera con {table[0]['points'] - table[1]['points']} puntos de ventaja sobre el {table[1]['team']}."
+                gap = f"Lidera con {_plural(table[0]['points'] - table[1]['points'], 'punto', 'puntos')} de ventaja sobre el {table[1]['team']}."
             elif table[0]["points"] == row["points"]:
                 gap = f"Está empatado a puntos con el líder, el {table[0]['team']}."
             else:
-                gap = f"Está a {table[0]['points'] - row['points']} puntos del líder, el {table[0]['team']}."
+                gap = f"Está a {_plural(table[0]['points'] - row['points'], 'punto', 'puntos')} del líder, el {table[0]['team']}."
             first = (f"En {ci['league']} el {club} está {zona} de la tabla" if v % 2 else
                      f"El {club} se mueve {zona} de la clasificación de {ci['league']}")
             sc = [x for x in d.get("scorers", []) if _club_of_team(str(x.get("team") or "")) == club]
@@ -2939,7 +2941,8 @@ def generate(data, news=(), months=(), out_dir="web"):
 
     # Clasificación: una página por liga (no llevan noticias: así pesan poco)
     for lg, d in standings.items():
-        art = "la " if lg in ("Premier League", "Serie A", "Bundesliga", "Ligue 1", "Champions League") else ""
+        art = "la " if lg in ("Premier League", "Serie A", "Bundesliga", "Ligue 1", "Champions League",
+                                 "Championship", "Eredivisie", "Primeira Liga") else ""
         top = "pichichi" if lg == "LaLiga" else "goleadores"
         is_cl = lg == "Champions League"
         h1 = f"Clasificación de la Champions League {_season()}" if is_cl else f"Clasificación de {art}{lg}"
