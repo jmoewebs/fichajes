@@ -3037,6 +3037,14 @@
     "penalties": 0
    },
    {
+    "player": "Armand Lauriente",
+    "team": "Sassuolo",
+    "played": 10,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
     "player": "Yann Aurel Bisseck",
     "team": "Inter",
     "played": 10,
@@ -3251,17 +3259,9 @@
     "goals": 1,
     "assists": 0,
     "penalties": 0
-   },
-   {
-    "player": "Ricardo Mangas",
-    "team": "Monza",
-    "played": 10,
-    "goals": 1,
-    "assists": 2,
-    "penalties": 0
    }
   ],
-  "updated": "2026-11-02T18:44:57.303396+00:00"
+  "updated": "2026-11-02T18:58:06.963452+00:00"
  },
  "Bundesliga": {
   "matchday": 8,
@@ -4647,7 +4647,7 @@
    {
     "player": "Kamory Doumbia",
     "team": "Brest",
-    "played": 8,
+    "played": 9,
     "goals": 4,
     "assists": 1,
     "penalties": 1
@@ -4735,7 +4735,7 @@
    {
     "player": "Ludovic Ajorque",
     "team": "Brest",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -4927,7 +4927,7 @@
    {
     "player": "Pathé Mboup",
     "team": "Brest",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -4943,7 +4943,7 @@
    {
     "player": "Mama Baldé",
     "team": "Brest",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -5119,7 +5119,7 @@
    {
     "player": "Jean-Victor Makengo",
     "team": "Lorient",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -5271,7 +5271,7 @@
    {
     "player": "Ibrahima Baldé",
     "team": "Lorient",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -5279,7 +5279,7 @@
    {
     "player": "Noah Mbamba",
     "team": "Lorient",
-    "played": 4,
+    "played": 5,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -5319,7 +5319,7 @@
    {
     "player": "Isak Jensen",
     "team": "Lorient",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -5359,7 +5359,7 @@
    {
     "player": "Lucas Tousart",
     "team": "Brest",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -5367,7 +5367,7 @@
    {
     "player": "Kenny Lala",
     "team": "Brest",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 1
@@ -5375,15 +5375,15 @@
    {
     "player": "Gabin Bernardeau",
     "team": "Lorient",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
    }
   ],
-  "updated": "2026-11-02T01:03:41.503014+00:00"
+  "updated": "2026-11-02T18:58:50.421103+00:00"
  },
- "_updated": "2026-11-02T18:46:04.857691+00:00",
+ "_updated": "2026-11-02T19:00:27.311434+00:00",
  "_version": 2,
  "Champions League": {
   "matchday": 4,
@@ -6696,5 +6696,3270 @@
    }
   ],
   "updated": "2026-11-02T18:46:04.857673+00:00"
- }
+ },
+ "Championship": {
+  "matchday": 14,
+  "table": [
+   {
+    "id": 343,
+    "pos": 1,
+    "team": "Middlesbrough",
+    "played": 13,
+    "won": 8,
+    "draw": 4,
+    "lost": 1,
+    "gf": 30,
+    "ga": 17,
+    "gd": 13,
+    "points": 28,
+    "form": "W,W,D,W,W"
+   },
+   {
+    "id": 72,
+    "pos": 2,
+    "team": "Swansea",
+    "played": 13,
+    "won": 8,
+    "draw": 2,
+    "lost": 3,
+    "gf": 20,
+    "ga": 13,
+    "gd": 7,
+    "points": 26,
+    "form": "W,W,L,L,W"
+   },
+   {
+    "id": 76,
+    "pos": 3,
+    "team": "Wolverhampton",
+    "played": 13,
+    "won": 7,
+    "draw": 3,
+    "lost": 3,
+    "gf": 23,
+    "ga": 16,
+    "gd": 7,
+    "points": 24,
+    "form": "L,W,D,W,W"
+   },
+   {
+    "id": 74,
+    "pos": 4,
+    "team": "West Brom",
+    "played": 13,
+    "won": 7,
+    "draw": 3,
+    "lost": 3,
+    "gf": 19,
+    "ga": 14,
+    "gd": 5,
+    "points": 24,
+    "form": "L,W,W,D,W"
+   },
+   {
+    "id": 340,
+    "pos": 5,
+    "team": "Southampton",
+    "played": 13,
+    "won": 8,
+    "draw": 3,
+    "lost": 2,
+    "gf": 28,
+    "ga": 13,
+    "gd": 15,
+    "points": 23,
+    "form": "W,W,D,W,W"
+   },
+   {
+    "id": 332,
+    "pos": 6,
+    "team": "Birmingham",
+    "played": 13,
+    "won": 6,
+    "draw": 5,
+    "lost": 2,
+    "gf": 23,
+    "ga": 13,
+    "gd": 10,
+    "points": 23,
+    "form": "W,W,W,L,W"
+   },
+   {
+    "id": 70,
+    "pos": 7,
+    "team": "Stoke",
+    "played": 13,
+    "won": 7,
+    "draw": 2,
+    "lost": 4,
+    "gf": 20,
+    "ga": 16,
+    "gd": 4,
+    "points": 23,
+    "form": "W,L,W,D,W"
+   },
+   {
+    "id": 563,
+    "pos": 8,
+    "team": "West Ham",
+    "played": 13,
+    "won": 6,
+    "draw": 4,
+    "lost": 3,
+    "gf": 33,
+    "ga": 18,
+    "gd": 15,
+    "points": 22,
+    "form": "D,W,W,L,L"
+   },
+   {
+    "id": 69,
+    "pos": 9,
+    "team": "QPR",
+    "played": 13,
+    "won": 5,
+    "draw": 5,
+    "lost": 3,
+    "gf": 21,
+    "ga": 16,
+    "gd": 5,
+    "points": 20,
+    "form": "D,W,L,W,L"
+   },
+   {
+    "id": 356,
+    "pos": 10,
+    "team": "Sheffield Utd",
+    "played": 13,
+    "won": 5,
+    "draw": 4,
+    "lost": 4,
+    "gf": 17,
+    "ga": 15,
+    "gd": 2,
+    "points": 19,
+    "form": "W,L,W,D,W"
+   },
+   {
+    "id": 325,
+    "pos": 11,
+    "team": "Portsmouth",
+    "played": 13,
+    "won": 5,
+    "draw": 4,
+    "lost": 4,
+    "gf": 16,
+    "ga": 15,
+    "gd": 1,
+    "points": 19,
+    "form": "W,W,D,W,D"
+   },
+   {
+    "id": 384,
+    "pos": 12,
+    "team": "Millwall",
+    "played": 13,
+    "won": 5,
+    "draw": 3,
+    "lost": 5,
+    "gf": 23,
+    "ga": 21,
+    "gd": 2,
+    "points": 18,
+    "form": "W,L,D,L,W"
+   },
+   {
+    "id": 59,
+    "pos": 13,
+    "team": "Blackburn",
+    "played": 13,
+    "won": 5,
+    "draw": 3,
+    "lost": 5,
+    "gf": 19,
+    "ga": 20,
+    "gd": -1,
+    "points": 18,
+    "form": "W,W,L,W,L"
+   },
+   {
+    "id": 387,
+    "pos": 14,
+    "team": "Bristol City",
+    "played": 13,
+    "won": 5,
+    "draw": 3,
+    "lost": 5,
+    "gf": 15,
+    "ga": 17,
+    "gd": -2,
+    "points": 18,
+    "form": "D,L,L,D,W"
+   },
+   {
+    "id": 68,
+    "pos": 15,
+    "team": "Norwich",
+    "played": 13,
+    "won": 5,
+    "draw": 0,
+    "lost": 8,
+    "gf": 23,
+    "ga": 24,
+    "gd": -1,
+    "points": 15,
+    "form": "L,L,L,W,W"
+   },
+   {
+    "id": 1126,
+    "pos": 16,
+    "team": "Lincoln City",
+    "played": 13,
+    "won": 4,
+    "draw": 3,
+    "lost": 6,
+    "gf": 14,
+    "ga": 23,
+    "gd": -9,
+    "points": 15,
+    "form": "L,L,D,W,L"
+   },
+   {
+    "id": 715,
+    "pos": 17,
+    "team": "Cardiff",
+    "played": 13,
+    "won": 3,
+    "draw": 5,
+    "lost": 5,
+    "gf": 19,
+    "ga": 20,
+    "gd": -1,
+    "points": 14,
+    "form": "L,W,D,W,L"
+   },
+   {
+    "id": 404,
+    "pos": 18,
+    "team": "Wrexham",
+    "played": 13,
+    "won": 3,
+    "draw": 5,
+    "lost": 5,
+    "gf": 15,
+    "ga": 19,
+    "gd": -4,
+    "points": 14,
+    "form": "D,L,W,L,L"
+   },
+   {
+    "id": 60,
+    "pos": 19,
+    "team": "Bolton",
+    "played": 13,
+    "won": 4,
+    "draw": 2,
+    "lost": 7,
+    "gf": 18,
+    "ga": 26,
+    "gd": -8,
+    "points": 14,
+    "form": "L,W,D,L,L"
+   },
+   {
+    "id": 348,
+    "pos": 20,
+    "team": "Charlton",
+    "played": 13,
+    "won": 3,
+    "draw": 5,
+    "lost": 5,
+    "gf": 11,
+    "ga": 21,
+    "gd": -10,
+    "points": 14,
+    "form": "D,D,L,L,L"
+   },
+   {
+    "id": 346,
+    "pos": 21,
+    "team": "Watford",
+    "played": 13,
+    "won": 3,
+    "draw": 2,
+    "lost": 8,
+    "gf": 12,
+    "ga": 23,
+    "gd": -11,
+    "points": 11,
+    "form": "L,L,W,L,L"
+   },
+   {
+    "id": 328,
+    "pos": 22,
+    "team": "Burnley",
+    "played": 13,
+    "won": 1,
+    "draw": 6,
+    "lost": 6,
+    "gf": 17,
+    "ga": 25,
+    "gd": -8,
+    "points": 9,
+    "form": "W,D,L,L,D"
+   },
+   {
+    "id": 342,
+    "pos": 23,
+    "team": "Derby County",
+    "played": 13,
+    "won": 1,
+    "draw": 4,
+    "lost": 8,
+    "gf": 11,
+    "ga": 25,
+    "gd": -14,
+    "points": 7,
+    "form": "D,L,L,D,L"
+   },
+   {
+    "id": 1081,
+    "pos": 24,
+    "team": "Preston NE",
+    "played": 13,
+    "won": 1,
+    "draw": 2,
+    "lost": 10,
+    "gf": 10,
+    "ga": 27,
+    "gd": -17,
+    "points": 5,
+    "form": "L,L,L,D,L"
+   }
+  ],
+  "scorers": [
+   {
+    "player": "William Lankshear",
+    "team": "Middlesbrough",
+    "played": 11,
+    "goals": 13,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Andri Guðjohnsen",
+    "team": "Blackburn",
+    "played": 10,
+    "goals": 8,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Cyle Larin",
+    "team": "Southampton",
+    "played": 11,
+    "goals": 7,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Jarrod Bowen",
+    "team": "West Ham",
+    "played": 11,
+    "goals": 7,
+    "assists": 4,
+    "penalties": 1
+   },
+   {
+    "player": "Fer López",
+    "team": "Wolverhampton",
+    "played": 10,
+    "goals": 6,
+    "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Jack Moylan",
+    "team": "Cardiff",
+    "played": 11,
+    "goals": 6,
+    "assists": 3,
+    "penalties": 1
+   },
+   {
+    "player": "August Priske",
+    "team": "Birmingham",
+    "played": 10,
+    "goals": 6,
+    "assists": 1,
+    "penalties": 1
+   },
+   {
+    "player": "Sam Dalby",
+    "team": "Bolton",
+    "played": 11,
+    "goals": 5,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Kieffer Moore",
+    "team": "Wrexham",
+    "played": 11,
+    "goals": 5,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Mohamed Toure",
+    "team": "Norwich",
+    "played": 6,
+    "goals": 5,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Konstantinos Mavropanos",
+    "team": "West Ham",
+    "played": 10,
+    "goals": 5,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Patrick Bamford",
+    "team": "Sheffield Utd",
+    "played": 11,
+    "goals": 5,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Lyndon Dykes",
+    "team": "Portsmouth",
+    "played": 11,
+    "goals": 5,
+    "assists": 2,
+    "penalties": 1
+   },
+   {
+    "player": "Aune Heggebø",
+    "team": "West Brom",
+    "played": 10,
+    "goals": 4,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Jimmy Morgan",
+    "team": "West Brom",
+    "played": 11,
+    "goals": 4,
+    "assists": 4,
+    "penalties": 0
+   },
+   {
+    "player": "Adam Idah",
+    "team": "Swansea",
+    "played": 11,
+    "goals": 4,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Tyreece Campbell",
+    "team": "Charlton",
+    "played": 11,
+    "goals": 4,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Scott Twine",
+    "team": "Bristol City",
+    "played": 11,
+    "goals": 4,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
+    "player": "Dominic Ballard",
+    "team": "Bristol City",
+    "played": 11,
+    "goals": 4,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Ethan Galbraith",
+    "team": "Stoke",
+    "played": 11,
+    "goals": 4,
+    "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Isaac Price",
+    "team": "West Brom",
+    "played": 11,
+    "goals": 4,
+    "assists": 2,
+    "penalties": 2
+   },
+   {
+    "player": "Kuryu Matsuki",
+    "team": "Southampton",
+    "played": 11,
+    "goals": 4,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Oladapo Afolayan",
+    "team": "Blackburn",
+    "played": 11,
+    "goals": 4,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Liam Millar",
+    "team": "Birmingham",
+    "played": 7,
+    "goals": 4,
+    "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Richard Kone",
+    "team": "QPR",
+    "played": 8,
+    "goals": 4,
+    "assists": 1,
+    "penalties": 1
+   },
+   {
+    "player": "Raúl Jiménez",
+    "team": "Wolverhampton",
+    "played": 6,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 2
+   },
+   {
+    "player": "Thierry Gale",
+    "team": "Bolton",
+    "played": 11,
+    "goals": 3,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Mathias Kvistgaarden",
+    "team": "Norwich",
+    "played": 9,
+    "goals": 3,
+    "assists": 4,
+    "penalties": 0
+   },
+   {
+    "player": "Joseph Opoku",
+    "team": "Swansea",
+    "played": 11,
+    "goals": 3,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Samuel Szmodics",
+    "team": "Derby County",
+    "played": 10,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Amin Nabizada",
+    "team": "Watford",
+    "played": 11,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Demarai Gray",
+    "team": "Birmingham",
+    "played": 8,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
+    "player": "Taïryk Arconte",
+    "team": "Millwall",
+    "played": 8,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Joël Piroe",
+    "team": "West Ham",
+    "played": 10,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Yousef Salech",
+    "team": "Cardiff",
+    "played": 8,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Bobby Clark",
+    "team": "Derby County",
+    "played": 11,
+    "goals": 3,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Adam Armstrong",
+    "team": "Wolverhampton",
+    "played": 9,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Marko Milovanovic",
+    "team": "Portsmouth",
+    "played": 8,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 2
+   },
+   {
+    "player": "Finn Azaz",
+    "team": "Southampton",
+    "played": 11,
+    "goals": 3,
+    "assists": 5,
+    "penalties": 0
+   },
+   {
+    "player": "Paul Smyth",
+    "team": "QPR",
+    "played": 11,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Jimmy Dunne",
+    "team": "QPR",
+    "played": 10,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Thomas Cannon",
+    "team": "Sheffield Utd",
+    "played": 11,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
+    "player": "Divine Mukasa",
+    "team": "West Ham",
+    "played": 10,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Callum Styles",
+    "team": "West Brom",
+    "played": 11,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Callum Lang",
+    "team": "Preston NE",
+    "played": 11,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Mikkel Ladefoged",
+    "team": "Lincoln City",
+    "played": 8,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Mohamadou Kante",
+    "team": "West Ham",
+    "played": 10,
+    "goals": 3,
+    "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Camiel Neghli",
+    "team": "Millwall",
+    "played": 11,
+    "goals": 3,
+    "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Zeki Amdouni",
+    "team": "Burnley",
+    "played": 9,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Jack McGlynn",
+    "team": "Stoke",
+    "played": 7,
+    "goals": 3,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Moussa Kounfolo Yeo",
+    "team": "Swansea",
+    "played": 11,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Sebastian Berhalter",
+    "team": "Middlesbrough",
+    "played": 11,
+    "goals": 3,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Amario Cozier-Duberry",
+    "team": "Middlesbrough",
+    "played": 7,
+    "goals": 3,
+    "assists": 5,
+    "penalties": 0
+   },
+   {
+    "player": "Tomáš Souček",
+    "team": "West Ham",
+    "played": 3,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Kyrell Lisbie",
+    "team": "Millwall",
+    "played": 7,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Marshall Munetsi",
+    "team": "Wolverhampton",
+    "played": 10,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Josh Coburn",
+    "team": "Millwall",
+    "played": 4,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Eric Bocat",
+    "team": "Stoke",
+    "played": 11,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Lloyd Jones",
+    "team": "Charlton",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Terry Devlin",
+    "team": "Portsmouth",
+    "played": 10,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Ilias Chair",
+    "team": "QPR",
+    "played": 5,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Manor Solomon",
+    "team": "West Ham",
+    "played": 11,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Zian Flemming",
+    "team": "Burnley",
+    "played": 2,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
+    "player": "Adrian Segecic",
+    "team": "Portsmouth",
+    "played": 10,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Recco Hackett-Fairchild",
+    "team": "Lincoln City",
+    "played": 9,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 2
+   },
+   {
+    "player": "Ebou Adams",
+    "team": "Portsmouth",
+    "played": 10,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Luke Cundle",
+    "team": "Millwall",
+    "played": 8,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Cian Ashford",
+    "team": "Cardiff",
+    "played": 11,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Luca Kjerrumgaard",
+    "team": "Watford",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Todd Cantwell",
+    "team": "Blackburn",
+    "played": 11,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Phil Neumann",
+    "team": "Birmingham",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Sam Gallagher",
+    "team": "Stoke",
+    "played": 6,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Rodrigo Gomes",
+    "team": "Wolverhampton",
+    "played": 8,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Jordan James",
+    "team": "Wolverhampton",
+    "played": 9,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Ji-sung Eom",
+    "team": "Swansea",
+    "played": 9,
+    "goals": 2,
+    "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Ronald",
+    "team": "Swansea",
+    "played": 9,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Andre Brooks",
+    "team": "Norwich",
+    "played": 11,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Ben House",
+    "team": "Lincoln City",
+    "played": 9,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Lorent Tolaj",
+    "team": "Bristol City",
+    "played": 8,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Léo Scienza",
+    "team": "Southampton",
+    "played": 11,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 1
+   },
+   {
+    "player": "Karlan Grant",
+    "team": "Charlton",
+    "played": 11,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Ryoya Morishita",
+    "team": "Blackburn",
+    "played": 11,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Japhet Tanganga",
+    "team": "Sheffield Utd",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Lars-Jørgen Salvesen",
+    "team": "Derby County",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Keven Schlotterbeck",
+    "team": "Southampton",
+    "played": 9,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Jacques Ekomie",
+    "team": "Wrexham",
+    "played": 9,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Rumarn Burrell",
+    "team": "QPR",
+    "played": 8,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Aidan Morris",
+    "team": "Middlesbrough",
+    "played": 10,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Justin Devenny",
+    "team": "Stoke",
+    "played": 7,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
+    "player": "Welington",
+    "team": "Southampton",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Anthony Musaba",
+    "team": "Norwich",
+    "played": 9,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Edvin Austbø",
+    "team": "West Ham",
+    "played": 8,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Caleb Taylor",
+    "team": "Millwall",
+    "played": 11,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Ladislav Krejčí",
+    "team": "Wolverhampton",
+    "played": 6,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Zan Vipotnik",
+    "team": "Swansea",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
+    "player": "Carlos Vicente",
+    "team": "Birmingham",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Freddie Draper",
+    "team": "Lincoln City",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Largie Ramazani",
+    "team": "Burnley",
+    "played": 8,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Jacob Wright",
+    "team": "Norwich",
+    "played": 11,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Johnny Kenny",
+    "team": "Preston NE",
+    "played": 5,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   }
+  ],
+  "updated": "2026-11-02T18:59:36.541074+00:00"
+ },
+ "Eredivisie": {
+  "matchday": 11,
+  "table": [
+   {
+    "id": 675,
+    "pos": 1,
+    "team": "Feyenoord",
+    "played": 11,
+    "won": 7,
+    "draw": 4,
+    "lost": 0,
+    "gf": 33,
+    "ga": 12,
+    "gd": 21,
+    "points": 25,
+    "form": "W,W,W,D,D"
+   },
+   {
+    "id": 678,
+    "pos": 2,
+    "team": "Ajax",
+    "played": 11,
+    "won": 7,
+    "draw": 3,
+    "lost": 1,
+    "gf": 30,
+    "ga": 13,
+    "gd": 17,
+    "points": 24,
+    "form": "D,D,W,W,W"
+   },
+   {
+    "id": 674,
+    "pos": 3,
+    "team": "PSV",
+    "played": 11,
+    "won": 7,
+    "draw": 2,
+    "lost": 2,
+    "gf": 35,
+    "ga": 13,
+    "gd": 22,
+    "points": 23,
+    "form": "L,W,L,D,W"
+   },
+   {
+    "id": 666,
+    "pos": 4,
+    "team": "Twente",
+    "played": 11,
+    "won": 7,
+    "draw": 2,
+    "lost": 2,
+    "gf": 28,
+    "ga": 10,
+    "gd": 18,
+    "points": 23,
+    "form": "W,D,L,W,W"
+   },
+   {
+    "id": 682,
+    "pos": 5,
+    "team": "AZ",
+    "played": 11,
+    "won": 6,
+    "draw": 2,
+    "lost": 3,
+    "gf": 20,
+    "ga": 13,
+    "gd": 7,
+    "points": 20,
+    "form": "W,L,D,L,L"
+   },
+   {
+    "id": 1920,
+    "pos": 6,
+    "team": "Sittard",
+    "played": 11,
+    "won": 5,
+    "draw": 4,
+    "lost": 2,
+    "gf": 18,
+    "ga": 18,
+    "gd": 0,
+    "points": 19,
+    "form": "W,D,D,W,D"
+   },
+   {
+    "id": 673,
+    "pos": 7,
+    "team": "Heerenveen",
+    "played": 11,
+    "won": 5,
+    "draw": 3,
+    "lost": 3,
+    "gf": 19,
+    "ga": 13,
+    "gd": 6,
+    "points": 18,
+    "form": "W,L,W,W,W"
+   },
+   {
+    "id": 677,
+    "pos": 8,
+    "team": "Groningen",
+    "played": 11,
+    "won": 4,
+    "draw": 3,
+    "lost": 4,
+    "gf": 26,
+    "ga": 24,
+    "gd": 2,
+    "points": 15,
+    "form": "W,W,L,D,L"
+   },
+   {
+    "id": 1909,
+    "pos": 9,
+    "team": "Cambuur",
+    "played": 11,
+    "won": 4,
+    "draw": 3,
+    "lost": 4,
+    "gf": 23,
+    "ga": 22,
+    "gd": 1,
+    "points": 15,
+    "form": "D,W,D,W,W"
+   },
+   {
+    "id": 718,
+    "pos": 10,
+    "team": "Go Ahead",
+    "played": 11,
+    "won": 3,
+    "draw": 5,
+    "lost": 3,
+    "gf": 23,
+    "ga": 27,
+    "gd": -4,
+    "points": 14,
+    "form": "D,D,L,W,L"
+   },
+   {
+    "id": 6806,
+    "pos": 11,
+    "team": "Sparta",
+    "played": 11,
+    "won": 3,
+    "draw": 3,
+    "lost": 5,
+    "gf": 20,
+    "ga": 26,
+    "gd": -6,
+    "points": 12,
+    "form": "L,D,W,L,W"
+   },
+   {
+    "id": 676,
+    "pos": 12,
+    "team": "Utrecht",
+    "played": 11,
+    "won": 3,
+    "draw": 3,
+    "lost": 5,
+    "gf": 19,
+    "ga": 31,
+    "gd": -12,
+    "points": 12,
+    "form": "L,W,W,D,L"
+   },
+   {
+    "id": 1915,
+    "pos": 13,
+    "team": "NEC",
+    "played": 11,
+    "won": 2,
+    "draw": 5,
+    "lost": 4,
+    "gf": 17,
+    "ga": 19,
+    "gd": -2,
+    "points": 11,
+    "form": "D,D,D,D,L"
+   },
+   {
+    "id": 684,
+    "pos": 14,
+    "team": "Zwolle",
+    "played": 11,
+    "won": 3,
+    "draw": 2,
+    "lost": 6,
+    "gf": 12,
+    "ga": 23,
+    "gd": -11,
+    "points": 11,
+    "form": "L,L,W,D,W"
+   },
+   {
+    "id": 670,
+    "pos": 15,
+    "team": "Excelsior",
+    "played": 11,
+    "won": 3,
+    "draw": 2,
+    "lost": 6,
+    "gf": 16,
+    "ga": 28,
+    "gd": -12,
+    "points": 11,
+    "form": "D,L,L,L,L"
+   },
+   {
+    "id": 1912,
+    "pos": 16,
+    "team": "Telstar",
+    "played": 11,
+    "won": 2,
+    "draw": 3,
+    "lost": 6,
+    "gf": 16,
+    "ga": 23,
+    "gd": -7,
+    "points": 9,
+    "form": "L,D,L,L,W"
+   },
+   {
+    "id": 680,
+    "pos": 17,
+    "team": "Den Haag",
+    "played": 11,
+    "won": 1,
+    "draw": 3,
+    "lost": 7,
+    "gf": 13,
+    "ga": 24,
+    "gd": -11,
+    "points": 6,
+    "form": "D,D,W,L,L"
+   },
+   {
+    "id": 672,
+    "pos": 18,
+    "team": "Willem II",
+    "played": 11,
+    "won": 0,
+    "draw": 2,
+    "lost": 9,
+    "gf": 10,
+    "ga": 39,
+    "gd": -29,
+    "points": 2,
+    "form": "L,L,L,L,L"
+   }
+  ],
+  "scorers": [
+   {
+    "player": "Søren Tengstedt",
+    "team": "Go Ahead",
+    "played": 11,
+    "goals": 8,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Brynjolfur Darri Willumsson",
+    "team": "Groningen",
+    "played": 11,
+    "goals": 8,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Milan Zonneveld",
+    "team": "Sparta",
+    "played": 11,
+    "goals": 8,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Wout Weghorst",
+    "team": "Twente",
+    "played": 11,
+    "goals": 8,
+    "assists": 2,
+    "penalties": 2
+   },
+   {
+    "player": "Thom van Bergen",
+    "team": "Groningen",
+    "played": 11,
+    "goals": 7,
+    "assists": 3,
+    "penalties": 1
+   },
+   {
+    "player": "Guus Til",
+    "team": "PSV",
+    "played": 11,
+    "goals": 7,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Julian Brandt",
+    "team": "Ajax",
+    "played": 11,
+    "goals": 6,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Rafik el Arguioui",
+    "team": "Cambuur",
+    "played": 11,
+    "goals": 6,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Jacob Trenskow",
+    "team": "Heerenveen",
+    "played": 11,
+    "goals": 6,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Sven Mijnans",
+    "team": "PSV",
+    "played": 10,
+    "goals": 6,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Anis Moussa",
+    "team": "Feyenoord",
+    "played": 10,
+    "goals": 6,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Toluwalas Arokodare",
+    "team": "Ajax",
+    "played": 11,
+    "goals": 6,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Ro-Zangelo Daal",
+    "team": "AZ",
+    "played": 11,
+    "goals": 5,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Luciano Valente",
+    "team": "Feyenoord",
+    "played": 11,
+    "goals": 5,
+    "assists": 2,
+    "penalties": 1
+   },
+   {
+    "player": "Artem Stepanov",
+    "team": "Utrecht",
+    "played": 8,
+    "goals": 5,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
+    "player": "Gjivai Zechiël",
+    "team": "Feyenoord",
+    "played": 11,
+    "goals": 5,
+    "assists": 4,
+    "penalties": 0
+   },
+   {
+    "player": "Anthony Descotte",
+    "team": "Sittard",
+    "played": 10,
+    "goals": 5,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Ilyes Hamache",
+    "team": "Cambuur",
+    "played": 10,
+    "goals": 5,
+    "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Nicolas Binder",
+    "team": "Cambuur",
+    "played": 10,
+    "goals": 5,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Nacho Ferri",
+    "team": "Feyenoord",
+    "played": 11,
+    "goals": 5,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Tyrone Owusu",
+    "team": "Telstar",
+    "played": 11,
+    "goals": 5,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Tjaronn Chery",
+    "team": "NEC",
+    "played": 11,
+    "goals": 4,
+    "assists": 2,
+    "penalties": 3
+   },
+   {
+    "player": "Mexx Meerdink",
+    "team": "AZ",
+    "played": 11,
+    "goals": 4,
+    "assists": 2,
+    "penalties": 1
+   },
+   {
+    "player": "Ricardo Pepi",
+    "team": "PSV",
+    "played": 8,
+    "goals": 4,
+    "assists": 1,
+    "penalties": 1
+   },
+   {
+    "player": "Stefán Ingi Sigurðarson",
+    "team": "Go Ahead",
+    "played": 11,
+    "goals": 4,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Koen Kostons",
+    "team": "Zwolle",
+    "played": 11,
+    "goals": 4,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
+    "player": "Angel Alarcon",
+    "team": "Utrecht",
+    "played": 11,
+    "goals": 4,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Irakli Yegoian",
+    "team": "Excelsior",
+    "played": 11,
+    "goals": 3,
+    "assists": 5,
+    "penalties": 1
+   },
+   {
+    "player": "David Garden",
+    "team": "Excelsior",
+    "played": 11,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Devin Haen",
+    "team": "Willem II",
+    "played": 11,
+    "goals": 3,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Jorthy Mokio",
+    "team": "Ajax",
+    "played": 11,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Ruben van Bommel",
+    "team": "PSV",
+    "played": 10,
+    "goals": 3,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Lequincio Zeefuik",
+    "team": "Sittard",
+    "played": 10,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Yannick Eduardo",
+    "team": "Den Haag",
+    "played": 11,
+    "goals": 3,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Ayase Ueda",
+    "team": "Feyenoord",
+    "played": 4,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 1
+   },
+   {
+    "player": "Daouda Weidmann",
+    "team": "Twente",
+    "played": 9,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Daan Rots",
+    "team": "Twente",
+    "played": 11,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Victor Edvardsen",
+    "team": "Go Ahead",
+    "played": 11,
+    "goals": 3,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Mohammed Ihattaren",
+    "team": "Sittard",
+    "played": 11,
+    "goals": 3,
+    "assists": 4,
+    "penalties": 0
+   },
+   {
+    "player": "Aymen Sliti",
+    "team": "Excelsior",
+    "played": 11,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Mathis Suray",
+    "team": "Go Ahead",
+    "played": 11,
+    "goals": 3,
+    "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Nigel Thomas",
+    "team": "Den Haag",
+    "played": 11,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Davy Klaassen",
+    "team": "Ajax",
+    "played": 11,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Yoann Cathline",
+    "team": "Utrecht",
+    "played": 11,
+    "goals": 3,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Noah Naujoks",
+    "team": "Excelsior",
+    "played": 4,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Patrick Brouwer",
+    "team": "Telstar",
+    "played": 10,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Kaj Sierhuis",
+    "team": "NEC",
+    "played": 10,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Adrian Blake",
+    "team": "Utrecht",
+    "played": 11,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Luca Oyen",
+    "team": "Heerenveen",
+    "played": 11,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Marvin Young",
+    "team": "Sparta",
+    "played": 11,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Nökkvi Þórisson",
+    "team": "Telstar",
+    "played": 10,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Abdelnour Soualhia",
+    "team": "Telstar",
+    "played": 11,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Adam Tahauia",
+    "team": "NEC",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Ayoub Oufkir",
+    "team": "AZ",
+    "played": 10,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Philip Brittijn",
+    "team": "Sittard",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Shiloh 't Zand",
+    "team": "Sittard",
+    "played": 10,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "David van der Werff",
+    "team": "Groningen",
+    "played": 10,
+    "goals": 2,
+    "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Elias Sørensen",
+    "team": "Zwolle",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Abdellah Ouazane",
+    "team": "Ajax",
+    "played": 11,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Maxence Rivera",
+    "team": "Heerenveen",
+    "played": 11,
+    "goals": 2,
+    "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Jizz Hornkamp",
+    "team": "AZ",
+    "played": 5,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Matisse Didden",
+    "team": "Utrecht",
+    "played": 9,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Evan Rottier",
+    "team": "Den Haag",
+    "played": 11,
+    "goals": 2,
+    "assists": 5,
+    "penalties": 0
+   },
+   {
+    "player": "Ivan Perišić",
+    "team": "PSV",
+    "played": 11,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Sergiño Dest",
+    "team": "PSV",
+    "played": 10,
+    "goals": 2,
+    "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Perr Schuurs",
+    "team": "NEC",
+    "played": 8,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Mauro Júnior",
+    "team": "PSV",
+    "played": 11,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Uriël van Aalst",
+    "team": "Willem II",
+    "played": 11,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Oliver Braude",
+    "team": "Heerenveen",
+    "played": 10,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Marko Pjaca",
+    "team": "Twente",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Younes Taha",
+    "team": "Twente",
+    "played": 11,
+    "goals": 2,
+    "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Tygo Land",
+    "team": "Groningen",
+    "played": 11,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Nolhan Courtens",
+    "team": "Heerenveen",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Ringo Meerveld",
+    "team": "Heerenveen",
+    "played": 11,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Ronald Koeman Jr.",
+    "team": "Telstar",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 2
+   },
+   {
+    "player": "Dani de Wit",
+    "team": "Utrecht",
+    "played": 11,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Noe Lebreton",
+    "team": "NEC",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Sondre Ørjasæter",
+    "team": "Twente",
+    "played": 10,
+    "goals": 2,
+    "assists": 7,
+    "penalties": 0
+   },
+   {
+    "player": "Robin Pröpper",
+    "team": "Twente",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Kasper Dolberg",
+    "team": "Ajax",
+    "played": 7,
+    "goals": 2,
+    "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Kodai Sano",
+    "team": "PSV",
+    "played": 10,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Gaoussou Diarra",
+    "team": "Feyenoord",
+    "played": 11,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Lushendry Martes",
+    "team": "Sparta",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Marco Rente",
+    "team": "Groningen",
+    "played": 8,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Dylan Vente",
+    "team": "Heerenveen",
+    "played": 11,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 1
+   },
+   {
+    "player": "Sem Steijn",
+    "team": "Feyenoord",
+    "played": 11,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 1
+   },
+   {
+    "player": "Jens Toornstra",
+    "team": "Sparta",
+    "played": 11,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Thijs Oosting",
+    "team": "Zwolle",
+    "played": 11,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Ismaël Baouf",
+    "team": "Cambuur",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Jason Ceka",
+    "team": "Cambuur",
+    "played": 7,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Rui Mendes",
+    "team": "Telstar",
+    "played": 9,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Melle  Meulensteen",
+    "team": "Go Ahead",
+    "played": 10,
+    "goals": 1,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Erik Flataker",
+    "team": "Go Ahead",
+    "played": 11,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Julius Dirksen",
+    "team": "Go Ahead",
+    "played": 9,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Ole Romeny",
+    "team": "Sittard",
+    "played": 7,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Ryan Flamingo",
+    "team": "PSV",
+    "played": 11,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Noah Fernandez",
+    "team": "PSV",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Edouard Michut",
+    "team": "Sittard",
+    "played": 10,
+    "goals": 1,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Calvin Stengs",
+    "team": "AZ",
+    "played": 11,
+    "goals": 1,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Bryan Linssen",
+    "team": "NEC",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   }
+  ],
+  "updated": "2026-11-02T18:59:58.983843+00:00"
+ },
+ "Primeira Liga": {
+  "matchday": 10,
+  "table": [
+   {
+    "id": 503,
+    "pos": 1,
+    "team": "Porto",
+    "played": 10,
+    "won": 10,
+    "draw": 0,
+    "lost": 0,
+    "gf": 25,
+    "ga": 4,
+    "gd": 21,
+    "points": 30,
+    "form": "W,W,W,W,W"
+   },
+   {
+    "id": 1903,
+    "pos": 2,
+    "team": "SL Benfica",
+    "played": 9,
+    "won": 7,
+    "draw": 1,
+    "lost": 1,
+    "gf": 26,
+    "ga": 8,
+    "gd": 18,
+    "points": 22,
+    "form": "W,W,L,W,W"
+   },
+   {
+    "id": 498,
+    "pos": 3,
+    "team": "Sporting CP",
+    "played": 10,
+    "won": 6,
+    "draw": 3,
+    "lost": 1,
+    "gf": 23,
+    "ga": 11,
+    "gd": 12,
+    "points": 21,
+    "form": "D,D,W,L,W"
+   },
+   {
+    "id": 5530,
+    "pos": 4,
+    "team": "Santa Clara",
+    "played": 10,
+    "won": 6,
+    "draw": 3,
+    "lost": 1,
+    "gf": 15,
+    "ga": 6,
+    "gd": 9,
+    "points": 21,
+    "form": "W,D,W,L,W"
+   },
+   {
+    "id": 712,
+    "pos": 5,
+    "team": "Arouca",
+    "played": 10,
+    "won": 6,
+    "draw": 2,
+    "lost": 2,
+    "gf": 13,
+    "ga": 7,
+    "gd": 6,
+    "points": 20,
+    "form": "L,D,W,W,W"
+   },
+   {
+    "id": 5527,
+    "pos": 6,
+    "team": "Acad. Viseu",
+    "played": 10,
+    "won": 6,
+    "draw": 2,
+    "lost": 2,
+    "gf": 15,
+    "ga": 12,
+    "gd": 3,
+    "points": 20,
+    "form": "W,W,W,W,W"
+   },
+   {
+    "id": 5613,
+    "pos": 7,
+    "team": "Braga",
+    "played": 10,
+    "won": 4,
+    "draw": 2,
+    "lost": 4,
+    "gf": 12,
+    "ga": 11,
+    "gd": 1,
+    "points": 14,
+    "form": "D,L,L,L,W"
+   },
+   {
+    "id": 5533,
+    "pos": 8,
+    "team": "Gil Vicente",
+    "played": 9,
+    "won": 4,
+    "draw": 2,
+    "lost": 3,
+    "gf": 8,
+    "ga": 7,
+    "gd": 1,
+    "points": 14,
+    "form": "L,D,W,W,L"
+   },
+   {
+    "id": 583,
+    "pos": 9,
+    "team": "Moreirense",
+    "played": 10,
+    "won": 4,
+    "draw": 2,
+    "lost": 4,
+    "gf": 13,
+    "ga": 17,
+    "gd": -4,
+    "points": 14,
+    "form": "W,D,L,W,W"
+   },
+   {
+    "id": 7822,
+    "pos": 10,
+    "team": "Alverca",
+    "played": 9,
+    "won": 3,
+    "draw": 2,
+    "lost": 4,
+    "gf": 13,
+    "ga": 13,
+    "gd": 0,
+    "points": 11,
+    "form": "L,W,W,W,L"
+   },
+   {
+    "id": 5531,
+    "pos": 11,
+    "team": "Famalicão",
+    "played": 10,
+    "won": 2,
+    "draw": 4,
+    "lost": 4,
+    "gf": 14,
+    "ga": 14,
+    "gd": 0,
+    "points": 10,
+    "form": "D,W,L,W,L"
+   },
+   {
+    "id": 9136,
+    "pos": 12,
+    "team": "Amadora",
+    "played": 10,
+    "won": 2,
+    "draw": 4,
+    "lost": 4,
+    "gf": 15,
+    "ga": 19,
+    "gd": -4,
+    "points": 10,
+    "form": "D,L,L,L,L"
+   },
+   {
+    "id": 5543,
+    "pos": 13,
+    "team": "Vitória SC",
+    "played": 9,
+    "won": 2,
+    "draw": 2,
+    "lost": 5,
+    "gf": 10,
+    "ga": 10,
+    "gd": 0,
+    "points": 8,
+    "form": "D,L,D,L,W"
+   },
+   {
+    "id": 5575,
+    "pos": 14,
+    "team": "Marítimo",
+    "played": 10,
+    "won": 2,
+    "draw": 2,
+    "lost": 6,
+    "gf": 9,
+    "ga": 21,
+    "gd": -12,
+    "points": 8,
+    "form": "L,D,L,L,L"
+   },
+   {
+    "id": 5529,
+    "pos": 15,
+    "team": "CD Nacional",
+    "played": 10,
+    "won": 2,
+    "draw": 1,
+    "lost": 7,
+    "gf": 10,
+    "ga": 19,
+    "gd": -9,
+    "points": 7,
+    "form": "L,L,L,W,L"
+   },
+   {
+    "id": 496,
+    "pos": 16,
+    "team": "Rio Ave",
+    "played": 10,
+    "won": 2,
+    "draw": 1,
+    "lost": 7,
+    "gf": 9,
+    "ga": 23,
+    "gd": -14,
+    "points": 7,
+    "form": "D,L,W,L,L"
+   },
+   {
+    "id": 6618,
+    "pos": 17,
+    "team": "Casa Pia",
+    "played": 10,
+    "won": 2,
+    "draw": 1,
+    "lost": 7,
+    "gf": 5,
+    "ga": 19,
+    "gd": -14,
+    "points": 7,
+    "form": "L,W,L,W,L"
+   },
+   {
+    "id": 582,
+    "pos": 18,
+    "team": "Estoril Praia",
+    "played": 10,
+    "won": 0,
+    "draw": 2,
+    "lost": 8,
+    "gf": 5,
+    "ga": 19,
+    "gd": -14,
+    "points": 2,
+    "form": "L,L,L,L,L"
+   }
+  ],
+  "scorers": [
+   {
+    "player": "Vangelis Pavlidis",
+    "team": "SL Benfica",
+    "played": 9,
+    "goals": 9,
+    "assists": 3,
+    "penalties": 2
+   },
+   {
+    "player": "Luis Suárez",
+    "team": "Sporting CP",
+    "played": 10,
+    "goals": 8,
+    "assists": 1,
+    "penalties": 2
+   },
+   {
+    "player": "Gianluca Prestianni",
+    "team": "SL Benfica",
+    "played": 9,
+    "goals": 6,
+    "assists": 4,
+    "penalties": 0
+   },
+   {
+    "player": "Georgios Koutsias",
+    "team": "Famalicão",
+    "played": 10,
+    "goals": 5,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
+    "player": "Barbero",
+    "team": "Arouca",
+    "played": 10,
+    "goals": 5,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Gabriel Veiga",
+    "team": "Porto",
+    "played": 10,
+    "goals": 5,
+    "assists": 4,
+    "penalties": 1
+   },
+   {
+    "player": "Pau Victor Delgado",
+    "team": "Braga",
+    "played": 10,
+    "goals": 5,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "André Clovis",
+    "team": "Acad. Viseu",
+    "played": 10,
+    "goals": 5,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Gonçalo Paciência",
+    "team": "Santa Clara",
+    "played": 8,
+    "goals": 5,
+    "assists": 1,
+    "penalties": 1
+   },
+   {
+    "player": "Borja Sainz",
+    "team": "Porto",
+    "played": 10,
+    "goals": 5,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Leandro Antonetti",
+    "team": "Amadora",
+    "played": 10,
+    "goals": 4,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "André Silva",
+    "team": "Porto",
+    "played": 10,
+    "goals": 4,
+    "assists": 2,
+    "penalties": 1
+   },
+   {
+    "player": "Abraham Marcus",
+    "team": "Amadora",
+    "played": 10,
+    "goals": 4,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Ianis Stoica",
+    "team": "Amadora",
+    "played": 10,
+    "goals": 4,
+    "assists": 2,
+    "penalties": 1
+   },
+   {
+    "player": "Nile John",
+    "team": "Moreirense",
+    "played": 10,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Héctor Hernández",
+    "team": "Gil Vicente",
+    "played": 7,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 2
+   },
+   {
+    "player": "Flávio Gonçalves",
+    "team": "Sporting CP",
+    "played": 10,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Vivaldo Semedo",
+    "team": "Alverca",
+    "played": 9,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Soufiane Messeguem",
+    "team": "Acad. Viseu",
+    "played": 10,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Jalen Blesa",
+    "team": "Rio Ave",
+    "played": 10,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 2
+   },
+   {
+    "player": "João Guilherme",
+    "team": "Acad. Viseu",
+    "played": 11,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Dawda Camara",
+    "team": "Alverca",
+    "played": 5,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Victor Froholdt",
+    "team": "Porto",
+    "played": 9,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Yanis Begraoui",
+    "team": "Estoril Praia",
+    "played": 7,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Rodrigo Zalazar",
+    "team": "Sporting CP",
+    "played": 8,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Fotis Ioannidis",
+    "team": "Sporting CP",
+    "played": 9,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Miguel Baeza",
+    "team": "CD Nacional",
+    "played": 10,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "José Fontán",
+    "team": "Arouca",
+    "played": 10,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
+    "player": "Dylan Nandín",
+    "team": "Arouca",
+    "played": 10,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Lucas Figueiredo",
+    "team": "Alverca",
+    "played": 9,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Geny Catamo",
+    "team": "Sporting CP",
+    "played": 10,
+    "goals": 2,
+    "assists": 4,
+    "penalties": 0
+   },
+   {
+    "player": "Brenner",
+    "team": "Santa Clara",
+    "played": 8,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "William da Silva",
+    "team": "Porto",
+    "played": 8,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Chiquinho",
+    "team": "Alverca",
+    "played": 7,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 1
+   },
+   {
+    "player": "Leandro Barreiro Martins",
+    "team": "SL Benfica",
+    "played": 8,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Tiago Ribeiro",
+    "team": "Santa Clara",
+    "played": 10,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Vinícius",
+    "team": "Santa Clara",
+    "played": 10,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Luis Fernando",
+    "team": "Santa Clara",
+    "played": 10,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
+    "player": "Manuel Mendonça",
+    "team": "Moreirense",
+    "played": 8,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Marcos Vinicios",
+    "team": "Famalicão",
+    "played": 10,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Tiago Andrade",
+    "team": "Moreirense",
+    "played": 9,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Walace",
+    "team": "Gil Vicente",
+    "played": 3,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
+    "player": "Abdel Kader Njoya",
+    "team": "CD Nacional",
+    "played": 3,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Arnel Jakupovic",
+    "team": "Vitória SC",
+    "played": 5,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Óscar Aranda",
+    "team": "Famalicão",
+    "played": 9,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 1
+   },
+   {
+    "player": "Raphael Guzzo",
+    "team": "Marítimo",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Beni Souza",
+    "team": "Amadora",
+    "played": 9,
+    "goals": 1,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Fran Navarro",
+    "team": "Braga",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "João Veloso",
+    "team": "Moreirense",
+    "played": 5,
+    "goals": 1,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Rúben Pereira",
+    "team": "Acad. Viseu",
+    "played": 9,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Liziero",
+    "team": "CD Nacional",
+    "played": 4,
+    "goals": 1,
+    "assists": 1,
+    "penalties": 1
+   },
+   {
+    "player": "Sergi Altimira",
+    "team": "Sporting CP",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Samu",
+    "team": "Vitória SC",
+    "played": 9,
+    "goals": 1,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Alioune Ndoye",
+    "team": "Vitória SC",
+    "played": 7,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Ian Luccas",
+    "team": "Alverca",
+    "played": 7,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Nehuén Pérez",
+    "team": "Porto",
+    "played": 8,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Zé Vitor",
+    "team": "CD Nacional",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Léo Santos",
+    "team": "CD Nacional",
+    "played": 5,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Finn van Breemen",
+    "team": "Famalicão",
+    "played": 9,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Simo",
+    "team": "Marítimo",
+    "played": 6,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Maurice Boakye",
+    "team": "Marítimo",
+    "played": 10,
+    "goals": 1,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Rafa Silva",
+    "team": "SL Benfica",
+    "played": 9,
+    "goals": 1,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Jhon Durán",
+    "team": "SL Benfica",
+    "played": 9,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Paulo Henrique",
+    "team": "Marítimo",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Adrián Butzke",
+    "team": "Marítimo",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
+    "player": "Tamble Monteiro",
+    "team": "Rio Ave",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Maximiliano Araújo",
+    "team": "Sporting CP",
+    "played": 9,
+    "goals": 1,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Gustavo Silva",
+    "team": "Vitória SC",
+    "played": 8,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Gil Martins",
+    "team": "Gil Vicente",
+    "played": 9,
+    "goals": 1,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Martin Tejón",
+    "team": "Marítimo",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Espen van Ee",
+    "team": "Arouca",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Wesley",
+    "team": "CD Nacional",
+    "played": 7,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Pablo Ruan",
+    "team": "CD Nacional",
+    "played": 9,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Kiko",
+    "team": "Moreirense",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Clément Lenglet",
+    "team": "SL Benfica",
+    "played": 8,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Diego Rodrigues",
+    "team": "Braga",
+    "played": 9,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Dinis Pinto",
+    "team": "Moreirense",
+    "played": 9,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Jan Bednarek",
+    "team": "Porto",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Max Scholze",
+    "team": "Amadora",
+    "played": 10,
+    "goals": 1,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Andreas Schjelderup",
+    "team": "SL Benfica",
+    "played": 9,
+    "goals": 1,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Fredrik Aursnes",
+    "team": "SL Benfica",
+    "played": 6,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Gabriel Martínez",
+    "team": "Braga",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Francisco Chissumba",
+    "team": "Alverca",
+    "played": 8,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Matchoi Djaló",
+    "team": "CD Nacional",
+    "played": 8,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Henrique Araujo",
+    "team": "Casa Pia",
+    "played": 10,
+    "goals": 1,
+    "assists": 1,
+    "penalties": 1
+   },
+   {
+    "player": "Jakub Kiwior",
+    "team": "Porto",
+    "played": 10,
+    "goals": 1,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Santiago Giménez",
+    "team": "Porto",
+    "played": 6,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
+    "player": "Lorougnon Gohi",
+    "team": "Acad. Viseu",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Goncalo Nogueira",
+    "team": "Vitória SC",
+    "played": 9,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Mohamed Bouldini",
+    "team": "Acad. Viseu",
+    "played": 6,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "José Tavares",
+    "team": "Santa Clara",
+    "played": 9,
+    "goals": 1,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Francisco Petrasso",
+    "team": "Rio Ave",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Roland Galčík",
+    "team": "Rio Ave",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Leonardo Vonic",
+    "team": "Moreirense",
+    "played": 6,
+    "goals": 1,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Romain Correia",
+    "team": "Marítimo",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Alexandre Parsemain",
+    "team": "Moreirense",
+    "played": 7,
+    "goals": 1,
+    "assists": 1,
+    "penalties": 1
+   },
+   {
+    "player": "Jonas Wind",
+    "team": "Braga",
+    "played": 7,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Murilo",
+    "team": "Gil Vicente",
+    "played": 8,
+    "goals": 1,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Israel Ayuma",
+    "team": "Marítimo",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Gonçalo Inácio",
+    "team": "Sporting CP",
+    "played": 10,
+    "goals": 1,
+    "assists": 0,
+    "penalties": 0
+   }
+  ],
+  "updated": "2026-11-02T19:00:27.311413+00:00"
+ },
+ "_failed": {}
 }
