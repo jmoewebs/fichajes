@@ -5383,7 +5383,7 @@
   ],
   "updated": "2026-11-02T22:45:41.053240+00:00"
  },
- "_updated": "2026-11-03T14:18:31.872889+00:00",
+ "_updated": "2026-11-03T17:55:01.265640+00:00",
  "_version": 2,
  "Champions League": {
   "matchday": 4,
@@ -5462,14 +5462,14 @@
     "id": 10,
     "pos": 6,
     "team": "Stuttgart",
-    "played": 3,
+    "played": 4,
     "won": 2,
-    "draw": 1,
+    "draw": 2,
     "lost": 0,
     "gf": 7,
     "ga": 2,
     "gd": 5,
-    "points": 7,
+    "points": 8,
     "form": "W,W,D"
    },
    {
@@ -5487,8 +5487,22 @@
     "form": "W,W,D"
    },
    {
-    "id": 81,
+    "id": 498,
     "pos": 8,
+    "team": "Sporting CP",
+    "played": 4,
+    "won": 2,
+    "draw": 1,
+    "lost": 1,
+    "gf": 7,
+    "ga": 4,
+    "gd": 3,
+    "points": 7,
+    "form": "W,W,L"
+   },
+   {
+    "id": 81,
+    "pos": 9,
     "team": "Barça",
     "played": 3,
     "won": 2,
@@ -5502,7 +5516,7 @@
    },
    {
     "id": 7397,
-    "pos": 9,
+    "pos": 10,
     "team": "Como 1907",
     "played": 3,
     "won": 2,
@@ -5516,7 +5530,7 @@
    },
    {
     "id": 65,
-    "pos": 10,
+    "pos": 11,
     "team": "Man City",
     "played": 3,
     "won": 2,
@@ -5530,7 +5544,7 @@
    },
    {
     "id": 851,
-    "pos": 11,
+    "pos": 12,
     "team": "Club Brugge",
     "played": 3,
     "won": 2,
@@ -5541,20 +5555,6 @@
     "gd": 3,
     "points": 6,
     "form": "L,W,W"
-   },
-   {
-    "id": 498,
-    "pos": 12,
-    "team": "Sporting CP",
-    "played": 3,
-    "won": 2,
-    "draw": 0,
-    "lost": 1,
-    "gf": 7,
-    "ga": 4,
-    "gd": 3,
-    "points": 6,
-    "form": "W,W,L"
    },
    {
     "id": 4,
@@ -5585,8 +5585,22 @@
     "form": "W,D,D"
    },
    {
-    "id": 100,
+    "id": 1887,
     "pos": 15,
+    "team": "Shaktar",
+    "played": 4,
+    "won": 1,
+    "draw": 2,
+    "lost": 1,
+    "gf": 4,
+    "ga": 3,
+    "gd": 1,
+    "points": 5,
+    "form": "D,W,L"
+   },
+   {
+    "id": 100,
+    "pos": 16,
     "team": "Roma",
     "played": 3,
     "won": 1,
@@ -5600,7 +5614,7 @@
    },
    {
     "id": 78,
-    "pos": 16,
+    "pos": 17,
     "team": "Atleti",
     "played": 3,
     "won": 1,
@@ -5611,20 +5625,6 @@
     "gd": 1,
     "points": 4,
     "form": "L,W,D"
-   },
-   {
-    "id": 1887,
-    "pos": 17,
-    "team": "Shaktar",
-    "played": 3,
-    "won": 1,
-    "draw": 1,
-    "lost": 1,
-    "gf": 4,
-    "ga": 3,
-    "gd": 1,
-    "points": 4,
-    "form": "D,W,L"
    },
    {
     "id": 674,
@@ -5641,8 +5641,22 @@
     "form": "D,L,W"
    },
    {
-    "id": 94,
+    "id": 610,
     "pos": 19,
+    "team": "Galatasaray",
+    "played": 4,
+    "won": 1,
+    "draw": 1,
+    "lost": 2,
+    "gf": 6,
+    "ga": 9,
+    "gd": -3,
+    "points": 4,
+    "form": "L,L,W"
+   },
+   {
+    "id": 94,
+    "pos": 20,
     "team": "Villarreal",
     "played": 3,
     "won": 1,
@@ -5656,7 +5670,7 @@
    },
    {
     "id": 108,
-    "pos": 20,
+    "pos": 21,
     "team": "Inter",
     "played": 3,
     "won": 1,
@@ -5670,7 +5684,7 @@
    },
    {
     "id": 66,
-    "pos": 20,
+    "pos": 21,
     "team": "Man United",
     "played": 3,
     "won": 1,
@@ -5684,7 +5698,7 @@
    },
    {
     "id": 113,
-    "pos": 22,
+    "pos": 23,
     "team": "Napoli",
     "played": 3,
     "won": 1,
@@ -5693,20 +5707,6 @@
     "gf": 5,
     "ga": 7,
     "gd": -2,
-    "points": 3,
-    "form": "L,L,W"
-   },
-   {
-    "id": 610,
-    "pos": 23,
-    "team": "Galatasaray",
-    "played": 3,
-    "won": 1,
-    "draw": 0,
-    "lost": 2,
-    "gf": 6,
-    "ga": 9,
-    "gd": -3,
     "points": 3,
     "form": "L,L,W"
    },
@@ -5921,7 +5921,7 @@
    {
     "player": "Ermedin Demirovic",
     "team": "Stuttgart",
-    "played": 3,
+    "played": 4,
     "goals": 4,
     "assists": 0,
     "penalties": 0
@@ -5929,7 +5929,7 @@
    {
     "player": "Luis Suárez",
     "team": "Sporting CP",
-    "played": 3,
+    "played": 4,
     "goals": 4,
     "assists": 0,
     "penalties": 2
@@ -6089,7 +6089,7 @@
    {
     "player": "Gleiker Mendoza",
     "team": "Shaktar",
-    "played": 3,
+    "played": 4,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -6137,7 +6137,7 @@
    {
     "player": "Aleksey Batrakov",
     "team": "Galatasaray",
-    "played": 3,
+    "played": 4,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -6353,7 +6353,7 @@
    {
     "player": "Geny Catamo",
     "team": "Sporting CP",
-    "played": 3,
+    "played": 4,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -6361,7 +6361,7 @@
    {
     "player": "Rodrigo Zalazar",
     "team": "Sporting CP",
-    "played": 1,
+    "played": 2,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -6481,7 +6481,7 @@
    {
     "player": "Issa Doumbia",
     "team": "Sporting CP",
-    "played": 3,
+    "played": 4,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -6695,7 +6695,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-02T18:46:04.857673+00:00"
+  "updated": "2026-11-03T17:53:50.005237+00:00"
  },
  "Championship": {
   "matchday": 14,
