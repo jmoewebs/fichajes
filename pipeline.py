@@ -179,6 +179,8 @@ def fetch_all(db, feeds=None):
         too_old = (datetime.now(timezone.utc) - timedelta(days=config.MAX_AGE_DAYS)).isoformat()
         items = [it for it in items if it["published"] >= too_old]   # noticias viejas en el feed
         added = 0
+        import rules
+        items = [it for it in items if not rules.is_other_sport(it["title"], it["url"])]   # críquet, golf, F1, tenis...
         for it in items:
             if db.execute("SELECT 1 FROM items WHERE source=? AND title=? AND substr(published,1,10)=?",
                           (feed["source"], it["title"], it["published"][:10])).fetchone():

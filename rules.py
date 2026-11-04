@@ -97,6 +97,38 @@ def load_ignored(path=None):
         return {" ".join(norm(l).split()) for l in f if l.strip() and not l.startswith("#")}
 
 
+def load_excluded(path=None):
+    """Palabras genéricas ("Europa", "Cumbre"...) que nunca son un jugador. Archivo editable: jugadores_excluir.txt."""
+    path = path or config.PLAYER_EXCLUDE_FILE
+    if not os.path.exists(path):
+        return set()
+    with open(path, encoding="utf-8") as f:
+        return {" ".join(norm(l).split()) for l in f if l.strip() and not l.startswith("#")}
+
+
+def is_other_sport(title, url=""):
+    """True si el titular es de otro deporte: la ruta de la URL lo dice, o trae una palabra de otro deporte
+    (NOT_FOOTBALL) y NO nombra ningún club ni término de fútbol ("Nadal y el Real Madrid" sí se conserva)."""
+    low_url = (url or "").lower()
+    title_n = " ".join(norm(title).split())
+    padded = f" {title_n} "
+    has_club = bool(_find_all(title_n, CLUB_INDEX))
+    if any(p in low_url for p in config.OTHER_SPORT_URL_PARTS):
+        return not has_club      # /tennis/, /golf/...: fuera, salvo que el titular nombre un club ("Nadal, al consejo del Real Madrid")
+    if not any(f" {w} " in padded for w in config.NOT_FOOTBALL):
+        return False
+    return not (has_club or any(f" {w} " in padded for w in config.FOOTBALL_TERMS))
+
+
+def is_match_page(title, url=""):
+    """Resumen, crónica o directo de un partido (por la URL o por el titular): no puede ser un rumor."""
+    low_url = (url or "").lower()
+    if any(p in low_url for p in config.MATCH_URL_PARTS):
+        return True
+    padded = f" {' '.join(norm(title).split())} "
+    return any(f" {p} " in padded for p in config.MATCH_TITLE_PHRASES)
+
+
 def add_ignored(name, path=None):
     path = path or config.IGNORED_FILE
     if " ".join(norm(name).split()) not in load_ignored(path):
@@ -171,8 +203,17 @@ def _is_noise(title, padded):
     return False
 
 
-def extract_one(title, summary, players, ignored=frozenset()):
-    """Devuelve una lista de rumores (dicts) detectados en un titular."""
+def extract_one(title, summary, players, ignored=frozenset(), url="", excluded=None):
+    """Devuelve una lista de rumores (dicts) detectados en un titular. `url` es la del artículo
+    (si es un resumen de partido, no hay rumor) y `excluded` las palabras de jugadores_excluir.txt."""
+    if is_match_page(title, url):
+        return []
+    excluded = load_excluded() if excluded is None else excluded
+    return [r for r in _extract(title, summary, players, ignored)
+            if " ".join(norm(r["player"]).split()) not in excluded]
+
+
+def _extract(title, summary, players, ignored):
     title = QUOTE_RE.sub(" ", title)
     title_n = norm(title)
     status, strong = detect_status(title_n)
@@ -218,15 +259,23 @@ def extract_one(title, summary, players, ignored=frozenset()):
 def revalidate(db, players, ignored):
     """Vuelve a pasar las reglas actuales por los rumores ya guardados y borra los que
     ya no se detectarían (así los falsos positivos antiguos desaparecen solos)."""
-    rows = db.execute("""SELECT r.id, r.player, i.title, i.summary FROM rumors r
+    rows = db.execute("""SELECT r.id, r.player, r.player_slug, i.title, i.summary, i.url FROM rumors r
                          JOIN items i ON i.id = r.item_id""").fetchall()
-    cache, bad = {}, []
+    excluded = load_excluded()
+    cache, bad, slugs, mentions = {}, [], set(), {}
     for r in rows:
-        key = (r["title"], r["summary"])
+        mentions[r["player_slug"]] = mentions.get(r["player_slug"], 0) + 1
+        key = (r["title"], r["summary"], r["url"])
         if key not in cache:
-            cache[key] = {ru["player"] for ru in extract_one(r["title"], r["summary"], players, ignored)}
+            cache[key] = {ru["player"] for ru in extract_one(r["title"], r["summary"], players, ignored,
+                                                              url=r["url"], excluded=excluded)}
         if r["player"] not in cache[key]:
             bad.append((r["id"],))
+            slugs.add(r["player_slug"])
+    # Fichas que pudieron existir (2+ titulares): se recuerdan para redirigirlas con 301 a /jugador/ (tabla `retirados`)
+    db.execute("CREATE TABLE IF NOT EXISTS retirados (slug TEXT PRIMARY KEY, fecha TEXT)")
+    db.executemany("INSERT OR IGNORE INTO retirados (slug, fecha) VALUES (?, date('now'))",
+                   [(s,) for s in slugs if mentions.get(s, 0) >= 2])
     db.executemany("DELETE FROM rumors WHERE id = ?", bad)
     return len(bad)
 
@@ -238,9 +287,10 @@ def extract_pending(db):
     if removed:
         print(f"  Rumores antiguos que ya no pasan las reglas (borrados): {removed}")
     saved = 0
-    rows = db.execute("SELECT id, title, summary FROM items WHERE processed = 0").fetchall()
+    rows = db.execute("SELECT id, title, summary, url FROM items WHERE processed = 0").fetchall()
+    excluded = load_excluded()
     for r in rows:
-        for ru in extract_one(r["title"], r["summary"], players, ignored):
+        for ru in extract_one(r["title"], r["summary"], players, ignored, url=r["url"], excluded=excluded):
             db.execute(
                 """INSERT INTO rumors (item_id, player, player_slug, from_club, to_club,
                    status, fee_eur_m, needs_review) VALUES (?,?,?,?,?,?,?,?)""",

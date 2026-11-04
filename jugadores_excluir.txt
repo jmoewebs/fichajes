@@ -1,0 +1,7 @@
+# Palabras genéricas que NUNCA son un jugador (una por línea). Si por error añades un jugador real, borra su línea.
+Europa
+United
+Recomiendan
+Cumbre
+Cartel
+Acuerdo

@@ -184,7 +184,7 @@ def build_news(db, start=None, end=None, limit=None):
         if r["id"] in rumor_items:
             continue   # los rumores tienen su pestaña; en Noticias no se repiten
         title_n = norm(r["title"])
-        if _has_any(title_n, config.NOT_FOOTBALL):
+        if rules.is_other_sport(r["title"], r["url"]):
             continue
         clubs = []
         for _, _, club in rules._find_all(title_n, rules.CLUB_INDEX):
@@ -267,6 +267,14 @@ def export_archive(db, months, all_months=False):
                            next_ym=yms[i - 1] if i > 0 else None, months=months)
 
 
+def _retired_slugs(db):
+    """Fichas de jugador que revalidate retiró (tabla `retirados`): web.py las redirige con 301 a /jugador/."""
+    try:
+        return [r[0] for r in db.execute("SELECT slug FROM retirados")]
+    except Exception:
+        return []
+
+
 def export(db, out_dir="data", all_months=False):
     os.makedirs(out_dir, exist_ok=True)
     data = build(db)
@@ -274,6 +282,7 @@ def export(db, out_dir="data", all_months=False):
         with open(os.path.join(out_dir, f"{name}.json"), "w", encoding="utf-8") as f:
             json.dump(content, f, ensure_ascii=False, indent=2)
     pending = db.execute("SELECT COUNT(*) FROM rumors WHERE needs_review = 1").fetchone()[0]
+    web.RETIRED_PLAYERS[:] = _retired_slugs(db)
     months = month_index(db)
     export_archive(db, months, all_months)
     page = web.generate(data, build_news(db), months, history=build_history(db))

@@ -173,12 +173,14 @@ FEEDS = [
 DB_PATH = "fichajes.db"
 PLAYERS_FILE = "jugadores.csv"
 IGNORED_FILE = "ignorados.txt"
+PLAYER_EXCLUDE_FILE = "jugadores_excluir.txt"   # palabras genéricas que nunca son jugadores (editable a mano)
 MODEL = "claude-haiku-5-5"   # solo si EXTRACTOR = "claude"
 BATCH_SIZE = 20
 SUMMARY_MAX_CHARS = 280      # solo guardamos una entradilla breve, nunca el artículo
 MAX_AGE_DAYS = 30            # se ignoran las noticias más antiguas que esto al descargarlas
 HISTORY_START = "2026-09-15"  # se borra lo anterior a esta fecha (noticias viejas colada en los feeds)
 WINDOW_DAYS = 45             # rumores que cuentan para el termómetro
+HOT_DAYS = 21                # la portada y /rumores/ ocultan rumores sin ninguna mención en estos días (las fichas se mantienen)
 NEWS_DAYS = 14               # días que aparecen en la columna de fechas de la portada
 RECENT_DAYS = 3              # días que se ven en la vista "Recientes"
 NEWS_MAX = 6000              # máximo de noticias en la portada
@@ -193,6 +195,20 @@ NOT_FOOTBALL = ["f1", "formula 1", "grand prix", "gran premio", "motogp", "pit w
                 "sabalenka", "alcaraz", "sinner", "djokovic", "swiatek", "gauff", "wuhan",
                 "mekies", "fernando alonso", "carlos sainz", "marc marquez"]
 LIVE_WORDS = ["en directo", "en vivo", "live"]
+# Un titular con palabra de otro deporte (NOT_FOOTBALL) se descarta SOLO si no nombra ningún club ni estos términos de fútbol
+FOOTBALL_TERMS = ["futbol", "football", "soccer", "laliga", "la liga", "premier league", "serie a", "bundesliga",
+                  "ligue 1", "champions", "europa league", "conference league", "copa del rey", "fichaje", "fichajes",
+                  "fichar", "futbolista", "futbolistas", "gol", "goles", "balon de oro", "seleccion espanola",
+                  "mundial de clubes", "uefa", "fifa"]
+# Rutas de URL de otros deportes (se descarta el titular aunque sea de un feed generalista)
+OTHER_SPORT_URL_PARTS = ["/cricket/", "/golf/", "/tennis/", "/formula1/", "/formula-1/", "/f1/", "/basketball/",
+                         "/baloncesto/", "/rugby-union/", "/rugby-league/", "/rugby/", "/boxing/", "/cycling/",
+                         "/motorsport/", "/motogp/", "/nba/", "/nfl/", "/athletics/", "/darts/", "/snooker/",
+                         "/tenis/", "/ciclismo/"]
+# URLs y titulares de resúmenes o directos de partido: no son rumores
+MATCH_URL_PARTS = ["/report/", "/match/", "/matches/", "/en-directo", "/directo/", "/minuto-a-minuto", "/live/",
+                   "/liveblog", "/cronica"]
+MATCH_TITLE_PHRASES = ["en directo", "minuto a minuto", "live blog", "como te lo contamos"]
 
 # Un rumor dudoso (jugador desconocido, "oficial", varios jugadores...) se publica solo
 # cuando lo dicen al menos estos medios distintos. Si lo dice uno solo, espera a revisión.

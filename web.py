@@ -6,7 +6,7 @@ import os
 import re
 
 import config
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 MONTHS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto",
           "septiembre", "octubre", "noviembre", "diciembre"]
@@ -538,6 +538,7 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
       <p class="updated" id="updated" data-iso="__UPDATED_ISO__">Actualizado <time datetime="__UPDATED_ISO__">el __UPDATED__</time></p>
       <h1>__HEADING__</h1>
       <p class="tagline">__TAGLINE__Cada titular enlaza a la noticia original.</p>
+      __DAILY__
       __CRUMBS__
     </div>
     __KOFI_TOP__
@@ -890,7 +891,7 @@ function sideRead() {
   const ol = el("ol");
   for (const n of items) {
     const li = el("li"), body = el("div"), a = el("a", null, n.title);
-    a.href = n.url; a.target = "_blank"; a.rel = "noopener"; a.title = n.title;
+    a.href = n.url; a.target = "_blank"; a.rel = "noopener nofollow"; a.title = n.title;
     const s = el("div", "src-n"); s.append(outlet(n.url, n.source, true), el("span", null, n.source));
     body.append(a, s); li.append(body); ol.append(li);
   }
@@ -915,7 +916,7 @@ function topReadBox() {
   const ol = el("ol");
   for (const n of items) {
     const li = el("li"), body = el("div"), a = el("a", null, n.title);
-    a.href = n.url; a.target = "_blank"; a.rel = "noopener";
+    a.href = n.url; a.target = "_blank"; a.rel = "noopener nofollow";
     const meta = el("div", "meta");
     meta.append(outlet(n.url, n.source, true), el("span", null, n.source), el("span", "time", dayLabel(n.date) + ", " + hhmm(n.date)));
     body.append(a, meta); li.append(body); ol.append(li);
@@ -937,7 +938,7 @@ function two(n) { return String(n).padStart(2, "0") + ":00"; }
 
 function newsItem(n) {
   const li = el("li"), body = el("div", "bd"), a = el("a", "t", n.title);
-  a.href = n.url; a.target = "_blank"; a.rel = "noopener";
+  a.href = n.url; a.target = "_blank"; a.rel = "noopener nofollow";
   const meta = el("div", "meta"), by = el("span", "by");
   by.append(outlet(n.url, n.source, true), n.source);
   meta.append(by);
@@ -1099,7 +1100,7 @@ function rumorCard(r) {
   const ul = el("ul", "mentions");
   for (const m of r.mentions) {
     const li = el("li"), body = el("div"), a = el("a", null, m.title);
-    a.href = m.url; a.target = "_blank"; a.rel = "noopener";
+    a.href = m.url; a.target = "_blank"; a.rel = "noopener nofollow";
     const meta = el("div", "meta");
     meta.append(el("span", null, m.source), el("span", "time", dayLabel(m.date) + ", " + hhmm(m.date)),
                 el("span", "status st-" + m.status, STATUS[m.status] || m.status));
@@ -1292,7 +1293,7 @@ function renderFxReport() {
       if (r.team) h.append(el("small", "fx-team", " " + r.team));
       const right = el("div"); right.append(el("span", "status st-" + r.st, r.label));
       const why = el("div", "why"), a = el("a", null, r.title);
-      a.href = r.url; a.target = "_blank"; a.rel = "noopener";
+      a.href = r.url; a.target = "_blank"; a.rel = "noopener nofollow";
       const meta = el("div", "meta");
       meta.append(outlet(r.url, r.source, true), el("span", null, r.source), el("span", "time", dayLabel(r.date) + ", " + hhmm(r.date)));
       meta.append(shareBtn((r.st === "back" ? "✅ " : "🚑 ") + r.player + ": " + r.label.toLowerCase() + ". " + r.title, SITE_URL + "/fantasy/"));
@@ -1359,7 +1360,7 @@ function renderFantasy() {
     card.append(right);
     const why = el("div", "why");
     if (r.item) {
-      const a = el("a", null, r.item.title); a.href = r.item.url; a.target = "_blank"; a.rel = "noopener";
+      const a = el("a", null, r.item.title); a.href = r.item.url; a.target = "_blank"; a.rel = "noopener nofollow";
       const meta = el("div", "meta");
       meta.append(outlet(r.item.url, r.item.source, true), el("span", null, r.item.source),
                   el("span", "time", dayLabel(r.item.date) + ", " + hhmm(r.item.date)));
@@ -1527,7 +1528,7 @@ const heroBox = document.getElementById("hero");
 const PITCH_SVG = '<svg class="pitch-art" viewBox="0 0 400 260" aria-hidden="true"><rect x="10" y="10" width="380" height="240" rx="4"/><path d="M200 10v240"/><circle cx="200" cy="130" r="42"/><rect x="10" y="70" width="60" height="120"/><rect x="330" y="70" width="60" height="120"/></svg>';
 function heroLink(cls, href, external) {
   const a = el("a", cls); a.href = href;
-  if (external) { a.target = "_blank"; a.rel = "noopener"; }
+  if (external) { a.target = "_blank"; a.rel = "noopener nofollow"; }
   return a;
 }
 function renderHero() {
@@ -1752,7 +1753,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
            description, canonical, root, tagline="", page="news", table_league=None,
            static_html=None, counts=None, fx_report=(), standings=None, club=None, club_info=None,
            fx_players=None, fx_ignore=(), club_intro=(), ld_page=(), updated=None,
-           table_note="", noindex=False):
+           table_note="", noindex=False, daily=""):
     esc = html_lib.escape
     verification = (f'<meta name="google-site-verification" content="{esc(config.GOOGLE_VERIFICATION, quote=True)}">'
                     if config.GOOGLE_VERIFICATION else "")
@@ -1791,6 +1792,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
                          f'<a class="kofi" href="{esc(config.KOFI_URL, quote=True)}" target="_blank" rel="noopener">'
                          f'Invítame a un café</a>'
                          if config.KOFI_URL else "") + '</div><span class="visits" id="visits" hidden></span></div>')
+            .replace("__DAILY__", f'<p class="tagline daily">{daily}</p>' if daily else "")
             .replace("__PREF_SOURCE__", _pref_source_link())
             .replace("__TG_URL__", telegram_url())
             .replace("__TG_FOOT__", f'<a href="{esc(telegram_url(), quote=True)}" target="_blank" rel="noopener">'
@@ -1914,7 +1916,7 @@ def _winter_page(rumors, news, lastmod_rumors, out_dir):
     rows = "".join(
         f"<tr><td>{esc(lg)}</td><td>{wd(a)} {fmt(a)}</td><td>{wd(c)} {fmt(c)}{(' · ' + esc(h)) if h else ''}</td>"
         f"<td>{'Oficial' if ok else 'Según prensa, pendiente de confirmar'} "
-        f'(<a href="{esc(src, quote=True)}" target="_blank" rel="noopener">fuente</a>)</td></tr>'
+        f'(<a href="{esc(src, quote=True)}" target="_blank" rel="noopener nofollow">fuente</a>)</td></tr>'
         for lg, a, c, h, ok, src in wins)
     pend = [w[0] for w in wins if not w[4]]
     top = sorted((r for r in rumors if _best_status(r) != "oficial"), key=lambda r: -r["score"])
@@ -2195,6 +2197,33 @@ def _hoy_page(rumors, out_dir):
     return lm_hoy
 
 
+def _last_mention(r):
+    return max(m["date"] for m in r["mentions"])
+
+
+def _is_hot(r, days=None):
+    """¿Tiene alguna mención en los últimos HOT_DAYS días? Si no, sale de la portada (la ficha se conserva)."""
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=days or config.HOT_DAYS)).isoformat()
+    return _last_mention(r) >= cutoff
+
+
+def _daily_line(hot):
+    """Párrafo automático de la portada: rumores con novedades hoy y el más caliente."""
+    if not hot:
+        return ""
+    esc = html_lib.escape
+    today = _now_spain().date()
+    todays = [r for r in hot if _es(datetime.fromisoformat(_last_mention(r).replace("Z", "+00:00"))).date() == today]
+    top = max(todays or hot, key=lambda r: (r["score"], _last_mention(r)))
+    route = f"{top['from_club'] or 'origen sin confirmar'} → {top['to_club'] or 'destino sin confirmar'}"
+    name = esc(top["player"])
+    if top.get("player_slug") in _PLAYER_PAGES:
+        name = f'<a href="/jugador/{esc(top["player_slug"], quote=True)}/">{name}</a>'
+    hoy = (f"Hoy hay {_plural(len(todays), 'rumor con novedades', 'rumores con novedades')}. El más caliente: "
+           if todays else f"Hoy no hay novedades nuevas. El rumor más caliente de los últimos {config.HOT_DAYS} días: ")
+    return f"{hoy}{name} ({esc(route)}), {top['score']}° en el termómetro."
+
+
 def _plural(n, one, many):
     return f"{n} {one if n == 1 else many}"
 
@@ -2337,7 +2366,7 @@ def _jornada_page(md, snap, mds, out_dir):
     def item(r, with_team=False):
         team = f" ({esc(r['team'])})" if with_team else ""
         return (f'<li><strong>{esc(r["player"])}</strong>{team} · <span class="lb {r["st"]}">{esc(r["label"])}</span>. '
-                f'<a href="{esc(r["url"], quote=True)}" target="_blank" rel="noopener">{esc(r["title"])}</a> '
+                f'<a href="{esc(r["url"], quote=True)}" target="_blank" rel="noopener nofollow">{esc(r["title"])}</a> '
                 f'<span class="mt">({esc(r["source"])}, {_dmy(r["date"])})</span></li>')
 
     by_team = {}
@@ -2432,6 +2461,11 @@ __ADSENSE__
 <meta property="og:type" content="__OGTYPE__"><meta property="og:site_name" content="__SITE_NAME__">
 <meta property="og:title" content="__TITLE__"><meta property="og:description" content="__DESCRIPTION__">
 <meta property="og:url" content="__CANONICAL__"><meta property="og:locale" content="es_ES">
+<meta property="og:image" content="__SITE_URL__/compartir.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="__TITLE__"><meta name="twitter:description" content="__DESCRIPTION__">
+<meta name="twitter:image" content="__SITE_URL__/compartir.png">
 <link rel="icon" href="__ROOT__favicon.svg" type="image/svg+xml">
 <link rel="icon" href="__ROOT__favicon.png" type="image/png" sizes="48x48">
 <script type="application/ld+json">__LDJSON__</script>
@@ -2724,11 +2758,28 @@ def _player_page(e, pts, events, out_dir):
     related = " · ".join(club_link(c) for c in e.get("clubs", []) if c)
     rows = "".join(
         f'<tr><td>{_time_tag(m["date"], fmt(m["date"]))}</td><td>{esc(m["source"])}</td><td>{esc(STAT_ES.get(m["status"], m["status"]))}</td>'
-        f'<td><a href="{esc(m["url"], quote=True)}" target="_blank" rel="noopener">{esc(m["title"])}</a></td></tr>'
+        f'<td><a href="{esc(m["url"], quote=True)}" target="_blank" rel="noopener nofollow">{esc(m["title"])}</a></td></tr>'
         for m in reversed(ms))
     ch_rows = "".join(f'<li>{fmt(d)}: {sc}° ({STAT_ES.get(st, st)}, {_plural(n, "medio", "medios")})</li>'
                       for d, sc, st, n in pts)
+    to_txt = f" por {e['to_club']}" if e.get("to_club") else ""
+    q_h2 = f"¿Va a fichar {name}{to_txt}?"
+    stale = ""
+    if not _is_hot(e):    # sin menciones en HOT_DAYS días: sigue la ficha, pero avisamos (no cambia dateModified)
+        d_last = _es(datetime.fromisoformat(last["date"].replace("Z", "+00:00")))
+        stale = f'<p class="mt"><strong>Sin novedades desde {d_last:%d/%m}.</strong> Ya no aparece en la portada.</p>'
+    faqs = [(f"¿Qué medios hablan del fichaje de {name}{to_txt}?",
+             f"Lo cuentan {_plural(len(srcs), 'medio', 'medios')} ({', '.join(srcs)}) en {_plural(len(ms), 'titular', 'titulares')} "
+             f"de los últimos {config.WINDOW_DAYS} días. El último es de {last['source']}, del {fmt(last['date'])}."),
+            (f"¿Es oficial el fichaje de {name}?",
+             {"oficial": "Sí: algún medio lo da por cerrado y el estado del rumor es oficial.",
+              "desmentido": "No. Lo último que dicen los medios es que no se hará (rumor desmentido).",
+              "pendiente": f"Todavía no. El rumor está pendiente de confirmación oficial y marca {e['score']}° en el termómetro."}[_veredicto(e)])]
+    faq_html = ("<h2>Preguntas frecuentes</h2>"
+                + "".join(f"<h3>{esc(q)}</h3><p>{esc(a)}</p>" for q, a in faqs))
     body = (f'<p class="mt">Actualizado el <time datetime="{modified}">{_es(datetime.fromisoformat(modified)):%d/%m/%Y a las %H:%M}</time></p>'
+            + stale
+            + f"<h2>{esc(q_h2)}</h2>"
             + "".join(f"<p>{esc(t)}</p>" for t in paras)
             + f'<div class="vote" id="vote" data-slug="{esc(slug, quote=True)}" hidden><p>¿Crees que el fichaje de {esc(name)} se hará?</p>'
               '<div class="vb"><button type="button" data-v="si">Sí, se hará</button><button type="button" data-v="no">No se hará</button></div></div>'
@@ -2737,6 +2788,7 @@ def _player_page(e, pts, events, out_dir):
             + f'<h2>Todos los titulares sobre {esc(name)}</h2><div style="overflow-x:auto"><table class="tb"><thead><tr><th>Fecha</th><th>Medio</th><th>Estado</th><th>Titular</th></tr></thead><tbody>{rows}</tbody></table></div>'
             + (f"<h2>Clubes implicados</h2><p>{related}</p>" if related else "")
             + f'<p><a href="{root}rumores/">Todos los rumores de fichajes</a> · <a href="{root}rumores/movimientos/">Últimos movimientos del mercado</a> · <a href="{root}jugador/">Más jugadores</a></p>'
+            + faq_html
             + "<h2>Cómo se calcula</h2><p>El termómetro (de 0° a 100°) es una estimación automática: cuenta cuántos medios distintos hablan del rumor, cuánto se fía la web de cada uno y lo avanzado que está el estado de la operación. No es información oficial ni una predicción. Cada titular enlaza a la noticia original, que conserva su autoría.</p>"
             + VOTE_JS)
     title = f"Fichaje de {name}: rumores, termómetro e historial"
@@ -2749,6 +2801,9 @@ def _player_page(e, pts, events, out_dir):
          "url": f"{config.SITE_URL}/jugador/{slug}/", "jobTitle": "Futbolista",
          **({"affiliation": {"@type": "SportsTeam", "name": e["from_club"]}} if e.get("from_club") else {})}]}
     ld["@graph"][1]["about"] = {"@id": f"{config.SITE_URL}/jugador/{slug}/#jugador"}
+    ld["@graph"].append({"@type": "FAQPage", "@id": f"{config.SITE_URL}/jugador/{slug}/#faq", "inLanguage": "es-ES",
+                         "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}
+                                        for q, a in faqs]})   # mismas preguntas y respuestas que las visibles
     crumbs = _crumbs(root, ("Jugadores con rumores", "/jugador/"), (name, None))
     _write_info_page(out_dir, f"jugador/{slug}", root=root, nav_on="rumors", title=title, description=desc,
                      h1=f"Fichaje de {name}: rumores y termómetro", crumbs=crumbs, body=body, ld=ld, ogtype="article")
@@ -2798,7 +2853,7 @@ def _history_pages(history, out_dir):
             fee = f" · {f['fee']:g} M€" if f.get("fee") else ""
             rows.append(f'<li><time datetime="{esc(str(f["date"]))}">{fmt(f["date"])}</time> {nm}: '
                         f'{esc(f["from_club"] or "origen sin confirmar")} → {esc(f["to_club"])}{fee}. '
-                        f'<a href="{esc(f["url"], quote=True)}" rel="noopener">{esc(f["source"])}</a></li>')
+                        f'<a href="{esc(f["url"], quote=True)}" rel="noopener nofollow">{esc(f["source"])}</a></li>')
         body = (f"<p>Fichajes dados por oficiales por la prensa en la temporada {season} (de julio a junio), "
                 "del más reciente al más antiguo. Cada enlace lleva a la noticia original del medio.</p>"
                 f'<ul class="hist">{"".join(rows)}</ul>'
@@ -2880,12 +2935,23 @@ def _movimientos_page(events, out_dir):
     return mod
 
 
+def _drop_orphan_player_pages(out_dir):
+    """Borra web/jugador/<slug>/ de fichas que ya no existen (en GitHub la carpeta nace limpia; en local no)."""
+    import shutil
+    base = os.path.join(out_dir, "jugador")
+    if os.path.isdir(base):
+        for d in os.listdir(base):
+            if os.path.isdir(os.path.join(base, d)) and d not in _PLAYER_PAGES:
+                shutil.rmtree(os.path.join(base, d), ignore_errors=True)
+
+
 def _build_player_pages(rumors, out_dir):
     """Páginas de jugador (solo con 2 o más titulares), hub y feed de movimientos. Devuelve {ruta: lastmod}."""
     lm, events, hub = {}, [], []
     ok = _player_page_entries(rumors)
     _PLAYER_PAGES.clear()
     _PLAYER_PAGES.update(e["player_slug"] for e in ok)
+    _drop_orphan_player_pages(out_dir)
     for e in rumors:
         pts, evs = _series(e)
         for ev in evs:
@@ -3002,7 +3068,8 @@ def generate(data, news=(), months=(), out_dir="web", history=None):
         if club in info or any(club in n["clubs"] for n in news) or \
            any(club in (r.get("clubs") or [r["from_club"], r["to_club"]]) for r in rumors):
             _CLUB_PAGES[club] = slugify(club)
-    counts = {"news": len(news), "rumors": len(rumors)}
+    hot = [r for r in rumors if _is_hot(r)]       # portada y /rumores/: sin mención en HOT_DAYS días, fuera
+    counts = {"news": len(news), "rumors": len(hot)}
     for club, slug in _CLUB_PAGES.items():       # clubes con poco contenido: noindex y fuera del sitemap
         if not any(club in (r.get("clubs") or [r["from_club"], r["to_club"]]) for r in rumors) and            sum(1 for n in news if club in n["clubs"]) < config.CLUB_MIN_NEWS:
             _NOINDEX_CLUBS.add(slug)
@@ -3040,10 +3107,10 @@ def generate(data, news=(), months=(), out_dir="web", history=None):
             (standings.get((info.get(club) or {}).get("league")) or {}).get("updated"))
     for md_ in _JORNADAS:
         lastmod[f"/fantasy/jornada-{md_}/"] = _iso_max(snaps[str(md_)]["updated"])
-    lastmod["/rumores-fichajes-hoy/"] = _hoy_page(rumors, out_dir)
+    lastmod["/rumores-fichajes-hoy/"] = _hoy_page(hot, out_dir)
     _write_news_feed(news, out_dir)
     lastmod.update(_history_pages(history or {}, out_dir))
-    win = _winter_page(rumors, news, lastmod["/rumores/"], out_dir)
+    win = _winter_page(hot, news, lastmod["/rumores/"], out_dir)
     if win:
         lastmod[win[0]] = win[1]
     lastmod.update({k: v for k, v in player_lm.items() if v})
@@ -3059,7 +3126,7 @@ def generate(data, news=(), months=(), out_dir="web", history=None):
                    heading=config.SITE_NAME, crumbs="",
                    ld_page=_page_ld("/", config.SITE_TITLE, config.SITE_DESCRIPTION, modified=lastmod["/"]) + _news_ld(news), updated=lastmod["/"],
                    title=config.SITE_TITLE, description=config.SITE_DESCRIPTION,
-                   canonical=config.SITE_URL + "/", rumors=rumors, news=news,
+                   canonical=config.SITE_URL + "/", rumors=hot, news=news, daily=_daily_line(hot),
                    archive=_archive(months, prefix="archivo/"), **common)
 
     # Rumores
@@ -3069,14 +3136,14 @@ def generate(data, news=(), months=(), out_dir="web", history=None):
            ld_page=_page_ld("/rumores/", f"Rumores de fichajes y mercado de invierno {_winter_year()}",
                             f"Fichajes cerrados y los rumores más calientes del mercado de invierno {_winter_year()}",
                             [("Rumores de fichajes", None)], lastmod["/rumores/"])
-                   + [_item_list(rumors, config.SITE_URL + "/rumores/")],
+                   + [_item_list(hot, config.SITE_URL + "/rumores/")],
            title=_fit_title(f"Rumores de fichajes y mercado de invierno {_winter_year()}"),
            description=(f"Fichajes cerrados y los rumores más calientes del mercado de invierno {_winter_year()} "
                         "de LaLiga, Premier y Serie A, con termómetro de probabilidad. Cada hora."),
-           canonical=config.SITE_URL + "/rumores/", rumors=rumors, news=news,
+           canonical=config.SITE_URL + "/rumores/", rumors=hot, news=news,
            archive=_archive(months, prefix="../archivo/"),
            static_html=((f'<p><a href="/fichajes-enero-{_winter_year()}/">Fechas del mercado de invierno {_winter_year()}</a></p>'
-                         if _winter_link() else "") + _static_list([], rumors, limit=0) + _static_list(news, [], limit=30)), **common)
+                         if _winter_link() else "") + _static_list([], hot, limit=0) + _static_list(news, [], limit=30)), **common)
 
     # Clasificación: una página por liga (no llevan noticias: así pesan poco)
     for lg, d in standings.items():
@@ -3241,8 +3308,12 @@ LEGAL_LASTMOD = {"sobre": "2026-11-02", "privacidad": "2026-11-02"}
 ARCHIVO_GONE = []   # meses del archivo retirados (los rellena score.export_archive)
 
 
+RETIRED_PLAYERS = []   # slugs de fichas retiradas por revalidate (tabla `retirados` de fichajes.db); los rellena score.export
+
+
 def _write_redirects(months, out_dir):
-    """web/_redirects (Cloudflare Pages): 301 de los meses retirados al mes más cercano que exista, o a la portada."""
+    """web/_redirects (Cloudflare Pages): 301 de los meses retirados al mes más cercano que exista, o a la portada,
+    y de las fichas de jugador retiradas a /jugador/."""
     have = [ym for ym, _, _ in months]
     idx = lambda ym: int(ym[:4]) * 12 + int(ym[5:])
     lines = []
@@ -3250,8 +3321,11 @@ def _write_redirects(months, out_dir):
         near = min(have, key=lambda h: abs(idx(h) - idx(old)), default=None)
         dest = f"/archivo/{near}" if near and abs(idx(near) - idx(old)) <= 3 else "/"
         lines += [f"/archivo/{old} {dest} 301", f"/archivo/{old}.html {dest} 301"]
+    for slug in sorted(set(RETIRED_PLAYERS) - _PLAYER_PAGES):      # si la ficha vuelve a existir, no se redirige
+        if re.fullmatch(r"[a-z0-9-]{2,60}", slug):
+            lines += [f"/jugador/{slug} /jugador/ 301", f"/jugador/{slug}/ /jugador/ 301"]
     with open(os.path.join(out_dir, "_redirects"), "w", encoding="utf-8") as f:
-        f.write("# Generado por web.py: meses del archivo retirados\n" + "".join(l + "\n" for l in lines))
+        f.write("# Generado por web.py: meses del archivo y fichas de jugador retirados\n" + "".join(l + "\n" for l in lines))
 
 
 def _month_end(ym):
