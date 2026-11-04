@@ -6,7 +6,7 @@ import os
 import re
 
 import config
-from datetime import datetime
+from datetime import datetime, timezone
 
 MONTHS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto",
           "septiembre", "octubre", "noviembre", "diciembre"]
@@ -22,6 +22,7 @@ __ADSENSE__
 <link rel="canonical" href="__CANONICAL__">
 __ROBOTS__
 <link rel="alternate" type="application/rss+xml" title="Movimientos del mercado de fichajes" href="__SITE_URL__/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Últimas noticias de fútbol" href="__SITE_URL__/feed-noticias.xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="__SITE_NAME__">
 <meta name="application-name" content="__SITE_NAME__">
@@ -2378,6 +2379,7 @@ __ADSENSE__
 <meta name="description" content="__DESCRIPTION__">
 <link rel="canonical" href="__CANONICAL__">
 <link rel="alternate" type="application/rss+xml" title="Movimientos del mercado de fichajes" href="__SITE_URL__/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Últimas noticias de fútbol" href="__SITE_URL__/feed-noticias.xml">
 <meta property="og:type" content="__OGTYPE__"><meta property="og:site_name" content="__SITE_NAME__">
 <meta property="og:title" content="__TITLE__"><meta property="og:description" content="__DESCRIPTION__">
 <meta property="og:url" content="__CANONICAL__"><meta property="og:locale" content="es_ES">
@@ -2462,11 +2464,34 @@ def _write_feed(events, out_dir):
                      f"<pubDate>{format_datetime(when)}</pubDate>"
                      f"<description>{esc(title + '. Según ' + ev['source'] + '.')}</description></item>")
     now = format_datetime(datetime.now().astimezone())
-    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel>'
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>'
+           f'<atom:link href="{config.SITE_URL}/feed.xml" rel="self" type="application/rss+xml"/>'
            f"<title>{esc(config.SITE_NAME)}: movimientos del mercado</title><link>{config.SITE_URL}/rumores/movimientos/</link>"
            "<description>Cada vez que un rumor de fichaje entra, sube o avanza de estado.</description>"
            f"<language>es-ES</language><lastBuildDate>{now}</lastBuildDate>{''.join(items)}</channel></rss>\n")
     with open(os.path.join(out_dir, "feed.xml"), "w", encoding="utf-8") as f:
+        f.write(xml)
+
+
+def _write_news_feed(news, out_dir, limit=40):
+    """feed-noticias.xml (RSS 2.0): últimos titulares, solo titular + medio + enlace al original."""
+    esc = html_lib.escape
+    from email.utils import format_datetime
+    items = []
+    for n in sorted(news, key=lambda n: n["date"], reverse=True)[:limit]:
+        when = datetime.fromisoformat(n["date"].replace("Z", "+00:00"))
+        if when.tzinfo is None:
+            when = when.replace(tzinfo=timezone.utc)
+        items.append(f"<item><title>{esc(n['title'])}</title><link>{esc(n['url'])}</link>"
+                     f'<guid isPermaLink="true">{esc(n["url"])}</guid><pubDate>{format_datetime(when)}</pubDate>'
+                     f"<source url=\"{esc(n['url'], quote=True)}\">{esc(n['source'])}</source></item>")
+    now = format_datetime(datetime.now().astimezone())
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>'
+           f'<atom:link href="{config.SITE_URL}/feed-noticias.xml" rel="self" type="application/rss+xml"/>'
+           f"<title>{esc(config.SITE_NAME)}: últimas noticias</title><link>{config.SITE_URL}/</link>"
+           "<description>Últimos titulares de fútbol, cada uno con enlace a la noticia del medio original.</description>"
+           f"<language>es-ES</language><lastBuildDate>{now}</lastBuildDate>{''.join(items)}</channel></rss>\n")
+    with open(os.path.join(out_dir, "feed-noticias.xml"), "w", encoding="utf-8") as f:
         f.write(xml)
 
 
@@ -2904,6 +2929,7 @@ def generate(data, news=(), months=(), out_dir="web"):
     for md_ in _JORNADAS:
         lastmod[f"/fantasy/jornada-{md_}/"] = _iso_max(snaps[str(md_)]["updated"])
     lastmod["/rumores-fichajes-hoy/"] = _hoy_page(rumors, out_dir)
+    _write_news_feed(news, out_dir)
     win = _winter_page(rumors, news, lastmod["/rumores/"], out_dir)
     if win:
         lastmod[win[0]] = win[1]
