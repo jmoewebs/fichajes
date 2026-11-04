@@ -5383,7 +5383,7 @@
   ],
   "updated": "2026-11-02T22:45:41.053240+00:00"
  },
- "_updated": "2026-11-04T20:01:48.661428+00:00",
+ "_updated": "2026-11-04T23:46:51.050641+00:00",
  "_version": 2,
  "Champions League": {
   "matchday": 4,
@@ -5417,22 +5417,36 @@
     "form": "W,W,W,W"
    },
    {
-    "id": 90,
+    "id": 57,
     "pos": 3,
-    "team": "Real Betis",
+    "team": "Arsenal",
     "played": 4,
     "won": 3,
     "draw": 1,
     "lost": 0,
-    "gf": 7,
-    "ga": 4,
-    "gd": 3,
+    "gf": 8,
+    "ga": 3,
+    "gd": 5,
     "points": 10,
-    "form": "W,W,W"
+    "form": "W,W,D,W"
+   },
+   {
+    "id": 7397,
+    "pos": 4,
+    "team": "Como 1907",
+    "played": 4,
+    "won": 3,
+    "draw": 0,
+    "lost": 1,
+    "gf": 19,
+    "ga": 6,
+    "gd": 13,
+    "points": 9,
+    "form": "W,L,W,W"
    },
    {
     "id": 81,
-    "pos": 4,
+    "pos": 5,
     "team": "Barça",
     "played": 4,
     "won": 3,
@@ -5446,7 +5460,7 @@
    },
    {
     "id": 58,
-    "pos": 5,
+    "pos": 6,
     "team": "Aston Villa",
     "played": 4,
     "won": 3,
@@ -5459,8 +5473,22 @@
     "form": "W,W,W,L"
    },
    {
+    "id": 65,
+    "pos": 7,
+    "team": "Man City",
+    "played": 4,
+    "won": 3,
+    "draw": 0,
+    "lost": 1,
+    "gf": 12,
+    "ga": 7,
+    "gd": 5,
+    "points": 9,
+    "form": "W,L,W,W"
+   },
+   {
     "id": 64,
-    "pos": 6,
+    "pos": 8,
     "team": "Liverpool",
     "played": 4,
     "won": 3,
@@ -5473,8 +5501,22 @@
     "form": "W,W,W,L"
    },
    {
+    "id": 851,
+    "pos": 9,
+    "team": "Club Brugge",
+    "played": 4,
+    "won": 3,
+    "draw": 0,
+    "lost": 1,
+    "gf": 11,
+    "ga": 7,
+    "gd": 4,
+    "points": 9,
+    "form": "L,W,W,W"
+   },
+   {
     "id": 498,
-    "pos": 7,
+    "pos": 10,
     "team": "Sporting CP",
     "played": 4,
     "won": 3,
@@ -5487,8 +5529,36 @@
     "form": "W,W,L,W"
    },
    {
+    "id": 90,
+    "pos": 11,
+    "team": "Real Betis",
+    "played": 4,
+    "won": 3,
+    "draw": 0,
+    "lost": 1,
+    "gf": 8,
+    "ga": 6,
+    "gd": 2,
+    "points": 9,
+    "form": "W,W,W,L"
+   },
+   {
+    "id": 4,
+    "pos": 12,
+    "team": "Dortmund",
+    "played": 4,
+    "won": 3,
+    "draw": 0,
+    "lost": 1,
+    "gf": 7,
+    "ga": 5,
+    "gd": 2,
+    "points": 9,
+    "form": "W,L,W,W"
+   },
+   {
     "id": 5,
-    "pos": 8,
+    "pos": 13,
     "team": "Bayern",
     "played": 4,
     "won": 2,
@@ -5501,64 +5571,8 @@
     "form": "W,D,D,W"
    },
    {
-    "id": 57,
-    "pos": 9,
-    "team": "Arsenal",
-    "played": 4,
-    "won": 2,
-    "draw": 2,
-    "lost": 0,
-    "gf": 6,
-    "ga": 2,
-    "gd": 4,
-    "points": 8,
-    "form": "W,W,D"
-   },
-   {
-    "id": 7397,
-    "pos": 10,
-    "team": "Como 1907",
-    "played": 4,
-    "won": 2,
-    "draw": 1,
-    "lost": 1,
-    "gf": 10,
-    "ga": 5,
-    "gd": 5,
-    "points": 7,
-    "form": "W,L,W"
-   },
-   {
-    "id": 65,
-    "pos": 11,
-    "team": "Man City",
-    "played": 4,
-    "won": 2,
-    "draw": 1,
-    "lost": 1,
-    "gf": 9,
-    "ga": 5,
-    "gd": 4,
-    "points": 7,
-    "form": "W,L,W"
-   },
-   {
-    "id": 851,
-    "pos": 12,
-    "team": "Club Brugge",
-    "played": 4,
-    "won": 2,
-    "draw": 1,
-    "lost": 1,
-    "gf": 9,
-    "ga": 6,
-    "gd": 3,
-    "points": 7,
-    "form": "L,W,W"
-   },
-   {
     "id": 10,
-    "pos": 13,
+    "pos": 14,
     "team": "Stuttgart",
     "played": 4,
     "won": 2,
@@ -5569,20 +5583,6 @@
     "gd": 3,
     "points": 7,
     "form": "W,W,D,L"
-   },
-   {
-    "id": 4,
-    "pos": 14,
-    "team": "Dortmund",
-    "played": 4,
-    "won": 2,
-    "draw": 1,
-    "lost": 1,
-    "gf": 5,
-    "ga": 4,
-    "gd": 1,
-    "points": 7,
-    "form": "W,L,W"
    },
    {
     "id": 108,
@@ -5641,22 +5641,8 @@
     "form": "L,L,W,W"
    },
    {
-    "id": 674,
-    "pos": 19,
-    "team": "PSV",
-    "played": 4,
-    "won": 1,
-    "draw": 2,
-    "lost": 1,
-    "gf": 2,
-    "ga": 2,
-    "gd": 0,
-    "points": 5,
-    "form": "D,L,W"
-   },
-   {
     "id": 613,
-    "pos": 20,
+    "pos": 19,
     "team": "Fenerbahçe",
     "played": 4,
     "won": 1,
@@ -5670,7 +5656,7 @@
    },
    {
     "id": 100,
-    "pos": 21,
+    "pos": 20,
     "team": "Roma",
     "played": 4,
     "won": 1,
@@ -5684,7 +5670,7 @@
    },
    {
     "id": 1887,
-    "pos": 22,
+    "pos": 21,
     "team": "Shaktar",
     "played": 4,
     "won": 1,
@@ -5695,6 +5681,20 @@
     "gd": 0,
     "points": 4,
     "form": "D,W,L,L"
+   },
+   {
+    "id": 5720,
+    "pos": 22,
+    "team": "Viking",
+    "played": 4,
+    "won": 1,
+    "draw": 1,
+    "lost": 2,
+    "gf": 9,
+    "ga": 10,
+    "gd": -1,
+    "points": 4,
+    "form": "L,D,L,W"
    },
    {
     "id": 78,
@@ -5711,50 +5711,22 @@
     "form": "L,W,D,L"
    },
    {
-    "id": 113,
+    "id": 674,
     "pos": 24,
-    "team": "Napoli",
-    "played": 4,
-    "won": 1,
-    "draw": 1,
-    "lost": 2,
-    "gf": 5,
-    "ga": 7,
-    "gd": -2,
-    "points": 4,
-    "form": "L,L,W"
-   },
-   {
-    "id": 10233,
-    "pos": 25,
-    "team": "Sabah FK",
+    "team": "PSV",
     "played": 4,
     "won": 1,
     "draw": 1,
     "lost": 2,
     "gf": 3,
-    "ga": 6,
-    "gd": -3,
+    "ga": 4,
+    "gd": -1,
     "points": 4,
-    "form": "L,W,L"
-   },
-   {
-    "id": 546,
-    "pos": 26,
-    "team": "RC Lens",
-    "played": 4,
-    "won": 1,
-    "draw": 1,
-    "lost": 2,
-    "gf": 3,
-    "ga": 7,
-    "gd": -4,
-    "points": 4,
-    "form": "W,L,L"
+    "form": "D,L,W,L"
    },
    {
     "id": 5721,
-    "pos": 27,
+    "pos": 25,
     "team": "Bodø/Glimt",
     "played": 4,
     "won": 1,
@@ -5767,22 +5739,36 @@
     "form": "L,W,L,D"
    },
    {
-    "id": 721,
-    "pos": 28,
-    "team": "RB Leipzig",
+    "id": 503,
+    "pos": 26,
+    "team": "Porto",
     "played": 4,
     "won": 1,
-    "draw": 1,
-    "lost": 2,
-    "gf": 3,
-    "ga": 8,
+    "draw": 0,
+    "lost": 3,
+    "gf": 6,
+    "ga": 7,
+    "gd": -1,
+    "points": 3,
+    "form": "L,L,L,W"
+   },
+   {
+    "id": 113,
+    "pos": 27,
+    "team": "Napoli",
+    "played": 4,
+    "won": 1,
+    "draw": 0,
+    "lost": 3,
+    "gf": 6,
+    "ga": 11,
     "gd": -5,
-    "points": 4,
-    "form": "L,W,L"
+    "points": 3,
+    "form": "L,L,W,L"
    },
    {
     "id": 94,
-    "pos": 29,
+    "pos": 28,
     "team": "Villarreal",
     "played": 4,
     "won": 1,
@@ -5796,7 +5782,7 @@
    },
    {
     "id": 1899,
-    "pos": 30,
+    "pos": 29,
     "team": "PAE AEK",
     "played": 4,
     "won": 1,
@@ -5809,8 +5795,36 @@
     "form": "W,L,L,L"
    },
    {
-    "id": 675,
+    "id": 721,
+    "pos": 29,
+    "team": "RB Leipzig",
+    "played": 4,
+    "won": 1,
+    "draw": 0,
+    "lost": 3,
+    "gf": 5,
+    "ga": 11,
+    "gd": -6,
+    "points": 3,
+    "form": "L,W,L,L"
+   },
+   {
+    "id": 10233,
     "pos": 31,
+    "team": "Sabah FK",
+    "played": 4,
+    "won": 1,
+    "draw": 0,
+    "lost": 3,
+    "gf": 4,
+    "ga": 10,
+    "gd": -6,
+    "points": 3,
+    "form": "L,W,L,L"
+   },
+   {
+    "id": 675,
+    "pos": 32,
     "team": "Feyenoord",
     "played": 4,
     "won": 1,
@@ -5823,46 +5837,32 @@
     "form": "L,W,L,L"
    },
    {
-    "id": 930,
-    "pos": 32,
-    "team": "Slavia Praha",
-    "played": 4,
-    "won": 0,
-    "draw": 2,
-    "lost": 2,
-    "gf": 4,
-    "ga": 7,
-    "gd": -3,
-    "points": 2,
-    "form": "L,L,D"
-   },
-   {
-    "id": 5720,
+    "id": 546,
     "pos": 33,
-    "team": "Viking",
+    "team": "RC Lens",
     "played": 4,
-    "won": 0,
-    "draw": 2,
-    "lost": 2,
-    "gf": 5,
-    "ga": 9,
-    "gd": -4,
-    "points": 2,
-    "form": "L,D,L"
+    "won": 1,
+    "draw": 0,
+    "lost": 3,
+    "gf": 4,
+    "ga": 16,
+    "gd": -12,
+    "points": 3,
+    "form": "W,L,L,L"
    },
    {
-    "id": 503,
+    "id": 930,
     "pos": 34,
-    "team": "Porto",
+    "team": "Slavia Praha",
     "played": 4,
     "won": 0,
     "draw": 1,
     "lost": 3,
-    "gf": 2,
-    "ga": 6,
+    "gf": 5,
+    "ga": 9,
     "gd": -4,
     "points": 1,
-    "form": "L,L,L"
+    "form": "L,L,D,L"
    },
    {
     "id": 521,
@@ -5895,12 +5895,28 @@
   ],
   "scorers": [
    {
+    "player": "Anastasios Douvikas",
+    "team": "Como 1907",
+    "played": 4,
+    "goals": 6,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
     "player": "Nicolo Tresoldi",
     "team": "Club Brugge",
     "played": 4,
-    "goals": 4,
+    "goals": 5,
     "assists": 0,
     "penalties": 2
+   },
+   {
+    "player": "Erling Haaland",
+    "team": "Man City",
+    "played": 4,
+    "goals": 5,
+    "assists": 0,
+    "penalties": 0
    },
    {
     "player": "Kylian Mbappé",
@@ -5908,14 +5924,6 @@
     "played": 4,
     "goals": 4,
     "assists": 1,
-    "penalties": 0
-   },
-   {
-    "player": "Erling Haaland",
-    "team": "Man City",
-    "played": 4,
-    "goals": 4,
-    "assists": 0,
     "penalties": 0
    },
    {
@@ -6031,14 +6039,6 @@
     "penalties": 0
    },
    {
-    "player": "Anastasios Douvikas",
-    "team": "Como 1907",
-    "played": 4,
-    "goals": 3,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
     "player": "Bradley Barcola",
     "team": "Liverpool",
     "played": 4,
@@ -6068,6 +6068,22 @@
     "played": 4,
     "goals": 3,
     "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Scott McTominay",
+    "team": "Napoli",
+    "played": 3,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Nico Paz",
+    "team": "Como 1907",
+    "played": 4,
+    "goals": 3,
+    "assists": 5,
     "penalties": 0
    },
    {
@@ -6119,6 +6135,14 @@
     "penalties": 0
    },
    {
+    "player": "Zlatko Tripić",
+    "team": "Viking",
+    "played": 4,
+    "goals": 2,
+    "assists": 3,
+    "penalties": 0
+   },
+   {
     "player": "Archie Brown",
     "team": "Fenerbahçe",
     "played": 4,
@@ -6159,6 +6183,14 @@
     "penalties": 1
    },
    {
+    "player": "Martin Baturina",
+    "team": "Como 1907",
+    "played": 4,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
     "player": "Assane Diao",
     "team": "Como 1907",
     "played": 2,
@@ -6169,6 +6201,14 @@
    {
     "player": "Danijel Sturm",
     "team": "Slavia Praha",
+    "played": 4,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Ruben Aguilar",
+    "team": "RC Lens",
     "played": 4,
     "goals": 2,
     "assists": 0,
@@ -6203,7 +6243,7 @@
     "team": "Viking",
     "played": 4,
     "goals": 2,
-    "assists": 0,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -6255,6 +6295,22 @@
     "penalties": 0
    },
    {
+    "player": "Gabriel Veiga",
+    "team": "Porto",
+    "played": 4,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Samu Aghehowa",
+    "team": "Porto",
+    "played": 3,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 1
+   },
+   {
     "player": "Isco",
     "team": "Real Betis",
     "played": 4,
@@ -6279,22 +6335,6 @@
     "penalties": 0
    },
    {
-    "player": "Scott McTominay",
-    "team": "Napoli",
-    "played": 3,
-    "goals": 2,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
-    "player": "Nico Paz",
-    "team": "Como 1907",
-    "played": 4,
-    "goals": 2,
-    "assists": 3,
-    "penalties": 0
-   },
-   {
     "player": "Soriba Diaoune",
     "team": "Lille",
     "played": 4,
@@ -6303,8 +6343,24 @@
     "penalties": 0
    },
    {
+    "player": "Carlos Forbs",
+    "team": "Club Brugge",
+    "played": 4,
+    "goals": 2,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
     "player": "Kasper Jørgensen",
     "team": "LASK",
+    "played": 4,
+    "goals": 2,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
+    "player": "Erik Botheim",
+    "team": "Viking",
     "played": 4,
     "goals": 2,
     "assists": 1,
@@ -6372,14 +6428,6 @@
     "played": 4,
     "goals": 1,
     "assists": 1,
-    "penalties": 0
-   },
-   {
-    "player": "Zlatko Tripić",
-    "team": "Viking",
-    "played": 4,
-    "goals": 1,
-    "assists": 2,
     "penalties": 0
    },
    {
@@ -6471,14 +6519,6 @@
     "penalties": 0
    },
    {
-    "player": "Martin Baturina",
-    "team": "Como 1907",
-    "played": 4,
-    "goals": 1,
-    "assists": 1,
-    "penalties": 0
-   },
-   {
     "player": "Andrija Maksimović",
     "team": "RB Leipzig",
     "played": 4,
@@ -6491,7 +6531,7 @@
     "team": "Como 1907",
     "played": 4,
     "goals": 1,
-    "assists": 0,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -6507,15 +6547,7 @@
     "team": "RC Lens",
     "played": 4,
     "goals": 1,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
-    "player": "Ruben Aguilar",
-    "team": "RC Lens",
-    "played": 4,
-    "goals": 1,
-    "assists": 0,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -6635,7 +6667,7 @@
     "team": "RB Leipzig",
     "played": 4,
     "goals": 1,
-    "assists": 0,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -6661,41 +6693,9 @@
     "goals": 1,
     "assists": 1,
     "penalties": 0
-   },
-   {
-    "player": "Gjivai Zechiël",
-    "team": "Feyenoord",
-    "played": 4,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
-    "player": "Anis Moussa",
-    "team": "Feyenoord",
-    "played": 4,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
-    "player": "Marten de Roon",
-    "team": "Roma",
-    "played": 4,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
-    "player": "Carlos Espí",
-    "team": "Real Madrid",
-    "played": 4,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
    }
   ],
-  "updated": "2026-11-04T20:00:36.390438+00:00"
+  "updated": "2026-11-04T23:45:42.003761+00:00"
  },
  "Championship": {
   "matchday": 14,
@@ -6704,19 +6704,33 @@
     "id": 343,
     "pos": 1,
     "team": "Middlesbrough",
-    "played": 13,
+    "played": 14,
     "won": 8,
     "draw": 4,
-    "lost": 1,
+    "lost": 2,
     "gf": 30,
-    "ga": 17,
-    "gd": 13,
+    "ga": 19,
+    "gd": 11,
     "points": 28,
-    "form": "W,W,D,W,W"
+    "form": "W,D,W,W,L"
+   },
+   {
+    "id": 76,
+    "pos": 2,
+    "team": "Wolverhampton",
+    "played": 14,
+    "won": 8,
+    "draw": 3,
+    "lost": 3,
+    "gf": 25,
+    "ga": 17,
+    "gd": 8,
+    "points": 27,
+    "form": "W,D,W,W,W"
    },
    {
     "id": 332,
-    "pos": 2,
+    "pos": 3,
     "team": "Birmingham",
     "played": 14,
     "won": 7,
@@ -6730,7 +6744,7 @@
    },
    {
     "id": 70,
-    "pos": 3,
+    "pos": 4,
     "team": "Stoke",
     "played": 14,
     "won": 8,
@@ -6744,7 +6758,7 @@
    },
    {
     "id": 72,
-    "pos": 4,
+    "pos": 5,
     "team": "Swansea",
     "played": 14,
     "won": 8,
@@ -6758,7 +6772,7 @@
    },
    {
     "id": 74,
-    "pos": 5,
+    "pos": 6,
     "team": "West Brom",
     "played": 14,
     "won": 7,
@@ -6772,7 +6786,7 @@
    },
    {
     "id": 340,
-    "pos": 6,
+    "pos": 7,
     "team": "Southampton",
     "played": 14,
     "won": 8,
@@ -6785,32 +6799,18 @@
     "form": "W,D,W,W,D"
    },
    {
-    "id": 76,
-    "pos": 7,
-    "team": "Wolverhampton",
-    "played": 13,
-    "won": 7,
-    "draw": 3,
-    "lost": 3,
-    "gf": 23,
-    "ga": 16,
-    "gd": 7,
-    "points": 24,
-    "form": "L,W,D,W,W"
-   },
-   {
     "id": 563,
     "pos": 8,
     "team": "West Ham",
-    "played": 13,
+    "played": 14,
     "won": 6,
-    "draw": 4,
+    "draw": 5,
     "lost": 3,
-    "gf": 33,
-    "ga": 18,
+    "gf": 36,
+    "ga": 21,
     "gd": 15,
-    "points": 22,
-    "form": "D,W,W,L,L"
+    "points": 23,
+    "form": "W,W,L,L,D"
    },
    {
     "id": 356,
@@ -6900,19 +6900,33 @@
     "id": 387,
     "pos": 15,
     "team": "Bristol City",
-    "played": 13,
+    "played": 14,
     "won": 5,
     "draw": 3,
-    "lost": 5,
-    "gf": 15,
-    "ga": 17,
-    "gd": -2,
+    "lost": 6,
+    "gf": 16,
+    "ga": 19,
+    "gd": -3,
     "points": 18,
-    "form": "D,L,L,D,W"
+    "form": "L,L,D,W,L"
+   },
+   {
+    "id": 404,
+    "pos": 16,
+    "team": "Wrexham",
+    "played": 14,
+    "won": 4,
+    "draw": 5,
+    "lost": 5,
+    "gf": 17,
+    "ga": 19,
+    "gd": -2,
+    "points": 17,
+    "form": "L,W,L,L,W"
    },
    {
     "id": 60,
-    "pos": 16,
+    "pos": 17,
     "team": "Bolton",
     "played": 14,
     "won": 5,
@@ -6925,8 +6939,22 @@
     "form": "W,D,L,L,W"
    },
    {
+    "id": 715,
+    "pos": 18,
+    "team": "Cardiff",
+    "played": 14,
+    "won": 3,
+    "draw": 6,
+    "lost": 5,
+    "gf": 22,
+    "ga": 23,
+    "gd": -1,
+    "points": 15,
+    "form": "W,D,W,L,D"
+   },
+   {
     "id": 1126,
-    "pos": 17,
+    "pos": 19,
     "team": "Lincoln City",
     "played": 14,
     "won": 4,
@@ -6937,34 +6965,6 @@
     "gd": -10,
     "points": 15,
     "form": "L,D,W,L,L"
-   },
-   {
-    "id": 715,
-    "pos": 18,
-    "team": "Cardiff",
-    "played": 13,
-    "won": 3,
-    "draw": 5,
-    "lost": 5,
-    "gf": 19,
-    "ga": 20,
-    "gd": -1,
-    "points": 14,
-    "form": "L,W,D,W,L"
-   },
-   {
-    "id": 404,
-    "pos": 19,
-    "team": "Wrexham",
-    "played": 13,
-    "won": 3,
-    "draw": 5,
-    "lost": 5,
-    "gf": 15,
-    "ga": 19,
-    "gd": -4,
-    "points": 14,
-    "form": "D,L,W,L,L"
    },
    {
     "id": 346,
@@ -7055,6 +7055,14 @@
     "penalties": 0
    },
    {
+    "player": "Jack Moylan",
+    "team": "Cardiff",
+    "played": 11,
+    "goals": 9,
+    "assists": 3,
+    "penalties": 2
+   },
+   {
     "player": "Cyle Larin",
     "team": "Southampton",
     "played": 11,
@@ -7063,19 +7071,11 @@
     "penalties": 0
    },
    {
-    "player": "Jack Moylan",
-    "team": "Cardiff",
-    "played": 11,
-    "goals": 7,
-    "assists": 3,
-    "penalties": 1
-   },
-   {
     "player": "Jarrod Bowen",
     "team": "West Ham",
     "played": 11,
     "goals": 7,
-    "assists": 4,
+    "assists": 6,
     "penalties": 1
    },
    {
@@ -7107,8 +7107,16 @@
     "team": "Wrexham",
     "played": 11,
     "goals": 5,
-    "assists": 2,
+    "assists": 3,
     "penalties": 0
+   },
+   {
+    "player": "Scott Twine",
+    "team": "Bristol City",
+    "played": 11,
+    "goals": 5,
+    "assists": 0,
+    "penalties": 1
    },
    {
     "player": "Isaac Price",
@@ -7191,14 +7199,6 @@
     "penalties": 0
    },
    {
-    "player": "Scott Twine",
-    "team": "Bristol City",
-    "played": 11,
-    "goals": 4,
-    "assists": 0,
-    "penalties": 1
-   },
-   {
     "player": "Dominic Ballard",
     "team": "Bristol City",
     "played": 11,
@@ -7212,6 +7212,14 @@
     "played": 11,
     "goals": 4,
     "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Divine Mukasa",
+    "team": "West Ham",
+    "played": 10,
+    "goals": 4,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -7339,7 +7347,7 @@
     "team": "West Ham",
     "played": 10,
     "goals": 3,
-    "assists": 1,
+    "assists": 2,
     "penalties": 0
    },
    {
@@ -7405,14 +7413,6 @@
     "goals": 3,
     "assists": 0,
     "penalties": 1
-   },
-   {
-    "player": "Divine Mukasa",
-    "team": "West Ham",
-    "played": 10,
-    "goals": 3,
-    "assists": 1,
-    "penalties": 0
    },
    {
     "player": "Callum Styles",
@@ -7564,6 +7564,14 @@
     "played": 5,
     "goals": 2,
     "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Max Kilman",
+    "team": "West Ham",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
     "penalties": 0
    },
    {
@@ -7827,19 +7835,11 @@
     "team": "Wolverhampton",
     "played": 6,
     "goals": 2,
-    "assists": 1,
-    "penalties": 0
-   },
-   {
-    "player": "Carlos Vicente",
-    "team": "Birmingham",
-    "played": 11,
-    "goals": 2,
-    "assists": 0,
+    "assists": 2,
     "penalties": 0
    }
   ],
-  "updated": "2026-11-04T20:01:02.984262+00:00"
+  "updated": "2026-11-04T23:46:05.656917+00:00"
  },
  "Eredivisie": {
   "matchday": 12,
