@@ -39,6 +39,7 @@ jobs:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}   # para publicar el archivo de la clave en la web
 
       - name: Añadir ads.txt y código de AdSense
         run: |
@@ -73,6 +74,8 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy web --project-name=${{ secrets.CLOUDFLARE_PROJECT_NAME }} --branch=main
 
-      - name: Avisar a Bing de las páginas (IndexNow, una vez al día)
+      - name: Avisar a Bing de las páginas que han cambiado (IndexNow, tras cada publicación)
         if: steps.run.outputs.nuevos != '0' || github.event_name == 'workflow_dispatch'
         run: python run.py indexnow
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
