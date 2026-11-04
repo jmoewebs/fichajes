@@ -52,6 +52,16 @@ jobs:
             sed -i 's#</head>#<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6680488121204410" crossorigin="anonymous"></script></head>#' "$f"
           done
 
+      - name: Publicar la clave de IndexNow en la web
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+        run: |
+          if [ -z "$INDEXNOW_KEY" ]; then
+            echo "::error::Falta el secreto INDEXNOW_KEY (Settings > Secrets and variables > Actions). No se puede publicar la clave de IndexNow."
+            exit 1
+          fi
+          test -n "$INDEXNOW_KEY" && printf '%s' "$INDEXNOW_KEY" > "web/$INDEXNOW_KEY.txt"
+
       - name: Mensaje de bienvenida en Telegram (solo si lo marcas al lanzarlo a mano)
         if: github.event_name == 'workflow_dispatch' && inputs.bienvenida_telegram
         run: python run.py telegram-bienvenida
@@ -66,7 +76,13 @@ jobs:
         run: |
           git config user.name "actualizador"
           git config user.email "actualizador@users.noreply.github.com"
-          git add fichajes.db jugadores.csv ignorados.txt clasificaciones.json 2>/dev/null || git add fichajes.db jugadores.csv ignorados.txt
+          for f in fichajes.db jugadores.csv ignorados.txt clasificaciones.json; do
+            if [ -f "$f" ]; then
+              git add "$f"
+            else
+              echo "::warning::No existe $f, no se añade al commit"
+            fi
+          done
           git diff --cached --quiet || git commit -m "Actualización automática"
           git push
 
