@@ -57,8 +57,8 @@ jobs:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
         run: |
           if [ -z "$INDEXNOW_KEY" ]; then
-            echo "::error::Falta el secreto INDEXNOW_KEY (Settings > Secrets and variables > Actions). No se puede publicar la clave de IndexNow."
-            exit 1
+            echo "::warning::Falta el secreto INDEXNOW_KEY (Settings > Secrets and variables > Actions). No se publica la clave de IndexNow."
+            exit 0
           fi
           test -n "$INDEXNOW_KEY" && printf '%s' "$INDEXNOW_KEY" > "web/$INDEXNOW_KEY.txt"
 
