@@ -537,7 +537,7 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
     <div class="ttl">
       <p class="updated" id="updated" data-iso="__UPDATED_ISO__">Actualizado <time datetime="__UPDATED_ISO__">el __UPDATED__</time></p>
       <h1>__HEADING__</h1>
-      <p class="tagline">__TAGLINE__Cada titular enlaza a la noticia original.</p>
+      <p class="tagline">__TAGLINE__</p>
       __DAILY__
       __CRUMBS__
     </div>
@@ -626,6 +626,8 @@ const ROOT = "__ROOT__";                 // camino hasta la portada ("", "../", 
 const COUNTS = __COUNTS__;
 const TABLE_LEAGUE = __TABLE_LEAGUE__;
 const TABLE_NOTE = __TABLE_NOTE__;
+const TERMOMETRO = __TERMOMETRO__;       // umbrales del termómetro (config.TERMOMETRO)
+const TEAM_NAMES = __TEAM_NAMES__;       // clasificación: equipo de la API -> {n: nombre a mostrar, c: club con ficha}
 const JORNADAS = __JORNADAS__;
 const WINTER = __WINTER__;
 const LEAGUE_SLUGS = __LEAGUE_SLUGS__;
@@ -807,6 +809,13 @@ function syncDays() {
     : news.filter(n => new Date(n.date).getTime() >= recentFrom).length;
 }
 
+function teamName(team) { return (TEAM_NAMES[team] || {}).n || team; }
+function teamNode(team) {      // nombre unificado con las fichas de club, y enlace si el club tiene ficha
+  const T = TEAM_NAMES[team] || {n: team}, slug = T.c && CLUB_SLUGS[T.c];
+  if (!slug) return document.createTextNode(T.n);
+  const a = el("a", null, T.n); a.href = dirUrl(ROOT + "club/" + slug + "/");
+  return a;
+}
 function clubLink(name, cls) {
   const slug = CLUB_SLUGS[name];
   if (!slug) return el("span", cls, name);
@@ -1072,7 +1081,7 @@ function rumorCard(r) {
     left.append(also);
   }
   const row = el("div", "row"), best = bestStatus(r);
-  const lab = best === "oficial" || r.score >= 100 ? "Oficial" : r.score >= 40 ? "Probable" : "Rumor";
+  const lab = best === "oficial" || r.score >= 100 ? "Oficial" : r.score >= TERMOMETRO.probable ? "Probable" : "Rumor";
   const ver = r.veredicto || (best === "oficial" ? "oficial" : best === "descartado" ? "desmentido" : "pendiente");
   const vc = el("span", "rlab vd-" + ver, ver === "oficial" ? "Oficial" : ver === "desmentido" ? "Desmentido" : "Pendiente");
   vc.title = ver === "pendiente" ? lab + " (" + r.score + "°): aún sin confirmar" : ver === "desmentido" ? "Lo último que dicen los medios es que no se hará" : "Confirmado oficialmente";
@@ -1426,7 +1435,8 @@ function renderTable() {
   if (TABLE_NOTE) list.append(el("p", "tb-note", TABLE_NOTE));
   const rows = d.table.map(t => {
     const tr = el("tr");
-    tr.append(cell("td", t.pos, "pos"), cell("td", t.team, "l team"), cell("td", t.played),
+    const tc = el("td", "l team"); tc.append(teamNode(t.team));
+    tr.append(cell("td", t.pos, "pos"), tc, cell("td", t.played),
               cell("td", t.won, "hide-sm"), cell("td", t.draw, "hide-sm"), cell("td", t.lost, "hide-sm"),
               cell("td", t.gf, "hide-sm"), cell("td", t.ga, "hide-sm"),
               cell("td", (t.gd > 0 ? "+" : "") + t.gd), cell("td", t.points, "pts"));
@@ -1453,7 +1463,7 @@ function renderTable() {
   gBox.append(el("h2", "tb-h", "Goleadores"));
   gBox.append(makeTable([["#", "l"], ["Jugador", "l"], ["Goles", ""]], goals.map((s, i) => {
     const tr = el("tr"), who = el("td", "l");
-    who.append(el("div", null, s.player), el("div", "sub", s.team));
+    who.append(el("div", null, s.player), el("div", "sub", teamName(s.team)));
     const g = cell("td", s.goals, "big");
     if (s.penalties) g.title = s.penalties + " de penalti";
     tr.append(cell("td", i + 1, "pos"), who, g);
@@ -1465,7 +1475,7 @@ function renderTable() {
   if (assists.length) {
     aBox.append(makeTable([["#", "l"], ["Jugador", "l"], ["Asist.", ""]], assists.map((s, i) => {
       const tr = el("tr"), who = el("td", "l");
-      who.append(el("div", null, s.player), el("div", "sub", s.team));
+      who.append(el("div", null, s.player), el("div", "sub", teamName(s.team)));
       tr.append(cell("td", i + 1, "pos"), who, cell("td", s.assists, "big"));
       return tr;
     })));
@@ -1649,8 +1659,8 @@ ANALYTICS = r"""<div class="cookies" id="cookies" hidden role="dialog" aria-labe
 
 
 def _label(score, status=None):
-    """Etiqueta según el termómetro: Oficial (cerrado), Probable (≥40°) o Rumor."""
-    return "Oficial" if status == "oficial" or score >= 100 else "Probable" if score >= 40 else "Rumor"
+    """Etiqueta según el termómetro: Oficial (cerrado), Probable (desde config.TERMOMETRO["probable"]) o Rumor."""
+    return "Oficial" if status == "oficial" or score >= 100 else "Probable" if score >= config.TERMOMETRO["probable"] else "Rumor"
 
 
 VEREDICTO_ES = {"oficial": "Oficial", "desmentido": "Desmentido", "pendiente": "Pendiente de confirmar"}
@@ -1753,7 +1763,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
            description, canonical, root, tagline="", page="news", table_league=None,
            static_html=None, counts=None, fx_report=(), standings=None, club=None, club_info=None,
            fx_players=None, fx_ignore=(), club_intro=(), ld_page=(), updated=None,
-           table_note="", noindex=False, daily=""):
+           table_note="", noindex=False, daily="", own_tagline=False):
     esc = html_lib.escape
     verification = (f'<meta name="google-site-verification" content="{esc(config.GOOGLE_VERIFICATION, quote=True)}">'
                     if config.GOOGLE_VERIFICATION else "")
@@ -1774,7 +1784,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__DESCRIPTION__", esc(description, quote=True))
             .replace("__CANONICAL__", esc(canonical, quote=True))
             .replace("__SITE_NAME__", esc(config.SITE_NAME, quote=True))
-            .replace("__TAGLINE__", esc(tagline) + " " if tagline else "")
+            .replace("__TAGLINE__", (esc(tagline) + " " if tagline else "") + ("" if own_tagline else "Cada titular enlaza a la noticia original."))
             .replace("__SITE_URL__", config.SITE_URL)
             .replace("__ROOT__", root)
             .replace("__VERIFICATION__", verification)
@@ -1822,6 +1832,8 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__COUNTS__", _json(counts or {"news": len(list(news)), "rumors": len(rumors)}))
             .replace("__TABLE_LEAGUE__", _json(table_league))
             .replace("__TABLE_NOTE__", _json(table_note))
+            .replace("__TERMOMETRO__", _json({"probable": config.TERMOMETRO["probable"]}))
+            .replace("__TEAM_NAMES__", _json(_team_map((standings or {}).get(table_league)) if table_league else {}))
             .replace("__ROBOTS__", '<meta name="robots" content="noindex,follow">' if noindex else "")
             .replace("__JORNADAS__", _json(_JORNADAS[:4]))
             .replace("__WINTER__", _json(_winter_link()))
@@ -1898,6 +1910,13 @@ def _winter_link():
             "path": f"fichajes-enero-{y}/"} if y in config.WINTER_WINDOWS else None
 
 
+def _player_link(r, root):
+    """Nombre del jugador, enlazado a su ficha si la tiene."""
+    esc = html_lib.escape
+    return (f'<a href="{root}jugador/{esc(r["player_slug"], quote=True)}/">{esc(r["player"])}</a>'
+            if r.get("player_slug") in _PLAYER_PAGES else esc(r["player"]))
+
+
 def _winter_page(rumors, news, lastmod_rumors, out_dir):
     """/fichajes-enero-AAAA/: fechas de apertura y cierre por liga + rumores activos por termómetro.
     Devuelve (ruta, lastmod) o None."""
@@ -1921,7 +1940,7 @@ def _winter_page(rumors, news, lastmod_rumors, out_dir):
     pend = [w[0] for w in wins if not w[4]]
     top = sorted((r for r in rumors if _best_status(r) != "oficial"), key=lambda r: -r["score"])
     items = "".join(
-        f'<li><strong>{esc(r["player"])}</strong> · {esc(str(r.get("from_club") or "?"))} → {esc(str(r.get("to_club") or "?"))}'
+        f'<li><strong>{_player_link(r, root)}</strong> · {esc(str(r.get("from_club") or "?"))} → {esc(str(r.get("to_club") or "?"))}'
         f' · <span class="lb doubt">{r["score"]}°</span> {esc(_label(r["score"], _best_status(r)))}</li>' for r in top[:30])
     upd = f'<p class="mt">Actualizado el {_dmy(lastmod_rumors, True)}.</p>' if lastmod_rumors else ""
     liga = next((w for w in wins if w[0] == "LaLiga" and w[4]), None)   # solo se afirma lo verificado y oficial
@@ -2043,6 +2062,57 @@ def _club_of_team(team):
         if any(f" {' '.join(norm(a).split())} " in t for a in aliases if len(a) > 3):
             return club
     return None
+
+
+def _team_name(team):
+    """Nombre a mostrar de un equipo de la API: config.TEAM_DISPLAY, si no el de su ficha de club ("Barça" -> "FC Barcelona")."""
+    return config.TEAM_DISPLAY.get(team) or _club_of_team(team) or team
+
+
+def _team_map(d):
+    """{equipo de la API: {"n": nombre, "c": club con ficha o None}} de una clasificación (para el JS de la tabla)."""
+    out = {}
+    for row in (d or {}).get("table", []):
+        team = str(row.get("team") or "")
+        club = _club_of_team(team)
+        out[team] = {"n": _team_name(team), "c": club if club in _CLUB_PAGES else None}
+    return out
+
+
+def _team_html(team, names):
+    esc = html_lib.escape
+    t = names.get(str(team)) or {"n": _team_name(str(team)), "c": None}
+    slug = _CLUB_PAGES.get(t["c"]) if t["c"] else None
+    return f'<a href="/club/{esc(slug, quote=True)}/">{esc(t["n"])}</a>' if slug else esc(t["n"])
+
+
+def _con_articulo(nombre):
+    """"el FC Barcelona", "el Girona", "la Real Sociedad", "la Juventus" (config.CLUBES_FEMENINOS lista los femeninos).
+    Va en minúscula: siempre sigue a una coma ("Tras la jornada 11, el ...")."""
+    return ("la " if nombre in config.CLUBES_FEMENINOS else "el ") + nombre
+
+
+def _liga_intro(league, d):
+    """Párrafo automático de una clasificación: líder, puntos, jornada y máximo goleador."""
+    table = d.get("table") or []
+    if not table:
+        return ""
+    art = "la " if league in ("Premier League", "Serie A", "Bundesliga", "Ligue 1", "Champions League",
+                              "Championship", "Eredivisie", "Primeira Liga") else ""
+    lead = table[0]
+    md = f"Tras la jornada {d['matchday']}, " if d.get("matchday") else "Ahora mismo, "
+    verbo = "lidera la fase de liga de" if league == "Champions League" else "lidera"
+    txt = f"{md}{_con_articulo(_team_name(str(lead['team'])))} {verbo} {art}{league} con {_plural(lead['points'], 'punto', 'puntos')}."
+    sc = sorted(d.get("scorers") or [], key=lambda s: -s["goals"])
+    if sc and sc[0]["goals"]:
+        tied = [s for s in sc if s["goals"] == sc[0]["goals"]]
+        if len(tied) == 1:
+            txt += (f" El máximo goleador es {sc[0]['player']} ({_team_name(str(sc[0]['team']))}), "
+                    f"con {_plural(sc[0]['goals'], 'gol', 'goles')}.")
+        elif len(tied) <= 3:
+            txt += (f" Los máximos goleadores, empatados a {_plural(sc[0]['goals'], 'gol', 'goles')}, son "
+                    + ", ".join(f"{s['player']} ({_team_name(str(s['team']))})" for s in tied) + ".")
+    return txt
 
 
 def _club_info(standings):
@@ -2172,7 +2242,7 @@ def _hoy_page(rumors, out_dir):
     parts = [f'<p class="mt">Actualizado el <time datetime="{iso}">{fecha}, a las {now.strftime("%H:%M")}</time>. '
              'Esta página se regenera cada hora.</p>',
              f"<p>Los rumores de fichajes de hoy, ordenados por el termómetro de {esc(config.SITE_NAME)}: "
-             "<b>Oficial</b> si el fichaje está cerrado, <b>Probable</b> si marca 40° o más y <b>Rumor</b> en el resto. "
+             f"<b>Oficial</b> si el fichaje está cerrado, <b>Probable</b> si marca {config.TERMOMETRO['probable']}° o más y <b>Rumor</b> en el resto. "
              "Cada rumor enlaza a las noticias originales, que conservan su autoría.</p>"]
     if cerrados:
         parts.append("<h2>Fichajes cerrados</h2><ul>" + "".join(li(r) for r in cerrados) + "</ul>")
@@ -2287,8 +2357,7 @@ def _club_intro(club, ci, standings, rumors, news, fx):
             ruta = f"que podría llegar desde {top.get('from_club') or 'un club sin confirmar'}"
         else:
             ruta = f"que podría salir hacia {top.get('to_club') or 'un destino sin confirmar'}"
-        fuerza = ("muy avanzado" if top["score"] >= 70 else "con opciones reales" if top["score"] >= 40 else
-                  "en fase de interés" if top["score"] >= 15 else "todavía frío")
+        fuerza = _force(top["score"])
         txt = (f"En el mercado seguimos {_plural(len(allr), 'rumor', 'rumores')} del {club}: "
                f"{_plural(len(inc), 'de posible llegada', 'de posibles llegadas')} y "
                f"{_plural(len(sal), 'de posible salida', 'de posibles salidas')}. "
@@ -2663,8 +2732,7 @@ def _chart_svg(pts, now_iso):
 
 
 def _force(sc):
-    return ("muy avanzado" if sc >= 70 else "con opciones reales" if sc >= 40 else
-            "en fase de interés" if sc >= 15 else "todavía frío")
+    return next(txt for minimo, txt in config.TERMOMETRO["niveles"] if sc >= minimo)
 
 
 def _write_info_page(out_dir, rel, *, root, nav_on, title, description, h1, crumbs, body, ld, ogtype="website"):
@@ -3013,11 +3081,12 @@ def _other_tables_html(current):
 def _static_table(league, d):
     """Clasificación, goleadores y asistentes en HTML normal (para buscadores)."""
     esc = html_lib.escape
+    names = _team_map(d)
     md = f" (jornada {d['matchday']})" if d.get("matchday") else ""
     p = [f"<h2>Clasificación de {esc(league)}{md}</h2><table><tr><th>#</th><th>Equipo</th><th>PJ</th>"
          "<th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>Pts</th></tr>"]
     for t in d.get("table", []):
-        p.append(f"<tr><td>{t['pos']}</td><td>{esc(str(t['team']))}</td><td>{t['played']}</td><td>{t['won']}</td>"
+        p.append(f"<tr><td>{t['pos']}</td><td>{_team_html(t['team'], names)}</td><td>{t['played']}</td><td>{t['won']}</td>"
                  f"<td>{t['draw']}</td><td>{t['lost']}</td><td>{t['gf']}</td><td>{t['ga']}</td><td>{t['points']}</td></tr>")
     p.append("</table>")
     if league == "Champions League":
@@ -3025,12 +3094,12 @@ def _static_table(league, d):
     p.append(_other_tables_html(league))
     goals = sorted(d.get("scorers", []), key=lambda s: -s["goals"])[:20]
     p.append(f"<h2>Máximos goleadores de {esc(league)}</h2><ol>")
-    p += [f"<li>{esc(str(s['player']))} ({esc(str(s['team']))}): {s['goals']} goles</li>" for s in goals]
+    p += [f"<li>{esc(str(s['player']))} ({esc(names.get(str(s['team']), {}).get('n') or _team_name(str(s['team'])))}): {s['goals']} goles</li>" for s in goals]
     p.append("</ol>")
     assists = sorted((s for s in d.get("scorers", []) if s["assists"]), key=lambda s: -s["assists"])[:20]
     if assists:
         p.append(f"<h2>Máximos asistentes de {esc(league)}</h2><ol>")
-        p += [f"<li>{esc(str(s['player']))} ({esc(str(s['team']))}): {s['assists']} asistencias</li>" for s in assists]
+        p += [f"<li>{esc(str(s['player']))} ({esc(names.get(str(s['team']), {}).get('n') or _team_name(str(s['team'])))}): {s['assists']} asistencias</li>" for s in assists]
         p.append("</ol>")
     return "".join(p)
 
@@ -3165,7 +3234,9 @@ def generate(data, news=(), months=(), out_dir="web", history=None):
                             f"Clasificación de {art}{lg} actualizada tras cada jornada: puntos, goles y racha de cada "
                             f"equipo, y las tablas de máximos goleadores y asistentes."),
                canonical=f"{config.SITE_URL}/clasificacion/{league_slug(lg)}/", rumors=[], news=[],
-               archive=[], static_html=_static_table(lg, d), **common)
+               archive=[], static_html=_static_table(lg, d), own_tagline=True,
+               daily=html_lib.escape(_liga_intro(lg, d)),
+               **{**common, "tagline": f"Clasificación, goleadores y asistentes de {art}{lg}, actualizada tras cada jornada."})
 
     # Clubes: rumores, noticias y posición en la tabla de cada uno (solo sus datos: pesan poco)
     for club, slug in _CLUB_PAGES.items():

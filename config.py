@@ -210,6 +210,30 @@ MATCH_URL_PARTS = ["/report/", "/match/", "/matches/", "/en-directo", "/directo/
                    "/liveblog", "/cronica"]
 MATCH_TITLE_PHRASES = ["en directo", "minuto a minuto", "live blog", "como te lo contamos"]
 
+# Termómetro: única fuente de las etiquetas y descripciones (portada, /hoy, clubes, fichas y página de enero).
+# "probable": a partir de este valor un rumor se etiqueta Probable (Oficial solo si el estado es oficial; Rumor por debajo).
+# "niveles": (mínimo, descripción) de mayor a menor; web.py (_force) y el JS de la portada leen esta misma tabla.
+TERMOMETRO = {"probable": 50,
+              "niveles": [(75, "muy avanzado"), (50, "con opciones reales"), (25, "en fase de interés"), (0, "todavía frío")]}
+
+# Nombre que se muestra en las clasificaciones para equipos con nombre corto o distinto del de la API
+# (los equipos con ficha de club usan el nombre de la ficha, p. ej. "Barça" -> "FC Barcelona"; esto manda sobre ello).
+TEAM_DISPLAY = {
+    "Santander": "Racing de Santander", "Deportivo": "Deportivo de La Coruña", "Málaga": "Málaga CF",
+    "Celta": "Celta de Vigo", "Alavés": "Deportivo Alavés", "Athletic": "Athletic Club",
+    "Nottingham": "Nottingham Forest", "Newcastle": "Newcastle United", "Wolverhampton": "Wolverhampton Wanderers",
+    "Sheffield Utd": "Sheffield United", "West Brom": "West Bromwich Albion", "Preston NE": "Preston North End",
+    "QPR": "Queens Park Rangers", "Bremen": "Werder Bremen", "Frankfurt": "Eintracht Frankfurt", "Mainz": "Mainz 05",
+    "HSV": "Hamburgo", "M'gladbach": "Borussia Mönchengladbach", "PSG": "Paris Saint-Germain",
+    "Olympique Lyon": "Olympique de Lyon", "Shaktar": "Shakhtar Donetsk", "PAE AEK": "AEK Atenas",
+    "Sl. Bratislava": "Slovan Bratislava", "Acad. Viseu": "Académico de Viseu", "Sittard": "Fortuna Sittard",
+    "AZ": "AZ Alkmaar", "Go Ahead": "Go Ahead Eagles", "Den Haag": "ADO Den Haag", "Angers SCO": "Angers",
+}
+
+# Clubes con artículo femenino ("la Juventus", "la Real Sociedad"); el resto va con "el" ("el Girona").
+CLUBES_FEMENINOS = {"Real Sociedad", "Juventus", "Roma", "AS Roma", "Lazio", "Fiorentina", "Atalanta", "Sampdoria",
+                    "Cremonese", "Salernitana", "Udinese", "Spezia", "Reggiana", "Ponferradina", "Cultural Leonesa"}
+
 # Un rumor dudoso (jugador desconocido, "oficial", varios jugadores...) se publica solo
 # cuando lo dicen al menos estos medios distintos. Si lo dice uno solo, espera a revisión.
 AUTO_PUBLISH_MIN_SOURCES = 2
