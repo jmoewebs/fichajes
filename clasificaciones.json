@@ -5383,7 +5383,7 @@
   ],
   "updated": "2026-11-02T22:45:41.053240+00:00"
  },
- "_updated": "2026-11-03T21:49:28.597717+00:00",
+ "_updated": "2026-11-04T01:04:37.542206+00:00",
  "_version": 2,
  "Champions League": {
   "matchday": 4,
@@ -5400,7 +5400,7 @@
     "ga": 5,
     "gd": 15,
     "points": 12,
-    "form": "W,W,W"
+    "form": "W,W,W,W"
    },
    {
     "id": 81,
@@ -5414,7 +5414,7 @@
     "ga": 6,
     "gd": 8,
     "points": 9,
-    "form": "W,W,L"
+    "form": "W,W,L,W"
    },
    {
     "id": 58,
@@ -5428,7 +5428,7 @@
     "ga": 6,
     "gd": 6,
     "points": 9,
-    "form": "W,W,W"
+    "form": "W,W,W,L"
    },
    {
     "id": 64,
@@ -5498,25 +5498,11 @@
     "ga": 5,
     "gd": 7,
     "points": 8,
-    "form": "W,D,D"
-   },
-   {
-    "id": 100,
-    "pos": 9,
-    "team": "Roma",
-    "played": 4,
-    "won": 2,
-    "draw": 1,
-    "lost": 1,
-    "gf": 10,
-    "ga": 6,
-    "gd": 4,
-    "points": 7,
-    "form": "D,L,W"
+    "form": "W,D,D,W"
    },
    {
     "id": 57,
-    "pos": 10,
+    "pos": 9,
     "team": "Arsenal",
     "played": 3,
     "won": 2,
@@ -5530,7 +5516,7 @@
    },
    {
     "id": 10,
-    "pos": 11,
+    "pos": 10,
     "team": "Stuttgart",
     "played": 4,
     "won": 2,
@@ -5544,7 +5530,7 @@
    },
    {
     "id": 7397,
-    "pos": 12,
+    "pos": 11,
     "team": "Como 1907",
     "played": 3,
     "won": 2,
@@ -5558,7 +5544,7 @@
    },
    {
     "id": 65,
-    "pos": 13,
+    "pos": 12,
     "team": "Man City",
     "played": 3,
     "won": 2,
@@ -5572,7 +5558,7 @@
    },
    {
     "id": 851,
-    "pos": 14,
+    "pos": 13,
     "team": "Club Brugge",
     "played": 3,
     "won": 2,
@@ -5586,7 +5572,7 @@
    },
    {
     "id": 108,
-    "pos": 15,
+    "pos": 14,
     "team": "Inter",
     "played": 4,
     "won": 2,
@@ -5596,11 +5582,11 @@
     "ga": 6,
     "gd": 2,
     "points": 6,
-    "form": "L,L,W"
+    "form": "L,L,W,W"
    },
    {
     "id": 2016,
-    "pos": 16,
+    "pos": 15,
     "team": "LASK",
     "played": 4,
     "won": 2,
@@ -5610,11 +5596,11 @@
     "ga": 9,
     "gd": 1,
     "points": 6,
-    "form": "L,L,W"
+    "form": "L,L,W,W"
    },
    {
     "id": 4,
-    "pos": 17,
+    "pos": 16,
     "team": "Dortmund",
     "played": 3,
     "won": 2,
@@ -5625,6 +5611,20 @@
     "gd": 1,
     "points": 6,
     "form": "W,L,W"
+   },
+   {
+    "id": 66,
+    "pos": 17,
+    "team": "Man United",
+    "played": 4,
+    "won": 2,
+    "draw": 0,
+    "lost": 2,
+    "gf": 8,
+    "ga": 8,
+    "gd": 0,
+    "points": 6,
+    "form": "W,L,L,W"
    },
    {
     "id": 610,
@@ -5641,8 +5641,22 @@
     "form": "L,L,W,W"
    },
    {
-    "id": 1887,
+    "id": 100,
     "pos": 19,
+    "team": "Roma",
+    "played": 4,
+    "won": 1,
+    "draw": 1,
+    "lost": 2,
+    "gf": 10,
+    "ga": 8,
+    "gd": 2,
+    "points": 4,
+    "form": "D,L,W,L"
+   },
+   {
+    "id": 1887,
+    "pos": 20,
     "team": "Shaktar",
     "played": 4,
     "won": 1,
@@ -5656,7 +5670,7 @@
    },
    {
     "id": 674,
-    "pos": 20,
+    "pos": 21,
     "team": "PSV",
     "played": 3,
     "won": 1,
@@ -5670,7 +5684,7 @@
    },
    {
     "id": 78,
-    "pos": 21,
+    "pos": 22,
     "team": "Atleti",
     "played": 4,
     "won": 1,
@@ -5680,11 +5694,11 @@
     "ga": 5,
     "gd": -1,
     "points": 4,
-    "form": "L,W,D"
+    "form": "L,W,D,L"
    },
    {
     "id": 5721,
-    "pos": 22,
+    "pos": 23,
     "team": "Bodø/Glimt",
     "played": 4,
     "won": 1,
@@ -5694,21 +5708,7 @@
     "ga": 9,
     "gd": -5,
     "points": 4,
-    "form": "L,W,L"
-   },
-   {
-    "id": 66,
-    "pos": 23,
-    "team": "Man United",
-    "played": 4,
-    "won": 1,
-    "draw": 0,
-    "lost": 3,
-    "gf": 6,
-    "ga": 8,
-    "gd": -2,
-    "points": 3,
-    "form": "W,L,L"
+    "form": "L,W,L,D"
    },
    {
     "id": 113,
@@ -5792,7 +5792,7 @@
     "ga": 14,
     "gd": -6,
     "points": 3,
-    "form": "L,W,L"
+    "form": "L,W,L,L"
    },
    {
     "id": 675,
@@ -5806,7 +5806,7 @@
     "ga": 11,
     "gd": -7,
     "points": 3,
-    "form": "L,W,L"
+    "form": "L,W,L,L"
    },
    {
     "id": 613,
@@ -5862,7 +5862,7 @@
     "ga": 10,
     "gd": -6,
     "points": 1,
-    "form": "L,L,L"
+    "form": "L,L,L,D"
    },
    {
     "id": 503,
@@ -5890,7 +5890,7 @@
     "ga": 17,
     "gd": -16,
     "points": 0,
-    "form": "L,L,L"
+    "form": "L,L,L,L"
    }
   ],
   "scorers": [
@@ -6695,7 +6695,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-03T21:48:18.964120+00:00"
+  "updated": "2026-11-04T01:03:27.898515+00:00"
  },
  "Championship": {
   "matchday": 14,
@@ -6715,8 +6715,36 @@
     "form": "W,W,D,W,W"
    },
    {
-    "id": 72,
+    "id": 332,
     "pos": 2,
+    "team": "Birmingham",
+    "played": 14,
+    "won": 7,
+    "draw": 5,
+    "lost": 2,
+    "gf": 26,
+    "ga": 13,
+    "gd": 13,
+    "points": 26,
+    "form": "W,W,L,W,W"
+   },
+   {
+    "id": 70,
+    "pos": 3,
+    "team": "Stoke",
+    "played": 14,
+    "won": 8,
+    "draw": 2,
+    "lost": 4,
+    "gf": 22,
+    "ga": 17,
+    "gd": 5,
+    "points": 26,
+    "form": "L,W,D,W,W"
+   },
+   {
+    "id": 72,
+    "pos": 4,
     "team": "Swansea",
     "played": 14,
     "won": 8,
@@ -6729,8 +6757,36 @@
     "form": "W,L,L,W,L"
    },
    {
+    "id": 74,
+    "pos": 5,
+    "team": "West Brom",
+    "played": 14,
+    "won": 7,
+    "draw": 4,
+    "lost": 3,
+    "gf": 20,
+    "ga": 15,
+    "gd": 5,
+    "points": 25,
+    "form": "W,W,D,W,D"
+   },
+   {
+    "id": 340,
+    "pos": 6,
+    "team": "Southampton",
+    "played": 14,
+    "won": 8,
+    "draw": 4,
+    "lost": 2,
+    "gf": 29,
+    "ga": 14,
+    "gd": 15,
+    "points": 24,
+    "form": "W,D,W,W,D"
+   },
+   {
     "id": 76,
-    "pos": 3,
+    "pos": 7,
     "team": "Wolverhampton",
     "played": 13,
     "won": 7,
@@ -6741,62 +6797,6 @@
     "gd": 7,
     "points": 24,
     "form": "L,W,D,W,W"
-   },
-   {
-    "id": 74,
-    "pos": 4,
-    "team": "West Brom",
-    "played": 13,
-    "won": 7,
-    "draw": 3,
-    "lost": 3,
-    "gf": 19,
-    "ga": 14,
-    "gd": 5,
-    "points": 24,
-    "form": "L,W,W,D,W"
-   },
-   {
-    "id": 70,
-    "pos": 5,
-    "team": "Stoke",
-    "played": 14,
-    "won": 7,
-    "draw": 3,
-    "lost": 4,
-    "gf": 22,
-    "ga": 18,
-    "gd": 4,
-    "points": 24,
-    "form": "L,W,D,W,W"
-   },
-   {
-    "id": 340,
-    "pos": 6,
-    "team": "Southampton",
-    "played": 13,
-    "won": 8,
-    "draw": 3,
-    "lost": 2,
-    "gf": 28,
-    "ga": 13,
-    "gd": 15,
-    "points": 23,
-    "form": "W,W,D,W,W"
-   },
-   {
-    "id": 332,
-    "pos": 7,
-    "team": "Birmingham",
-    "played": 13,
-    "won": 6,
-    "draw": 5,
-    "lost": 2,
-    "gf": 23,
-    "ga": 13,
-    "gd": 10,
-    "points": 23,
-    "form": "W,W,W,L,W"
    },
    {
     "id": 563,
@@ -6846,31 +6846,17 @@
     "team": "QPR",
     "played": 14,
     "won": 5,
-    "draw": 5,
-    "lost": 4,
+    "draw": 6,
+    "lost": 3,
     "gf": 22,
-    "ga": 18,
-    "gd": 4,
-    "points": 20,
+    "ga": 17,
+    "gd": 5,
+    "points": 21,
     "form": "W,L,W,L,D"
    },
    {
-    "id": 59,
-    "pos": 12,
-    "team": "Blackburn",
-    "played": 14,
-    "won": 5,
-    "draw": 4,
-    "lost": 5,
-    "gf": 21,
-    "ga": 22,
-    "gd": -1,
-    "points": 19,
-    "form": "W,L,W,L,L"
-   },
-   {
     "id": 68,
-    "pos": 13,
+    "pos": 12,
     "team": "Norwich",
     "played": 14,
     "won": 6,
@@ -6884,17 +6870,31 @@
    },
    {
     "id": 384,
-    "pos": 14,
+    "pos": 13,
     "team": "Millwall",
-    "played": 13,
+    "played": 14,
     "won": 5,
     "draw": 3,
-    "lost": 5,
+    "lost": 6,
     "gf": 23,
-    "ga": 21,
-    "gd": 2,
+    "ga": 24,
+    "gd": -1,
     "points": 18,
-    "form": "W,L,D,L,W"
+    "form": "L,D,L,W,L"
+   },
+   {
+    "id": 59,
+    "pos": 14,
+    "team": "Blackburn",
+    "played": 14,
+    "won": 5,
+    "draw": 3,
+    "lost": 6,
+    "gf": 20,
+    "ga": 22,
+    "gd": -2,
+    "points": 18,
+    "form": "W,L,W,L,L"
    },
    {
     "id": 387,
@@ -6999,13 +6999,13 @@
     "pos": 22,
     "team": "Burnley",
     "played": 14,
-    "won": 2,
-    "draw": 6,
+    "won": 1,
+    "draw": 7,
     "lost": 6,
-    "gf": 19,
+    "gf": 18,
     "ga": 26,
-    "gd": -7,
-    "points": 12,
+    "gd": -8,
+    "points": 10,
     "form": "D,L,L,D,D"
    },
    {
@@ -7050,7 +7050,7 @@
     "player": "Andri Guðjohnsen",
     "team": "Blackburn",
     "played": 10,
-    "goals": 10,
+    "goals": 9,
     "assists": 1,
     "penalties": 0
    },
@@ -7839,7 +7839,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-03T21:48:43.171821+00:00"
+  "updated": "2026-11-04T01:03:51.575008+00:00"
  },
  "Eredivisie": {
   "matchday": 11,
