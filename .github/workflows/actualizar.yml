@@ -11,6 +11,10 @@ on:
         description: "Enviar el mensaje de bienvenida al canal de Telegram"
         type: boolean
         default: false
+      comprobar_seo:
+        description: "Ejecutar la comprobación de SEO (comprobar_seo.py) antes de publicar"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -65,6 +69,16 @@ jobs:
           git add fichajes.db jugadores.csv ignorados.txt clasificaciones.json 2>/dev/null || git add fichajes.db jugadores.csv ignorados.txt
           git diff --cached --quiet || git commit -m "Actualización automática"
           git push
+
+      # Comprobación de SEO (equivale a la skill revisar-seo-antes-de-subir). DESACTIVADA en las ejecuciones
+      # automáticas: solo corre si la lanzas a mano marcando "comprobar_seo", o si creas la variable de
+      # repositorio SEO_CHECK_ENABLED=true (Settings > Secrets and variables > Actions > Variables).
+      # Para que un fallo bloquee la publicación en producción, crea además SEO_CHECK_BLOQUEA=true;
+      # sin ella, solo avisa (el paso falla en rojo pero no impide publicar).
+      - name: Comprobar SEO de la web generada
+        if: (github.event_name == 'workflow_dispatch' && inputs.comprobar_seo) || vars.SEO_CHECK_ENABLED == 'true'
+        continue-on-error: ${{ vars.SEO_CHECK_BLOQUEA != 'true' }}
+        run: python comprobar_seo.py web
 
       - name: Publicar en Cloudflare Pages
         if: steps.run.outputs.nuevos != '0' || github.event_name == 'workflow_dispatch'
