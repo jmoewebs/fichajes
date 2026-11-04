@@ -1,4 +1,4 @@
-# Se ejecuta solo cada 2 horas en GitHub: descarga noticias, guarda el histórico
+# Se ejecuta solo cada hora en GitHub: descarga noticias, guarda el histórico
 # y publica la web en Cloudflare Pages. También se puede lanzar a mano desde la pestaña Actions.
 name: Actualizar web
 
@@ -84,6 +84,11 @@ jobs:
             fi
           done
           git diff --cached --quiet || git commit -m "Actualización automática"
+          if ! git pull --rebase; then
+            git rebase --abort || true
+            echo "::error::git pull --rebase falló (posible conflicto, p. ej. en fichajes.db). Rebase abortado; no se sube nada."
+            exit 1
+          fi
           git push
 
       # Comprobación de SEO (equivale a la skill revisar-seo-antes-de-subir). DESACTIVADA en las ejecuciones
