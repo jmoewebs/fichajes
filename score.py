@@ -1,6 +1,7 @@
 """Termómetro de probabilidad y exportación a JSON para el generador de la web."""
 import json
 import os
+import re
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 
@@ -81,6 +82,15 @@ def best_status(statuses):
     return max(known, key=ORDER.index) if known else (next(iter(statuses), None) or "interes")
 
 
+def verdict(mentions):
+    """Estado del rumor para el lector: "oficial" si algún medio lo da por cerrado; "desmentido" si lo último
+    que se dice es que se descarta o se desmiente; "pendiente" en el resto (aún sin confirmar)."""
+    if any(m["status"] == "oficial" for m in mentions):
+        return "oficial"
+    last = max(mentions, key=lambda m: str(m["date"]))
+    return "desmentido" if last["status"] == "descartado" else "pendiente"
+
+
 def merge_by_player(entries):
     """Una sola tarjeta por jugador. Entre sus destinos gana el que tiene destino, no está descartado y
     está más caliente. Un titular sin destino se descarta si hay otro con destino. Los demás destinos
@@ -127,6 +137,7 @@ def build(db, start=None, end=None):
         }
         entry["leagues"] = sorted({config.CLUB_LEAGUE.get(c, "Otras ligas")
                                    for c in (entry["from_club"], entry["to_club"]) if c})
+        entry["veredicto"] = verdict(entry["mentions"])
         players[slug]["name"] = entry["player"]
         players[slug]["rumors"].append(entry)
 
@@ -207,10 +218,45 @@ def month_index(db):
     return out
 
 
+def season_of(iso):
+    """Temporada de una fecha ISO como "2026-27" (la temporada cambia en julio)."""
+    d = datetime.fromisoformat(str(iso).replace("Z", "+00:00"))
+    y = d.year if d.month >= 7 else d.year - 1
+    return f"{y}-{(y + 1) % 100:02d}"
+
+
+def build_history(db):
+    """Fichajes cerrados (algún medio los da por oficiales) por temporada: {"2026-27": [fichaje, ...]},
+    del más reciente al más antiguo. Solo titular, medio y enlace: nunca el texto de la noticia."""
+    seasons = defaultdict(list)
+    for (slug, to_club), mentions in published_groups(db, start="2000-01-01").items():
+        official = [m for m in mentions if m["status"] == "oficial"]
+        if not official or to_club == "?":
+            continue
+        first = min(official, key=lambda m: str(m["published"]))
+        seasons[season_of(first["published"])].append({
+            "player": first["player"], "player_slug": slug, "to_club": to_club,
+            "from_club": next((m["from_club"] for m in mentions if m["from_club"]), None),
+            "fee": next((m["fee_eur_m"] for m in mentions if m["fee_eur_m"]), None),
+            "date": first["published"], "source": first["source"], "url": first["url"], "title": first["title"],
+            "sources": len({m["source"] for m in official})})
+    return {k: sorted(v, key=lambda f: f["date"], reverse=True) for k, v in sorted(seasons.items(), reverse=True)}
+
+
 def export_archive(db, months, all_months=False):
     """Genera web/archivo/AAAA-MM.html. Siempre el mes actual; los demás si faltan o si all_months."""
     current = datetime.now(timezone.utc).strftime("%Y-%m")
     yms = [m[0] for m in months]
+    # Páginas de meses que ya no existen: fuera de la web (llevaban canonical antiguo) y redirigidas con 301
+    gone = set(getattr(config, "ARCHIVO_RETIRADOS", []))
+    arch_dir = os.path.join("web", "archivo")
+    if os.path.isdir(arch_dir):
+        for fn in os.listdir(arch_dir):
+            m = re.fullmatch(r"(\d{4}-\d{2})\.html", fn)
+            if m and m.group(1) not in yms:
+                gone.add(m.group(1))
+                os.remove(os.path.join(arch_dir, fn))
+    web.ARCHIVO_GONE[:] = sorted(gone - set(yms))
     for i, ym in enumerate(yms):
         path = os.path.join("web", "archivo", f"{ym}.html")
         if not all_months and ym != current and os.path.exists(path):
@@ -230,5 +276,5 @@ def export(db, out_dir="data", all_months=False):
     pending = db.execute("SELECT COUNT(*) FROM rumors WHERE needs_review = 1").fetchone()[0]
     months = month_index(db)
     export_archive(db, months, all_months)
-    page = web.generate(data, build_news(db), months)
+    page = web.generate(data, build_news(db), months, history=build_history(db))
     return len(data["players"]), pending, page

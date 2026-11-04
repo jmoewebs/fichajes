@@ -1,4 +1,5 @@
 """Configuración del rastreador de rumores de fichajes."""
+import os
 
 # Datos de la web para Google y redes sociales
 SITE_URL = "https://rumoresyfichajes.com"   # única fuente del dominio (sin barra ni www); todo el generador, Telegram e IndexNow salen de aquí
@@ -123,9 +124,13 @@ TELEGRAM_DIGEST_HOUR = 21    # hora (España) del resumen diario de "Lo más le�
 FANTASY_SEND_WEEKDAYS = (1, 4)   # parte médico de Fantasy: martes (1) y viernes (4)
 FANTASY_SEND_HOUR = 12           # a partir de esta hora (España)
 
-# IndexNow: aviso diario a Bing y otros buscadores de todas las páginas
-INDEXNOW_KEY = "14ca996f61e8e8c39c670c73dc9243e6"
-INDEXNOW_HOUR = 8            # hora (España) del aviso diario
+# IndexNow: aviso tras cada ejecución a Bing y otros buscadores de las páginas que han cambiado.
+# La clave NO va en el código: se lee de la variable de entorno INDEXNOW_KEY (secreto de GitHub Actions).
+INDEXNOW_KEY = os.environ.get("INDEXNOW_KEY", "").strip()
+INDEXNOW_RECENT_HOURS = 3    # se avisan las páginas del sitemap con lastmod de las últimas N horas
+# Meses del archivo que existieron y ya no se generan (AAAA-MM). Se redirigen con 301 al mes más cercano
+# que exista (o a la portada si no hay ninguno cerca) mediante web/_redirects. Añade aquí los que retires.
+ARCHIVO_RETIRADOS = ["2025-04", "2026-08"]
 
 # Cómo se extraen los rumores: "reglas" (gratis, sin IA) o "claude" (API de pago).
 EXTRACTOR = "reglas"

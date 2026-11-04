@@ -6,7 +6,7 @@ import os
 import re
 
 import config
-from datetime import datetime
+from datetime import datetime, timezone
 
 MONTHS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto",
           "septiembre", "octubre", "noviembre", "diciembre"]
@@ -22,6 +22,7 @@ __ADSENSE__
 <link rel="canonical" href="__CANONICAL__">
 __ROBOTS__
 <link rel="alternate" type="application/rss+xml" title="Movimientos del mercado de fichajes" href="__SITE_URL__/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Últimas noticias de fútbol" href="__SITE_URL__/feed-noticias.xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="__SITE_NAME__">
 <meta name="application-name" content="__SITE_NAME__">
@@ -487,6 +488,7 @@ details.foot-clubs { width:100%; font-size:13px; line-height:1.9; border-top:0; 
 .status { font-size:13px; font-weight:600; padding:2px 10px; border-radius:20px; color:#fff; }
 .rlab { font-size:13px; font-weight:700; padding:2px 8px; border-radius:20px; border:1.5px solid var(--off); color:var(--muted); }
 .rl-probable { border-color:var(--warm); color:var(--ink); } .rl-oficial { border-color:var(--hot); color:var(--hot); }
+.vd-oficial { border-color:var(--hot); color:var(--hot); } .vd-desmentido { text-decoration:line-through; opacity:.8; } .vd-pendiente { border-color:var(--warm); color:var(--ink); }
 .st-interes { background:var(--cold); } .st-negociacion { background:var(--warm); color:#2a1d00; }
 .st-acuerdo { background:var(--ok); } .st-oficial { background:var(--hot); } .st-descartado { background:var(--off); }
 .outlets { display:flex; gap:4px; }
@@ -1070,7 +1072,10 @@ function rumorCard(r) {
   }
   const row = el("div", "row"), best = bestStatus(r);
   const lab = best === "oficial" || r.score >= 100 ? "Oficial" : r.score >= 40 ? "Probable" : "Rumor";
-  row.append(el("span", "status st-" + best, STATUS[best] || best), el("span", "rlab rl-" + lab.toLowerCase(), lab));
+  const ver = r.veredicto || (best === "oficial" ? "oficial" : best === "descartado" ? "desmentido" : "pendiente");
+  const vc = el("span", "rlab vd-" + ver, ver === "oficial" ? "Oficial" : ver === "desmentido" ? "Desmentido" : "Pendiente");
+  vc.title = ver === "pendiente" ? lab + " (" + r.score + "°): aún sin confirmar" : ver === "desmentido" ? "Lo último que dicen los medios es que no se hará" : "Confirmado oficialmente";
+  row.append(el("span", "status st-" + best, STATUS[best] || best), vc);
   const outlets = el("span", "outlets"), seen = new Set();
   for (const m of r.mentions) if (!seen.has(m.source)) { seen.add(m.source); outlets.append(outlet(m.url, m.source, true)); }
   row.append(outlets);
@@ -1647,6 +1652,15 @@ def _label(score, status=None):
     return "Oficial" if status == "oficial" or score >= 100 else "Probable" if score >= 40 else "Rumor"
 
 
+VEREDICTO_ES = {"oficial": "Oficial", "desmentido": "Desmentido", "pendiente": "Pendiente de confirmar"}
+
+
+def _veredicto(r):
+    """oficial / desmentido / pendiente (lo calcula score.verdict; aquí, por si el dato viene de una caché vieja)."""
+    import score
+    return r.get("veredicto") or score.verdict(r["mentions"])
+
+
 def _best_status(r):
     sts = {m["status"] for m in r["mentions"]}
     return next((x for x in ("oficial", "acuerdo", "negociacion", "interes") if x in sts), None)
@@ -1674,7 +1688,7 @@ def _static_list(news, rumors, limit=60):
             route = f"{r['from_club'] or 'origen sin confirmar'} → {r['to_club'] or 'destino sin confirmar'}"
             name = (f'<a href="/jugador/{esc(r["player_slug"], quote=True)}/">{esc(r["player"])}</a>'
                     if r.get("player_slug") in _PLAYER_PAGES else esc(r["player"]))
-            parts.append(f"<li><b>{_label(r['score'], _best_status(r))}</b> · {name}: {esc(route)} "
+            parts.append(f"<li><b>{VEREDICTO_ES[_veredicto(r)]}</b> · {name}: {esc(route)} "
                          f"({r['score']}°). Fuente: {_sources_html(r)}. Última mención: {_time_tag(max(m['date'] for m in r['mentions']))}</li>")
         parts.append("</ul>")
     shown = list(news)[:limit]
@@ -1977,6 +1991,7 @@ def _sections_footer(root):
     if wl:
         links.append((f"Fichajes de enero {_winter_year()}: fechas del mercado", root + wl["path"]))
     links += [(f"Lesionados jornada {md}", f"{root}fantasy/jornada-{md}/") for md in _JORNADAS[:4]]
+    links.append(("Historial de fichajes por temporada", f"{root}historial/"))
     if _PLAYER_PAGES:
         links += [("Últimos movimientos del mercado", f"{root}rumores/movimientos/"),
                   ("Jugadores con rumores de fichaje", f"{root}jugador/")]
@@ -2087,6 +2102,21 @@ def _page_ld(path, name, description, crumbs=(), modified=None, about=None):
         out.append({"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": i, "name": text, "item": config.SITE_URL + (p or path)}
             for i, (text, p) in enumerate(items, 1)]})
+    return out
+
+
+def _news_ld(news, limit=10):
+    """NewsArticle de los últimos titulares que se ven en la página (los mismos que lista _static_list).
+    La noticia es del medio: url apunta a su artículo y publisher es el medio, no esta web."""
+    out = []
+    for n in list(news)[:limit]:
+        try:
+            when = _es(datetime.fromisoformat(str(n["date"]).replace("Z", "+00:00"))).isoformat(timespec="seconds")
+        except (ValueError, KeyError):
+            continue
+        out.append({"@type": "NewsArticle", "headline": n["title"][:110], "url": n["url"],
+                    "datePublished": when, "inLanguage": "es-ES", "isAccessibleForFree": True,
+                    "publisher": {"@type": "Organization", "name": n["source"]}})
     return out
 
 
@@ -2378,6 +2408,7 @@ __ADSENSE__
 <meta name="description" content="__DESCRIPTION__">
 <link rel="canonical" href="__CANONICAL__">
 <link rel="alternate" type="application/rss+xml" title="Movimientos del mercado de fichajes" href="__SITE_URL__/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Últimas noticias de fútbol" href="__SITE_URL__/feed-noticias.xml">
 <meta property="og:type" content="__OGTYPE__"><meta property="og:site_name" content="__SITE_NAME__">
 <meta property="og:title" content="__TITLE__"><meta property="og:description" content="__DESCRIPTION__">
 <meta property="og:url" content="__CANONICAL__"><meta property="og:locale" content="es_ES">
@@ -2462,11 +2493,34 @@ def _write_feed(events, out_dir):
                      f"<pubDate>{format_datetime(when)}</pubDate>"
                      f"<description>{esc(title + '. Según ' + ev['source'] + '.')}</description></item>")
     now = format_datetime(datetime.now().astimezone())
-    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel>'
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>'
+           f'<atom:link href="{config.SITE_URL}/feed.xml" rel="self" type="application/rss+xml"/>'
            f"<title>{esc(config.SITE_NAME)}: movimientos del mercado</title><link>{config.SITE_URL}/rumores/movimientos/</link>"
            "<description>Cada vez que un rumor de fichaje entra, sube o avanza de estado.</description>"
            f"<language>es-ES</language><lastBuildDate>{now}</lastBuildDate>{''.join(items)}</channel></rss>\n")
     with open(os.path.join(out_dir, "feed.xml"), "w", encoding="utf-8") as f:
+        f.write(xml)
+
+
+def _write_news_feed(news, out_dir, limit=40):
+    """feed-noticias.xml (RSS 2.0): últimos titulares, solo titular + medio + enlace al original."""
+    esc = html_lib.escape
+    from email.utils import format_datetime
+    items = []
+    for n in sorted(news, key=lambda n: n["date"], reverse=True)[:limit]:
+        when = datetime.fromisoformat(n["date"].replace("Z", "+00:00"))
+        if when.tzinfo is None:
+            when = when.replace(tzinfo=timezone.utc)
+        items.append(f"<item><title>{esc(n['title'])}</title><link>{esc(n['url'])}</link>"
+                     f'<guid isPermaLink="true">{esc(n["url"])}</guid><pubDate>{format_datetime(when)}</pubDate>'
+                     f"<source url=\"{esc(n['url'], quote=True)}\">{esc(n['source'])}</source></item>")
+    now = format_datetime(datetime.now().astimezone())
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>'
+           f'<atom:link href="{config.SITE_URL}/feed-noticias.xml" rel="self" type="application/rss+xml"/>'
+           f"<title>{esc(config.SITE_NAME)}: últimas noticias</title><link>{config.SITE_URL}/</link>"
+           "<description>Últimos titulares de fútbol, cada uno con enlace a la noticia del medio original.</description>"
+           f"<language>es-ES</language><lastBuildDate>{now}</lastBuildDate>{''.join(items)}</channel></rss>\n")
+    with open(os.path.join(out_dir, "feed-noticias.xml"), "w", encoding="utf-8") as f:
         f.write(xml)
 
 
@@ -2478,6 +2532,7 @@ def _nav(root, on):
     items = [("news", "Noticias", root or "./"), ("rumors", "Rumores", f"{root}rumores/"),
              ("table", "Clasificación", f"{root}clasificacion/{league_slug('LaLiga')}/"),
              ("fantasy", "Fantasy", f"{root}fantasy/"), ("hoy", "Hoy", f"{root}rumores-fichajes-hoy/")]
+    items.append(("historial", "Historial", f"{root}historial/"))
     return (f'<a class="site" href="{root or "./"}">{html_lib.escape(config.SITE_NAME)}</a>'
             + "".join(f'<a{" class=" + chr(34) + "on" + chr(34) if k == on else ""} href="{h}">{t}</a>' for k, t, h in items))
 
@@ -2631,7 +2686,10 @@ def _player_page(e, pts, events, out_dir):
     paras = [f"El rumor del fichaje de {name} ({route}) está ahora en {e['score']}° en el termómetro de {config.SITE_NAME}, "
              f"es decir, {_force(e['score'])}. Lo cuentan {_plural(len(srcs), 'medio', 'medios')} "
              f"({', '.join(srcs)}) en {_plural(len(ms), 'titular', 'titulares')} de los últimos {config.WINDOW_DAYS} días. "
-             f"El estado más avanzado es «{STAT_ES.get(best, best)}»."]
+             f"El estado más avanzado es «{STAT_ES.get(best, best)}». "
+             + {"oficial": "Estado del rumor: oficial, el fichaje está confirmado.",
+                "desmentido": "Estado del rumor: desmentido, lo último que dicen los medios es que no se hará.",
+                "pendiente": "Estado del rumor: pendiente, todavía sin confirmación oficial."}[_veredicto(e)]]
     t2 = f"El primer titular que seguimos es del {fmt(first['date'])} ({first['source']}) y el último, del {fmt(last['date'])} ({last['source']})."
     if fee:
         t2 += f" Según los titulares, la operación rondaría los {fee:g} millones de euros."
@@ -2696,6 +2754,65 @@ def _players_hub(entries, out_dir):
         *_page_ld("/jugador/", title, desc, [("Jugadores con rumores", None)], _iso_max(now.isoformat()))]}
     _write_info_page(out_dir, "jugador", root=root, nav_on="rumors", title=title, description=desc, h1=title,
                      crumbs=_crumbs(root, ("Jugadores con rumores", None)), body=body, ld=ld)
+
+
+HISTORIAL_VACIO_LASTMOD = "2026-11-04T12:00:00+01:00"   # lastmod de /historial/ mientras no haya fichajes oficiales
+
+
+def _history_pages(history, out_dir):
+    """/historial/ (lista de temporadas) y /historial/AAAA-AA/ (fichajes cerrados de cada una).
+    Devuelve {ruta: lastmod} para el sitemap."""
+    esc = html_lib.escape
+    lm = {}
+    now = _now_spain()
+    fmt = lambda iso: datetime.fromisoformat(str(iso).replace("Z", "+00:00")).astimezone(now.tzinfo).strftime("%d/%m/%Y")
+    for season, fichajes in history.items():
+        root = "../../"
+        title = f"Fichajes cerrados de la temporada {season}"
+        desc = (f"Todos los fichajes oficiales de la temporada {season} que ha seguido {config.SITE_NAME}: "
+                f"{_plural(len(fichajes), 'fichaje', 'fichajes')}, con fecha, clubes y enlace a la noticia original.")
+        rows = []
+        for f in fichajes:
+            nm = (f'<a href="{root}jugador/{esc(f["player_slug"], quote=True)}/">{esc(f["player"])}</a>'
+                  if f["player_slug"] in _PLAYER_PAGES else esc(f["player"]))
+            fee = f" · {f['fee']:g} M€" if f.get("fee") else ""
+            rows.append(f'<li><time datetime="{esc(str(f["date"]))}">{fmt(f["date"])}</time> {nm}: '
+                        f'{esc(f["from_club"] or "origen sin confirmar")} → {esc(f["to_club"])}{fee}. '
+                        f'<a href="{esc(f["url"], quote=True)}" rel="noopener">{esc(f["source"])}</a></li>')
+        body = (f"<p>Fichajes dados por oficiales por la prensa en la temporada {season} (de julio a junio), "
+                "del más reciente al más antiguo. Cada enlace lleva a la noticia original del medio.</p>"
+                f'<ul class="hist">{"".join(rows)}</ul>'
+                f'<p><a href="{root}historial/">Otras temporadas</a> · <a href="{root}rumores/">Rumores de fichajes</a></p>')
+        mod = _iso_max(*(f["date"] for f in fichajes))
+        crumbs_items = [("Historial de fichajes", "/historial/"), (f"Temporada {season}", None)]
+        ld = {"@context": "https://schema.org", "@graph": [
+            {"@type": "WebSite", "name": config.SITE_NAME, "url": config.SITE_URL + "/", "inLanguage": "es-ES"},
+            *_page_ld(f"/historial/{season}/", title, desc, crumbs_items, mod),
+            {"@type": "ItemList", "numberOfItems": len(fichajes), "itemListElement": [
+                {"@type": "ListItem", "position": i, "name": f"{f['player']}: {f['from_club'] or '?'} → {f['to_club']}", "url": f["url"]}
+                for i, f in enumerate(fichajes[:50], 1)]}]}
+        _write_info_page(out_dir, f"historial/{season}", root=root, nav_on="historial", title=title, description=desc,
+                         h1=title, crumbs=_crumbs(root, *crumbs_items), body=body, ld=ld)
+        lm[f"/historial/{season}/"] = mod
+    root = "../"
+    title = "Historial de fichajes por temporada"
+    desc = "Fichajes cerrados temporada a temporada: quién ha fichado por quién, con fecha y enlace a la noticia original."
+    if history:
+        items = "".join(f'<li><a href="{root}historial/{s_}/">Temporada {s_}</a> '
+                        f'<span class="mt">({_plural(len(v), "fichaje", "fichajes")})</span></li>' for s_, v in history.items())
+        body = f'<p>{esc(desc)}</p><ul>{items}</ul><p><a href="{root}rumores/">Rumores de fichajes</a></p>'
+        mod = _iso_max(*(f["date"] for v in history.values() for f in v))
+    else:   # sin fichajes oficiales: la página existe igual, con fecha fija (no cambia en cada ejecución)
+        body = (f'<p>{esc(desc)}</p><p>Todavía no hay fichajes oficiales confirmados.</p>'
+                f'<p><a href="{root}">Volver a la portada</a></p>')
+        mod = HISTORIAL_VACIO_LASTMOD
+    ld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "WebSite", "name": config.SITE_NAME, "url": config.SITE_URL + "/", "inLanguage": "es-ES"},
+        *_page_ld("/historial/", title, desc, [("Historial de fichajes", None)], mod)]}
+    _write_info_page(out_dir, "historial", root=root, nav_on="historial", title=title, description=desc, h1=title,
+                     crumbs=_crumbs(root, ("Historial de fichajes", None)), body=body, ld=ld)
+    lm["/historial/"] = mod
+    return lm
 
 
 def _movimientos_page(events, out_dir):
@@ -2850,7 +2967,7 @@ def _static_fantasy(rep_):
     return "".join(p)
 
 
-def generate(data, news=(), months=(), out_dir="web"):
+def generate(data, news=(), months=(), out_dir="web", history=None):
     """Todas las páginas de la web. months = [(AAAA-MM, nº noticias, nº rumores)], de más reciente a más antiguo.
     Portada (noticias), /rumores/, /clasificacion/<liga>/ y /fantasy/: cada una con su título y descripción."""
     news = list(news)
@@ -2904,6 +3021,8 @@ def generate(data, news=(), months=(), out_dir="web"):
     for md_ in _JORNADAS:
         lastmod[f"/fantasy/jornada-{md_}/"] = _iso_max(snaps[str(md_)]["updated"])
     lastmod["/rumores-fichajes-hoy/"] = _hoy_page(rumors, out_dir)
+    _write_news_feed(news, out_dir)
+    lastmod.update(_history_pages(history or {}, out_dir))
     win = _winter_page(rumors, news, lastmod["/rumores/"], out_dir)
     if win:
         lastmod[win[0]] = win[1]
@@ -2918,7 +3037,7 @@ def generate(data, news=(), months=(), out_dir="web"):
     # Portada: noticias
     index = _write(os.path.join(out_dir, "index.html"), page="news", root="",
                    heading=config.SITE_NAME, crumbs="",
-                   ld_page=_page_ld("/", config.SITE_TITLE, config.SITE_DESCRIPTION, modified=lastmod["/"]), updated=lastmod["/"],
+                   ld_page=_page_ld("/", config.SITE_TITLE, config.SITE_DESCRIPTION, modified=lastmod["/"]) + _news_ld(news), updated=lastmod["/"],
                    title=config.SITE_TITLE, description=config.SITE_DESCRIPTION,
                    canonical=config.SITE_URL + "/", rumors=rumors, news=news,
                    archive=_archive(months, prefix="archivo/"), **common)
@@ -2980,7 +3099,7 @@ def generate(data, news=(), months=(), out_dir="web"):
                crumbs=_crumbs("../../", *liga_crumb, (club, None)),
                ld_page=_page_ld(f"/club/{slug}/", f"Fichajes y rumores del {club}",
                                 f"Rumores de fichajes, noticias y situación en la tabla del {club}.",
-                                [*liga_crumb, (club, None)], lastmod.get(f"/club/{slug}/"), about=club),
+                                [*liga_crumb, (club, None)], lastmod.get(f"/club/{slug}/"), about=club) + _news_ld(c_news),
                updated=lastmod.get(f"/club/{slug}/"),
                title=_fit_title(f"Fichajes y rumores del {club}: últimas noticias"),
                description=(f"Rumores de fichajes del {club} con termómetro de probabilidad, sus noticias de hoy"
@@ -3099,6 +3218,22 @@ def _share_image():
 LEGAL_LASTMOD = {"sobre": "2026-11-02", "privacidad": "2026-11-02"}
 
 
+ARCHIVO_GONE = []   # meses del archivo retirados (los rellena score.export_archive)
+
+
+def _write_redirects(months, out_dir):
+    """web/_redirects (Cloudflare Pages): 301 de los meses retirados al mes más cercano que exista, o a la portada."""
+    have = [ym for ym, _, _ in months]
+    idx = lambda ym: int(ym[:4]) * 12 + int(ym[5:])
+    lines = []
+    for old in ARCHIVO_GONE:
+        near = min(have, key=lambda h: abs(idx(h) - idx(old)), default=None)
+        dest = f"/archivo/{near}" if near and abs(idx(near) - idx(old)) <= 3 else "/"
+        lines += [f"/archivo/{old} {dest} 301", f"/archivo/{old}.html {dest} 301"]
+    with open(os.path.join(out_dir, "_redirects"), "w", encoding="utf-8") as f:
+        f.write("# Generado por web.py: meses del archivo retirados\n" + "".join(l + "\n" for l in lines))
+
+
 def _month_end(ym):
     """Último día de un mes ya cerrado (AAAA-MM): su archivo no cambia después de esa fecha."""
     import calendar
@@ -3129,6 +3264,7 @@ def write_static(months, out_dir="web", leagues=(), clubs=(), lastmod=None):
         with open(os.path.join(out_dir, fname), "w", encoding="utf-8") as f:
             f.write(tpl.replace("__ADSENSE__", ADSENSE).replace("__SITE_NAME__", html_lib.escape(config.SITE_NAME))
                        .replace("__SITE_URL__", config.SITE_URL).replace("__CONTACT__", contact))
+    _write_redirects(months, out_dir)
     if getattr(config, "INDEXNOW_KEY", ""):
         with open(os.path.join(out_dir, f"{config.INDEXNOW_KEY}.txt"), "w", encoding="utf-8") as f:
             f.write(config.INDEXNOW_KEY)
@@ -3144,7 +3280,7 @@ def write_static(months, out_dir="web", leagues=(), clubs=(), lastmod=None):
             (config.SITE_URL + "/rumores-fichajes-hoy/", lastmod.get("/rumores-fichajes-hoy/")),
             (config.SITE_URL + "/fantasy/", lastmod.get("/fantasy/"))]
     urls += [(config.SITE_URL + k, v) for k, v in sorted(lastmod.items())
-             if k.startswith(("/fantasy/jornada-", "/jugador/", "/rumores/movimientos", "/fichajes-enero-"))]
+             if k.startswith(("/fantasy/jornada-", "/jugador/", "/rumores/movimientos", "/fichajes-enero-", "/historial/"))]
     urls += [(f"{config.SITE_URL}/sobre", LEGAL_LASTMOD["sobre"]), (f"{config.SITE_URL}/privacidad", LEGAL_LASTMOD["privacidad"])]
     urls += [(f"{config.SITE_URL}/clasificacion/{league_slug(lg)}/", lastmod.get(f"/clasificacion/{league_slug(lg)}/"))
              for lg in leagues]
