@@ -38,6 +38,14 @@ jobs:
             echo "No se generó informe." >> "$GITHUB_STEP_SUMMARY"
           fi
 
+      - name: Enviar el informe por correo
+        if: always()
+        run: python scripts/enviar_informe.py
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          GMAIL_DESTINO: ${{ secrets.GMAIL_DESTINO }}
+
       - name: Subir el informe como artefacto
         if: always()
         uses: actions/upload-artifact@v4
