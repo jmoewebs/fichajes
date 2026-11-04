@@ -1,0 +1,39 @@
+# Informe semanal de Search Console (solo lectura). No toca el repositorio ni el despliegue:
+# el informe se sube como artefacto privado de la ejecución (30 días).
+name: Informe Search Console
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"      # lunes 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  informe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install google-auth google-api-python-client
+
+      - name: Generar el informe
+        run: python scripts/informe_gsc.py
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+
+      - name: Subir el informe como artefacto
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: informe-gsc
+          path: informe/informe-gsc.md
+          retention-days: 30
+          if-no-files-found: ignore
