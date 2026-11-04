@@ -1991,8 +1991,7 @@ def _sections_footer(root):
     if wl:
         links.append((f"Fichajes de enero {_winter_year()}: fechas del mercado", root + wl["path"]))
     links += [(f"Lesionados jornada {md}", f"{root}fantasy/jornada-{md}/") for md in _JORNADAS[:4]]
-    if _HISTORY_SEASONS:
-        links.append(("Historial de fichajes por temporada", f"{root}historial/"))
+    links.append(("Historial de fichajes por temporada", f"{root}historial/"))
     if _PLAYER_PAGES:
         links += [("Últimos movimientos del mercado", f"{root}rumores/movimientos/"),
                   ("Jugadores con rumores de fichaje", f"{root}jugador/")]
@@ -2272,7 +2271,6 @@ def _club_intro(club, ci, standings, rumors, news, fx):
 
 
 _NOINDEX_CLUBS = set()   # clubes con poco contenido: noindex y fuera del sitemap
-_HISTORY_SEASONS = []   # temporadas con fichajes cerrados (se rellena en generate)
 _PLAYER_PAGES = set()   # slugs de jugador con página propia
 _JORNADAS = []          # jornadas con página (de la más reciente a la más antigua)
 
@@ -2534,8 +2532,7 @@ def _nav(root, on):
     items = [("news", "Noticias", root or "./"), ("rumors", "Rumores", f"{root}rumores/"),
              ("table", "Clasificación", f"{root}clasificacion/{league_slug('LaLiga')}/"),
              ("fantasy", "Fantasy", f"{root}fantasy/"), ("hoy", "Hoy", f"{root}rumores-fichajes-hoy/")]
-    if _HISTORY_SEASONS:
-        items.append(("historial", "Historial", f"{root}historial/"))
+    items.append(("historial", "Historial", f"{root}historial/"))
     return (f'<a class="site" href="{root or "./"}">{html_lib.escape(config.SITE_NAME)}</a>'
             + "".join(f'<a{" class=" + chr(34) + "on" + chr(34) if k == on else ""} href="{h}">{t}</a>' for k, t, h in items))
 
@@ -2759,13 +2756,14 @@ def _players_hub(entries, out_dir):
                      crumbs=_crumbs(root, ("Jugadores con rumores", None)), body=body, ld=ld)
 
 
+HISTORIAL_VACIO_LASTMOD = "2026-11-04T12:00:00+01:00"   # lastmod de /historial/ mientras no haya fichajes oficiales
+
+
 def _history_pages(history, out_dir):
     """/historial/ (lista de temporadas) y /historial/AAAA-AA/ (fichajes cerrados de cada una).
     Devuelve {ruta: lastmod} para el sitemap."""
     esc = html_lib.escape
     lm = {}
-    if not history:
-        return lm
     now = _now_spain()
     fmt = lambda iso: datetime.fromisoformat(str(iso).replace("Z", "+00:00")).astimezone(now.tzinfo).strftime("%d/%m/%Y")
     for season, fichajes in history.items():
@@ -2799,10 +2797,15 @@ def _history_pages(history, out_dir):
     root = "../"
     title = "Historial de fichajes por temporada"
     desc = "Fichajes cerrados temporada a temporada: quién ha fichado por quién, con fecha y enlace a la noticia original."
-    items = "".join(f'<li><a href="{root}historial/{s_}/">Temporada {s_}</a> '
-                    f'<span class="mt">({_plural(len(v), "fichaje", "fichajes")})</span></li>' for s_, v in history.items())
-    body = f'<p>{esc(desc)}</p><ul>{items}</ul><p><a href="{root}rumores/">Rumores de fichajes</a></p>'
-    mod = _iso_max(*(f["date"] for v in history.values() for f in v))
+    if history:
+        items = "".join(f'<li><a href="{root}historial/{s_}/">Temporada {s_}</a> '
+                        f'<span class="mt">({_plural(len(v), "fichaje", "fichajes")})</span></li>' for s_, v in history.items())
+        body = f'<p>{esc(desc)}</p><ul>{items}</ul><p><a href="{root}rumores/">Rumores de fichajes</a></p>'
+        mod = _iso_max(*(f["date"] for v in history.values() for f in v))
+    else:   # sin fichajes oficiales: la página existe igual, con fecha fija (no cambia en cada ejecución)
+        body = (f'<p>{esc(desc)}</p><p>Todavía no hay fichajes oficiales confirmados.</p>'
+                f'<p><a href="{root}">Volver a la portada</a></p>')
+        mod = HISTORIAL_VACIO_LASTMOD
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "WebSite", "name": config.SITE_NAME, "url": config.SITE_URL + "/", "inLanguage": "es-ES"},
         *_page_ld("/historial/", title, desc, [("Historial de fichajes", None)], mod)]}
@@ -2969,7 +2972,6 @@ def generate(data, news=(), months=(), out_dir="web", history=None):
     Portada (noticias), /rumores/, /clasificacion/<liga>/ y /fantasy/: cada una con su título y descripción."""
     news = list(news)
     rumors = _flatten(data)
-    _HISTORY_SEASONS[:] = list((history or {}).keys())
     standings = _standings()
     from pipeline import slugify
     info = _club_info(standings)
