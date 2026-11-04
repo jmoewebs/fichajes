@@ -82,6 +82,15 @@ def best_status(statuses):
     return max(known, key=ORDER.index) if known else (next(iter(statuses), None) or "interes")
 
 
+def verdict(mentions):
+    """Estado del rumor para el lector: "oficial" si algún medio lo da por cerrado; "desmentido" si lo último
+    que se dice es que se descarta o se desmiente; "pendiente" en el resto (aún sin confirmar)."""
+    if any(m["status"] == "oficial" for m in mentions):
+        return "oficial"
+    last = max(mentions, key=lambda m: str(m["date"]))
+    return "desmentido" if last["status"] == "descartado" else "pendiente"
+
+
 def merge_by_player(entries):
     """Una sola tarjeta por jugador. Entre sus destinos gana el que tiene destino, no está descartado y
     está más caliente. Un titular sin destino se descarta si hay otro con destino. Los demás destinos
@@ -128,6 +137,7 @@ def build(db, start=None, end=None):
         }
         entry["leagues"] = sorted({config.CLUB_LEAGUE.get(c, "Otras ligas")
                                    for c in (entry["from_club"], entry["to_club"]) if c})
+        entry["veredicto"] = verdict(entry["mentions"])
         players[slug]["name"] = entry["player"]
         players[slug]["rumors"].append(entry)
 

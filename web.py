@@ -488,6 +488,7 @@ details.foot-clubs { width:100%; font-size:13px; line-height:1.9; border-top:0; 
 .status { font-size:13px; font-weight:600; padding:2px 10px; border-radius:20px; color:#fff; }
 .rlab { font-size:13px; font-weight:700; padding:2px 8px; border-radius:20px; border:1.5px solid var(--off); color:var(--muted); }
 .rl-probable { border-color:var(--warm); color:var(--ink); } .rl-oficial { border-color:var(--hot); color:var(--hot); }
+.vd-oficial { border-color:var(--hot); color:var(--hot); } .vd-desmentido { text-decoration:line-through; opacity:.8; } .vd-pendiente { border-color:var(--warm); color:var(--ink); }
 .st-interes { background:var(--cold); } .st-negociacion { background:var(--warm); color:#2a1d00; }
 .st-acuerdo { background:var(--ok); } .st-oficial { background:var(--hot); } .st-descartado { background:var(--off); }
 .outlets { display:flex; gap:4px; }
@@ -1071,7 +1072,10 @@ function rumorCard(r) {
   }
   const row = el("div", "row"), best = bestStatus(r);
   const lab = best === "oficial" || r.score >= 100 ? "Oficial" : r.score >= 40 ? "Probable" : "Rumor";
-  row.append(el("span", "status st-" + best, STATUS[best] || best), el("span", "rlab rl-" + lab.toLowerCase(), lab));
+  const ver = r.veredicto || (best === "oficial" ? "oficial" : best === "descartado" ? "desmentido" : "pendiente");
+  const vc = el("span", "rlab vd-" + ver, ver === "oficial" ? "Oficial" : ver === "desmentido" ? "Desmentido" : "Pendiente");
+  vc.title = ver === "pendiente" ? lab + " (" + r.score + "°): aún sin confirmar" : ver === "desmentido" ? "Lo último que dicen los medios es que no se hará" : "Confirmado oficialmente";
+  row.append(el("span", "status st-" + best, STATUS[best] || best), vc);
   const outlets = el("span", "outlets"), seen = new Set();
   for (const m of r.mentions) if (!seen.has(m.source)) { seen.add(m.source); outlets.append(outlet(m.url, m.source, true)); }
   row.append(outlets);
@@ -1648,6 +1652,15 @@ def _label(score, status=None):
     return "Oficial" if status == "oficial" or score >= 100 else "Probable" if score >= 40 else "Rumor"
 
 
+VEREDICTO_ES = {"oficial": "Oficial", "desmentido": "Desmentido", "pendiente": "Pendiente de confirmar"}
+
+
+def _veredicto(r):
+    """oficial / desmentido / pendiente (lo calcula score.verdict; aquí, por si el dato viene de una caché vieja)."""
+    import score
+    return r.get("veredicto") or score.verdict(r["mentions"])
+
+
 def _best_status(r):
     sts = {m["status"] for m in r["mentions"]}
     return next((x for x in ("oficial", "acuerdo", "negociacion", "interes") if x in sts), None)
@@ -1675,7 +1688,7 @@ def _static_list(news, rumors, limit=60):
             route = f"{r['from_club'] or 'origen sin confirmar'} → {r['to_club'] or 'destino sin confirmar'}"
             name = (f'<a href="/jugador/{esc(r["player_slug"], quote=True)}/">{esc(r["player"])}</a>'
                     if r.get("player_slug") in _PLAYER_PAGES else esc(r["player"]))
-            parts.append(f"<li><b>{_label(r['score'], _best_status(r))}</b> · {name}: {esc(route)} "
+            parts.append(f"<li><b>{VEREDICTO_ES[_veredicto(r)]}</b> · {name}: {esc(route)} "
                          f"({r['score']}°). Fuente: {_sources_html(r)}. Última mención: {_time_tag(max(m['date'] for m in r['mentions']))}</li>")
         parts.append("</ul>")
     shown = list(news)[:limit]
@@ -2671,7 +2684,10 @@ def _player_page(e, pts, events, out_dir):
     paras = [f"El rumor del fichaje de {name} ({route}) está ahora en {e['score']}° en el termómetro de {config.SITE_NAME}, "
              f"es decir, {_force(e['score'])}. Lo cuentan {_plural(len(srcs), 'medio', 'medios')} "
              f"({', '.join(srcs)}) en {_plural(len(ms), 'titular', 'titulares')} de los últimos {config.WINDOW_DAYS} días. "
-             f"El estado más avanzado es «{STAT_ES.get(best, best)}»."]
+             f"El estado más avanzado es «{STAT_ES.get(best, best)}». "
+             + {"oficial": "Estado del rumor: oficial, el fichaje está confirmado.",
+                "desmentido": "Estado del rumor: desmentido, lo último que dicen los medios es que no se hará.",
+                "pendiente": "Estado del rumor: pendiente, todavía sin confirmación oficial."}[_veredicto(e)]]
     t2 = f"El primer titular que seguimos es del {fmt(first['date'])} ({first['source']}) y el último, del {fmt(last['date'])} ({last['source']})."
     if fee:
         t2 += f" Según los titulares, la operación rondaría los {fee:g} millones de euros."
