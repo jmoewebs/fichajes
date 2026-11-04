@@ -1906,7 +1906,7 @@ def _winter_page(rumors, news, lastmod_rumors, out_dir):
     esc = html_lib.escape
     root = "../"
     path = f"/fichajes-enero-{y}/"
-    title = f"Fichajes de enero {y}: fechas del mercado de invierno"
+    title = f"¿Cuándo empieza el mercado de fichajes de invierno {y}? Fechas"
     h1 = f"Fichajes de enero {y}: cuándo abre y cierra el mercado"
     fmt = lambda iso: f"{datetime.fromisoformat(iso).day} de {MONTHS[datetime.fromisoformat(iso).month - 1]} de {iso[:4]}"
     DAYS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
@@ -1940,8 +1940,8 @@ def _winter_page(rumors, news, lastmod_rumors, out_dir):
         {"@type": "WebSite", "name": config.SITE_NAME, "url": config.SITE_URL + "/", "inLanguage": "es-ES"},
         *_page_ld(path, h1, f"Fechas de apertura y cierre del mercado de invierno {y} en las cinco grandes ligas.",
                   [("Rumores de fichajes", "/rumores/"), (f"Fichajes de enero {y}", None)], lm)]}
-    desc = (f"Fechas del mercado de invierno {y}: apertura y cierre en LaLiga, Premier League, Serie A, Bundesliga y "
-            f"Ligue 1, y los rumores de fichajes más calientes.")
+    desc = (f"¿Cuándo se abre el mercado de fichajes de invierno {y}? Fechas de apertura y cierre en LaLiga, Premier, "
+            f"Serie A, Bundesliga y Ligue 1, y rumores.")
     out = _simple_page(root, "rumors", title, h1, desc, config.SITE_URL + path, ld,
                        _crumbs(root, ("Rumores de fichajes", "/rumores/"), (f"Fichajes de enero {y}", None)), "".join(body))
     p = os.path.join(out_dir, f"fichajes-enero-{y}", "index.html")
