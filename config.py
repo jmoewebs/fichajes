@@ -125,6 +125,9 @@ FANTASY_SEND_HOUR = 12           # a partir de esta hora (España)
 
 # IndexNow: aviso diario a Bing y otros buscadores de todas las páginas
 INDEXNOW_KEY = "14ca996f61e8e8c39c670c73dc9243e6"
+# Meses del archivo que existieron y ya no se generan (AAAA-MM). Se redirigen con 301 al mes más cercano
+# que exista (o a la portada si no hay ninguno cerca) mediante web/_redirects. Añade aquí los que retires.
+ARCHIVO_RETIRADOS = ["2025-04", "2026-08"]
 INDEXNOW_HOUR = 8            # hora (España) del aviso diario
 
 # Cómo se extraen los rumores: "reglas" (gratis, sin IA) o "claude" (API de pago).

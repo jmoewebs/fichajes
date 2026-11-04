@@ -1,6 +1,7 @@
 """Termómetro de probabilidad y exportación a JSON para el generador de la web."""
 import json
 import os
+import re
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 
@@ -211,6 +212,16 @@ def export_archive(db, months, all_months=False):
     """Genera web/archivo/AAAA-MM.html. Siempre el mes actual; los demás si faltan o si all_months."""
     current = datetime.now(timezone.utc).strftime("%Y-%m")
     yms = [m[0] for m in months]
+    # Páginas de meses que ya no existen: fuera de la web (llevaban canonical antiguo) y redirigidas con 301
+    gone = set(getattr(config, "ARCHIVO_RETIRADOS", []))
+    arch_dir = os.path.join("web", "archivo")
+    if os.path.isdir(arch_dir):
+        for fn in os.listdir(arch_dir):
+            m = re.fullmatch(r"(\d{4}-\d{2})\.html", fn)
+            if m and m.group(1) not in yms:
+                gone.add(m.group(1))
+                os.remove(os.path.join(arch_dir, fn))
+    web.ARCHIVO_GONE[:] = sorted(gone - set(yms))
     for i, ym in enumerate(yms):
         path = os.path.join("web", "archivo", f"{ym}.html")
         if not all_months and ym != current and os.path.exists(path):

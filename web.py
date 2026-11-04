@@ -3099,6 +3099,22 @@ def _share_image():
 LEGAL_LASTMOD = {"sobre": "2026-11-02", "privacidad": "2026-11-02"}
 
 
+ARCHIVO_GONE = []   # meses del archivo retirados (los rellena score.export_archive)
+
+
+def _write_redirects(months, out_dir):
+    """web/_redirects (Cloudflare Pages): 301 de los meses retirados al mes más cercano que exista, o a la portada."""
+    have = [ym for ym, _, _ in months]
+    idx = lambda ym: int(ym[:4]) * 12 + int(ym[5:])
+    lines = []
+    for old in ARCHIVO_GONE:
+        near = min(have, key=lambda h: abs(idx(h) - idx(old)), default=None)
+        dest = f"/archivo/{near}" if near and abs(idx(near) - idx(old)) <= 3 else "/"
+        lines += [f"/archivo/{old} {dest} 301", f"/archivo/{old}.html {dest} 301"]
+    with open(os.path.join(out_dir, "_redirects"), "w", encoding="utf-8") as f:
+        f.write("# Generado por web.py: meses del archivo retirados\n" + "".join(l + "\n" for l in lines))
+
+
 def _month_end(ym):
     """Último día de un mes ya cerrado (AAAA-MM): su archivo no cambia después de esa fecha."""
     import calendar
@@ -3129,6 +3145,7 @@ def write_static(months, out_dir="web", leagues=(), clubs=(), lastmod=None):
         with open(os.path.join(out_dir, fname), "w", encoding="utf-8") as f:
             f.write(tpl.replace("__ADSENSE__", ADSENSE).replace("__SITE_NAME__", html_lib.escape(config.SITE_NAME))
                        .replace("__SITE_URL__", config.SITE_URL).replace("__CONTACT__", contact))
+    _write_redirects(months, out_dir)
     if getattr(config, "INDEXNOW_KEY", ""):
         with open(os.path.join(out_dir, f"{config.INDEXNOW_KEY}.txt"), "w", encoding="utf-8") as f:
             f.write(config.INDEXNOW_KEY)
