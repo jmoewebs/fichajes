@@ -1922,12 +1922,28 @@ def _winter_page(rumors, news, lastmod_rumors, out_dir):
         f'<li><strong>{esc(r["player"])}</strong> · {esc(str(r.get("from_club") or "?"))} → {esc(str(r.get("to_club") or "?"))}'
         f' · <span class="lb doubt">{r["score"]}°</span> {esc(_label(r["score"], _best_status(r)))}</li>' for r in top[:30])
     upd = f'<p class="mt">Actualizado el {_dmy(lastmod_rumors, True)}.</p>' if lastmod_rumors else ""
-    body = [upd, f"<p>El mercado de invierno {y} se abre a principios de enero y se cierra el 1 o 2 de febrero, según la liga. "
+    liga = next((w for w in wins if w[0] == "LaLiga" and w[4]), None)   # solo se afirma lo verificado y oficial
+    faqs, direct = [], ""
+    if liga:
+        a, c = fmt(liga[1]), fmt(liga[2])
+        dias = (datetime.fromisoformat(liga[2]) - datetime.fromisoformat(liga[1])).days + 1
+        direct = (f"<p><strong>El mercado de fichajes de invierno {y} en LaLiga se abre el {a} y se cierra el {c}, "
+                  f"ambos días incluidos (fuente: laliga.com). Dura {dias} días. Otras ligas tienen fechas distintas: "
+                  f"consúltalas en la tabla siguiente.</strong></p>")
+        faqs = [(f"¿Cuándo empieza el mercado de invierno {y} en LaLiga?", f"Empieza el {a}, según laliga.com."),
+                ("¿Cuándo termina?", f"Termina el {c}, incluido ese día, según laliga.com."),
+                ("¿Cuántos días dura?", f"Dura {dias} días, contando el {a} y el {c}."),
+                ("¿Los rumores de esta página son fichajes confirmados?",
+                 "No. Un rumor es información de prensa sin confirmar. El termómetro indica lo caliente que está, "
+                 "y solo los marcados como oficiales están confirmados.")]
+    faq_html = ("<h2>Preguntas frecuentes</h2>" + "".join(f"<h3>{esc(q)}</h3><p>{esc(r)}</p>" for q, r in faqs)) if faqs else ""
+    body = [upd, direct, f"<p>El mercado de invierno {y} se abre a principios de enero y se cierra el 1 o 2 de febrero, según la liga. "
             "Estas son las fechas de las cinco grandes ligas, con la hora de cierre cuando se conoce. Pasadas esas fechas, "
             "los clubes solo pueden fichar jugadores libres.</p>",
             '<table class="tb"><tr><th>Liga</th><th>Abre</th><th>Cierra</th><th>Estado</th></tr>' + rows + "</table>"]
     if pend:
         body.append(f"<p class='mt'>Pendiente de confirmación oficial: {esc(', '.join(pend))}. Actualizaremos la tabla cuando se publique.</p>")
+    body.append(faq_html)
     body.append(f"<h2>Rumores activos del mercado de invierno {y}</h2>")
     if items:
         body.append(f"<p>Los {min(len(top), 30)} rumores con más termómetro ahora mismo, de más a menos caliente "
@@ -1940,6 +1956,10 @@ def _winter_page(rumors, news, lastmod_rumors, out_dir):
         {"@type": "WebSite", "name": config.SITE_NAME, "url": config.SITE_URL + "/", "inLanguage": "es-ES"},
         *_page_ld(path, h1, f"Fechas de apertura y cierre del mercado de invierno {y} en las cinco grandes ligas.",
                   [("Rumores de fichajes", "/rumores/"), (f"Fichajes de enero {y}", None)], lm)]}
+    if faqs:   # mismas preguntas y respuestas que las visibles
+        ld["@graph"].append({"@type": "FAQPage", "@id": config.SITE_URL + path + "#faq", "inLanguage": "es-ES",
+                             "mainEntity": [{"@type": "Question", "name": q,
+                                             "acceptedAnswer": {"@type": "Answer", "text": r}} for q, r in faqs]})
     desc = (f"¿Cuándo se abre el mercado de fichajes de invierno {y}? Fechas de apertura y cierre en LaLiga, Premier, "
             f"Serie A, Bundesliga y Ligue 1, y rumores.")
     out = _simple_page(root, "rumors", title, h1, desc, config.SITE_URL + path, ld,
