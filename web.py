@@ -2091,6 +2091,21 @@ def _page_ld(path, name, description, crumbs=(), modified=None, about=None):
     return out
 
 
+def _news_ld(news, limit=10):
+    """NewsArticle de los últimos titulares que se ven en la página (los mismos que lista _static_list).
+    La noticia es del medio: url apunta a su artículo y publisher es el medio, no esta web."""
+    out = []
+    for n in list(news)[:limit]:
+        try:
+            when = _es(datetime.fromisoformat(str(n["date"]).replace("Z", "+00:00"))).isoformat(timespec="seconds")
+        except (ValueError, KeyError):
+            continue
+        out.append({"@type": "NewsArticle", "headline": n["title"][:110], "url": n["url"],
+                    "datePublished": when, "inLanguage": "es-ES", "isAccessibleForFree": True,
+                    "publisher": {"@type": "Organization", "name": n["source"]}})
+    return out
+
+
 def _item_list(rumors, url, limit=20):
     """ItemList de datos estructurados con los rumores más calientes (ficha propia si la tienen)."""
     items = []
@@ -2944,7 +2959,7 @@ def generate(data, news=(), months=(), out_dir="web"):
     # Portada: noticias
     index = _write(os.path.join(out_dir, "index.html"), page="news", root="",
                    heading=config.SITE_NAME, crumbs="",
-                   ld_page=_page_ld("/", config.SITE_TITLE, config.SITE_DESCRIPTION, modified=lastmod["/"]), updated=lastmod["/"],
+                   ld_page=_page_ld("/", config.SITE_TITLE, config.SITE_DESCRIPTION, modified=lastmod["/"]) + _news_ld(news), updated=lastmod["/"],
                    title=config.SITE_TITLE, description=config.SITE_DESCRIPTION,
                    canonical=config.SITE_URL + "/", rumors=rumors, news=news,
                    archive=_archive(months, prefix="archivo/"), **common)
@@ -3006,7 +3021,7 @@ def generate(data, news=(), months=(), out_dir="web"):
                crumbs=_crumbs("../../", *liga_crumb, (club, None)),
                ld_page=_page_ld(f"/club/{slug}/", f"Fichajes y rumores del {club}",
                                 f"Rumores de fichajes, noticias y situación en la tabla del {club}.",
-                                [*liga_crumb, (club, None)], lastmod.get(f"/club/{slug}/"), about=club),
+                                [*liga_crumb, (club, None)], lastmod.get(f"/club/{slug}/"), about=club) + _news_ld(c_news),
                updated=lastmod.get(f"/club/{slug}/"),
                title=_fit_title(f"Fichajes y rumores del {club}: últimas noticias"),
                description=(f"Rumores de fichajes del {club} con termómetro de probabilidad, sus noticias de hoy"
