@@ -3011,7 +3011,7 @@ HISTORIAL_VACIO_LASTMOD = "2026-11-04T12:00:00+01:00"   # lastmod de /historial/
 RELIABILITY = {}   # lo rellena score.export (score.reliability): fiabilidad histórica de los rumores
 
 
-def _reliability_html(c, scope, h="h2", plain=False, empty=None):
+def _reliability_html(c, scope, h="h2", plain=False, empty=None, extra=""):
     """Bloque "Fiabilidad de los rumores". c = cuentas de score._counts. Con menos de score.MIN_CERRADOS rumores
     cerrados solo muestra recuentos. plain=True devuelve (título, texto) para las fichas de club (las pinta el JS)."""
     if not c or not c.get("total"):
@@ -3025,9 +3025,11 @@ def _reliability_html(c, scope, h="h2", plain=False, empty=None):
             txt = (f"Rumores {scope}: {cnt}. Aún son pocos datos: el porcentaje se publicará con 10 rumores cerrados.")
     since = RELIABILITY.get("since")
     when = _now_spain().strftime("%d/%m/%Y")
-    desde = (f" Seguimiento desde el {datetime.fromisoformat(since.replace('Z', '+00:00')).astimezone(_now_spain().tzinfo):%d/%m/%Y}."
+    desde = (f" Datos desde el {datetime.fromisoformat(since.replace('Z', '+00:00')).astimezone(_now_spain().tzinfo):%d/%m/%Y}."
              if since else "")
     note = f"Actualizado el {when}.{desde}"
+    if c and c.get("total") and extra:
+        txt += " " + extra
     if plain:
         return "Fiabilidad de los rumores", f"{txt} {note}"
     return (f'<{h}>Fiabilidad de los rumores</{h}><p>{html_lib.escape(txt)}</p>'
@@ -3425,7 +3427,11 @@ def generate(data, news=(), months=(), out_dir="web", history=None):
         club_lg = ci or ({"league": lg_fb, "pos": None} if lg_fb in standings else None)   # solo para enlazar a la tabla
         where = f" y su posición en {ci['league']}" if ci else ""
         intro = _club_intro(club, ci, standings, c_rumors, c_news, fx)
-        rel_t, rel_x = _reliability_html(RELIABILITY.get("clubs", {}).get(club), f"con destino {club}", plain=True)
+        n_act = sum(1 for r in c_rumors if r.get("to_club") == club)
+        rel_t, rel_x = _reliability_html(
+            RELIABILITY.get("clubs", {}).get(club), f"de llegada al {club} registrados", plain=True,
+            extra=f"Ahora hay {_plural(n_act, 'rumor activo', 'rumores activos')} de llegada en esta ficha; "
+                  "el resto ya no aparece en la lista (sin novedades recientes o con otro destino principal).")
         liga_crumb = ((f"Clasificación de {club_lg['league']}", f"/clasificacion/{league_slug(club_lg['league'])}/"),) if club_lg else ()
         _write(os.path.join(out_dir, "club", slug, "index.html"), page="club", root="../../",
                club=club, club_info=club_lg, club_intro=intro, club_rel=[rel_t, rel_x], noindex=thin,
