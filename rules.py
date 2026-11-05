@@ -201,6 +201,22 @@ def assign_clubs(title_n, clubs, player_club):
 IDIOM_RE = re.compile(r"\ba lo ['\"“‘«]?[A-ZÁÉÍÓÚÑ]|\bal estilo de\b|\bat the level of\b|\bthe next [A-Z]")
 
 
+HASTA_RE = re.compile(r"(?<![a-z0-9])hasta (?:el )?20[0-9]{2}(?![0-9])")
+
+
+def own_club_renewal(title_n, padded, status, clubs, pclub):
+    """True si el titular solo nombra el club actual del jugador y habla de renovarlo: "El Barça ata a Yamal hasta 2031",
+    "El Madrid negocia con Vinícius su continuidad hasta 2030" o "Principio de acuerdo Bayern-Kane". Si nombra otro club
+    (un destino) o habla de una salida, no es una renovación y sigue siendo rumor."""
+    names = {c for _, _, c in clubs}
+    if not pclub or pclub not in names or names - {pclub}:
+        return False
+    if any(f" {w} " in padded for w in config.OWN_CLUB_LEAVE_WORDS):
+        return False
+    marker = any(f" {w} " in padded for w in config.OWN_CLUB_RENEWAL_WORDS) or bool(HASTA_RE.search(title_n))
+    return marker or status in config.OWN_CLUB_STATUSES
+
+
 def _is_noise(title, padded, lang=None):
     """Incidencias de partido, modismos ("a lo Haaland"), sustitutos y renovaciones: no son rumores."""
     if any(f" {w} " in padded for w in _plus(config.MATCH_INCIDENT_WORDS, lang, "incident")) and             not any(f" {w} " in padded for w in _plus(config.TRANSFER_WORDS, lang, "transfer")):
@@ -251,6 +267,8 @@ def _extract(title, summary, players, ignored, lang=None):
             return []
         several = len(found_players) > 1
         for name, pclub in found_players.items():
+            if own_club_renewal(title_n, padded, status, clubs, pclub):
+                continue        # renovación con su club actual: no hay fichaje
             from_club, to_club = assign_clubs(title_n, clubs, pclub)
             if not from_club and pclub and pclub != to_club:
                 from_club = pclub   # si el titular no lo dice, usamos su club actual

@@ -517,3 +517,14 @@ RENEWAL_WORDS = ["renovacion", "renueva", "renovar", "renovado", "renews", "new 
                  "contract extension", "amplia su contrato", "amplia contrato", "ampliacion de contrato"]
 RENEWAL_KEEP = ["fichaje", "fichar", "traspaso", "oferta", "clausula", "salida", "interes", "negocia",
                 "cesion", "transfer", "bid", "offer", "interested", "cierra la puerta", "rechaza"]
+
+# Renovación de un jugador con SU PROPIO club (solo si el titular no nombra ningún otro club): no es un fichaje.
+# Palabras que la delatan, y palabras que indican que en realidad se habla de una salida (entonces sí es rumor).
+OWN_CLUB_RENEWAL_WORDS = ["renueva", "renovacion", "renovar", "renovara", "renovado", "renovada", "amplia", "ampliacion",
+                          "ata a", "atan a", "atar a", "blinda", "blindan", "blindar", "blindaje", "prolonga", "prolongacion",
+                          "extiende", "continuidad", "vinculo", "vinculacion"]
+OWN_CLUB_LEAVE_WORDS = ["salida", "salir", "sale", "salgan", "deja", "dejar", "dejaria", "adios", "marcha", "marcharse",
+                        "traspaso", "fichaje", "fichar", "venta", "vender", "venderia", "clausula", "irse", "se va", "cesion",
+                        "cedido", "no renueva", "rechaza renovar", "sin renovar", "no renovara", "libre"]
+# Con el estado en estos valores y solo su club en el titular, tampoco hay destino ("Principio de acuerdo Bayern-Kane")
+OWN_CLUB_STATUSES = ["negociacion", "acuerdo", "oficial"]

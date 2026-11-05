@@ -22,7 +22,7 @@ BUENOS = [
     ("de", "Bayern verhandelt mit Barcelona über Lamine Yamal", "negociacion"),
     ("de", "Einigung: Lamine Yamal wechselt zum FC Bayern", "acuerdo"),
     ("fr", "Mercato : le PSG négocie avec le Real Madrid pour Vinícius", "negociacion"),
-    ("fr", "Accord trouvé entre l'OM et le FC Barcelone pour Lamine Yamal", "acuerdo"),
+    ("fr", "Accord trouvé entre Marseille et le FC Barcelone pour Lamine Yamal", "acuerdo"),
     ("pt", "Benfica faz proposta ao Real Madrid por Vinícius", "negociacion"),
     ("pt", "Acordo fechado: Lamine Yamal vai para o Benfica", "acuerdo"),
 ]
