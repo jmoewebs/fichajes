@@ -162,21 +162,34 @@ def purge_duplicates(db):
     return len(dead)
 
 
+FETCH_TIMEOUT = 12     # segundos por descarga: un feed lento no debe alargar el Action (se factura por minuto)
+FETCH_WORKERS = 8      # descargas a la vez
+
+
+def _download(feed):
+    """Descarga un feed (y sus alternativas, si la primera falla). Devuelve (items | None, errores)."""
+    items, errors = None, []
+    for url in [feed["url"]] + feed.get("fallbacks", []):
+        try:
+            req = urllib.request.Request(url, headers=HEADERS)
+            with urllib.request.urlopen(req, timeout=FETCH_TIMEOUT) as r:
+                items = parse_feed(r.read())
+            if items:
+                break
+            errors.append(f"{url}: sin titulares")
+        except Exception as exc:  # un feed caído no debe parar el resto (y no se reintenta)
+            errors.append(f"{url}: {exc}")
+    return items, errors
+
+
 def fetch_all(db, feeds=None):
-    """Descarga todos los feeds y guarda los titulares nuevos. Devuelve cuántos son nuevos."""
+    """Descarga todos los feeds (en paralelo) y guarda los titulares nuevos. Devuelve cuántos son nuevos."""
+    from concurrent.futures import ThreadPoolExecutor
     new = 0
-    for feed in feeds or config.FEEDS:
-        items, errors = None, []
-        for url in [feed["url"]] + feed.get("fallbacks", []):
-            try:
-                req = urllib.request.Request(url, headers=HEADERS)
-                with urllib.request.urlopen(req, timeout=20) as r:
-                    items = parse_feed(r.read())
-                if items:
-                    break
-                errors.append(f"{url}: sin titulares")
-            except Exception as exc:  # un feed caído no debe parar el resto
-                errors.append(f"{url}: {exc}")
+    feeds = list(feeds or config.FEEDS)
+    with ThreadPoolExecutor(max_workers=FETCH_WORKERS) as pool:
+        downloaded = list(pool.map(_download, feeds))     # en el orden de config.FEEDS: el resultado no cambia
+    for feed, (items, errors) in zip(feeds, downloaded):
         if not items:
             print(f"[aviso] {feed['source']}: " + " | ".join(errors))
             continue
@@ -192,10 +205,14 @@ def fetch_all(db, feeds=None):
         for it in items:
             if db.execute("SELECT 1 FROM items WHERE source=? AND title=? AND substr(published,1,10)=?",
                           (feed["source"], it["title"], it["published"][:10])).fetchone():
+                if not feed.get("only_rumors"):   # si antes llegó por un feed solo de rumores, también es noticia
+                    db.execute("UPDATE items SET rumor_only=0 WHERE source=? AND title=? AND substr(published,1,10)=?",
+                               (feed["source"], it["title"], it["published"][:10]))
                 continue   # misma noticia que ya tenemos por otro enlace (feed del medio vs Google Noticias)
             cur = db.execute(
-                "INSERT OR IGNORE INTO items (source, url, title, summary, published, rumor_only) VALUES (?,?,?,?,?,?)",
-                (feed["source"], it["url"], it["title"], it["summary"], it["published"], int(bool(feed.get("only_rumors")))),
+                "INSERT OR IGNORE INTO items (source, url, title, summary, published, rumor_only, lang) VALUES (?,?,?,?,?,?,?)",
+                (feed["source"], it["url"], it["title"], it["summary"], it["published"], int(bool(feed.get("only_rumors"))),
+                 feed.get("lang") if feed.get("lang") in config.LANG_WORDS else None),
             )
             new += cur.rowcount
             added += cur.rowcount

@@ -76,15 +76,27 @@ def add_player(name, path=None):
         f.write(f"\n{name};;")
 
 
-def detect_status(text_n):
-    """Devuelve (estado, ¿hay alguna palabra clave fuerte?)."""
+def _lw(lang, key):
+    """Palabras de idioma (config.LANG_WORDS) de una lista; vacío si la fuente no tiene idioma extra."""
+    return config.LANG_WORDS.get(lang, {}).get(key, ()) if lang else ()
+
+
+def _plus(base, lang, key):
+    """Lista general + la del idioma de la fuente (solo si es it, de, fr o pt)."""
+    extra = _lw(lang, key)
+    return [*base, *extra] if extra else base
+
+
+def detect_status(text_n, lang=None):
+    """Devuelve (estado, ¿hay alguna palabra clave fuerte?). `lang`: idioma de la fuente (palabras extra)."""
     padded = f" {' '.join(text_n.split())} "
     status, strong = None, False
+    weak = set(config.WEAK_KEYWORDS) | set(_lw(lang, "weak"))
     for st, words in config.STATUS_KEYWORDS:
-        for w in words:
+        for w in [*words, *_lw(lang, st)]:
             if f" {w} " in padded:
                 status = status or st
-                strong = strong or w not in config.WEAK_KEYWORDS
+                strong = strong or w not in weak
     return status, strong
 
 
@@ -189,43 +201,43 @@ def assign_clubs(title_n, clubs, player_club):
 IDIOM_RE = re.compile(r"\ba lo ['\"“‘«]?[A-ZÁÉÍÓÚÑ]|\bal estilo de\b|\bat the level of\b|\bthe next [A-Z]")
 
 
-def _is_noise(title, padded):
+def _is_noise(title, padded, lang=None):
     """Incidencias de partido, modismos ("a lo Haaland"), sustitutos y renovaciones: no son rumores."""
-    if any(f" {w} " in padded for w in config.MATCH_INCIDENT_WORDS) and \
-            not any(f" {w} " in padded for w in config.TRANSFER_WORDS):
+    if any(f" {w} " in padded for w in _plus(config.MATCH_INCIDENT_WORDS, lang, "incident")) and             not any(f" {w} " in padded for w in _plus(config.TRANSFER_WORDS, lang, "transfer")):
         return True
     if IDIOM_RE.search(title):
         return True
     if any(f" {w} " in padded or f" {w}" in padded for w in config.REPLACEMENT_PHRASES if w.strip() not in ("como", "tipo")):
         return True
-    if any(w in padded for w in config.RENEWAL_WORDS) and not any(w in padded for w in config.RENEWAL_KEEP):
+    if any(w in padded for w in _plus(config.RENEWAL_WORDS, lang, "renewal")) and             not any(w in padded for w in _plus(config.RENEWAL_KEEP, lang, "keep")):
         return True
     return False
 
 
-def extract_one(title, summary, players, ignored=frozenset(), url="", excluded=None):
+def extract_one(title, summary, players, ignored=frozenset(), url="", excluded=None, lang=None):
     """Devuelve una lista de rumores (dicts) detectados en un titular. `url` es la del artículo
-    (si es un resumen de partido, no hay rumor) y `excluded` las palabras de jugadores_excluir.txt."""
+    (si es un resumen de partido, no hay rumor), `excluded` las palabras de jugadores_excluir.txt y
+    `lang` el idioma de la fuente (it, de, fr, pt: suman sus palabras de config.LANG_WORDS)."""
     if is_match_page(title, url):
         return []
     excluded = load_excluded() if excluded is None else excluded
-    return [r for r in _extract(title, summary, players, ignored)
+    return [r for r in _extract(title, summary, players, ignored, lang)
             if " ".join(norm(r["player"]).split()) not in excluded]
 
 
-def _extract(title, summary, players, ignored):
+def _extract(title, summary, players, ignored, lang=None):
     title = QUOTE_RE.sub(" ", title)
     title_n = norm(title)
-    status, strong = detect_status(title_n)
+    status, strong = detect_status(title_n, lang)
     if not status:          # la palabra clave tiene que estar en el titular
         return []
     padded = f" {' '.join(title_n.split())} "
-    if any(f" {w} " in padded for w in config.PAST_WORDS):
+    if any(f" {w} " in padded for w in _plus(config.PAST_WORDS, lang, "past")):
         return []           # historia o entrevista sobre el pasado, no un rumor de ahora
-    if (any(f" {w} " in padded for w in config.MATCH_WORDS)
-            and not any(f" {w} " in padded for w in config.TRANSFER_WORDS)):
+    if (any(f" {w} " in padded for w in _plus(config.MATCH_WORDS, lang, "match"))
+            and not any(f" {w} " in padded for w in _plus(config.TRANSFER_WORDS, lang, "transfer"))):
         return []           # previa de partido, lesión o sanción ("descartado ante el Barça")
-    if _is_noise(title, padded):
+    if _is_noise(title, padded, lang):
         return []
     clubs = _find_all(title_n, CLUB_INDEX)
     found_players = {}
@@ -259,16 +271,16 @@ def _extract(title, summary, players, ignored):
 def revalidate(db, players, ignored):
     """Vuelve a pasar las reglas actuales por los rumores ya guardados y borra los que
     ya no se detectarían (así los falsos positivos antiguos desaparecen solos)."""
-    rows = db.execute("""SELECT r.id, r.player, r.player_slug, i.title, i.summary, i.url FROM rumors r
+    rows = db.execute("""SELECT r.id, r.player, r.player_slug, i.title, i.summary, i.url, i.lang FROM rumors r
                          JOIN items i ON i.id = r.item_id""").fetchall()
     excluded = load_excluded()
     cache, bad, slugs, mentions = {}, [], set(), {}
     for r in rows:
         mentions[r["player_slug"]] = mentions.get(r["player_slug"], 0) + 1
-        key = (r["title"], r["summary"], r["url"])
+        key = (r["title"], r["summary"], r["url"], r["lang"])
         if key not in cache:
             cache[key] = {ru["player"] for ru in extract_one(r["title"], r["summary"], players, ignored,
-                                                              url=r["url"], excluded=excluded)}
+                                                              url=r["url"], excluded=excluded, lang=r["lang"])}
         if r["player"] not in cache[key]:
             bad.append((r["id"],))
             slugs.add(r["player_slug"])
@@ -287,10 +299,10 @@ def extract_pending(db):
     if removed:
         print(f"  Rumores antiguos que ya no pasan las reglas (borrados): {removed}")
     saved = 0
-    rows = db.execute("SELECT id, title, summary, url FROM items WHERE processed = 0").fetchall()
+    rows = db.execute("SELECT id, title, summary, url, lang FROM items WHERE processed = 0").fetchall()
     excluded = load_excluded()
     for r in rows:
-        for ru in extract_one(r["title"], r["summary"], players, ignored, url=r["url"], excluded=excluded):
+        for ru in extract_one(r["title"], r["summary"], players, ignored, url=r["url"], excluded=excluded, lang=r["lang"]):
             db.execute(
                 """INSERT INTO rumors (item_id, player, player_slug, from_club, to_club,
                    status, fee_eur_m, needs_review) VALUES (?,?,?,?,?,?,?,?)""",

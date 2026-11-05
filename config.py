@@ -166,9 +166,128 @@ FEEDS = [
      "low_trust": True, "url": "https://news.google.com/rss/search?q=site:fichajes.net+when:2d&hl=es&gl=ES&ceid=ES:es"},
     {"source": "Fichajes.com", "weight": 1, "domain": "fichajes.com", "google_news": True, "only_rumors": True,
      "low_trust": True, "url": "https://news.google.com/rss/search?q=site:fichajes.com+when:2d&hl=es&gl=ES&ceid=ES:es"},
+    # Feed de mercado de Marca (dry-run 2026-11-05: 3 rumores en 30 titulares, sin falsos positivos claros)
+    {"source": "Marca", "url": "https://e00-marca.uecdn.es/rss/futbol/mercado-fichajes.xml", "weight": 3, "only_rumors": True},
     {"source": "BBC Sport", "url": "https://feeds.bbci.co.uk/sport/football/rss.xml", "weight": 4},
     {"source": "Sky Sports", "url": "https://www.skysports.com/rss/12040", "weight": 4},
 ]
+
+# ---- Idioma de la fuente ----
+# "lang" (opcional) en cada feed: "es" (por defecto), "en", "it", "de", "fr" o "pt". Se guarda en items.lang y rules.py
+# usa las palabras de LANG_WORDS[lang] SOLO para los titulares de ese idioma (se suman a las generales).
+# Todo en minúsculas y sin tildes (ü->u, ç->c...), como el resto de listas. Claves:
+#   interes / negociacion / acuerdo / oficial / descartado: palabras de estado (como STATUS_KEYWORDS)
+#   weak: palabras demasiado genéricas (valen para jugadores conocidos, no para nombres desconocidos)
+#   transfer: palabras claras de fichaje (como TRANSFER_WORDS); match: partido, lesión o sanción (MATCH_WORDS)
+#   incident: incidencias de partido (MATCH_INCIDENT_WORDS); past: titulares sobre el pasado (PAST_WORDS)
+#   renewal / keep: renovaciones (RENEWAL_WORDS) y las palabras que las salvan (RENEWAL_KEEP)
+LANG_WORDS = {
+    "it": {
+        "oficial": ["ufficiale", "ufficializzato", "ufficializza", "ufficializzata", "firma con", "ha firmato"],
+        "descartado": ["sfuma", "tramonta", "rifiuta", "rifiutato", "dice no", "rinnova", "rinnovo", "resta alla"],
+        "acuerdo": ["accordo", "intesa", "visite mediche", "visita medica", "trattativa chiusa"],
+        "negociacion": ["trattativa", "contatti", "contatto", "offerta", "offre", "proposta", "assalto", "avviati i contatti"],
+        "interes": ["interesse", "interessa", "obiettivo", "nel mirino", "occhi su", "piace", "pista", "candidato",
+                    "calciomercato", "acquisto", "colpo", "trasferimento", "prestito", "clausola"],
+        "weak": ["interesse", "interessa", "obiettivo", "piace", "pista", "candidato", "calciomercato", "acquisto",
+                 "colpo", "trasferimento", "prestito", "clausola", "offerta", "proposta", "contatto"],
+        "transfer": ["calciomercato", "mercato", "acquisto", "colpo", "trasferimento", "prestito", "clausola",
+                     "ingaggio", "contratto", "trattativa", "offerta", "riscatto"],
+        "match": ["partita", "gara", "derby", "formazione", "convocati", "convocazione", "infortunio", "infortunato",
+                  "squalifica", "squalificato", "pagelle", "moviola", "arbitro", "sconfitta", "vittoria", "pareggio",
+                  "diretta", "probabili formazioni", "contro il", "contro la"],
+        "incident": ["gol", "rigore", "cronaca", "highlights", "autogol", "espulso", "espulsione", "diretta"],
+        "past": ["leggenda", "ex giocatore", "ricordo", "anni fa", "storia di"],
+        "renewal": ["rinnova", "rinnovo", "rinnovato", "rinnovare", "prolungamento"],
+        "keep": ["cessione", "offerta", "interesse", "calciomercato", "addio", "trattativa"],
+    },
+    "de": {
+        "oficial": ["offiziell", "perfekt", "unterschreibt", "verpflichtet", "vorgestellt", "bestatigt"],
+        "descartado": ["absage", "sagt ab", "lehnt ab", "kein wechsel", "geplatzt", "bleibt bei", "verlangert"],
+        "acuerdo": ["einigung", "einigen sich", "medizincheck", "handschlag", "einig"],
+        "negociacion": ["verhandlungen", "verhandlung", "verhandelt", "angebot", "gesprache", "bietet", "konkretisiert"],
+        "interes": ["interesse", "interessiert", "im visier", "auf dem zettel", "im blick", "wunschspieler", "kandidat",
+                    "wechselgerucht", "wechselgeruchte", "gerucht", "geruchte", "transfer", "wechsel", "leihe", "ausleihe", "ablose"],
+        "weak": ["interesse", "interessiert", "im blick", "kandidat", "gerucht", "geruchte", "transfer", "wechsel",
+                 "leihe", "ausleihe", "ablose", "angebot", "verhandlungen"],
+        "transfer": ["transfer", "wechsel", "wechselt", "verpflichtung", "leihe", "ausleihe", "ablose", "vertrag",
+                     "angebot", "verhandlungen", "transfermarkt", "wechselgerucht"],
+        "match": ["spiel", "partie", "aufstellung", "kader", "verletzung", "verletzt", "sperre", "gesperrt",
+                  "schiedsrichter", "niederlage", "remis", "spieltag", "gegen den", "gegen die", "gegen das"],
+        "incident": ["tor", "tore", "elfmeter", "ticker", "highlights", "eigentor", "rote karte", "platzverweis"],
+        "past": ["legende", "ehemalige", "erinnert", "vor jahren", "damals"],
+        "renewal": ["verlangert", "verlangerung", "vertragsverlangerung", "verlangern"],
+        "keep": ["wechsel", "angebot", "interesse", "abgang", "verhandlungen"],
+    },
+    "fr": {
+        "oficial": ["officiel", "officialise", "officialisee", "officialisation", "signe a", "signe au", "recrute"],
+        "descartado": ["refuse", "rejette", "ferme la porte", "prolonge", "prolongation", "pas de depart", "abandonne", "piste abandonnee"],
+        "acuerdo": ["accord", "accord trouve", "visite medicale", "entente"],
+        "negociacion": ["negociations", "negociation", "negocie", "offre", "contacts", "discussions", "approche", "proposition"],
+        "interes": ["interesse", "interet", "cible", "dans le viseur", "surveille", "convoite", "piste", "mercato",
+                    "transfert", "pret", "clause", "candidat"],
+        "weak": ["interesse", "interet", "cible", "piste", "mercato", "transfert", "pret", "clause", "candidat",
+                 "offre", "contacts", "discussions", "approche", "proposition", "accord"],
+        "transfer": ["mercato", "transfert", "pret", "clause", "contrat", "offre", "recrue", "recrute", "negociations"],
+        "match": ["match", "rencontre", "composition", "blesse", "blessure", "suspendu", "suspension", "arbitre",
+                  "defaite", "victoire", "journee", "ou voir", "a quelle heure", "sur quelle chaine", "contre le", "contre la"],
+        "incident": ["but", "buts", "penalty", "resume", "direct", "highlights", "carton rouge", "expulse"],
+        "past": ["legende", "ancien joueur", "souvenir", "il y a des annees", "retour sur"],
+        "renewal": ["prolonge", "prolongation", "prolonger", "prolongee", "renouvelle", "renouvellement"],
+        "keep": ["transfert", "offre", "interesse", "depart", "mercato"],
+    },
+    "pt": {
+        "oficial": ["oficial", "oficializa", "oficializado", "oficializou", "assina", "assinou", "apresentado"],
+        "descartado": ["recusa", "recusou", "rejeita", "rejeitou", "afasta", "descarta", "renova", "renovacao", "porta fechada", "nao sai"],
+        "acuerdo": ["acordo", "acordado", "exames medicos", "exame medico", "negocio fechado"],
+        "negociacion": ["negociacoes", "negociacao", "negoceia", "proposta", "oferta", "contactos", "conversas", "abordagem"],
+        "interes": ["interesse", "interessa", "alvo", "visado", "na mira", "no radar", "cobica", "mercado",
+                    "transferencia", "emprestimo", "clausula", "candidato", "reforco"],
+        "weak": ["interesse", "interessa", "alvo", "visado", "mercado", "transferencia", "emprestimo", "clausula",
+                 "candidato", "reforco", "proposta", "oferta", "contactos", "conversas"],
+        "transfer": ["mercado", "transferencia", "emprestimo", "clausula", "contrato", "proposta", "oferta", "reforco", "rescisao"],
+        "match": ["jogo", "partida", "onze", "convocados", "convocatoria", "lesao", "lesionado", "castigo", "suspenso",
+                  "arbitro", "derrota", "vitoria", "empate", "contra o", "contra a"],
+        "incident": ["golo", "golos", "penalti", "cronica", "resumo", "direto", "cartao vermelho", "expulso"],
+        "past": ["lenda", "antigo jogador", "recorda", "ha anos", "historia de"],
+        "renewal": ["renova", "renovacao", "renovou", "renovar"],
+        "keep": ["transferencia", "proposta", "interesse", "saida", "mercado"],
+    },
+}
+
+# ---- Feeds candidatos (NO se descargan en el Action) ----
+# Se prueban con: python scripts/dryrun_feeds.py   (no toca fichajes.db). Para activar uno, pásalo a FEEDS
+# y añade su dominio a ALLOWED en functions/api/clics.js. Todos son RSS públicos (comprobado el 2026-11-05: HTTP 200,
+# XML válido, robots.txt lo permite). Resultado del dry-run del 2026-11-05 (rumores detectados / titulares nuevos):
+#   Kicker 0/18 (el feed "aktuell" son solo crónicas de partido; su feed de fichajes da 404) · L'Équipe 0/50 ·
+#   Relevo 0/13 (casi todo otros deportes) · Gazzetta 1/88 (era un entrenador, a revisar) · Record 1/97 ·
+#   A Bola 1/364 (feed de todos los deportes: llenaría la BD de titulares inútiles) · Marca por club 0-1 · MD por club 0 ·
+#   AS primera 0/5. Aportan casi nada nuevo y cada titular guardado engorda fichajes.db (se sube cada hora).
+FEEDS_DESACTIVADOS = [
+    {"source": "Relevo", "url": "https://www.relevo.com/rss/", "weight": 3, "domain": "relevo.com", "only_rumors": True},
+    {"source": "Kicker", "url": "https://newsfeed.kicker.de/news/aktuell", "weight": 4, "domain": "kicker.de",
+     "lang": "de", "only_rumors": True},
+    {"source": "L'Équipe", "url": "https://dwh.lequipe.fr/api/edito/rss?path=/Football/", "weight": 4, "domain": "lequipe.fr",
+     "lang": "fr", "only_rumors": True},
+    {"source": "A Bola", "url": "https://www.abola.pt/rss-articles.xml", "weight": 3, "domain": "abola.pt",
+     "lang": "pt", "only_rumors": True},
+    # Gazzetta: sus feeds directos (/rss/calcio.xml, /rss/home.xml) están congelados desde 2023-24; solo sirve Google Noticias.
+    {"source": "Gazzetta dello Sport", "weight": 4, "domain": "gazzetta.it", "google_news": True, "lang": "it",
+     "only_rumors": True, "url": "https://news.google.com/rss/search?q=site:gazzetta.it+calciomercato+when:2d&hl=it&gl=IT&ceid=IT:it"},
+    # Record: su RSS directo (record.pt/rss/) falla la verificación SSL en Python local (cadena incompleta); vía Google Noticias.
+    {"source": "Record", "weight": 3, "domain": "record.pt", "google_news": True, "lang": "pt", "only_rumors": True,
+     "url": "https://news.google.com/rss/search?q=site:record.pt+mercado+when:2d&hl=pt-PT&gl=PT&ceid=PT:pt-150"},
+    # Feeds de mercado / por club de los medios que ya usamos
+    {"source": "Marca", "url": "https://e00-marca.uecdn.es/rss/futbol/real-madrid.xml", "weight": 3, "only_rumors": True},
+    {"source": "Marca", "url": "https://e00-marca.uecdn.es/rss/futbol/barcelona.xml", "weight": 3, "only_rumors": True},
+    {"source": "Marca", "url": "https://e00-marca.uecdn.es/rss/futbol/atletico.xml", "weight": 3, "only_rumors": True},
+    {"source": "Mundo Deportivo", "url": "https://www.mundodeportivo.com/feed/rss/futbol/fc-barcelona", "weight": 3, "only_rumors": True},
+    {"source": "Mundo Deportivo", "url": "https://www.mundodeportivo.com/feed/rss/futbol/real-madrid", "weight": 3, "only_rumors": True},
+    {"source": "Mundo Deportivo", "url": "https://www.mundodeportivo.com/feed/rss/futbol/laliga", "weight": 3, "only_rumors": True},
+    {"source": "AS", "url": "https://feeds.as.com/mrss-s/pages/as/site/as.com/section/futbol/subsection/primera/", "weight": 3, "only_rumors": True},
+]
+# Sin RSS utilizable (no añadir): Sport (WAF 406 incluso para sus RSS; ya entra por Google Noticias), AS /fichajes (HTTP 370),
+# Mundo Deportivo /fichajes y /atletico-de-madrid (HTTP 403), A Bola/Relevo por club (404).
 
 DB_PATH = "fichajes.db"
 PLAYERS_FILE = "jugadores.csv"
@@ -244,11 +363,11 @@ STATUS_BONUS = {"interes": 0, "negociacion": 10, "acuerdo": 25, "oficial": 100, 
 # Escribe las formas en minúsculas y sin tildes. Evita palabras comunes ("como", "real").
 CLUBS = {
     "Real Madrid": ["real madrid", "madrid"],
-    "FC Barcelona": ["fc barcelona", "barcelona", "barca"],
+    "FC Barcelona": ["fc barcelona", "barcelona", "barca", "barcelone", "barcellona"],
     "Atlético de Madrid": ["atletico de madrid", "atletico madrid", "atletico", "atleti"],
     "Athletic Club": ["athletic club", "athletic bilbao", "athletic"],
     "Real Sociedad": ["real sociedad"],
-    "Sevilla": ["sevilla"],
+    "Sevilla": ["sevilla", "siviglia", "seville", "sevilha"],
     "Real Betis": ["real betis", "betis"],
     "Valencia": ["valencia cf", "valencia"],
     "Villarreal": ["villarreal"],
@@ -274,12 +393,12 @@ CLUBS = {
     "Aston Villa": ["aston villa"],
     "West Ham": ["west ham united", "west ham"],
     "Brighton": ["brighton"],
-    "Bayern Múnich": ["bayern de munich", "bayern munich", "bayern munchen", "bayern"],
+    "Bayern Múnich": ["bayern de munich", "bayern munich", "bayern munchen", "bayern monaco", "bayern munique", "fc bayern", "bayern"],
     "Borussia Dortmund": ["borussia dortmund", "dortmund", "bvb"],
     "Bayer Leverkusen": ["bayer leverkusen", "leverkusen"],
     "RB Leipzig": ["rb leipzig", "leipzig"],
     "PSG": ["paris saint germain", "paris sg", "psg"],
-    "Olympique de Marsella": ["olympique de marsella", "marsella", "marseille"],
+    "Olympique de Marsella": ["olympique de marsella", "marsella", "marseille", "marsiglia", "marselha", "olympique de marseille"],
     "Mónaco": ["as monaco", "monaco"],
     "Juventus": ["juventus", "juve"],
     "Inter de Milán": ["inter de milan", "inter milan", "internazionale", "inter"],
