@@ -253,27 +253,91 @@ MIN_CERRADOS = 10    # rumores cerrados necesarios para publicar un porcentaje
 SEGUIMIENTO_SCHEMA = """CREATE TABLE IF NOT EXISTS seguimiento (
     player_slug TEXT NOT NULL, to_club TEXT NOT NULL, player TEXT NOT NULL,
     first_seen TEXT NOT NULL, last_seen TEXT NOT NULL,
-    outcome TEXT NOT NULL DEFAULT 'abierto',   -- abierto | cumplido | desmentido
+    outcome TEXT NOT NULL DEFAULT 'abierto',   -- abierto | cumplido | desmentido | sin_novedades | no_materializado
     closed_at TEXT, PRIMARY KEY (player_slug, to_club))"""
 
 
-def track_rumors(db):
-    """Registra el desenlace de cada rumor publicado. Devuelve cuántos registros hay."""
+RUMOR_CADUCA_DIAS = 21   # sin menciones en estos días (= HOT_DAYS): "sin novedades" (se reabre con una mención nueva)
+
+
+def _club_window_close(to_club, since_iso):
+    """Primer cierre de ventana de fichajes (ISO) de la liga del club de destino posterior al primer titular, o None."""
+    lg = config.CLUB_LEAGUE.get(to_club)
+    closes = [c for wins in config.WINTER_WINDOWS.values() for l, _a, c, *_ in wins if l == lg and c >= since_iso[:10]]
+    return min(closes) if closes else None
+
+
+_CLUBS_NOW = {}
+
+
+def _current_club(slug):
+    """Club actual del jugador según jugadores.csv (puede estar desactualizado)."""
+    if not _CLUBS_NOW:
+        import rules
+        from pipeline import slugify
+        for _alias, (name, club) in rules.load_players():
+            _CLUBS_NOW.setdefault(slugify(name), club)
+        _CLUBS_NOW.setdefault("_", None)
+    return _CLUBS_NOW.get(slug)
+
+
+def load_confirmed(path=None):
+    """oficiales_confirmados.txt: "jugador;club de destino" (uno por línea, # para comentarios). Devuelve {(slug, club)}."""
+    from pipeline import canonical_club, slugify
+    path = path or config.CONFIRMED_FILE
+    out = set()
+    if not os.path.exists(path):
+        return out
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            if line.strip() and not line.lstrip().startswith("#") and ";" in line:
+                player, club = line.split(";", 1)
+                if player.strip() and club.strip():
+                    out.add((slugify(player), canonical_club(club)))
+    return out
+
+
+def valid_official(m, slug, to_club):
+    """¿Esta mención da por oficial el fichaje de ESE jugador a ESE club? Excluye renovaciones (el jugador ya está en el
+    club de destino, el origen es el propio destino o el titular habla de renovar) y exige un medio que no sea de baja fiabilidad."""
+    if m["status"] != "oficial" or (m["from_club"] and m["from_club"] == to_club):
+        return False
+    if _current_club(slug) == to_club:
+        return False
+    t = " ".join(norm(m["title"]).split())
+    if any(w in t for w in config.RENEWAL_WORDS) and not any(w in t for w in config.RENEWAL_KEEP):
+        return False
+    return m["source"] not in {f["source"] for f in config.FEEDS if f.get("low_trust")}
+
+
+def track_rumors(db, now=None):
+    """Registra el desenlace de cada rumor publicado. Devuelve cuántos registros hay.
+    cumplido > desmentido > no_materializado (cierra la ventana sin oficial) > sin_novedades (RUMOR_CADUCA_DIAS sin
+    menciones; se reabre solo) > abierto. oficiales_confirmados.txt fuerza "cumplido"."""
+    now = now or datetime.now(timezone.utc)
+    confirmed = load_confirmed()
     db.execute(SEGUIMIENTO_SCHEMA)
     stored = {(r[0], r[1]): r[2] for r in db.execute("SELECT player_slug, to_club, outcome FROM seguimiento")}
     for (slug, to_club), ms in published_groups(db, start="2000-01-01").items():
         if to_club == "?":
             continue
         dates = [str(m["published"]) for m in ms]
-        verd = verdict([{"status": m["status"], "date": m["published"]} for m in ms])
-        outcome = {"oficial": "cumplido", "desmentido": "desmentido"}.get(verd, "abierto")
-        if stored.get((slug, to_club)) == "cumplido":
-            outcome = "cumplido"           # un fichaje oficial no se "des-cumple"
-        closed = None
-        if outcome == "cumplido":
-            closed = min((str(m["published"]) for m in ms if m["status"] == "oficial"), default=max(dates))
-        elif outcome == "desmentido":
-            closed = max(dates)
+        last = max(ms, key=lambda m: str(m["published"]))
+        official = [m for m in ms if valid_official(m, slug, to_club)]
+        closed, close = None, _club_window_close(to_club, min(dates))
+        idle = (now - datetime.fromisoformat(max(dates).replace("Z", "+00:00"))).days
+        if official or (slug, to_club) in confirmed or stored.get((slug, to_club)) == "cumplido":   # no se "des-cumple"
+            outcome = "cumplido"
+            closed = min((str(m["published"]) for m in official), default=max(dates))
+        elif last["status"] == "descartado":
+            outcome, closed = "desmentido", max(dates)
+        elif close and now.date().isoformat() > close:
+            outcome, closed = "no_materializado", close
+        elif idle >= RUMOR_CADUCA_DIAS:
+            outcome = "sin_novedades"
+            closed = (datetime.fromisoformat(max(dates).replace("Z", "+00:00")) + timedelta(days=RUMOR_CADUCA_DIAS)).isoformat()
+        else:
+            outcome = "abierto"
         db.execute("""INSERT INTO seguimiento (player_slug, to_club, player, first_seen, last_seen, outcome, closed_at)
                       VALUES (?,?,?,?,?,?,?)
                       ON CONFLICT(player_slug, to_club) DO UPDATE SET
@@ -287,11 +351,13 @@ def track_rumors(db):
 
 
 def _counts(rows):
-    c = {"cumplidos": 0, "desmentidos": 0, "abiertos": 0}
+    c = {"cumplidos": 0, "desmentidos": 0, "no_materializados": 0, "sin_novedades": 0, "abiertos": 0}
     for r in rows:
-        c[{"cumplido": "cumplidos", "desmentido": "desmentidos"}.get(r["outcome"], "abiertos")] += 1
-    c["cerrados"] = c["cumplidos"] + c["desmentidos"]
-    c["total"] = c["cerrados"] + c["abiertos"]
+        c[{"cumplido": "cumplidos", "desmentido": "desmentidos", "no_materializado": "no_materializados",
+           "sin_novedades": "sin_novedades"}.get(r["outcome"], "abiertos")] += 1
+    # Porcentaje: cumplidos / (cumplidos + desmentidos + no materializados). "Sin novedades" se cuenta pero no entra.
+    c["cerrados"] = c["cumplidos"] + c["desmentidos"] + c["no_materializados"]
+    c["total"] = c["cerrados"] + c["sin_novedades"] + c["abiertos"]
     c["pct"] = round(100 * c["cumplidos"] / c["cerrados"]) if c["cerrados"] >= MIN_CERRADOS else None
     return c
 

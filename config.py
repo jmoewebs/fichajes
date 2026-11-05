@@ -41,6 +41,9 @@ CLUB_MIN_NEWS = 3            # club con menos noticias (en NEWS_DAYS) y ningun r
 
 # Mercado de invierno: {año: [(liga, abre, cierra, hora de cierre, oficial?, fuente)]}. Fechas ISO.
 # Comprobadas el 2026-11-02. oficial=False: solo en prensa; revisar cuando el organismo lo publique.
+# PENDIENTE: añadir aquí también las ventanas de VERANO (p. ej. clave 2027 con sus fechas) cuando las ligas publiquen las
+# fechas oficiales. Hasta entonces el seguimiento de fiabilidad solo cierra por ventana (no materializado) en invierno;
+# fuera de esas fechas solo actúa "sin novedades" (21 días sin menciones).
 WINTER_WINDOWS = {
     2027: [
         ("LaLiga", "2027-01-02", "2027-02-02", "", True,
@@ -292,6 +295,7 @@ FEEDS_DESACTIVADOS = [
 DB_PATH = "fichajes.db"
 PLAYERS_FILE = "jugadores.csv"
 IGNORED_FILE = "ignorados.txt"
+CONFIRMED_FILE = "oficiales_confirmados.txt"    # fichajes confirmados a mano ("jugador;club de destino", uno por línea): fuerzan "cumplido"
 PLAYER_EXCLUDE_FILE = "jugadores_excluir.txt"   # palabras genéricas que nunca son jugadores (editable a mano)
 MODEL = "claude-haiku-5-5"   # solo si EXTRACTOR = "claude"
 BATCH_SIZE = 20

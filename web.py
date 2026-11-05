@@ -3017,10 +3017,13 @@ def _reliability_html(c, scope, h="h2", plain=False, empty=None, extra=""):
     if not c or not c.get("total"):
         txt = empty or f"Aún no hay rumores {scope} en el seguimiento."
     else:
-        cnt = (f"{_plural(c['cumplidos'], 'cumplido', 'cumplidos')}, {_plural(c['desmentidos'], 'desmentido', 'desmentidos')} "
+        cnt = (f"{_plural(c['cumplidos'], 'cumplido', 'cumplidos')}, {_plural(c['desmentidos'], 'desmentido', 'desmentidos')}, "
+               f"{_plural(c['no_materializados'], 'no materializado', 'no materializados')}, "
+               f"{c['sin_novedades']} sin novedades "
                f"y {_plural(c['abiertos'], 'abierto', 'abiertos')}")
         if c["pct"] is not None:
-            txt = (f"De los {c['cerrados']} rumores {scope} ya cerrados, el {c['pct']} % se cumplió ({cnt}).")
+            txt = (f"De los {c['cerrados']} rumores {scope} ya cerrados, el {c['pct']} % se cumplió ({cnt}). "
+                   "Los «sin novedades» no entran en el porcentaje.")
         else:
             txt = (f"Rumores {scope}: {cnt}. Aún son pocos datos: el porcentaje se publicará con 10 rumores cerrados.")
     since = RELIABILITY.get("since")
@@ -3668,8 +3671,8 @@ a { color:inherit; }
 <h2>El termómetro de rumores</h2>
 <p>El termómetro (de 0° a 100°) es una estimación automática de cuánto se repite y se confirma un rumor en distintos medios. Es orientativo: no es información oficial ni una predicción. Para confirmar un fichaje, consulta siempre la comunicación oficial de los clubes.</p>
 <h2 id="fiabilidad">Fiabilidad de los rumores</h2>
-<p>Cada rumor publicado con destino confirmado se sigue desde que aparece. Se cuenta como «cumplido» si algún medio acaba dándolo por oficial, «desmentido» si lo último que dicen es que se descarta, y «abierto» mientras no pase ninguna de las dos cosas.</p>
-<p>El porcentaje (cumplidos entre cerrados) solo se publica a partir de 10 rumores cerrados; antes se muestran los recuentos. Solo cuenta desde que existe el registro (la fecha de inicio se indica en cada bloque); los rumores sin destino confirmado no se pueden comprobar y quedan fuera.</p>
+<p>Cada rumor publicado con destino confirmado se sigue desde que aparece y acaba en uno de estos estados. «Cumplido»: un medio fiable da por oficial el fichaje de ese jugador a ese club (las renovaciones no cuentan). «Desmentido»: lo último que dicen es que se descarta. «No materializado»: se cierra el mercado de su liga sin fichaje oficial. «Sin novedades»: pasan 21 días sin ninguna mención; si vuelve a haberla, el rumor se reabre. «Abierto»: ninguna de las anteriores.</p>
+<p>El porcentaje es cumplidos entre (cumplidos + desmentidos + no materializados) y solo se publica a partir de 10 rumores en esa situación; antes se muestran los recuentos. Los «sin novedades» se cuentan, pero no entran en el porcentaje. Solo cuenta desde que existe el registro (la fecha de inicio se indica en cada bloque); los rumores sin destino confirmado no se pueden comprobar y quedan fuera.</p>
 <p>Es un dato informativo: no modifica el cálculo del termómetro ni predice nada.</p>
 <h2>Actualización</h2>
 <p>Los datos se actualizan cada hora. La fecha y hora de la última actualización aparece en la cabecera de cada página.</p>

@@ -1,0 +1,2 @@
+# Fichajes confirmados a mano: jugador;club de destino (una por línea).
+# Fuerzan "cumplido" en el seguimiento de fiabilidad (solo si ese rumor está publicado). Ejemplo: Lamine Yamal;PSG
