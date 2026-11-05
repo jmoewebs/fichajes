@@ -4,7 +4,12 @@ name: Actualizar web
 
 on:
   schedule:
-    - cron: "7 * * * *"      # cada hora (a los 7 minutos). Solo publica si hay titulares nuevos
+    # Horas en UTC, pensadas para el horario de INVIERNO de España (CET = UTC+1). Solo publica si hay titulares nuevos.
+    # El domingo 28 de marzo de 2027 España pasa a horario de verano (UTC+2) y todo se adelanta una hora
+    # (de día, de 08:07 a 00:07; de madrugada, 03:07 y 06:07). Si quieres mantener 07:07-23:07, cambia entonces
+    # "6-22" por "5-21" y "1,4" por "0,3". El domingo 31 de octubre de 2027 vuelve el horario de invierno.
+    - cron: "7 6-22 * * *"   # cada hora de 07:07 a 23:07 (hora de España en invierno)
+    - cron: "7 1,4 * * *"    # madrugada, cada 3 horas: 02:07 y 05:07 (hora de España en invierno)
   workflow_dispatch:          # botón "Run workflow" para lanzarlo a mano
     inputs:
       bienvenida_telegram:
