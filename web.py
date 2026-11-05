@@ -612,9 +612,9 @@ __NEWSTAG__
 <script id="d-archive" type="application/json">__ARCHIVE__</script>
 <script id="d-leagues" type="application/json">__LEAGUES__</script>
 <script id="d-players" type="application/json">__PLAYERS__</script>
-<script id="d-standings" type="application/json">__STANDINGS__</script>
+__STANDINGS_TAG__
 <script id="d-domains" type="application/json">__DOMAINS__</script>
-<script>const RECENT_DAYS = __RECENT_DAYS__; const TG_URL = "__TG_URL__"; const TAB_ICONS = __TAB_ICONS__;</script>
+<script>const RECENT_DAYS = __RECENT_DAYS__; const TG_URL = "__TG_URL__"; const TAB_ICONS = __TAB_ICONS__; const STANDINGS_URL = "__STANDINGS_URL__";</script>
 <script>
 const rumors = JSON.parse(document.getElementById("d-rumors").textContent);
 const DOMAINS = JSON.parse(document.getElementById("d-domains").textContent);
@@ -676,6 +676,10 @@ for (const [id, label, n] of tabs) {
   if (id === "table") b.append(el("span", "lg-only", label), el("span", "sm-only", "Tabla"));
   else b.append(label);
   if (n !== null) b.append(el("span", "n", String(n)));
+  if (id === "table" && STANDINGS_URL && PAGE !== "table") {   // precarga de las clasificaciones al pasar el ratón, enfocar o tocar
+    const pre = () => { const l = document.createElement("link"); l.rel = "prefetch"; l.as = "script"; l.href = ROOT + STANDINGS_URL; document.head.append(l); };
+    for (const ev of ["pointerenter", "focus", "touchstart"]) b.addEventListener(ev, pre, {once: true, passive: true});
+  }
   if (IS_ARCHIVE) b.addEventListener("click", () => { tab = id; history.replaceState(null, "", "#" + id); render(); });
   else { b.href = pageUrl(id); if (id === PAGE) b.setAttribute("aria-current", "page"); }
   nav.append(b);
@@ -1396,7 +1400,7 @@ function renderFantasy() {
 }
 
 // ---------- Clasificación, goleadores y asistentes ----------
-const STANDINGS = JSON.parse(document.getElementById("d-standings").textContent);
+const STANDINGS = window.__STANDINGS || {};   // solo lo carga la página de clasificación (datos/s-HASH.js)
 let tableLeague = TABLE_LEAGUE || load("liga-tabla", "LaLiga");
 if (PAGE === "table" && TABLE_LEAGUE) save("liga-tabla", TABLE_LEAGUE);   // la pestaña recuerda la última liga vista
 const FORM = {W:"G", D:"E", L:"P"};
@@ -1761,6 +1765,25 @@ def _news_tag(path, root, news, inline=False):
     return f'<script src="{root}datos/{name}"></script>'
 
 
+_STANDINGS_FILE = [None]   # "datos/s-HASH.js" de esta ejecución (lo fija _write_standings_file)
+
+
+def _write_standings_file(standings, out_dir):
+    """Clasificaciones y goleadores (más de 100 KB) en un archivo con el hash en el nombre: lo comparten las 9 páginas
+    de /clasificacion/, el navegador lo cachea y la portada ya no lo lleva embebido."""
+    if not standings:
+        _STANDINGS_FILE[0] = None
+        return None
+    import hashlib
+    data = _json(standings)
+    name = "s-" + hashlib.sha1(data.encode("utf-8")).hexdigest()[:10] + ".js"
+    os.makedirs(os.path.join(out_dir, "datos"), exist_ok=True)
+    with open(os.path.join(out_dir, "datos", name), "w", encoding="utf-8") as f:
+        f.write("window.__STANDINGS=" + data + ";")
+    _STANDINGS_FILE[0] = "datos/" + name
+    return name
+
+
 def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
            description, canonical, root, tagline="", page="news", table_league=None,
            static_html=None, counts=None, fx_report=(), standings=None, club=None, club_info=None,
@@ -1827,7 +1850,9 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__ARCHIVE__", _json(archive)).replace("__LEAGUES__", _json(config.LEAGUES))
             .replace("__PLAYERS__", _json(_players()))
             .replace("__DOMAINS__", _json(_domains()))
-            .replace("__STANDINGS__", _json(standings if standings is not None else ({} if is_archive else _standings())))
+            .replace("__STANDINGS_TAG__", f'<script src="{root}{_STANDINGS_FILE[0]}"></script>'
+                     if page == "table" and _STANDINGS_FILE[0] else "")
+            .replace("__STANDINGS_URL__", "" if is_archive or not _STANDINGS_FILE[0] else _STANDINGS_FILE[0])
             .replace("__PAGE__", page)
             .replace("__TOOLS_HIDDEN__", " hidden" if page in ("table", "fantasy") else "")
             .replace("__NOTOOLS__", " notools" if page in ("table", "fantasy") else "")
@@ -3277,6 +3302,7 @@ def generate(data, news=(), months=(), out_dir="web", history=None):
     news = list(news)
     rumors = _flatten(data)
     standings = _standings()
+    _write_standings_file(standings, out_dir)
     from pipeline import slugify
     info = _club_info(standings)
     # Página propia para cada club con noticias o rumores recientes, o con sitio en una clasificación
@@ -3450,7 +3476,8 @@ def _clean_news_files(out_dir):
     datos = os.path.join(out_dir, "datos")
     if os.path.isdir(datos):
         for old in os.listdir(datos):
-            if old.startswith("n-") and old.endswith(".js") and old not in _NEWS_FILES:
+            keep = _NEWS_FILES | ({os.path.basename(_STANDINGS_FILE[0])} if _STANDINGS_FILE[0] else set())
+            if old[:2] in ("n-", "s-") and old.endswith(".js") and old not in keep:
                 try:
                     os.remove(os.path.join(datos, old))
                 except OSError:
