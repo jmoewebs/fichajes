@@ -243,6 +243,74 @@ def build_history(db):
     return {k: sorted(v, key=lambda f: f["date"], reverse=True) for k, v in sorted(seasons.items(), reverse=True)}
 
 
+# ---------- Fiabilidad histórica de los rumores ----------
+# Tabla propia `seguimiento`: un registro por (jugador, destino) que alguna vez se publicó. Se actualiza en cada
+# ejecución y NO se borra cuando el rumor sale de la ventana o `revalidate` limpia `rumors`, así el histórico crece.
+# No interviene en el termómetro. Cerrado = cumplido (algún medio lo da por oficial) o desmentido (lo último
+# que se dice es que se descarta). Sin destino confirmado ("?") no se puede comprobar y no se registra.
+MIN_CERRADOS = 10    # rumores cerrados necesarios para publicar un porcentaje
+
+SEGUIMIENTO_SCHEMA = """CREATE TABLE IF NOT EXISTS seguimiento (
+    player_slug TEXT NOT NULL, to_club TEXT NOT NULL, player TEXT NOT NULL,
+    first_seen TEXT NOT NULL, last_seen TEXT NOT NULL,
+    outcome TEXT NOT NULL DEFAULT 'abierto',   -- abierto | cumplido | desmentido
+    closed_at TEXT, PRIMARY KEY (player_slug, to_club))"""
+
+
+def track_rumors(db):
+    """Registra el desenlace de cada rumor publicado. Devuelve cuántos registros hay."""
+    db.execute(SEGUIMIENTO_SCHEMA)
+    stored = {(r[0], r[1]): r[2] for r in db.execute("SELECT player_slug, to_club, outcome FROM seguimiento")}
+    for (slug, to_club), ms in published_groups(db, start="2000-01-01").items():
+        if to_club == "?":
+            continue
+        dates = [str(m["published"]) for m in ms]
+        verd = verdict([{"status": m["status"], "date": m["published"]} for m in ms])
+        outcome = {"oficial": "cumplido", "desmentido": "desmentido"}.get(verd, "abierto")
+        if stored.get((slug, to_club)) == "cumplido":
+            outcome = "cumplido"           # un fichaje oficial no se "des-cumple"
+        closed = None
+        if outcome == "cumplido":
+            closed = min((str(m["published"]) for m in ms if m["status"] == "oficial"), default=max(dates))
+        elif outcome == "desmentido":
+            closed = max(dates)
+        db.execute("""INSERT INTO seguimiento (player_slug, to_club, player, first_seen, last_seen, outcome, closed_at)
+                      VALUES (?,?,?,?,?,?,?)
+                      ON CONFLICT(player_slug, to_club) DO UPDATE SET
+                        player=excluded.player, first_seen=MIN(first_seen, excluded.first_seen),
+                        last_seen=MAX(last_seen, excluded.last_seen),
+                        outcome=CASE WHEN outcome='cumplido' THEN 'cumplido' ELSE excluded.outcome END,
+                        closed_at=CASE WHEN outcome='cumplido' THEN closed_at ELSE excluded.closed_at END""",
+                   (slug, to_club, ms[0]["player"], min(dates), max(dates), outcome, closed))
+    db.commit()
+    return db.execute("SELECT COUNT(*) FROM seguimiento").fetchone()[0]
+
+
+def _counts(rows):
+    c = {"cumplidos": 0, "desmentidos": 0, "abiertos": 0}
+    for r in rows:
+        c[{"cumplido": "cumplidos", "desmentido": "desmentidos"}.get(r["outcome"], "abiertos")] += 1
+    c["cerrados"] = c["cumplidos"] + c["desmentidos"]
+    c["total"] = c["cerrados"] + c["abiertos"]
+    c["pct"] = round(100 * c["cumplidos"] / c["cerrados"]) if c["cerrados"] >= MIN_CERRADOS else None
+    return c
+
+
+def reliability(db):
+    """{"global": cuentas, "clubs": {club: cuentas}, "players": {slug: cuentas}, "since": fecha ISO | None}."""
+    try:
+        rows = db.execute("SELECT * FROM seguimiento").fetchall()
+    except Exception:
+        rows = []
+    by_club, by_player = defaultdict(list), defaultdict(list)
+    for r in rows:
+        by_club[r["to_club"]].append(r)
+        by_player[r["player_slug"]].append(r)
+    return {"global": _counts(rows), "clubs": {k: _counts(v) for k, v in by_club.items()},
+            "players": {k: _counts(v) for k, v in by_player.items()},
+            "since": min((r["first_seen"] for r in rows), default=None)}
+
+
 def export_archive(db, months, all_months=False):
     """Genera web/archivo/AAAA-MM.html. Siempre el mes actual; los demás si faltan o si all_months."""
     current = datetime.now(timezone.utc).strftime("%Y-%m")
@@ -283,6 +351,9 @@ def export(db, out_dir="data", all_months=False):
             json.dump(content, f, ensure_ascii=False, indent=2)
     pending = db.execute("SELECT COUNT(*) FROM rumors WHERE needs_review = 1").fetchone()[0]
     web.RETIRED_PLAYERS[:] = _retired_slugs(db)
+    track_rumors(db)
+    web.RELIABILITY.clear()
+    web.RELIABILITY.update(reliability(db))
     months = month_index(db)
     export_archive(db, months, all_months)
     page = web.generate(data, build_news(db), months, history=build_history(db))

@@ -637,6 +637,7 @@ const FX_IGNORE = __FX_IGNORE__;         // fragmentos de titulares que se ignor
 const CLUB_SLUGS = __CLUB_SLUGS__;       // clubes con página propia
 const PLAYER_PAGES = new Set(__PLAYER_PAGES__);   // jugadores con página propia
 const CLUB = __CLUB__;                   // en una página de club: su nombre
+const CLUB_REL = __CLUB_REL__;           // [título, texto] de la fiabilidad histórica de sus rumores
 const CLUB_INTRO = __CLUB_INTRO__;       // párrafos propios del club (generados con reglas)
 const CLUB_INFO = __CLUB_INFO__;         // posición en la tabla del club de esta página
 const SITE_URL = "__SITE_URL__";
@@ -1169,6 +1170,7 @@ function renderClub(text) {
     box.append(p);
   }
   for (const t of CLUB_INTRO) box.append(el("p", null, t));
+  if (CLUB_REL) { box.append(el("h3", null, CLUB_REL[0])); box.append(el("p", null, CLUB_REL[1])); }
   list.append(box);
   if (rumors.length) renderRumors(text, "");
   list.append(el("h2", "sec-h", "Noticias del " + CLUB));
@@ -1762,7 +1764,7 @@ def _news_tag(path, root, news, inline=False):
 def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
            description, canonical, root, tagline="", page="news", table_league=None,
            static_html=None, counts=None, fx_report=(), standings=None, club=None, club_info=None,
-           fx_players=None, fx_ignore=(), club_intro=(), ld_page=(), updated=None,
+           fx_players=None, fx_ignore=(), club_intro=(), club_rel=None, ld_page=(), updated=None,
            table_note="", noindex=False, daily="", own_tagline=False):
     esc = html_lib.escape
     verification = (f'<meta name="google-site-verification" content="{esc(config.GOOGLE_VERIFICATION, quote=True)}">'
@@ -1846,6 +1848,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__PLAYER_PAGES__", _json(sorted(_PLAYER_PAGES)))
             .replace("__CLUB__", _json(club))
             .replace("__CLUB_INTRO__", _json(list(club_intro)))
+            .replace("__CLUB_REL__", _json(club_rel))
             .replace("__CLUB_INFO__", _json(club_info))
             .replace("__CLUB_FOOTER__", _club_footer(root))
             .replace("__TABS__", _tabs_html(root, page, is_archive))
@@ -2575,7 +2578,7 @@ table.tb { border-collapse:collapse; width:100%; font-size:15px; } .tb th, .tb t
 </style></head><body>
 <header><nav>__NAV__</nav></header>
 <main>__CRUMBS__<h1>__H1__</h1>__BODY__</main>
-<footer>__FOOTER__<p>__PREF_SOURCE__<a href="__ROOT__sobre">Sobre esta web</a><a href="__ROOT__privacidad">Privacidad</a><a href="__ROOT__cookies">Cookies</a>__COOKIE_BUTTON__</p></footer>
+<footer>__FOOTER__<p>__PREF_SOURCE__ <a href="__ROOT__sobre">Sobre esta web</a> <a href="__ROOT__privacidad">Privacidad</a> <a href="__ROOT__cookies">Cookies</a> __COOKIE_BUTTON__</p></footer>
 __ANALYTICS__
 </body></html>
 """
@@ -2857,6 +2860,8 @@ def _player_page(e, pts, events, out_dir):
             + (f"<h2>Clubes implicados</h2><p>{related}</p>" if related else "")
             + f'<p><a href="{root}rumores/">Todos los rumores de fichajes</a> · <a href="{root}rumores/movimientos/">Últimos movimientos del mercado</a> · <a href="{root}jugador/">Más jugadores</a></p>'
             + faq_html
+            + _reliability_html(RELIABILITY.get("players", {}).get(slug), f"de {name}",
+                              empty=None if e.get("to_club") else "Este rumor no tiene destino confirmado, así que no entra en el seguimiento de fiabilidad.").replace("__ROOT__", root)
             + "<h2>Cómo se calcula</h2><p>El termómetro (de 0° a 100°) es una estimación automática: cuenta cuántos medios distintos hablan del rumor, cuánto se fía la web de cada uno y lo avanzado que está el estado de la operación. No es información oficial ni una predicción. Cada titular enlaza a la noticia original, que conserva su autoría.</p>"
             + VOTE_JS)
     title = f"Fichaje de {name}: rumores, termómetro e historial"
@@ -2902,6 +2907,32 @@ def _players_hub(entries, out_dir):
 HISTORIAL_VACIO_LASTMOD = "2026-11-04T12:00:00+01:00"   # lastmod de /historial/ mientras no haya fichajes oficiales
 
 
+RELIABILITY = {}   # lo rellena score.export (score.reliability): fiabilidad histórica de los rumores
+
+
+def _reliability_html(c, scope, h="h2", plain=False, empty=None):
+    """Bloque "Fiabilidad de los rumores". c = cuentas de score._counts. Con menos de score.MIN_CERRADOS rumores
+    cerrados solo muestra recuentos. plain=True devuelve (título, texto) para las fichas de club (las pinta el JS)."""
+    if not c or not c.get("total"):
+        txt = empty or f"Aún no hay rumores {scope} en el seguimiento."
+    else:
+        cnt = (f"{_plural(c['cumplidos'], 'cumplido', 'cumplidos')}, {_plural(c['desmentidos'], 'desmentido', 'desmentidos')} "
+               f"y {_plural(c['abiertos'], 'abierto', 'abiertos')}")
+        if c["pct"] is not None:
+            txt = (f"De los {c['cerrados']} rumores {scope} ya cerrados, el {c['pct']} % se cumplió ({cnt}).")
+        else:
+            txt = (f"Rumores {scope}: {cnt}. Aún son pocos datos: el porcentaje se publicará con 10 rumores cerrados.")
+    since = RELIABILITY.get("since")
+    when = _now_spain().strftime("%d/%m/%Y")
+    desde = (f" Seguimiento desde el {datetime.fromisoformat(since.replace('Z', '+00:00')).astimezone(_now_spain().tzinfo):%d/%m/%Y}."
+             if since else "")
+    note = f"Actualizado el {when}.{desde}"
+    if plain:
+        return "Fiabilidad de los rumores", f"{txt} {note}"
+    return (f'<{h}>Fiabilidad de los rumores</{h}><p>{html_lib.escape(txt)}</p>'
+            f'<p class="mt">{html_lib.escape(note)} <a href="__ROOT__sobre#fiabilidad">Cómo se calcula</a>.</p>')
+
+
 def _history_pages(history, out_dir):
     """/historial/ (lista de temporadas) y /historial/AAAA-AA/ (fichajes cerrados de cada una).
     Devuelve {ruta: lastmod} para el sitemap."""
@@ -2943,11 +2974,13 @@ def _history_pages(history, out_dir):
     if history:
         items = "".join(f'<li><a href="{root}historial/{s_}/">Temporada {s_}</a> '
                         f'<span class="mt">({_plural(len(v), "fichaje", "fichajes")})</span></li>' for s_, v in history.items())
-        body = f'<p>{esc(desc)}</p><ul>{items}</ul><p><a href="{root}rumores/">Rumores de fichajes</a></p>'
+        body = (f'<p>{esc(desc)}</p><ul>{items}</ul>' + _reliability_html(RELIABILITY.get("global"), "publicados").replace("__ROOT__", root)
+                + f'<p><a href="{root}rumores/">Rumores de fichajes</a></p>')
         mod = _iso_max(*(f["date"] for v in history.values() for f in v))
     else:   # sin fichajes oficiales: la página existe igual, con fecha fija (no cambia en cada ejecución)
         body = (f'<p>{esc(desc)}</p><p>Todavía no hay fichajes oficiales confirmados.</p>'
-                f'<p><a href="{root}">Volver a la portada</a></p>')
+                + _reliability_html(RELIABILITY.get("global"), "publicados").replace("__ROOT__", root)
+                + f'<p><a href="{root}">Volver a la portada</a></p>')
         mod = HISTORIAL_VACIO_LASTMOD
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "WebSite", "name": config.SITE_NAME, "url": config.SITE_URL + "/", "inLanguage": "es-ES"},
@@ -3250,9 +3283,10 @@ def generate(data, news=(), months=(), out_dir="web", history=None):
         club_lg = ci or ({"league": lg_fb, "pos": None} if lg_fb in standings else None)   # solo para enlazar a la tabla
         where = f" y su posición en {ci['league']}" if ci else ""
         intro = _club_intro(club, ci, standings, c_rumors, c_news, fx)
+        rel_t, rel_x = _reliability_html(RELIABILITY.get("clubs", {}).get(club), f"con destino {club}", plain=True)
         liga_crumb = ((f"Clasificación de {club_lg['league']}", f"/clasificacion/{league_slug(club_lg['league'])}/"),) if club_lg else ()
         _write(os.path.join(out_dir, "club", slug, "index.html"), page="club", root="../../",
-               club=club, club_info=club_lg, club_intro=intro, noindex=thin,
+               club=club, club_info=club_lg, club_intro=intro, club_rel=[rel_t, rel_x], noindex=thin,
                heading=f"Fichajes y rumores del {club}",
                crumbs=_crumbs("../../", *liga_crumb, (club, None)),
                ld_page=_page_ld(f"/club/{slug}/", f"Fichajes y rumores del {club}",
@@ -3266,6 +3300,7 @@ def generate(data, news=(), months=(), out_dir="web", history=None):
                archive=_archive(months, prefix="../../archivo/"),
                static_html=(f"<h2>Fichajes, rumores y noticias del {html_lib.escape(club)}</h2>"
                             + "".join(f"<p>{html_lib.escape(t)}</p>" for t in intro)
+                            + f"<h3>{html_lib.escape(rel_t)}</h3><p>{html_lib.escape(rel_x)}</p>"
                             + (f'<p><a href="/clasificacion/{league_slug(club_lg["league"])}/">Clasificación de '
                                f'{html_lib.escape(club_lg["league"])}</a></p>' if club_lg else "")
                             + _static_list(c_news, c_rumors, limit=40)), **common)
@@ -3481,6 +3516,10 @@ a { color:inherit; }
 <p>La web es un índice, no una redacción: no reescribe las noticias. Cada titular enlaza a la noticia original del medio que la publicó, que conserva toda la autoría y los derechos. Un programa detecta de forma automática el jugador, el club y el tipo de movimiento (rumor, acuerdo u oficial) a partir del titular.</p>
 <h2>El termómetro de rumores</h2>
 <p>El termómetro (de 0° a 100°) es una estimación automática de cuánto se repite y se confirma un rumor en distintos medios. Es orientativo: no es información oficial ni una predicción. Para confirmar un fichaje, consulta siempre la comunicación oficial de los clubes.</p>
+<h2 id="fiabilidad">Fiabilidad de los rumores</h2>
+<p>Cada rumor publicado con destino confirmado se sigue desde que aparece. Se cuenta como «cumplido» si algún medio acaba dándolo por oficial, «desmentido» si lo último que dicen es que se descarta, y «abierto» mientras no pase ninguna de las dos cosas.</p>
+<p>El porcentaje (cumplidos entre cerrados) solo se publica a partir de 10 rumores cerrados; antes se muestran los recuentos. Solo cuenta desde que existe el registro (la fecha de inicio se indica en cada bloque); los rumores sin destino confirmado no se pueden comprobar y quedan fuera.</p>
+<p>Es un dato informativo: no modifica el cálculo del termómetro ni predice nada.</p>
 <h2>Actualización</h2>
 <p>Los datos se actualizan cada hora. La fecha y hora de la última actualización aparece en la cabecera de cada página.</p>
 <h2>Contacto</h2>

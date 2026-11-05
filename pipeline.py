@@ -33,6 +33,11 @@ CREATE TABLE IF NOT EXISTS rumors (
     needs_review INTEGER NOT NULL DEFAULT 0
 );
 CREATE INDEX IF NOT EXISTS idx_rumors_player ON rumors(player_slug);
+CREATE TABLE IF NOT EXISTS seguimiento (
+    player_slug TEXT NOT NULL, to_club TEXT NOT NULL, player TEXT NOT NULL,
+    first_seen TEXT NOT NULL, last_seen TEXT NOT NULL,
+    outcome TEXT NOT NULL DEFAULT 'abierto',   -- abierto | cumplido | desmentido
+    closed_at TEXT, PRIMARY KEY (player_slug, to_club));
 """
 
 ATOM = "{http://www.w3.org/2005/Atom}"
@@ -52,6 +57,9 @@ def connect(path=None):
     cols = {r[1] for r in db.execute("PRAGMA table_info(items)")}
     if "rumor_only" not in cols:   # columna nueva: titulares que solo sirven para detectar rumores
         db.execute("ALTER TABLE items ADD COLUMN rumor_only INTEGER NOT NULL DEFAULT 0")
+        db.commit()
+    if "lang" not in cols:         # idioma de la fuente (NULL = español/inglés de siempre); lo usa rules.py
+        db.execute("ALTER TABLE items ADD COLUMN lang TEXT")
         db.commit()
     return db
 
