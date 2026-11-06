@@ -2896,7 +2896,7 @@ VOTE_JS = r"""<script>
 </script>"""
 
 
-def _player_page(e, pts, events, out_dir):
+def _player_page(e, pts, events, out_dir, pool=()):
     esc = html_lib.escape
     root = "../../"
     slug, name = e["player_slug"], e["player"]
@@ -2934,6 +2934,16 @@ def _player_page(e, pts, events, out_dir):
         for m in reversed(ms))
     ch_rows = "".join(f'<li>{fmt(d)}: {sc}° ({STAT_ES.get(st, st)}, {_plural(n, "medio", "medios")})</li>'
                       for d, sc, st, n in pts)
+    kind_txt = {"entra": "el rumor entra en la web", "estado": "el estado avanza a", "sube": "el rumor se calienta hasta"}
+    crono = "".join(
+        f'<li>{fmt(ev["date"])}: {kind_txt[ev["kind"]]}'
+        + (f' «{STAT_ES.get(ev["status"], ev["status"])}»' if ev["kind"] == "estado" else f' {ev["score"]}°' if ev["kind"] == "sube" else f' ({ev["score"]}°)')
+        + f' según {esc(ev["source"])}</li>' for ev in events)
+    mates = [o for o in pool if o is not e and o["player_slug"] != slug and (set(o.get("clubs") or []) & set(e.get("clubs") or []))][:6]
+    mates_html = ("<h2>Otros rumores de los mismos clubes</h2><ul>" + "".join(
+        f'<li><a href="{root}jugador/{esc(o["player_slug"], quote=True)}/">{esc(o["player"])}</a>: '
+        f'{esc(o["from_club"] or "origen sin confirmar")} → {esc(o["to_club"] or "destino sin confirmar")} ({o["score"]}°)</li>'
+        for o in mates) + "</ul>") if mates else ""
     to_txt = f" por {e['to_club']}" if e.get("to_club") else ""
     q_h2 = f"¿Va a fichar {name}{to_txt}?"
     stale = ""
@@ -2955,10 +2965,12 @@ def _player_page(e, pts, events, out_dir):
             + "".join(f"<p>{esc(t)}</p>" for t in paras)
             + f'<div class="vote" id="vote" data-slug="{esc(slug, quote=True)}" hidden><p>¿Crees que el fichaje de {esc(name)} se hará?</p>'
               '<div class="vb"><button type="button" data-v="si">Sí, se hará</button><button type="button" data-v="no">No se hará</button></div></div>'
+            + (f"<h2>Cronología del rumor</h2><ul>{crono}</ul>" if crono else "")
             + "<h2>Evolución del termómetro</h2>" + _chart_svg(pts, now.isoformat())
             + f'<details><summary class="small">Ver los datos del gráfico</summary><ul>{ch_rows}</ul></details>'
             + f'<h2>Todos los titulares sobre {esc(name)}</h2><div style="overflow-x:auto"><table class="tb"><thead><tr><th>Fecha</th><th>Medio</th><th>Estado</th><th>Titular</th></tr></thead><tbody>{rows}</tbody></table></div>'
             + (f"<h2>Clubes implicados</h2><p>{related}</p>" if related else "")
+            + mates_html
             + f'<p><a href="{root}rumores/">Todos los rumores de fichajes</a> · <a href="{root}rumores/movimientos/">Últimos movimientos del mercado</a> · <a href="{root}jugador/">Más jugadores</a></p>'
             + faq_html
             + _reliability_html(RELIABILITY.get("players", {}).get(slug), f"de {name}",
@@ -3167,7 +3179,7 @@ def _build_player_pages(rumors, out_dir):
             events.append({**ev, "entry": e})
     for e in ok:
         pts, _ = _series(e)
-        lm[f"/jugador/{e['player_slug']}/"] = _player_page(e, pts, _, out_dir)
+        lm[f"/jugador/{e['player_slug']}/"] = _player_page(e, pts, _, out_dir, ok)
         hub.append((e, pts[-1][2]))
     if ok:
         _players_hub(hub, out_dir)
