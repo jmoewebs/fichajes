@@ -68,17 +68,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 /* Cabecera compacta: título a la izquierda, botones y visitas a la derecha */
 .wrap { max-width:1240px; margin:0 auto; padding:0 24px; }
-.pitch { position:relative; color:#fff; padding:14px 0 0; background-color:var(--grass);
+.pitch { position:relative; color:#fff; padding:10px 0 0; background-color:var(--grass);
   background-image:repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 90px, rgba(255,255,255,0) 90px 180px); }
-.pitch .top { display:flex; justify-content:space-between; align-items:flex-start; gap:12px 24px; flex-wrap:wrap;
-  padding-bottom:56px; }
+.pitch .top { display:flex; justify-content:space-between; align-items:center; gap:10px 24px; flex-wrap:wrap;
+  padding-bottom:46px; }
 .pitch.notools .top { padding-bottom:22px; }
-.pitch .ttl { order:-1; flex:1 1 480px; max-width:780px; padding-top:2px; }
+.pitch .ttl { order:-1; flex:1 1 560px; min-width:0; }
 .updated { display:inline-flex; align-items:center; gap:8px; margin:0; font-weight:600; font-size:14px;
   letter-spacing:.06em; text-transform:uppercase; color:#d6f2e0; }
 .updated::before { content:""; width:8px; height:8px; border-radius:50%; background:#7ee2a1; }
-h1 { font:800 clamp(32px,5vw,44px)/1 var(--cond); margin:6px 0 8px; text-transform:uppercase; letter-spacing:-.005em; }
-.tagline { margin:0; font-size:15px; line-height:1.4; color:#e3f4ea; max-width:56ch; }
+h1 { font:800 clamp(32px,5vw,44px)/1 var(--cond); margin:4px 0 6px; text-transform:uppercase; letter-spacing:-.005em; }
+.tagline { margin:0; font-size:15px; line-height:1.4; color:#e3f4ea; }
+.tagline .daily { display:inline; }
 .crumbs { display:flex; gap:16px; flex-wrap:wrap; margin:10px 0 0; font-size:15px; }
 .crumbs a { color:#fff; }
 
@@ -199,15 +200,15 @@ a.cl-chip:hover { border-color:var(--on); }
   .chips.open .extras .chip { flex:0 0 auto; }
 }
 @media (max-width:700px) {
-  .pitch .top { display:grid; grid-template-columns:1fr auto; gap:0 12px; align-items:center; padding-bottom:56px; }
-  .pitch.notools .top { padding-bottom:22px; }
-  .pitch .ttl, .kofi-top { display:contents; }
-  .kofi-top .top-btns { order:1; grid-column:1 / -1; justify-content:space-between; margin-bottom:14px; }
-  .pitch .updated { order:2; grid-column:1; font-size:13px; letter-spacing:.05em; }
-  .kofi-top .visits { order:2; grid-column:2; font-size:13px !important; text-transform:uppercase; letter-spacing:.05em; }
-  .pitch h1 { order:3; grid-column:1 / -1; margin:8px 0 6px; }
-  .pitch .tagline { order:4; grid-column:1 / -1; font-size:15px; }
-  .pitch .crumbs { order:5; grid-column:1 / -1; }
+  .pitch .top { display:flex; flex-direction:column; align-items:stretch; gap:0; padding-bottom:46px; }
+  .pitch.notools .top { padding-bottom:18px; }
+  .pitch .ttl { flex:none; width:100%; }
+  .pitch .updated { font-size:13px; letter-spacing:.05em; }
+  .pitch h1 { margin:4px 0 6px; }
+  .pitch .tagline { font-size:15px; }
+  .kofi-top { align-items:flex-start; width:100%; margin-top:12px; gap:8px; }
+  .kofi-top .top-btns { width:100%; flex-wrap:nowrap; }
+  .kofi-top .top-btns .kofi { flex:1 1 0; justify-content:center; }
   .tools { padding:10px; border-radius:14px; gap:8px; box-shadow:0 10px 24px rgba(16,32,26,.18); }
   .qbox { flex-basis:100%; height:52px; padding:0 14px; }
   .qbox input { font-size:17px; }
@@ -304,9 +305,9 @@ tr.z-oct td:first-child { box-shadow:inset 4px 0 0 var(--grass); } tr.z-po td:fi
 }
 
 /* Ko-fi y contador */
-.kofi-top { display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
-.kofi-top .visits { font-size:15px; font-weight:500; color:#d6f2e0; }
-.kofi-top .visits b { color:#fff; font-weight:700; }
+.kofi-top { display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:8px; }
+.kofi-top .visits { font-size:15px; font-weight:500; color:#eafaf0; text-align:left; margin:0; line-height:1.2; }
+.kofi-top .visits b { color:#fff; font-weight:800; font-size:19px; }
 .kofi { display:inline-flex; align-items:center; gap:8px; font:600 15px/1 var(--body); text-decoration:none;
   padding:9px 14px; border-radius:20px; background:#fff; color:#145a32; }
 .kofi:hover { background:#fff7e6; }
@@ -537,8 +538,7 @@ summary { cursor:pointer; font-size:14px; color:var(--muted); }
     <div class="ttl">
       <p class="updated" id="updated" data-iso="__UPDATED_ISO__">Actualizado <time datetime="__UPDATED_ISO__">el __UPDATED__</time></p>
       <h1>__HEADING__</h1>
-      <p class="tagline">__TAGLINE__</p>
-      __DAILY__
+      <p class="tagline">__TAGLINE__ __DAILY__</p>
       __CRUMBS__
     </div>
     __KOFI_TOP__
@@ -601,7 +601,7 @@ __ANALYTICS__
       if (!box || typeof d.total !== "number") return;
       box.textContent = "";
       var b = document.createElement("b"); b.textContent = d.total.toLocaleString("es-ES");
-      box.append(b, d.total === 1 ? " visita" : " visitas");
+      box.append("Visitas: ", b);
       box.hidden = false;
     })
     .catch(function () {});   // si el contador no responde, simplemente no se muestra
@@ -1809,7 +1809,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
             .replace("__DESCRIPTION__", esc(description, quote=True))
             .replace("__CANONICAL__", esc(canonical, quote=True))
             .replace("__SITE_NAME__", esc(config.SITE_NAME, quote=True))
-            .replace("__TAGLINE__", (esc(tagline) + " " if tagline else "") + ("" if own_tagline else "Cada titular enlaza a la noticia original."))
+            .replace("__TAGLINE__", (esc(tagline) + " " if tagline else "") + ("" if own_tagline else ("Cada titular enlaza a la fuente." if daily else "Cada titular enlaza a la noticia original.")))
             .replace("__SITE_URL__", config.SITE_URL)
             .replace("__ROOT__", root)
             .replace("__VERIFICATION__", verification)
@@ -1827,7 +1827,7 @@ def _write(path, *, title, heading, crumbs, rumors, news, archive, is_archive,
                          f'<a class="kofi" href="{esc(config.KOFI_URL, quote=True)}" target="_blank" rel="noopener">'
                          f'Invítame a un café</a>'
                          if config.KOFI_URL else "") + '</div><span class="visits" id="visits" hidden></span></div>')
-            .replace("__DAILY__", f'<p class="tagline daily">{daily}</p>' if daily else "")
+            .replace("__DAILY__", f'<br class="dbr"><span class="daily">{daily}</span>' if daily else "")
             .replace("__PREF_SOURCE__", _pref_source_link())
             .replace("__TG_URL__", telegram_url())
             .replace("__TG_FOOT__", f'<a href="{esc(telegram_url(), quote=True)}" target="_blank" rel="noopener">'
