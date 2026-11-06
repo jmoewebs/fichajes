@@ -76,14 +76,14 @@
     "id": 559,
     "pos": 6,
     "team": "Sevilla FC",
-    "played": 11,
+    "played": 12,
     "won": 5,
-    "draw": 2,
+    "draw": 3,
     "lost": 4,
     "gf": 17,
     "ga": 19,
     "gd": -2,
-    "points": 17,
+    "points": 18,
     "form": "L,D,L,W,L"
    },
    {
@@ -115,8 +115,22 @@
     "form": "D,L,D,L,W"
    },
    {
-    "id": 94,
+    "id": 263,
     "pos": 9,
+    "team": "Alavés",
+    "played": 12,
+    "won": 3,
+    "draw": 4,
+    "lost": 5,
+    "gf": 15,
+    "ga": 17,
+    "gd": -2,
+    "points": 13,
+    "form": "D,L,L,D,L"
+   },
+   {
+    "id": 94,
+    "pos": 10,
     "team": "Villarreal",
     "played": 11,
     "won": 3,
@@ -130,7 +144,7 @@
    },
    {
     "id": 558,
-    "pos": 10,
+    "pos": 11,
     "team": "Celta",
     "played": 11,
     "won": 2,
@@ -141,20 +155,6 @@
     "gd": 0,
     "points": 12,
     "form": "W,D,W,D,L"
-   },
-   {
-    "id": 263,
-    "pos": 11,
-    "team": "Alavés",
-    "played": 11,
-    "won": 3,
-    "draw": 3,
-    "lost": 5,
-    "gf": 15,
-    "ga": 17,
-    "gd": -2,
-    "points": 12,
-    "form": "D,L,L,D,L"
    },
    {
     "id": 87,
@@ -375,7 +375,7 @@
    {
     "player": "Lucas Boyé",
     "team": "Alavés",
-    "played": 10,
+    "played": 11,
     "goals": 5,
     "assists": 0,
     "penalties": 1
@@ -399,7 +399,7 @@
    {
     "player": "Mariano Díaz",
     "team": "Alavés",
-    "played": 11,
+    "played": 12,
     "goals": 4,
     "assists": 4,
     "penalties": 0
@@ -455,7 +455,7 @@
    {
     "player": "Isaac",
     "team": "Sevilla FC",
-    "played": 10,
+    "played": 11,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -743,7 +743,7 @@
    {
     "player": "Félix Correia",
     "team": "Sevilla FC",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -775,7 +775,7 @@
    {
     "player": "Nahuel Tenaglia",
     "team": "Alavés",
-    "played": 11,
+    "played": 12,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -791,7 +791,7 @@
    {
     "player": "Jon Guridi",
     "team": "Sevilla FC",
-    "played": 10,
+    "played": 11,
     "goals": 1,
     "assists": 0,
     "penalties": 1
@@ -847,7 +847,7 @@
    {
     "player": "Chidera Ejuke",
     "team": "Sevilla FC",
-    "played": 11,
+    "played": 12,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -999,7 +999,7 @@
    {
     "player": "Pablo Ibáñez Tébar",
     "team": "Alavés",
-    "played": 11,
+    "played": 12,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -1007,7 +1007,7 @@
    {
     "player": "Lucas Stassin",
     "team": "Sevilla FC",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -1055,7 +1055,7 @@
    {
     "player": "Juan Iglesias",
     "team": "Sevilla FC",
-    "played": 11,
+    "played": 12,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -1063,7 +1063,7 @@
    {
     "player": "Ville Koski",
     "team": "Alavés",
-    "played": 11,
+    "played": 12,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-05T11:06:30.921061+00:00"
+  "updated": "2026-11-06T21:38:55.012310+00:00"
  },
  "Premier League": {
   "matchday": 10,
@@ -1147,8 +1147,22 @@
     "form": "L,W,W,L,W"
    },
    {
-    "id": 64,
+    "id": 62,
     "pos": 5,
+    "team": "Everton",
+    "played": 10,
+    "won": 4,
+    "draw": 4,
+    "lost": 2,
+    "gf": 11,
+    "ga": 10,
+    "gd": 1,
+    "points": 16,
+    "form": "W,D,L,L,W"
+   },
+   {
+    "id": 64,
+    "pos": 6,
     "team": "Liverpool",
     "played": 9,
     "won": 4,
@@ -1162,7 +1176,7 @@
    },
    {
     "id": 402,
-    "pos": 6,
+    "pos": 7,
     "team": "Brentford",
     "played": 9,
     "won": 3,
@@ -1173,20 +1187,6 @@
     "gd": 7,
     "points": 14,
     "form": "W,D,L,D,W"
-   },
-   {
-    "id": 62,
-    "pos": 7,
-    "team": "Everton",
-    "played": 9,
-    "won": 3,
-    "draw": 4,
-    "lost": 2,
-    "gf": 9,
-    "ga": 9,
-    "gd": 0,
-    "points": 13,
-    "form": "W,D,L,L,W"
    },
    {
     "id": 1044,
@@ -1304,13 +1304,13 @@
     "id": 1076,
     "pos": 16,
     "team": "Coventry City",
-    "played": 9,
+    "played": 10,
     "won": 3,
     "draw": 0,
-    "lost": 6,
-    "gf": 9,
-    "ga": 16,
-    "gd": -7,
+    "lost": 7,
+    "gf": 10,
+    "ga": 18,
+    "gd": -8,
     "points": 9,
     "form": "W,W,L,L,W"
    },
@@ -1381,6 +1381,14 @@
     "penalties": 0
    },
    {
+    "player": "Thierno Barry",
+    "team": "Everton",
+    "played": 10,
+    "goals": 6,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
     "player": "Alexander Isak",
     "team": "Liverpool",
     "played": 8,
@@ -1417,14 +1425,6 @@
     "team": "Aston Villa",
     "played": 8,
     "goals": 5,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
-    "player": "Thierno Barry",
-    "team": "Everton",
-    "played": 9,
-    "goals": 4,
     "assists": 0,
     "penalties": 0
    },
@@ -1559,7 +1559,7 @@
    {
     "player": "Jack Rudoni",
     "team": "Coventry City",
-    "played": 9,
+    "played": 10,
     "goals": 3,
     "assists": 0,
     "penalties": 1
@@ -1583,7 +1583,7 @@
    {
     "player": "Kiernan Dewsbury Hall",
     "team": "Everton",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -1879,7 +1879,7 @@
    {
     "player": "James Tarkowski",
     "team": "Everton",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -1959,7 +1959,7 @@
    {
     "player": "Tyrique George",
     "team": "Everton",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -1975,7 +1975,7 @@
    {
     "player": "Ainsley Maitland-Niles",
     "team": "Everton",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -2111,7 +2111,7 @@
    {
     "player": "Jay Dasilva",
     "team": "Coventry City",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-05T11:06:52.846998+00:00"
+  "updated": "2026-11-06T21:39:17.544657+00:00"
  },
  "Serie A": {
   "matchday": 11,
@@ -2431,32 +2431,32 @@
     "form": "L,W,L,L,L"
    },
    {
-    "id": 115,
-    "pos": 19,
-    "team": "Udinese",
-    "played": 10,
-    "won": 1,
-    "draw": 2,
-    "lost": 7,
-    "gf": 11,
-    "ga": 23,
-    "gd": -12,
-    "points": 5,
-    "form": "L,L,L,D,L"
-   },
-   {
     "id": 454,
-    "pos": 20,
+    "pos": 19,
     "team": "Venezia FC",
-    "played": 10,
-    "won": 1,
+    "played": 11,
+    "won": 2,
     "draw": 0,
     "lost": 9,
-    "gf": 6,
-    "ga": 20,
-    "gd": -14,
-    "points": 3,
+    "gf": 8,
+    "ga": 21,
+    "gd": -13,
+    "points": 6,
     "form": "L,W,L,L,L"
+   },
+   {
+    "id": 115,
+    "pos": 20,
+    "team": "Udinese",
+    "played": 11,
+    "won": 1,
+    "draw": 2,
+    "lost": 8,
+    "gf": 12,
+    "ga": 25,
+    "gd": -13,
+    "points": 5,
+    "form": "L,L,L,D,L"
    }
   ],
   "scorers": [
@@ -2631,7 +2631,7 @@
    {
     "player": "Jurgen Ekkelenkamp",
     "team": "Udinese",
-    "played": 10,
+    "played": 11,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -2735,7 +2735,7 @@
    {
     "player": "Hassane Kamara",
     "team": "Udinese",
-    "played": 10,
+    "played": 11,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -2831,7 +2831,7 @@
    {
     "player": "Akor Adams",
     "team": "Venezia FC",
-    "played": 10,
+    "played": 11,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2839,9 +2839,9 @@
    {
     "player": "Antoine Hainaut",
     "team": "Venezia FC",
-    "played": 10,
+    "played": 11,
     "goals": 2,
-    "assists": 1,
+    "assists": 2,
     "penalties": 0
    },
    {
@@ -3103,7 +3103,7 @@
    {
     "player": "Jakub Piotrowski",
     "team": "Udinese",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3167,7 +3167,7 @@
    {
     "player": "John Yeboah",
     "team": "Venezia FC",
-    "played": 10,
+    "played": 11,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3175,7 +3175,7 @@
    {
     "player": "Richie Sagrado",
     "team": "Venezia FC",
-    "played": 10,
+    "played": 11,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3215,7 +3215,7 @@
    {
     "player": "Jesper Karlström",
     "team": "Udinese",
-    "played": 10,
+    "played": 11,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-05T11:07:15.606223+00:00"
+  "updated": "2026-11-06T21:39:40.834395+00:00"
  },
  "Bundesliga": {
   "matchday": 9,
@@ -3365,8 +3365,22 @@
     "form": "D,L,W,L,W"
    },
    {
-    "id": 19,
+    "id": 7,
     "pos": 8,
+    "team": "HSV",
+    "played": 9,
+    "won": 4,
+    "draw": 0,
+    "lost": 5,
+    "gf": 10,
+    "ga": 20,
+    "gd": -10,
+    "points": 12,
+    "form": "W,W,L,L,W"
+   },
+   {
+    "id": 19,
+    "pos": 9,
     "team": "Frankfurt",
     "played": 8,
     "won": 3,
@@ -3380,7 +3394,7 @@
    },
    {
     "id": 15,
-    "pos": 9,
+    "pos": 10,
     "team": "Mainz",
     "played": 8,
     "won": 3,
@@ -3394,7 +3408,7 @@
    },
    {
     "id": 16,
-    "pos": 10,
+    "pos": 11,
     "team": "Augsburg",
     "played": 8,
     "won": 2,
@@ -3408,7 +3422,7 @@
    },
    {
     "id": 10,
-    "pos": 11,
+    "pos": 12,
     "team": "Stuttgart",
     "played": 8,
     "won": 3,
@@ -3422,7 +3436,7 @@
    },
    {
     "id": 2,
-    "pos": 12,
+    "pos": 13,
     "team": "Hoffenheim",
     "played": 8,
     "won": 3,
@@ -3436,7 +3450,7 @@
    },
    {
     "id": 1,
-    "pos": 13,
+    "pos": 14,
     "team": "1. FC Köln",
     "played": 8,
     "won": 2,
@@ -3450,7 +3464,7 @@
    },
    {
     "id": 29,
-    "pos": 14,
+    "pos": 15,
     "team": "SC Paderborn",
     "played": 8,
     "won": 2,
@@ -3461,20 +3475,6 @@
     "gd": -3,
     "points": 9,
     "form": "W,L,D,W,D"
-   },
-   {
-    "id": 7,
-    "pos": 15,
-    "team": "HSV",
-    "played": 8,
-    "won": 3,
-    "draw": 0,
-    "lost": 5,
-    "gf": 7,
-    "ga": 19,
-    "gd": -12,
-    "points": 9,
-    "form": "W,W,W,L,L"
    },
    {
     "id": 28,
@@ -3508,15 +3508,15 @@
     "id": 18,
     "pos": 18,
     "team": "M'gladbach",
-    "played": 8,
+    "played": 9,
     "won": 1,
     "draw": 1,
-    "lost": 6,
-    "gf": 11,
-    "ga": 22,
-    "gd": -11,
+    "lost": 7,
+    "gf": 12,
+    "ga": 25,
+    "gd": -13,
     "points": 4,
-    "form": "L,L,L,W,D"
+    "form": "L,L,W,D,L"
    }
   ],
   "scorers": [
@@ -3609,6 +3609,14 @@
     "penalties": 0
    },
    {
+    "player": "Joseph Scally",
+    "team": "M'gladbach",
+    "played": 9,
+    "goals": 4,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
     "player": "Maurice Krattenmacher",
     "team": "Elversberg",
     "played": 8,
@@ -3673,14 +3681,6 @@
     "penalties": 0
    },
    {
-    "player": "Joseph Scally",
-    "team": "M'gladbach",
-    "played": 8,
-    "goals": 3,
-    "assists": 1,
-    "penalties": 0
-   },
-   {
     "player": "Maximilian Eggestein",
     "team": "Freiburg",
     "played": 8,
@@ -3718,6 +3718,14 @@
     "played": 8,
     "goals": 3,
     "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Miro Muheim",
+    "team": "HSV",
+    "played": 5,
+    "goals": 3,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -3915,7 +3923,7 @@
    {
     "player": "Yussuf Poulsen",
     "team": "HSV",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -3923,7 +3931,7 @@
    {
     "player": "Shuto Machino",
     "team": "M'gladbach",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 1
@@ -3987,23 +3995,15 @@
    {
     "player": "Terem Moffi",
     "team": "HSV",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 0
    },
    {
-    "player": "Miro Muheim",
-    "team": "HSV",
-    "played": 4,
-    "goals": 2,
-    "assists": 1,
-    "penalties": 0
-   },
-   {
     "player": "Wael Mohya",
     "team": "M'gladbach",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -4235,7 +4235,7 @@
    {
     "player": "Florian Neuhaus",
     "team": "M'gladbach",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -4243,7 +4243,7 @@
    {
     "player": "Isac Lidberg",
     "team": "M'gladbach",
-    "played": 7,
+    "played": 8,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-04T08:59:19.404104+00:00"
+  "updated": "2026-11-06T21:40:03.246952+00:00"
  },
  "Ligue 1": {
   "matchday": 10,
@@ -4453,8 +4453,22 @@
     "form": "L,W,W,W,L"
    },
    {
-    "id": 512,
+    "id": 511,
     "pos": 10,
+    "team": "Toulouse",
+    "played": 10,
+    "won": 3,
+    "draw": 4,
+    "lost": 3,
+    "gf": 15,
+    "ga": 14,
+    "gd": 1,
+    "points": 13,
+    "form": "W,D,W,D,L"
+   },
+   {
+    "id": 512,
+    "pos": 11,
     "team": "Brest",
     "played": 9,
     "won": 3,
@@ -4468,7 +4482,7 @@
    },
    {
     "id": 525,
-    "pos": 11,
+    "pos": 12,
     "team": "Lorient",
     "played": 9,
     "won": 3,
@@ -4481,30 +4495,16 @@
     "form": "L,W,W,D,L"
    },
    {
-    "id": 511,
-    "pos": 12,
-    "team": "Toulouse",
-    "played": 9,
-    "won": 2,
-    "draw": 4,
-    "lost": 3,
-    "gf": 12,
-    "ga": 13,
-    "gd": -1,
-    "points": 10,
-    "form": "W,D,W,D,L"
-   },
-   {
     "id": 576,
     "pos": 13,
     "team": "Strasbourg",
-    "played": 9,
+    "played": 10,
     "won": 3,
     "draw": 1,
-    "lost": 5,
-    "gf": 17,
-    "ga": 19,
-    "gd": -2,
+    "lost": 6,
+    "gf": 18,
+    "ga": 22,
+    "gd": -4,
     "points": 10,
     "form": "L,L,L,L,W"
    },
@@ -4623,7 +4623,7 @@
    {
     "player": "Casper Tengstedt",
     "team": "Toulouse",
-    "played": 7,
+    "played": 8,
     "goals": 5,
     "assists": 1,
     "penalties": 2
@@ -4671,7 +4671,7 @@
    {
     "player": "Gessime Yassine",
     "team": "Strasbourg",
-    "played": 9,
+    "played": 10,
     "goals": 4,
     "assists": 3,
     "penalties": 0
@@ -4749,6 +4749,22 @@
     "penalties": 0
    },
    {
+    "player": "Gio Reyna",
+    "team": "Strasbourg",
+    "played": 10,
+    "goals": 3,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Thomas Jørgensen",
+    "team": "Toulouse",
+    "played": 10,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
+   },
+   {
     "player": "Amine Harit",
     "team": "Marseille",
     "played": 9,
@@ -4815,7 +4831,7 @@
    {
     "player": "Jacen Russell-Rowe",
     "team": "Toulouse",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -4845,7 +4861,7 @@
     "penalties": 1
    },
    {
-    "player": "Gio Reyna",
+    "player": "Samuel Amo-Ameyaw",
     "team": "Strasbourg",
     "played": 9,
     "goals": 2,
@@ -4853,17 +4869,9 @@
     "penalties": 0
    },
    {
-    "player": "Samuel Amo-Ameyaw",
-    "team": "Strasbourg",
-    "played": 8,
-    "goals": 2,
-    "assists": 0,
-    "penalties": 0
-   },
-   {
     "player": "Conrad Harder",
     "team": "Strasbourg",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 1
@@ -4874,14 +4882,6 @@
     "played": 9,
     "goals": 2,
     "assists": 2,
-    "penalties": 0
-   },
-   {
-    "player": "Thomas Jørgensen",
-    "team": "Toulouse",
-    "played": 9,
-    "goals": 2,
-    "assists": 1,
     "penalties": 0
    },
    {
@@ -4959,7 +4959,7 @@
    {
     "player": "Dario Essugo",
     "team": "Strasbourg",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -5159,7 +5159,7 @@
    {
     "player": "Christ Tapé",
     "team": "Toulouse",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -5231,7 +5231,7 @@
    {
     "player": "Jacobo Ortega",
     "team": "Strasbourg",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -5239,7 +5239,7 @@
    {
     "player": "Diogo Lobão",
     "team": "Strasbourg",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -5381,9 +5381,9 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-05T11:07:59.435412+00:00"
+  "updated": "2026-11-06T21:40:25.600793+00:00"
  },
- "_updated": "2026-11-06T17:51:23.408325+00:00",
+ "_updated": "2026-11-06T21:41:58.533307+00:00",
  "_version": 2,
  "Champions League": {
   "matchday": 4,
@@ -7999,8 +7999,22 @@
     "form": "L,D,W,L,W"
    },
    {
-    "id": 676,
+    "id": 684,
     "pos": 12,
+    "team": "Zwolle",
+    "played": 12,
+    "won": 3,
+    "draw": 3,
+    "lost": 6,
+    "gf": 13,
+    "ga": 24,
+    "gd": -11,
+    "points": 12,
+    "form": "L,W,D,W,D"
+   },
+   {
+    "id": 676,
+    "pos": 13,
     "team": "Utrecht",
     "played": 11,
     "won": 3,
@@ -8014,7 +8028,7 @@
    },
    {
     "id": 1915,
-    "pos": 13,
+    "pos": 14,
     "team": "NEC",
     "played": 11,
     "won": 2,
@@ -8025,20 +8039,6 @@
     "gd": -2,
     "points": 11,
     "form": "D,D,D,D,L"
-   },
-   {
-    "id": 684,
-    "pos": 14,
-    "team": "Zwolle",
-    "played": 11,
-    "won": 3,
-    "draw": 2,
-    "lost": 6,
-    "gf": 12,
-    "ga": 23,
-    "gd": -11,
-    "points": 11,
-    "form": "L,L,W,D,W"
    },
    {
     "id": 670,
@@ -8086,15 +8086,15 @@
     "id": 672,
     "pos": 18,
     "team": "Willem II",
-    "played": 11,
+    "played": 12,
     "won": 0,
-    "draw": 2,
+    "draw": 3,
     "lost": 9,
-    "gf": 10,
-    "ga": 39,
+    "gf": 11,
+    "ga": 40,
     "gd": -29,
-    "points": 2,
-    "form": "L,L,L,L,L"
+    "points": 3,
+    "form": "L,L,L,L,D"
    }
   ],
   "scorers": [
@@ -8301,7 +8301,7 @@
    {
     "player": "Koen Kostons",
     "team": "Zwolle",
-    "played": 11,
+    "played": 12,
     "goals": 4,
     "assists": 0,
     "penalties": 1
@@ -8333,7 +8333,7 @@
    {
     "player": "Devin Haen",
     "team": "Willem II",
-    "played": 11,
+    "played": 12,
     "goals": 3,
     "assists": 2,
     "penalties": 0
@@ -8557,7 +8557,7 @@
    {
     "player": "Elias Sørensen",
     "team": "Zwolle",
-    "played": 11,
+    "played": 12,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -8637,7 +8637,7 @@
    {
     "player": "Uriël van Aalst",
     "team": "Willem II",
-    "played": 11,
+    "played": 12,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -8795,9 +8795,17 @@
     "penalties": 0
    },
    {
+    "player": "Sydney van Hooijdonk",
+    "team": "Zwolle",
+    "played": 8,
+    "goals": 2,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
     "player": "Thijs Oosting",
     "team": "Zwolle",
-    "played": 11,
+    "played": 12,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -8889,17 +8897,9 @@
     "goals": 1,
     "assists": 1,
     "penalties": 0
-   },
-   {
-    "player": "Bryan Linssen",
-    "team": "NEC",
-    "played": 10,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
    }
   ],
-  "updated": "2026-11-04T05:01:20.326013+00:00"
+  "updated": "2026-11-06T21:41:36.061165+00:00"
  },
  "Primeira Liga": {
   "matchday": 11,
@@ -8964,14 +8964,14 @@
     "id": 712,
     "pos": 5,
     "team": "Arouca",
-    "played": 10,
+    "played": 11,
     "won": 6,
-    "draw": 2,
+    "draw": 3,
     "lost": 2,
     "gf": 13,
     "ga": 7,
     "gd": 6,
-    "points": 20,
+    "points": 21,
     "form": "L,D,W,W,W"
    },
    {
@@ -9031,8 +9031,22 @@
     "form": "W,D,L,W,W"
    },
    {
-    "id": 7822,
+    "id": 5531,
     "pos": 10,
+    "team": "Famalicão",
+    "played": 11,
+    "won": 2,
+    "draw": 5,
+    "lost": 4,
+    "gf": 14,
+    "ga": 14,
+    "gd": 0,
+    "points": 11,
+    "form": "D,W,L,W,L"
+   },
+   {
+    "id": 7822,
+    "pos": 11,
     "team": "Alverca",
     "played": 10,
     "won": 3,
@@ -9043,20 +9057,6 @@
     "gd": -1,
     "points": 11,
     "form": "W,W,W,L,L"
-   },
-   {
-    "id": 5531,
-    "pos": 11,
-    "team": "Famalicão",
-    "played": 10,
-    "won": 2,
-    "draw": 4,
-    "lost": 4,
-    "gf": 14,
-    "ga": 14,
-    "gd": 0,
-    "points": 10,
-    "form": "D,W,L,W,L"
    },
    {
     "id": 9136,
@@ -9185,7 +9185,7 @@
    {
     "player": "Georgios Koutsias",
     "team": "Famalicão",
-    "played": 10,
+    "played": 11,
     "goals": 5,
     "assists": 0,
     "penalties": 1
@@ -9193,7 +9193,7 @@
    {
     "player": "Barbero",
     "team": "Arouca",
-    "played": 10,
+    "played": 11,
     "goals": 5,
     "assists": 0,
     "penalties": 0
@@ -9377,7 +9377,7 @@
    {
     "player": "José Fontán",
     "team": "Arouca",
-    "played": 10,
+    "played": 11,
     "goals": 2,
     "assists": 0,
     "penalties": 1
@@ -9385,7 +9385,7 @@
    {
     "player": "Dylan Nandín",
     "team": "Arouca",
-    "played": 10,
+    "played": 11,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -9473,7 +9473,7 @@
    {
     "player": "Marcos Vinicios",
     "team": "Famalicão",
-    "played": 10,
+    "played": 11,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -9513,7 +9513,7 @@
    {
     "player": "Óscar Aranda",
     "team": "Famalicão",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 1,
     "penalties": 1
@@ -9625,7 +9625,7 @@
    {
     "player": "Finn van Breemen",
     "team": "Famalicão",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -9721,7 +9721,7 @@
    {
     "player": "Espen van Ee",
     "team": "Arouca",
-    "played": 10,
+    "played": 11,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -9959,7 +9959,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-05T11:09:31.990857+00:00"
+  "updated": "2026-11-06T21:41:58.533292+00:00"
  },
  "_failed": {}
 }
