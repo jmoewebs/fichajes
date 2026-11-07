@@ -216,13 +216,13 @@
     "id": 5335,
     "pos": 16,
     "team": "Santander",
-    "played": 11,
+    "played": 12,
     "won": 3,
     "draw": 2,
-    "lost": 6,
+    "lost": 7,
     "gf": 15,
-    "ga": 29,
-    "gd": -14,
+    "ga": 30,
+    "gd": -15,
     "points": 11,
     "form": "L,D,L,W,L"
    },
@@ -272,14 +272,14 @@
     "id": 84,
     "pos": 20,
     "team": "Málaga",
-    "played": 11,
-    "won": 0,
+    "played": 12,
+    "won": 1,
     "draw": 5,
     "lost": 6,
-    "gf": 8,
+    "gf": 9,
     "ga": 21,
-    "gd": -13,
-    "points": 5,
+    "gd": -12,
+    "points": 8,
     "form": "L,D,L,D,L"
    }
   ],
@@ -319,7 +319,7 @@
    {
     "player": "Yassir Zabiri",
     "team": "Santander",
-    "played": 11,
+    "played": 12,
     "goals": 8,
     "assists": 0,
     "penalties": 0
@@ -391,9 +391,9 @@
    {
     "player": "Adrián",
     "team": "Málaga",
-    "played": 7,
+    "played": 8,
     "goals": 5,
-    "assists": 0,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -607,7 +607,7 @@
    {
     "player": "Pablo García",
     "team": "Santander",
-    "played": 11,
+    "played": 12,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -682,6 +682,14 @@
     "played": 9,
     "goals": 2,
     "assists": 2,
+    "penalties": 0
+   },
+   {
+    "player": "Carlos Dotor",
+    "team": "Málaga",
+    "played": 11,
+    "goals": 2,
+    "assists": 0,
     "penalties": 0
    },
    {
@@ -871,7 +879,7 @@
    {
     "player": "Chupete",
     "team": "Málaga",
-    "played": 11,
+    "played": 12,
     "goals": 1,
     "assists": 0,
     "penalties": 1
@@ -959,7 +967,7 @@
    {
     "player": "Canales",
     "team": "Santander",
-    "played": 11,
+    "played": 12,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -1075,17 +1083,9 @@
     "goals": 1,
     "assists": 1,
     "penalties": 1
-   },
-   {
-    "player": "Álvaro Carreras",
-    "team": "Real Madrid",
-    "played": 11,
-    "goals": 1,
-    "assists": 0,
-    "penalties": 0
    }
   ],
-  "updated": "2026-11-07T01:55:15.464854+00:00"
+  "updated": "2026-11-07T13:49:24.922147+00:00"
  },
  "Premier League": {
   "matchday": 10,
@@ -1189,8 +1189,22 @@
     "form": "W,D,L,D,W"
    },
    {
-    "id": 1044,
+    "id": 73,
     "pos": 8,
+    "team": "Tottenham",
+    "played": 10,
+    "won": 3,
+    "draw": 4,
+    "lost": 3,
+    "gf": 10,
+    "ga": 10,
+    "gd": 0,
+    "points": 13,
+    "form": "L,D,W,W,W"
+   },
+   {
+    "id": 1044,
+    "pos": 9,
     "team": "Bournemouth",
     "played": 9,
     "won": 3,
@@ -1203,22 +1217,22 @@
     "form": "L,L,W,W,W"
    },
    {
-    "id": 73,
-    "pos": 9,
-    "team": "Tottenham",
-    "played": 9,
-    "won": 3,
-    "draw": 3,
-    "lost": 3,
-    "gf": 10,
-    "ga": 10,
-    "gd": 0,
+    "id": 341,
+    "pos": 10,
+    "team": "Leeds United",
+    "played": 10,
+    "won": 2,
+    "draw": 6,
+    "lost": 2,
+    "gf": 9,
+    "ga": 8,
+    "gd": 1,
     "points": 12,
-    "form": "L,D,W,W,W"
+    "form": "D,L,D,D,L"
    },
    {
     "id": 58,
-    "pos": 10,
+    "pos": 11,
     "team": "Aston Villa",
     "played": 9,
     "won": 3,
@@ -1232,7 +1246,7 @@
    },
    {
     "id": 322,
-    "pos": 11,
+    "pos": 12,
     "team": "Hull City",
     "played": 9,
     "won": 2,
@@ -1243,20 +1257,6 @@
     "gd": 1,
     "points": 11,
     "form": "L,D,L,D,D"
-   },
-   {
-    "id": 341,
-    "pos": 12,
-    "team": "Leeds United",
-    "played": 9,
-    "won": 2,
-    "draw": 5,
-    "lost": 2,
-    "gf": 9,
-    "ga": 8,
-    "gd": 1,
-    "points": 11,
-    "form": "D,L,D,D,L"
    },
    {
     "id": 67,
@@ -1519,7 +1519,7 @@
    {
     "player": "Dominic Calvert-Lewin",
     "team": "Leeds United",
-    "played": 9,
+    "played": 10,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -1679,7 +1679,7 @@
    {
     "player": "Jayden Bogle",
     "team": "Leeds United",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -1735,7 +1735,7 @@
    {
     "player": "Jan Paul van Hecke",
     "team": "Tottenham",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2039,7 +2039,7 @@
    {
     "player": "Noah Okafor",
     "team": "Leeds United",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2079,7 +2079,7 @@
    {
     "player": "Conor Gallagher",
     "team": "Tottenham",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2135,7 +2135,7 @@
    {
     "player": "James Justin",
     "team": "Leeds United",
-    "played": 9,
+    "played": 10,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-07T01:55:37.254192+00:00"
+  "updated": "2026-11-07T13:49:47.266906+00:00"
  },
  "Serie A": {
   "matchday": 11,
@@ -2519,7 +2519,7 @@
    {
     "player": "Daniel Maldini",
     "team": "Cagliari",
-    "played": 10,
+    "played": 11,
     "goals": 5,
     "assists": 0,
     "penalties": 1
@@ -2527,7 +2527,7 @@
    {
     "player": "Giacomo Calò",
     "team": "Frosinone",
-    "played": 10,
+    "played": 11,
     "goals": 5,
     "assists": 1,
     "penalties": 1
@@ -2551,7 +2551,7 @@
    {
     "player": "Che Adams",
     "team": "Torino",
-    "played": 8,
+    "played": 9,
     "goals": 4,
     "assists": 0,
     "penalties": 0
@@ -2695,7 +2695,7 @@
    {
     "player": "Giorgi Kvernadze",
     "team": "Frosinone",
-    "played": 10,
+    "played": 11,
     "goals": 3,
     "assists": 4,
     "penalties": 0
@@ -2767,7 +2767,7 @@
    {
     "player": "Tiago Gabriel",
     "team": "Lecce",
-    "played": 9,
+    "played": 10,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -2847,7 +2847,7 @@
    {
     "player": "Lassana Coulibaly",
     "team": "Lecce",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -2903,7 +2903,7 @@
    {
     "player": "Sandro Kulenović",
     "team": "Torino",
-    "played": 10,
+    "played": 11,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -2975,7 +2975,7 @@
    {
     "player": "Giovanni Simeone",
     "team": "Torino",
-    "played": 10,
+    "played": 11,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -3007,7 +3007,7 @@
    {
     "player": "Romano Schmid",
     "team": "Frosinone",
-    "played": 10,
+    "played": 11,
     "goals": 2,
     "assists": 4,
     "penalties": 0
@@ -3023,7 +3023,7 @@
    {
     "player": "Daniel Birligea",
     "team": "Frosinone",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -3063,7 +3063,7 @@
    {
     "player": "Alessandro Romano",
     "team": "Cagliari",
-    "played": 10,
+    "played": 11,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3071,7 +3071,7 @@
    {
     "player": "Olaf Gorter",
     "team": "Lecce",
-    "played": 10,
+    "played": 11,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3095,7 +3095,7 @@
    {
     "player": "Pietro Comuzzo",
     "team": "Torino",
-    "played": 10,
+    "played": 11,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -3119,7 +3119,7 @@
    {
     "player": "Gabriele Bracaglia",
     "team": "Frosinone",
-    "played": 10,
+    "played": 11,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3151,7 +3151,7 @@
    {
     "player": "Rolando Mandragora",
     "team": "Torino",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3247,7 +3247,7 @@
    {
     "player": "Paul Mendy",
     "team": "Cagliari",
-    "played": 10,
+    "played": 11,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-07T01:56:00.370843+00:00"
+  "updated": "2026-11-07T13:50:09.758036+00:00"
  },
  "Bundesliga": {
   "matchday": 9,
@@ -3539,7 +3539,7 @@
    {
     "player": "Michael Olise",
     "team": "Bayern",
-    "played": 8,
+    "played": 9,
     "goals": 6,
     "assists": 3,
     "penalties": 0
@@ -3547,7 +3547,7 @@
    {
     "player": "Younes Ebnoutalib",
     "team": "Frankfurt",
-    "played": 8,
+    "played": 9,
     "goals": 6,
     "assists": 1,
     "penalties": 0
@@ -3555,7 +3555,7 @@
    {
     "player": "Michael Gregoritsch",
     "team": "Augsburg",
-    "played": 8,
+    "played": 9,
     "goals": 5,
     "assists": 0,
     "penalties": 1
@@ -3571,7 +3571,7 @@
    {
     "player": "Phillip Tietz",
     "team": "Mainz",
-    "played": 8,
+    "played": 9,
     "goals": 5,
     "assists": 0,
     "penalties": 0
@@ -3587,7 +3587,7 @@
    {
     "player": "Antonio Nusa",
     "team": "RB Leipzig",
-    "played": 8,
+    "played": 9,
     "goals": 4,
     "assists": 6,
     "penalties": 1
@@ -3619,7 +3619,7 @@
    {
     "player": "Maurice Krattenmacher",
     "team": "Elversberg",
-    "played": 8,
+    "played": 9,
     "goals": 4,
     "assists": 1,
     "penalties": 0
@@ -3627,7 +3627,7 @@
    {
     "player": "Christopher Nkunku",
     "team": "RB Leipzig",
-    "played": 7,
+    "played": 8,
     "goals": 4,
     "assists": 1,
     "penalties": 0
@@ -3635,7 +3635,7 @@
    {
     "player": "Romulo Cruz",
     "team": "RB Leipzig",
-    "played": 6,
+    "played": 7,
     "goals": 4,
     "assists": 0,
     "penalties": 0
@@ -3643,7 +3643,7 @@
    {
     "player": "Harry Kane",
     "team": "Bayern",
-    "played": 8,
+    "played": 9,
     "goals": 4,
     "assists": 5,
     "penalties": 1
@@ -3651,7 +3651,7 @@
    {
     "player": "Dayot Upamecano",
     "team": "Bayern",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 0,
     "penalties": 0
@@ -3667,7 +3667,7 @@
    {
     "player": "Fábio Silva",
     "team": "Dortmund",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -3691,7 +3691,7 @@
    {
     "player": "Jonathan Burkardt",
     "team": "Frankfurt",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -3699,7 +3699,7 @@
    {
     "player": "Robin Fellhauer",
     "team": "Augsburg",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 0,
     "penalties": 0
@@ -3707,7 +3707,7 @@
    {
     "player": "Tidiam Gomis",
     "team": "RB Leipzig",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 2,
     "penalties": 0
@@ -3715,7 +3715,7 @@
    {
     "player": "Anthony Caci",
     "team": "Mainz",
-    "played": 8,
+    "played": 9,
     "goals": 3,
     "assists": 3,
     "penalties": 0
@@ -3739,7 +3739,7 @@
    {
     "player": "Aleksandar Pavlović",
     "team": "Bayern",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -3747,7 +3747,7 @@
    {
     "player": "Ridle Baku",
     "team": "RB Leipzig",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -3763,7 +3763,7 @@
    {
     "player": "Lukas Petkov",
     "team": "Elversberg",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -3771,7 +3771,7 @@
    {
     "player": "Cole Campbell",
     "team": "Elversberg",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -3779,7 +3779,7 @@
    {
     "player": "David Mokwa Ntusu",
     "team": "Elversberg",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -3819,7 +3819,7 @@
    {
     "player": "Rodrigo Ribeiro",
     "team": "Augsburg",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -3859,7 +3859,7 @@
    {
     "player": "Felix Keidel",
     "team": "Elversberg",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -3867,7 +3867,7 @@
    {
     "player": "Sheraldo Becker",
     "team": "Mainz",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 4,
     "penalties": 0
@@ -3875,7 +3875,7 @@
    {
     "player": "Fabian Rieder",
     "team": "Augsburg",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 4,
     "penalties": 1
@@ -3891,7 +3891,7 @@
    {
     "player": "Felix Kalu Nmecha",
     "team": "Dortmund",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -3899,7 +3899,7 @@
    {
     "player": "Can Uzun",
     "team": "Frankfurt",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -3947,7 +3947,7 @@
    {
     "player": "Maximilian Beier",
     "team": "Dortmund",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 2,
     "penalties": 0
@@ -3955,7 +3955,7 @@
    {
     "player": "Stefano Marino",
     "team": "SC Paderborn",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -3963,7 +3963,7 @@
    {
     "player": "Steffen Tigges",
     "team": "SC Paderborn",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -3979,7 +3979,7 @@
    {
     "player": "Benedict Hollerbach",
     "team": "Mainz",
-    "played": 7,
+    "played": 8,
     "goals": 2,
     "assists": 0,
     "penalties": 0
@@ -4027,7 +4027,7 @@
    {
     "player": "Rocco Reitz",
     "team": "RB Leipzig",
-    "played": 5,
+    "played": 6,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -4075,7 +4075,7 @@
    {
     "player": "Anton Kade",
     "team": "Augsburg",
-    "played": 5,
+    "played": 6,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -4131,7 +4131,7 @@
    {
     "player": "Ransford Königsdörffer",
     "team": "Mainz",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -4139,7 +4139,7 @@
    {
     "player": "Arijon Ibrahimovic",
     "team": "Augsburg",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -4147,7 +4147,7 @@
    {
     "player": "Alexis Claude Maurice",
     "team": "Augsburg",
-    "played": 4,
+    "played": 5,
     "goals": 1,
     "assists": 1,
     "penalties": 0
@@ -4195,7 +4195,7 @@
    {
     "player": "Willi Orban",
     "team": "RB Leipzig",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -4203,7 +4203,7 @@
    {
     "player": "Lennart Karl",
     "team": "Bayern",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -4251,7 +4251,7 @@
    {
     "player": "Eric Martel",
     "team": "Mainz",
-    "played": 5,
+    "played": 6,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -4259,7 +4259,7 @@
    {
     "player": "Danny da Costa",
     "team": "Mainz",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -4291,7 +4291,7 @@
    {
     "player": "Santiago Castaneda",
     "team": "SC Paderborn",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -4299,7 +4299,7 @@
    {
     "player": "Daniel Svensson",
     "team": "Dortmund",
-    "played": 8,
+    "played": 9,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -4307,7 +4307,7 @@
    {
     "player": "Nico Schlotterbeck",
     "team": "Dortmund",
-    "played": 6,
+    "played": 7,
     "goals": 1,
     "assists": 0,
     "penalties": 0
@@ -4321,7 +4321,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-06T21:40:03.246952+00:00"
+  "updated": "2026-11-07T13:50:32.149809+00:00"
  },
  "Ligue 1": {
   "matchday": 10,
@@ -5383,7 +5383,7 @@
   ],
   "updated": "2026-11-07T01:56:43.874130+00:00"
  },
- "_updated": "2026-11-07T10:43:58.009247+00:00",
+ "_updated": "2026-11-07T13:52:26.007074+00:00",
  "_version": 2,
  "Champions League": {
   "matchday": 5,
@@ -7113,7 +7113,7 @@
    {
     "player": "Scott Twine",
     "team": "Bristol City",
-    "played": 11,
+    "played": 12,
     "goals": 5,
     "assists": 0,
     "penalties": 1
@@ -7159,6 +7159,14 @@
     "penalties": 1
    },
    {
+    "player": "Jack McGlynn",
+    "team": "Stoke",
+    "played": 7,
+    "goals": 5,
+    "assists": 2,
+    "penalties": 0
+   },
+   {
     "player": "Aune Heggebø",
     "team": "West Brom",
     "played": 10,
@@ -7201,7 +7209,15 @@
    {
     "player": "Dominic Ballard",
     "team": "Bristol City",
-    "played": 11,
+    "played": 12,
+    "goals": 4,
+    "assists": 0,
+    "penalties": 0
+   },
+   {
+    "player": "Adam Armstrong",
+    "team": "Wolverhampton",
+    "played": 9,
     "goals": 4,
     "assists": 0,
     "penalties": 0
@@ -7255,19 +7271,19 @@
     "penalties": 0
    },
    {
-    "player": "Jack McGlynn",
-    "team": "Stoke",
-    "played": 7,
-    "goals": 4,
-    "assists": 2,
-    "penalties": 0
-   },
-   {
     "player": "Liam Millar",
     "team": "Birmingham",
     "played": 7,
     "goals": 4,
     "assists": 3,
+    "penalties": 0
+   },
+   {
+    "player": "Edmond-Paris Maghoma",
+    "team": "Norwich",
+    "played": 9,
+    "goals": 4,
+    "assists": 2,
     "penalties": 0
    },
    {
@@ -7297,7 +7313,7 @@
    {
     "player": "Mathias Kvistgaarden",
     "team": "Norwich",
-    "played": 9,
+    "played": 10,
     "goals": 3,
     "assists": 4,
     "penalties": 0
@@ -7367,11 +7383,11 @@
     "penalties": 0
    },
    {
-    "player": "Adam Armstrong",
-    "team": "Wolverhampton",
-    "played": 9,
+    "player": "Andre Brooks",
+    "team": "Norwich",
+    "played": 12,
     "goals": 3,
-    "assists": 0,
+    "assists": 2,
     "penalties": 0
    },
    {
@@ -7433,7 +7449,7 @@
    {
     "player": "Anthony Musaba",
     "team": "Norwich",
-    "played": 9,
+    "played": 10,
     "goals": 3,
     "assists": 1,
     "penalties": 0
@@ -7516,14 +7532,6 @@
     "played": 7,
     "goals": 3,
     "assists": 0,
-    "penalties": 0
-   },
-   {
-    "player": "Edmond-Paris Maghoma",
-    "team": "Norwich",
-    "played": 8,
-    "goals": 3,
-    "assists": 2,
     "penalties": 0
    },
    {
@@ -7695,14 +7703,6 @@
     "penalties": 0
    },
    {
-    "player": "Andre Brooks",
-    "team": "Norwich",
-    "played": 11,
-    "goals": 2,
-    "assists": 2,
-    "penalties": 0
-   },
-   {
     "player": "Ben House",
     "team": "Lincoln City",
     "played": 9,
@@ -7713,7 +7713,7 @@
    {
     "player": "Lorent Tolaj",
     "team": "Bristol City",
-    "played": 8,
+    "played": 9,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -7839,7 +7839,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-07T01:57:28.667102+00:00"
+  "updated": "2026-11-07T13:51:40.721721+00:00"
  },
  "Eredivisie": {
   "matchday": 12,
