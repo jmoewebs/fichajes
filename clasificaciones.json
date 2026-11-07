@@ -84,7 +84,7 @@
     "ga": 19,
     "gd": -2,
     "points": 18,
-    "form": "L,D,L,W,L"
+    "form": "D,L,W,L,D"
    },
    {
     "id": 77,
@@ -126,7 +126,7 @@
     "ga": 17,
     "gd": -2,
     "points": 13,
-    "form": "D,L,L,D,L"
+    "form": "L,L,D,L,D"
    },
    {
     "id": 94,
@@ -1085,7 +1085,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-06T21:38:55.012310+00:00"
+  "updated": "2026-11-07T01:55:15.464854+00:00"
  },
  "Premier League": {
   "matchday": 10,
@@ -1154,11 +1154,11 @@
     "won": 4,
     "draw": 4,
     "lost": 2,
-    "gf": 11,
+    "gf": 12,
     "ga": 10,
-    "gd": 1,
+    "gd": 2,
     "points": 16,
-    "form": "W,D,L,L,W"
+    "form": "D,L,L,W,W"
    },
    {
     "id": 64,
@@ -1309,10 +1309,10 @@
     "draw": 0,
     "lost": 7,
     "gf": 10,
-    "ga": 18,
-    "gd": -8,
+    "ga": 19,
+    "gd": -9,
     "points": 9,
-    "form": "W,W,L,L,W"
+    "form": "W,L,L,W,L"
    },
    {
     "id": 66,
@@ -1385,7 +1385,7 @@
     "team": "Everton",
     "played": 10,
     "goals": 6,
-    "assists": 0,
+    "assists": 1,
     "penalties": 0
    },
    {
@@ -1467,6 +1467,14 @@
     "goals": 3,
     "assists": 0,
     "penalties": 1
+   },
+   {
+    "player": "Kiernan Dewsbury Hall",
+    "team": "Everton",
+    "played": 10,
+    "goals": 3,
+    "assists": 1,
+    "penalties": 0
    },
    {
     "player": "Jack Hinshelwood",
@@ -1576,14 +1584,6 @@
     "player": "Emersonn",
     "team": "Ipswich Town",
     "played": 9,
-    "goals": 2,
-    "assists": 1,
-    "penalties": 0
-   },
-   {
-    "player": "Kiernan Dewsbury Hall",
-    "team": "Everton",
-    "played": 10,
     "goals": 2,
     "assists": 1,
     "penalties": 0
@@ -2173,7 +2173,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-06T21:39:17.544657+00:00"
+  "updated": "2026-11-07T01:55:37.254192+00:00"
  },
  "Serie A": {
   "matchday": 11,
@@ -2442,7 +2442,7 @@
     "ga": 21,
     "gd": -13,
     "points": 6,
-    "form": "L,W,L,L,L"
+    "form": "W,L,L,L,W"
    },
    {
     "id": 115,
@@ -2456,7 +2456,7 @@
     "ga": 25,
     "gd": -13,
     "points": 5,
-    "form": "L,L,L,D,L"
+    "form": "L,L,D,L,L"
    }
   ],
   "scorers": [
@@ -3261,7 +3261,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-06T21:39:40.834395+00:00"
+  "updated": "2026-11-07T01:56:00.370843+00:00"
  },
  "Bundesliga": {
   "matchday": 9,
@@ -4464,7 +4464,7 @@
     "ga": 14,
     "gd": 1,
     "points": 13,
-    "form": "W,D,W,D,L"
+    "form": "D,W,D,L,W"
    },
    {
     "id": 512,
@@ -4506,7 +4506,7 @@
     "ga": 22,
     "gd": -4,
     "points": 10,
-    "form": "L,L,L,L,W"
+    "form": "L,L,L,W,L"
    },
    {
     "id": 519,
@@ -5381,9 +5381,9 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-06T21:40:25.600793+00:00"
+  "updated": "2026-11-07T01:56:43.874130+00:00"
  },
- "_updated": "2026-11-06T21:41:58.533307+00:00",
+ "_updated": "2026-11-07T01:58:12.732103+00:00",
  "_version": 2,
  "Champions League": {
   "matchday": 4,
@@ -6928,15 +6928,15 @@
     "id": 60,
     "pos": 17,
     "team": "Bolton",
-    "played": 14,
+    "played": 15,
     "won": 5,
     "draw": 2,
-    "lost": 7,
-    "gf": 19,
-    "ga": 26,
-    "gd": -7,
+    "lost": 8,
+    "gf": 20,
+    "ga": 29,
+    "gd": -9,
     "points": 17,
-    "form": "W,D,L,L,W"
+    "form": "D,L,L,W,L"
    },
    {
     "id": 715,
@@ -7012,15 +7012,15 @@
     "id": 342,
     "pos": 23,
     "team": "Derby County",
-    "played": 14,
-    "won": 1,
+    "played": 15,
+    "won": 2,
     "draw": 4,
     "lost": 9,
-    "gf": 11,
-    "ga": 29,
-    "gd": -18,
-    "points": 7,
-    "form": "L,L,D,L,L"
+    "gf": 14,
+    "ga": 30,
+    "gd": -16,
+    "points": 10,
+    "form": "L,D,L,L,W"
    },
    {
     "id": 1081,
@@ -7839,7 +7839,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-05T11:08:46.277136+00:00"
+  "updated": "2026-11-07T01:57:28.667102+00:00"
  },
  "Eredivisie": {
   "matchday": 12,
@@ -8966,13 +8966,13 @@
     "team": "Arouca",
     "played": 11,
     "won": 6,
-    "draw": 3,
-    "lost": 2,
+    "draw": 2,
+    "lost": 3,
     "gf": 13,
-    "ga": 7,
-    "gd": 6,
-    "points": 21,
-    "form": "L,D,W,W,W"
+    "ga": 8,
+    "gd": 5,
+    "points": 20,
+    "form": "D,W,W,W,L"
    },
    {
     "id": 5527,
@@ -9035,14 +9035,14 @@
     "pos": 10,
     "team": "Famalicão",
     "played": 11,
-    "won": 2,
-    "draw": 5,
+    "won": 3,
+    "draw": 4,
     "lost": 4,
-    "gf": 14,
+    "gf": 15,
     "ga": 14,
-    "gd": 0,
-    "points": 11,
-    "form": "D,W,L,W,L"
+    "gd": 1,
+    "points": 13,
+    "form": "W,L,W,L,W"
    },
    {
     "id": 7822,
@@ -9959,7 +9959,7 @@
     "penalties": 0
    }
   ],
-  "updated": "2026-11-06T21:41:58.533292+00:00"
+  "updated": "2026-11-07T01:58:12.732073+00:00"
  },
  "_failed": {}
 }
